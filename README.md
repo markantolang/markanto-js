@@ -1,5 +1,7 @@
 # @markantolang/parser
 
+*Markdown stays nice, and becomes reliable.*
+
 The reference implementation of **Markanto 0.1.0** — a parser, a semantic-AST
 validator, and a canonical formatter for a Markdown variant.
 
