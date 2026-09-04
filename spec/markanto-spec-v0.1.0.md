@@ -1,12 +1,14 @@
 # Markanto — Specification
 
 Version: 0.1.0
-Status: draft — first public language line; no 1.0 compatibility freeze yet.
+Status: frozen — the normative specification for the Markanto 0.1.0 language
+line. It does not change; later versions may evolve the language, and there
+is no 1.0 compatibility freeze yet.
 Language: English (normative edition).
 
 ---
 
-Markanto is a Markdown dialect that reads familiar Markdown tolerantly,
+Markanto is a Markdown variant that reads familiar Markdown tolerantly,
 models it in a strict semantic AST, and serialises it canonically. Meaning
 must travel with the document: external parser profiles must not change the
 semantic interpretation of otherwise identical source text.
@@ -433,7 +435,7 @@ denotes a single paragraph. Two paragraphs still require a blank line.
 
 ### 2.6 Structural taxonomy
 
-The dialect distinguishes six categories of block construct:
+Markanto distinguishes six categories of block construct:
 
 | Category | Examples | Closer |
 | --- | --- | --- |
@@ -1079,7 +1081,7 @@ special rules for unmarked follow-on lines.
 
 ### 3.10 Other block elements
 
-A block quote may contain the ordinary block elements of the dialect,
+A block quote may contain the ordinary block elements of the language,
 provided every belonging source line carries the full quote prefix.
 
 Neither lined nor fenced containers remain permitted within block quotes
@@ -2701,7 +2703,7 @@ its own transformation rule, not specified here.
 
 ### 10.1 Purpose
 
-This specification defines the complete inline grammar of the dialect: token
+This specification defines the complete inline grammar of the language: token
 recognition, delimiter rules, priority, nesting, escaping, and error
 handling.
 
@@ -3659,7 +3661,7 @@ special handling needed. The canonical formatting normalises as always to
 ### 14.1 Purpose
 
 Mathematical expressions are written in LaTeX syntax and displayed by a
-renderer. The dialect adopts the `` $`…`$ `` syntax
+renderer. Markanto adopts the `` $`…`$ `` syntax
 introduced by GitLab and confirmed by GitHub — it prevents collisions with
 dollar signs in running text. AST-semantically, `InlineMath` or `MathBlock`
 arises.
