@@ -7,7 +7,17 @@ import test from 'node:test';
 
 interface CommandOutput { readonly status: number | null; readonly stdout: string; readonly stderr: string }
 
-function run(command: string, args: readonly string[], cwd: string, env = process.env): CommandOutput {
+/**
+ * `process.env` minus the npm lifecycle / config variables an outer `npm`
+ * invocation exports. Without this, running the suite from inside
+ * `npm publish --dry-run` leaks `npm_config_dry_run=true` into the child
+ * `npm install` here and it becomes a silent no-op.
+ */
+const hermeticEnv: NodeJS.ProcessEnv = Object.fromEntries(
+  Object.entries(process.env).filter(([key]) => !/^npm_(config|lifecycle|package)_/u.test(key)),
+);
+
+function run(command: string, args: readonly string[], cwd: string, env = hermeticEnv): CommandOutput {
   const result = spawnSync(command, args, { cwd, env, encoding: 'utf8' });
   return { status: result.status, stdout: result.stdout, stderr: result.stderr };
 }
