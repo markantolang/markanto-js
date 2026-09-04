@@ -47,7 +47,7 @@ language delta.
   default (`DEFAULT_MAX_MATRIX_SLOTS`, 100 000) and an absolute, non-overridable
   ceiling (`HARD_MAX_MATRIX_SLOTS`, 1 000 000); an over-budget or
   non-representable matrix returns `resource`, never a native `RangeError`.
-- Gates at release: `verify` (type + boundary + 582-case conformance corpus +
-  full suite), `verify:node`, `compat:report` (672 vendored CommonMark 0.31.2 /
-  GFM cases, 0 `fail`), `soak` (100 000 seeded documents per stream through the
-  §7.2 laws plus a parser-linearity probe).
+- Gates at release: `verify` (type + boundary + 583-case conformance corpus +
+  the full 1898-test suite), `verify:node`, `compat:report` (672 vendored
+  CommonMark 0.31.2 / GFM cases, 0 `fail`), `soak` (100 000 seeded documents
+  per stream through the §7.2 laws plus a parser-linearity probe).
