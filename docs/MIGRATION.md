@@ -87,13 +87,13 @@ drop; do **not** ask Core to keep them.
 - Coalesced / aliased / reordered nodes: `range` is a best-fit enclosing span,
   not a guaranteed round-trip (`docs/PARSER_CONTRACT.md`).
 
-### Hadley adapter obligations (source mapping)
+### Consumer adapter obligations (source mapping)
 
-`/home/mko/dev/hadley/ssg/packages/case/index.ts` and
-`markanto-renderer.ts:386–409` currently read `node.range` for `editorBlocks`,
-source ordering, `data-hadley-id` and editor offsets, and already do
-`[...document.children, ...document.footnotes].sort(bySourceOffset)`. The
-adapter must:
+Taking the Hadley `case` layer as the worked example: its parser bridge and
+renderer read `node.range` for editor blocks, source ordering, stable ids and
+editor offsets, and sort with
+`[...document.children, ...document.footnotes].sort(bySourceOffset)`. An
+adapter in that position must:
 
 1. call `parse()`, branch on `status`, keep the `annotations` handle alongside
    the `document`;
