@@ -1,0 +1,17 @@
+{
+  "extends": "../../test/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": false,
+    "sourceMap": false,
+    "rootDir": "../..",
+    "outDir": "../../.import-dist"
+  },
+  "include": [
+    "./*.ts",
+    "../../src/commonmark/*.ts",
+    "../../test/compat/harness.ts",
+    "../../test/compat/catalogue.ts",
+    "../../src/**/*.ts"
+  ]
+}

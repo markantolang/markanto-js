@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gfm-table-basic",
+    "section": "Tables (extension)",
+    "markdown": "| foo | bar |\n| --- | --- |\n| baz | bim |\n",
+    "html": "<table>\n<thead>\n<tr>\n<th>foo</th>\n<th>bar</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>baz</td>\n<td>bim</td>\n</tr>\n</tbody>\n</table>\n"
+  },
+  {
+    "id": "gfm-table-no-outer-pipes",
+    "section": "Tables (extension)",
+    "markdown": "foo | bar\n--- | ---\nbaz | bim\n",
+    "html": "<table>\n<thead>\n<tr>\n<th>foo</th>\n<th>bar</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>baz</td>\n<td>bim</td>\n</tr>\n</tbody>\n</table>\n"
+  },
+  {
+    "id": "gfm-table-alignment",
+    "section": "Tables (extension)",
+    "markdown": "| left | center | right |\n| :--- | :----: | ----: |\n| a | b | c |\n",
+    "html": "<table>\n<thead>\n<tr>\n<th align=\"left\">left</th>\n<th align=\"center\">center</th>\n<th align=\"right\">right</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"left\">a</td>\n<td align=\"center\">b</td>\n<td align=\"right\">c</td>\n</tr>\n</tbody>\n</table>\n"
+  },
+  {
+    "id": "gfm-table-escaped-pipe",
+    "section": "Tables (extension)",
+    "markdown": "| f\\|oo |\n| --- |\n| b `\\|` az |\n",
+    "html": "<table>\n<thead>\n<tr>\n<th>f|oo</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b <code>\\|</code> az</td>\n</tr>\n</tbody>\n</table>\n"
+  },
+  {
+    "id": "gfm-table-interrupt-paragraph",
+    "section": "Tables (extension)",
+    "markdown": "foo\nbar | baz\n--- | ---\n",
+    "html": "<p>foo</p>\n<table>\n<thead>\n<tr>\n<th>bar</th>\n<th>baz</th>\n</tr>\n</thead>\n</table>\n"
+  },
+  {
+    "id": "gfm-strikethrough-double",
+    "section": "Strikethrough (extension)",
+    "markdown": "~~Hi~~ World!\n",
+    "html": "<p><del>Hi</del> World!</p>\n"
+  },
+  {
+    "id": "gfm-strikethrough-single",
+    "section": "Strikethrough (extension)",
+    "markdown": "~Hi~ World!\n",
+    "html": "<p><del>Hi</del> World!</p>\n"
+  },
+  {
+    "id": "gfm-strikethrough-whitespace",
+    "section": "Strikethrough (extension)",
+    "markdown": "This ~~has a new\nparagraph~~.\n",
+    "html": "<p>This <del>has a new\nparagraph</del>.</p>\n"
+  },
+  {
+    "id": "gfm-strikethrough-in-word",
+    "section": "Strikethrough (extension)",
+    "markdown": "foo~~bar~~baz\n",
+    "html": "<p>foo<del>bar</del>baz</p>\n"
+  },
+  {
+    "id": "gfm-task-unordered-unchecked",
+    "section": "Task list items (extension)",
+    "markdown": "- [ ] foo\n",
+    "html": "<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled=\"\"> foo</li>\n</ul>\n"
+  },
+  {
+    "id": "gfm-task-unordered-checked",
+    "section": "Task list items (extension)",
+    "markdown": "- [x] foo\n",
+    "html": "<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" checked=\"\" disabled=\"\"> foo</li>\n</ul>\n"
+  },
+  {
+    "id": "gfm-task-uppercase-checked",
+    "section": "Task list items (extension)",
+    "markdown": "- [X] foo\n",
+    "html": "<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" checked=\"\" disabled=\"\"> foo</li>\n</ul>\n"
+  },
+  {
+    "id": "gfm-task-ordered",
+    "section": "Task list items (extension)",
+    "markdown": "1. [ ] foo\n2. [x] bar\n",
+    "html": "<ol class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled=\"\"> foo</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" checked=\"\" disabled=\"\"> bar</li>\n</ol>\n"
+  },
+  {
+    "id": "gfm-task-nested",
+    "section": "Task list items (extension)",
+    "markdown": "- [ ] foo\n  - [x] bar\n",
+    "html": "<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled=\"\"> foo\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" checked=\"\" disabled=\"\"> bar</li>\n</ul>\n</li>\n</ul>\n"
+  },
+  {
+    "id": "gfm-autolink-url",
+    "section": "Autolinks (extension)",
+    "markdown": "www.commonmark.org\n",
+    "html": "<p><a href=\"http://www.commonmark.org\">www.commonmark.org</a></p>\n"
+  },
+  {
+    "id": "gfm-autolink-http",
+    "section": "Autolinks (extension)",
+    "markdown": "Visit https://example.com/a_(b).\n",
+    "html": "<p>Visit <a href=\"https://example.com/a_(b)\">https://example.com/a_(b)</a>.</p>\n"
+  },
+  {
+    "id": "gfm-autolink-email",
+    "section": "Autolinks (extension)",
+    "markdown": "foo.bar+baz@example.com\n",
+    "html": "<p><a href=\"mailto:foo.bar+baz@example.com\">foo.bar+baz@example.com</a></p>\n"
+  },
+  {
+    "id": "gfm-autolink-punctuation",
+    "section": "Autolinks (extension)",
+    "markdown": "https://example.com?a=b&c=d.\n",
+    "html": "<p><a href=\"https://example.com?a=b&amp;c=d\">https://example.com?a=b&amp;c=d</a>.</p>\n"
+  },
+  {
+    "id": "gfm-autolink-www-in-word",
+    "section": "Autolinks (extension)",
+    "markdown": "www.example.cominside\n",
+    "html": "<p><a href=\"http://www.example.cominside\">www.example.cominside</a></p>\n"
+  },
+  {
+    "id": "gfm-autolink-invalid-scheme",
+    "section": "Autolinks (extension)",
+    "markdown": "xmpp:foo@example.com\n",
+    "html": "<p>xmpp:foo@example.com</p>\n"
+  }
+]

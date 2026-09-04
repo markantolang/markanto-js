@@ -1,0 +1,1721 @@
+{
+  "schemaVersion": 1,
+  "group": "resources",
+  "cases": [
+    {
+      "id": "resource.metadata.lang-canonical",
+      "spec": "4.2",
+      "source": "<m lang=DE-de>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m lang=de-de>Text</m>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "metadataSpan",
+                "attrs": {
+                  "lang": "de-de"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resource.metadata.data",
+      "spec": "4.2",
+      "source": "<m data-role=term>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-role=term>Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-role=term>Text</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.metadata.empty-wrapper-invalid",
+      "spec": "4.2",
+      "source": "<m>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.image.bare",
+      "spec": "4.3",
+      "source": "![Alt](image.jpg)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "image.jpg",
+            "alt": [
+              {
+                "type": "text",
+                "value": "Alt"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resource.image.group",
+      "spec": "4.3",
+      "source": "<m group=trip>![Alt](image.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m group=trip>![Alt](image.jpg)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m group=trip>![Alt](image.jpg)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.image.typed-conflict",
+      "spec": "4.3",
+      "source": "<m video>![Alt](image.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.video.basic",
+      "spec": "4.4",
+      "source": "<m video>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video>[Video](film.mp4)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video>[Video](film.mp4)</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "videoBlock",
+            "src": "film.mp4",
+            "label": [
+              {
+                "type": "text",
+                "value": "Video"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resource.audio.basic",
+      "spec": "4.4",
+      "source": "<m audio>[Audio](sound.mp3)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m audio>[Audio](sound.mp3)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m audio>[Audio](sound.mp3)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.embed.basic",
+      "spec": "4.4",
+      "source": "<m embed>[Demo](https://example.org)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m embed>[Demo](https://example.org)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m embed>[Demo](https://example.org)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.download.block",
+      "spec": "4.4",
+      "source": "<m download>[File](file.zip)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m download>[File](file.zip)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m download>[File](file.zip)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.kind.case-invalid",
+      "spec": "4.4",
+      "source": "<m Video>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.caption.image",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*Caption*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n*Caption*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n*Caption*\n"
+        }
+      }
+    },
+    {
+      "id": "resource.caption.video",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n*Recorded at the **2026** conference*</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video>[Talk](talk.mp4)\\\n*Recorded at the **2026** conference*</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video>[Talk](talk.mp4)\\\n*Recorded at the **2026** conference*</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.caption.no-hardbreak-not-caption",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\n*Caption*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\n\n*Caption*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The emphasis line is a separate paragraph, not a caption."
+    },
+    {
+      "id": "resource.attr.unknown-invalid",
+      "spec": "4.6",
+      "source": "<m video width=640>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.data-uppercase-invalid",
+      "spec": "4.7",
+      "source": "<m data-Role=term>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.duplicate-invalid",
+      "spec": "4.7",
+      "source": "<m video lang=en lang=de>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.image-lang",
+      "spec": "4.6",
+      "source": "<m lang=de>![Alt](image.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m lang=de>![Alt](image.jpg)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m lang=de>![Alt](image.jpg)</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "image.jpg",
+            "alt": [{ "type": "text", "value": "Alt" }],
+            "attrs": { "lang": "de" }
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resource.attr.download-group-invalid",
+      "spec": "4.6",
+      "source": "<m download group=docs>[File](file.zip)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.order-normalizes",
+      "spec": "4.7",
+      "source": "<m video preview=poster.jpg group=trip lang=DE>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video group=trip lang=de preview=poster.jpg>[Video](film.mp4)</m>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.quote-removal",
+      "spec": "4.7",
+      "source": "<m data-label=\"simple\">Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-label=simple>Text</m>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.metadata.data-underscore-key",
+      "spec": "4.7",
+      "source": "<m data-role_name=term>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-role_name=term>Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-role_name=term>Text</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.metadata.data-digit-after-start",
+      "spec": "4.7",
+      "source": "<m data-x2=v>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-x2=v>Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-x2=v>Text</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.metadata.data-digit-start-invalid",
+      "spec": "4.7",
+      "source": "<m data-2x=v>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.empty-quoted",
+      "spec": "4.7",
+      "source": "<m data-note=\"\">Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-note=\"\">Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-note=\"\">Text</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.attr.quoted-quote-escape",
+      "spec": "4.7",
+      "source": "<m data-label=\"a\\\"b\">Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-label=\"a\\\"b\">Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-label=\"a\\\"b\">Text</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.attr.quoted-backslash-escape",
+      "spec": "4.7",
+      "source": "<m data-path=\"a\\\\b\">Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-path=\"a\\\\b\">Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-path=\"a\\\\b\">Text</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.lang.invalid-bcp47",
+      "spec": "4.6",
+      "source": "<m lang=en_US>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.group.nfc-normalizes",
+      "spec": "4.6",
+      "source": "<m group=café>![Alt](image.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m group=café>![Alt](image.jpg)</m>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.image.data-valid",
+      "spec": "4.6",
+      "source": "<m data-role=hero>![Alt](image.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-role=hero>![Alt](image.jpg)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-role=hero>![Alt](image.jpg)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.attr.image-preview-invalid",
+      "spec": "4.6",
+      "source": "<m preview=poster.jpg>![Alt](image.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.generic-group-invalid",
+      "spec": "4.6",
+      "source": "<m group=x>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.generic-preview-invalid",
+      "spec": "4.6",
+      "source": "<m preview=x>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.attr.download-preview-invalid",
+      "spec": "4.6",
+      "source": "<m download preview=x>[File](file.zip)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.video.all-attrs-canonical",
+      "spec": "4.6",
+      "source": "<m video group=trip lang=de preview=poster.jpg data-role=hero>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video group=trip lang=de preview=poster.jpg data-role=hero>[Video](film.mp4)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video group=trip lang=de preview=poster.jpg data-role=hero>[Video](film.mp4)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.typed.free-text-invalid",
+      "spec": "4.4",
+      "source": "<m video>Video</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.typed.extra-text-invalid",
+      "spec": "4.4",
+      "source": "<m video>[Video](film.mp4) extra</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.download.inline",
+      "spec": "4.4",
+      "source": "Get <m download>[file](file.zip)</m> now.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Get <m download>[file](file.zip)</m> now.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Get <m download>[file](file.zip)</m> now.\n"
+        }
+      }
+    },
+    {
+      "id": "resource.video.inline-invalid",
+      "spec": "4.4",
+      "source": "Watch <m video>[Video](film.mp4)</m> now.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resource.video.empty-label",
+      "spec": "4.4",
+      "source": "<m video>[](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video>[](film.mp4)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video>[](film.mp4)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "resource.image.empty-alt",
+      "spec": "4.3",
+      "source": "![](image.jpg)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![](image.jpg)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![](image.jpg)\n"
+        }
+      }
+    },
+    {
+      "id": "resource.attr.single-quote-invalid",
+      "spec": "4.7",
+      "source": "<m data-x='foo'>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Apostrophe is excluded from bareChar; single-quoted attribute values are unsupported."
+    },
+    {
+      "id": "resources.caption.after-grouped-image",
+      "spec": "4.5",
+      "source": "<m group=x>![a](i.jpg)\\\n*Cap*</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m group=x>![a](i.jpg)\\\n*Cap*</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m group=x>![a](i.jpg)\\\n*Cap*</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "i.jpg",
+            "alt": [
+              {
+                "type": "text",
+                "value": "a"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Cap"
+              }
+            ],
+            "attrs": {
+              "group": "x"
+            }
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.caption.double-emphasis-carrier",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n**Caption**\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n**Caption**\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n**Caption**\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "image.jpg",
+            "alt": [
+              {
+                "type": "text",
+                "value": "Alt"
+              }
+            ],
+            "caption": [
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Caption"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.caption.plain-text-not-caption",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\nplain text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\nplain text\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\nplain text\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineImage",
+                "src": "image.jpg",
+                "alt": [
+                  {
+                    "type": "text",
+                    "value": "Alt"
+                  }
+                ]
+              },
+              {
+                "type": "hardBreak"
+              },
+              {
+                "type": "text",
+                "value": "plain text"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.download.block-with-caption",
+      "spec": "4.5",
+      "source": "<m download>[File](file.zip)\\\n*Download*</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m download>[File](file.zip)\\\n*Download*</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m download>[File](file.zip)\\\n*Download*</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "downloadBlock",
+            "href": "file.zip",
+            "label": [
+              {
+                "type": "text",
+                "value": "File"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Download"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.image.caption-with-id",
+      "spec": "5.1",
+      "source": "![Alt](image.jpg)\\\n*Caption*\n{#img}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n*Caption*\n{#img}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n*Caption*\n{#img}\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "image.jpg",
+            "alt": [
+              {
+                "type": "text",
+                "value": "Alt"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Caption"
+              }
+            ],
+            "id": "img"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.image.grouped-caption",
+      "spec": "4.5",
+      "source": "<m group=trip>![Alt](image.jpg)\\\n*Caption*</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m group=trip>![Alt](image.jpg)\\\n*Caption*</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m group=trip>![Alt](image.jpg)\\\n*Caption*</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "image.jpg",
+            "alt": [
+              {
+                "type": "text",
+                "value": "Alt"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Caption"
+              }
+            ],
+            "attrs": {
+              "group": "trip"
+            }
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.typed.caption",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n*Recorded live*</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video>[Talk](talk.mp4)\\\n*Recorded live*</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video>[Talk](talk.mp4)\\\n*Recorded live*</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "videoBlock",
+            "src": "talk.mp4",
+            "label": [
+              {
+                "type": "text",
+                "value": "Talk"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Recorded live"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.typed.caption-bold-content",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n*Recorded **live** in 2026*</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video>[Talk](talk.mp4)\\\n*Recorded **live** in 2026*</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video>[Talk](talk.mp4)\\\n*Recorded **live** in 2026*</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "videoBlock",
+            "src": "talk.mp4",
+            "label": [
+              {
+                "type": "text",
+                "value": "Talk"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Recorded "
+              },
+              {
+                "type": "strong",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "live"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": " in 2026"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.attr.data-order-normalizes",
+      "spec": "4.7",
+      "source": "<m data-z=1 data-a=2>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-a=2 data-z=1>Text</m>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "metadataSpan",
+                "attrs": {
+                  "dataAttrs": {
+                    "z": "1",
+                    "a": "2"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.caption.trailing-spaces",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*Caption*   \n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n*Caption*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "image.jpg",
+            "alt": [
+              {
+                "type": "text",
+                "value": "Alt"
+              }
+            ],
+            "caption": [
+              {
+                "type": "text",
+                "value": "Caption"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.caption.underscore-carrier",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n_Caption_\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](image.jpg)\\\n<i>Caption</i>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineImage",
+                "src": "image.jpg",
+                "alt": [
+                  {
+                    "type": "text",
+                    "value": "Alt"
+                  }
+                ]
+              },
+              {
+                "type": "hardBreak"
+              },
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Caption"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.image.caption-trailing-spaces",
+      "spec": "4.5",
+      "source": "![Alt](img.jpg)   \\\n*Cap*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt](img.jpg)\\\n<i>Cap</i>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineImage",
+                "src": "img.jpg",
+                "alt": [
+                  {
+                    "type": "text",
+                    "value": "Alt"
+                  }
+                ]
+              },
+              {
+                "type": "hardBreak"
+              },
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Cap"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.caption.empty-invalid",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n**\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resources.caption.soft-break-invalid",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*line one\nline two*\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resources.caption.unclosed-emphasis-invalid",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*unclosed\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resources.typed.caption-trailing-backslash-no-caption",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resources.attr.bare-value-equals",
+      "spec": "4.7",
+      "source": "<m data-x=a=b>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-x=a=b>Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-x=a=b>Text</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "metadataSpan",
+                "attrs": {
+                  "dataAttrs": {
+                    "x": "a=b"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.attr.bare-value-slash",
+      "spec": "4.7",
+      "source": "<m data-url=https://example.org/x>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m data-url=https://example.org/x>Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m data-url=https://example.org/x>Text</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "metadataSpan",
+                "attrs": {
+                  "dataAttrs": {
+                    "url": "https://example.org/x"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.attr.lang-data-mix",
+      "spec": "4.2",
+      "source": "<m lang=en data-role=term>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m lang=en data-role=term>Text</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m lang=en data-role=term>Text</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "metadataSpan",
+                "attrs": {
+                  "lang": "en",
+                  "dataAttrs": {
+                    "role": "term"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.attr.preview-quoted-space",
+      "spec": "4.6",
+      "source": "<m video preview=\"poster image.jpg\">[V](v.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video preview=\"poster image.jpg\">[V](v.mp4)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video preview=\"poster image.jpg\">[V](v.mp4)</m>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "videoBlock",
+            "src": "v.mp4",
+            "label": [
+              {
+                "type": "text",
+                "value": "V"
+              }
+            ],
+            "attrs": {
+              "preview": "poster image.jpg"
+            }
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resource.image.empty-title",
+      "spec": "10.5.1",
+      "source": "![a](x \"\")\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "![a](x \"\")\n" },
+        "strict": { "valid": true, "canonical": "![a](x \"\")\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{
+          "type": "imageBlock",
+          "src": "x",
+          "title": "",
+          "alt": [{ "type": "text", "value": "a" }]
+        }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "resources.image.kindless-no-attr-invalid",
+      "spec": "4.2",
+      "source": "<m>![a](i.jpg)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A kindless <m> around an image must carry at least one attribute (§4.2, §4.3); an attribute-free wrapper adds no semantics."
+    }
+  ]
+}

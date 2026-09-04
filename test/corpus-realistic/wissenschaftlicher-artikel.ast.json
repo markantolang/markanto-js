@@ -1,0 +1,255 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Eine kurze Notiz zur Energie-Masse-Äquivalenz"
+        }
+      ],
+      "id": "energie-masse"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die berühmteste Gleichung der Physik, "
+        },
+        {
+          "type": "inlineMath",
+          "value": "E = mc^2"
+        },
+        {
+          "type": "text",
+          "value": ", verbindet Energie und"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Masse über die Lichtgeschwindigkeit. Für ruhende Körper gilt sie exakt;"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "für bewegte Körper tritt der relativistische Faktor hinzu."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "okun"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Aus der speziellen Relativitätstheorie folgt unmittelbar die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Energie-Impuls-Beziehung:"
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "einstein"
+        }
+      ]
+    },
+    {
+      "type": "mathBlock",
+      "value": "E^2 = (pc)^2 + (m_0 c^2)^2"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Ergebnisse"
+        }
+      ],
+      "id": "ergebnisse"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die folgende Tabelle fasst die Größenordnungen zusammen:"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "right",
+        "center",
+        "left"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Prozess"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Umgesetzte Energie"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Wirkungsgrad"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Chemische Reaktion"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "10^6 J/mol"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "10^-10"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Kernspaltung"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "10^11 J/mol"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "10^-3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Annihilation"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "10^14 J/mol"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "type": "footnoteDefinition",
+      "identifier": "okun",
+      "children": [
+        {
+          "type": "text",
+          "value": "Okun, L. B. (1989): The Concept of Mass."
+        }
+      ]
+    },
+    {
+      "type": "footnoteDefinition",
+      "identifier": "einstein",
+      "children": [
+        {
+          "type": "text",
+          "value": "Einstein, A. (1905): Zur Elektrodynamik bewegter Körper."
+        }
+      ]
+    }
+  ]
+}

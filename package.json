@@ -1,0 +1,80 @@
+{
+  "name": "@markantolang/parser",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Markanto reference parser — reads familiar Markdown tolerantly, models it in a strict semantic AST, and serialises exactly one canonical form per meaning",
+  "homepage": "https://markanto.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markantolang/markanto"
+  },
+  "license": "ISC",
+  "author": "Michael Kortstiege",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./commonmark": {
+      "types": "./dist/commonmark/index.d.ts",
+      "import": "./dist/commonmark/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "markanto": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "data/*.json",
+    "data/README.md",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18.20.0"
+  },
+  "scripts": {
+    "clean-dist": "node scripts/clean-dist.mjs",
+    "build": "bun run clean-dist && tsc -p tsconfig.build.json",
+    "check": "tsc -p tsconfig.json --noEmit && tsc -p test/tsconfig.json && tsc -p tools/migrate/tsconfig.json && node scripts/check-compat-boundary.mjs && node scripts/check-shipped-deps.mjs",
+    "corpus": "bun scripts/validate-corpus.mjs",
+    "corpus:node": "node scripts/validate-corpus.mjs",
+    "test": "bun test",
+    "test:unit": "bun test test/unit",
+    "test:conformance": "bun test test/conformance",
+    "compat:report": "bun scripts/compat-report.mjs",
+    "import": "bun scripts/import.ts",
+    "migrate": "bun scripts/migrate.ts",
+    "verify": "bun run check && bun run corpus && bun test",
+    "verify:node": "node scripts/validate-corpus.mjs && node --test test/unit/*.test.mjs && tsc -p test/compat/tsconfig.node.json && node --test .compat-dist/test/compat/compat.test.js && tsc -p test/import/tsconfig.node.json && node --test .import-dist/test/import/import.test.js && tsc -p test/migrate/tsconfig.node.json && node --test '.migrate-dist/test/migrate/*.test.js'",
+    "audit:corpus": "bun scripts/audit-corpus.mjs",
+    "audit:corpus:node": "node scripts/audit-corpus.mjs",
+    "snapshots:realistic": "bun scripts/update-realistic-snapshots.ts",
+    "test:unit:node": "node --test test/unit/*.test.mjs",
+    "prepublishOnly": "bun run check && bun run build && bun test && bun run verify:node",
+    "bench": "node scripts/bench.mjs",
+    "bench:bun": "bun scripts/bench.mjs",
+    "soak": "bun scripts/soak.ts"
+  },
+  "peerDependencies": {
+    "mdast-util-from-markdown": "2.0.2",
+    "mdast-util-gfm": "3.1.0",
+    "micromark-extension-gfm": "3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "mdast-util-from-markdown": { "optional": true },
+    "mdast-util-gfm": { "optional": true },
+    "micromark-extension-gfm": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "marked": "^18.0.11",
+    "mdast-util-from-markdown": "2.0.2",
+    "mdast-util-gfm": "3.1.0",
+    "micromark-extension-gfm": "3.0.0",
+    "typescript": "5.8.3"
+  }
+}

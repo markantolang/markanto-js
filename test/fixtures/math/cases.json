@@ -1,0 +1,947 @@
+{
+  "schemaVersion": 1,
+  "group": "math",
+  "cases": [
+    {
+      "id": "math.inline",
+      "spec": "14.2",
+      "source": "The value is $`E = mc^2`$.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "The value is $`E = mc^2`$.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "The value is $`E = mc^2`$.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "The value is "
+              },
+              {
+                "type": "inlineMath",
+                "value": "E = mc^2"
+              },
+              {
+                "type": "text",
+                "value": "."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.inline.empty-invalid",
+      "spec": "14.2",
+      "source": "$``$\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "math.block",
+      "spec": "14.3",
+      "source": "```math\nx^2\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```math\nx^2\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```math\nx^2\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "mathBlock",
+            "value": "x^2"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar-literal",
+      "spec": "14.4",
+      "source": "$100 and $PATH\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$100 and $PATH\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$100 and $PATH\n"
+        }
+      }
+    },
+    {
+      "id": "math.inline.literal-markup",
+      "spec": "14.2",
+      "source": "The value is $`a_*_b`$.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "The value is $`a_*_b`$.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "The value is $`a_*_b`$.\n"
+        }
+      }
+    },
+    {
+      "id": "math.inline.cross-line-invalid",
+      "spec": "14.2",
+      "source": "The value is $`a\nb`$.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "math.block.tilde-normalizes",
+      "spec": "14.3",
+      "source": "~~~math\nx^2\n~~~\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```math\nx^2\n```\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "math.block.unclosed-invalid",
+      "spec": "14.3",
+      "source": "```math\nx^2\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "math.shell-dollar-literal",
+      "spec": "14.4",
+      "source": "Use $PATH here.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Use $PATH here.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Use $PATH here.\n"
+        }
+      }
+    },
+    {
+      "id": "math.block.duplicate-id-invalid",
+      "spec": "6.1, 14.3",
+      "source": "```math\nx\n```\n{#same}\n\n```math\ny\n```\n{#same}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Math blocks participate in the document-wide durable block-ID relation."
+    },
+    {
+      "id": "math.block.grid-marker-in-math-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n```math\n--\n==\n```\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\n```math\n--\n==\n```\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\n```math\n--\n==\n```\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "mathBlock",
+                "value": "--\n=="
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.block.inside-container",
+      "spec": "14.3",
+      "source": "::: Note\n```math\nx^2\n```\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\n```math\nx^2\n```\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\n```math\nx^2\n```\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Note",
+            "title": null,
+            "children": [
+              {
+                "type": "mathBlock",
+                "value": "x^2"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.block.inside-list",
+      "spec": "9.8",
+      "source": "- Eq:\n\n  ```math\n  x^2\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Eq:\n\n  ```math\n  x^2\n  ```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Eq:\n\n  ```math\n  x^2\n  ```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Eq:"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "mathBlock",
+                    "value": "x^2"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.block.inside-quote",
+      "spec": "3.10.3",
+      "source": "> ```math\n> x^2\n> ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> ```math\n> x^2\n> ```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> ```math\n> x^2\n> ```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "mathBlock",
+                  "value": "x^2"
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.inline.adjacent-footnote",
+      "spec": "14.2, 11.3",
+      "source": "x = $`a`$[^f]\n\n[^f]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "x = $`a`$[^f]\n\n[^f]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "x = $`a`$[^f]\n\n[^f]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "x = "
+              },
+              {
+                "type": "inlineMath",
+                "value": "a"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "f"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "f",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "math.block.grid-cell",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n```math\nx\n```\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\nA\n\n```math\nx\n```\n--\nB\n:::\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "A"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "mathBlock",
+                            "value": "x"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.escaped-literal",
+      "spec": "10.8",
+      "source": "\\$100\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$100\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "$100"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.inline.escaped-dollar-literal",
+      "spec": "10.8",
+      "source": "\\$`x`$\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\$`x`\\$\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "$"
+              },
+              {
+                "type": "inlineCode",
+                "value": "x"
+              },
+              {
+                "type": "text",
+                "value": "$"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.block.anonymous-container",
+      "spec": "2.7, 14.3",
+      "source": ":::\n```math\nx\n```\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\n```math\nx\n```\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ":::\n```math\nx\n```\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "mathBlock",
+                "value": "x"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.block.basic",
+      "spec": "14.3",
+      "source": "```math\n\\left( x \\right)\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```math\n\\left( x \\right)\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```math\n\\left( x \\right)\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "mathBlock",
+            "value": "\\left( x \\right)"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.block.blank-before-closer-literal-lf",
+      "spec": "14.3",
+      "source": "```math\na\n\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```math\na\n\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```math\na\n\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "mathBlock",
+            "value": "a\n"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.bare-dollar-line-literal",
+      "spec": "14.4",
+      "source": "$\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "$"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.dollar-in-heading-literal",
+      "spec": "14.4",
+      "source": "# Budget $5\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Budget $5\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "# Budget $5\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Budget $5"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.dollar-then-code-span",
+      "spec": "14.4, 10.4",
+      "source": "price is $ `x`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "price is $ `x`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "price is $ `x`\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "price is $ "
+              },
+              {
+                "type": "inlineCode",
+                "value": "x"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.double-pair-literal",
+      "spec": "14.4",
+      "source": "$$x$$\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$$x$$\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$$x$$\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "$$x$$"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.leading-dollar-in-code-literal",
+      "spec": "10.4",
+      "source": "`$`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`$`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`$`\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": "$"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.pair-literal",
+      "spec": "14.4",
+      "source": "$5.00$\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$5.00$\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$5.00$\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "$5.00$"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.dollar.price-literal",
+      "spec": "14.4",
+      "source": "Cost: $5 - $3 = $2\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Cost: $5 - $3 = $2\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Cost: $5 - $3 = $2\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Cost: $5 - $3 = $2"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.inline.at-line-start",
+      "spec": "14.2",
+      "source": "$`x`$ alone\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$`x`$ alone\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$`x`$ alone\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineMath",
+                "value": "x"
+              },
+              {
+                "type": "text",
+                "value": " alone"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "math.inline.backtick-run-in-content",
+      "spec": "14.2",
+      "source": "$`x``$\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$`x``$\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$`x``$\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineMath",
+                "value": "x`"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    }
+  ]
+}

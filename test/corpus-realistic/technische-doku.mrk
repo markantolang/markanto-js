@@ -1,0 +1,34 @@
+# Markanto-API {#uebersicht}
+
+Die Referenzimplementierung von Markanto stellt einen **Parser**, einen
+**Formatter** und einen **Validator** bereit. Der Einstiegspunkt ist die
+Funktion `parse`, die eine Zeichenkette in einen `Document`-Knoten
+überführt.
+
+## Schnelleinstieg {#schnelleinstieg}
+
+```typescript
+import { parse, format } from "markanto";
+
+const ast = parse("# Titel");
+const out = format(ast);
+```
+
+Die Ausgabe ist kanonisch: Genau eine gültige Darstellung pro Bedeutung.
+Details stehen im
+[Manifest](../docs/markanto-manifest-v0.2.0.md "Markanto Manifest").
+
+## Optionen {#optionen}
+
+Die wichtigsten Parser-Optionen im Überblick:
+
+| Option | Typ | Default | Beschreibung |
+| :--- | :---: | ---: | --- |
+| `lineBreaks` | `string` | `soft` | Zeilenumbruch-Modus |
+| `maxListDepth` | `number` | `8` | Maximale Listentiefe |
+| `strict` | `boolean` | `false` | Nur kanonische Eingabe |
+
+> Die Optionen werden beim Parsen übergeben:
+>
+> - `lineBreaks` ist projektweit einheitlich
+> - `lang` ist dokumentbezogen

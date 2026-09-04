@@ -1,0 +1,274 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Pasta mit Zitronen-Ricotta"
+        }
+      ],
+      "id": "rezept"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Ein schnelles Abendessen, das in knapp zwanzig Minuten auf dem Tisch"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "steht. Die "
+        },
+        {
+          "type": "metadataSpan",
+          "attrs": {
+            "lang": "fr"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "Crème fraîche"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " macht die Sauce besonders cremig."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Einkaufsliste"
+        }
+      ],
+      "id": "einkaufsliste"
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "250 g Ricotta"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "2 unbehandelte Zitronen"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "400 g Spaghetti"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "done",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Parmesan, frisch gerieben"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Eine Handvoll Basilikum"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Zubereitung"
+        }
+      ],
+      "id": "zubereitung"
+    },
+    {
+      "type": "list",
+      "kind": "ordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Nudeln in reichlich Salzwasser al dente kochen."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Ricotta mit Zitronenabrieb und etwas Kochwasser glatt rühren."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Nudeln abgießen, mit der Sauce vermischen und mit Basilikum servieren."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "imageBlock",
+      "src": "bilder/pasta.jpg",
+      "alt": [
+        {
+          "type": "text",
+          "value": "Gericht auf dem Teller"
+        }
+      ],
+      "caption": [
+        {
+          "type": "text",
+          "value": "Das fertige Gericht"
+        }
+      ]
+    },
+    {
+      "type": "imageBlock",
+      "src": "bilder/dampf.jpg",
+      "alt": []
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Episode zum Rezept gibt es auch zum Anhören:"
+        }
+      ]
+    },
+    {
+      "type": "audioBlock",
+      "src": "audio/folge-042.mp3",
+      "label": [
+        {
+          "type": "text",
+          "value": "Podcast: Zitronen-Ricotta"
+        }
+      ],
+      "caption": [
+        {
+          "type": "text",
+          "value": "Folge 42 — Pasta alla sera"
+        }
+      ],
+      "attrs": {
+        "preview": "bilder/cover.jpg"
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Und als Video zum Mitkochen:"
+        }
+      ]
+    },
+    {
+      "type": "videoBlock",
+      "src": "video/kochen.mp4",
+      "label": [
+        {
+          "type": "text",
+          "value": "Video: Schritt für Schritt"
+        }
+      ],
+      "caption": [
+        {
+          "type": "text",
+          "value": "Zubereitung in Echtzeit"
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

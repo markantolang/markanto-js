@@ -1,0 +1,389 @@
+{
+  "family": "containers",
+  "candidates": [
+    {
+      "id": "cand.containers.fenced.one-space-before-type-normalizes",
+      "spec": "2.7",
+      "source": ":::  Warning\nContent.\n:::\n",
+      "intent": "two spaces between opener and TYPE — ambiguous; expect normalisation to one space or a syntax error"
+    },
+    {
+      "id": "cand.containers.fenced.no-space-before-type-literal",
+      "spec": "2.7",
+      "source": ":::Warning\nContent.\n:::\n",
+      "intent": "no space between opener and TYPE — ambiguous; expect the line to be an anonymous opener with TYPE as content, or an error"
+    },
+    {
+      "id": "cand.containers.fenced.multiple-spaces-title",
+      "spec": "2.7.5",
+      "source": "::: Note  Two  spaces\nText.\n:::\n",
+      "intent": "multiple spaces between TYPE and TITLE — TITLE preserves the literal remainder including inner spacing; canonical header spacing is one space"
+    },
+    {
+      "id": "cand.containers.fenced.empty-type-invalid",
+      "spec": "2.7.4",
+      "source": "::: \nText.\n:::\n",
+      "intent": "opener with a trailing space but no TYPE — ambiguous between anonymous and invalid; expect anonymous"
+    },
+    {
+      "id": "cand.containers.fenced.title-only-invalid",
+      "spec": "2.7.5",
+      "source": "::: Note More\nText.\n:::\n",
+      "intent": "a TITLE without a valid TYPE is not representable — here Note is TYPE, More is TITLE; probe single-token title impossible"
+    },
+    {
+      "id": "cand.containers.lined.no-header-blank-after-content",
+      "spec": "2.7.1",
+      "source": "Exkurs\n___\nContent\n___\n",
+      "intent": "missing blank line after lined opener — normal mode inserts it; strict rejects"
+    },
+    {
+      "id": "cand.containers.lined.two-blank-lines-normalize",
+      "spec": "2.7.1",
+      "source": "Exkurs\n___\n\n\nContent\n___\n",
+      "intent": "two blank lines after the opener — normal mode normalises to one"
+    },
+    {
+      "id": "cand.containers.lined.anonymous-no-blank",
+      "spec": "2.7.1",
+      "source": "___\nContent\n___\n",
+      "intent": "anonymous lined opener without a blank line — normal mode inserts one"
+    },
+    {
+      "id": "cand.containers.lined.closer-must-be-longer-or-equal",
+      "spec": "2.7.3",
+      "source": "____\n\nContent\n___\n",
+      "intent": "closer shorter than the opener — does not close; expect unclosed error"
+    },
+    {
+      "id": "cand.containers.lined.closer-longer-ok",
+      "spec": "2.7.3",
+      "source": "___\n\nContent\n____\n",
+      "intent": "closer longer than the opener — valid normal mode, canonical to three underscores"
+    },
+    {
+      "id": "cand.containers.fenced.closer-shorter-invalid",
+      "spec": "2.7.3",
+      "source": "::::\nContent\n:::\n",
+      "intent": "closer shorter than opener — unclosed, expect syntax error"
+    },
+    {
+      "id": "cand.containers.fenced.closer-longer-normalizes",
+      "spec": "2.7.3",
+      "source": ":::\nContent\n::::\n",
+      "intent": "closer longer than opener — valid normal mode, canonical to three colons"
+    },
+    {
+      "id": "cand.containers.lined.header-with-leading-space-literal",
+      "spec": "2.7.1",
+      "source": " Exkurs\n___\n\nContent\n___\n",
+      "intent": "leading space before a lined header — container fences have no 0-3 space tolerance; expect literal text"
+    },
+    {
+      "id": "cand.containers.lined.escaped-first-underscore-literal",
+      "spec": "2.7.3",
+      "source": "\\___\n\nContent\n___\n",
+      "intent": "escaped underscore in the opener run prevents fence recognition — expect literal text"
+    },
+    {
+      "id": "cand.containers.lined.escaped-middle-underscore-literal",
+      "spec": "2.7.3",
+      "source": "_\\__\n\nContent\n___\n",
+      "intent": "escaped middle underscore prevents fence recognition — literal text, canonical to \\___"
+    },
+    {
+      "id": "cand.containers.lined.escaped-last-underscore-literal",
+      "spec": "2.7.3",
+      "source": "__\\_\n\nContent\n___\n",
+      "intent": "escaped last underscore prevents fence recognition — literal text"
+    },
+    {
+      "id": "cand.containers.type.hyphen-in-type",
+      "spec": "2.7.4",
+      "source": "My-Type\n___\n\nContent\n___\n",
+      "intent": "hyphen is not excluded from TYPE — expect valid TYPE 'My-Type'"
+    },
+    {
+      "id": "cand.containers.type.dot-in-type",
+      "spec": "2.7.4",
+      "source": "TL;DR\n___\n\nContent\n___\n",
+      "intent": "period is not excluded from TYPE — expect valid TYPE 'TL;DR'"
+    },
+    {
+      "id": "cand.containers.type.underscore-in-type",
+      "spec": "2.7.4",
+      "source": "Note_Type\n___\n\nContent\n___\n",
+      "intent": "underscore is not excluded from TYPE — expect valid TYPE containing an underscore"
+    },
+    {
+      "id": "cand.containers.type.tab-invalid",
+      "spec": "2.7.4",
+      "source": "Bad\tType\n___\n\nContent\n___\n",
+      "intent": "tab (whitespace) in TYPE — excluded; expect syntax error"
+    },
+    {
+      "id": "cand.containers.type.control-invalid",
+      "spec": "2.7.4",
+      "source": "Bad\u0001Type\n___\n\nContent\n___\n",
+      "intent": "control character in TYPE — excluded; expect syntax error"
+    },
+    {
+      "id": "cand.containers.type.quotes-valid",
+      "spec": "2.7.4",
+      "source": "Note\"Quoted\"\n___\n\nContent\n___\n",
+      "intent": "quotation marks are ordinary TYPE characters — expect valid TYPE with quotes"
+    },
+    {
+      "id": "cand.containers.type.at-sign-valid",
+      "spec": "2.7.4",
+      "source": "Note@tag\n___\n\nContent\n___\n",
+      "intent": "@ is not excluded from TYPE — expect valid TYPE"
+    },
+    {
+      "id": "cand.containers.type.plus-in-type",
+      "spec": "2.7.4",
+      "source": "C++\n___\n\nContent\n___\n",
+      "intent": "+ is not excluded from TYPE — expect valid TYPE 'C++'"
+    },
+    {
+      "id": "cand.containers.type.dollar-in-type",
+      "spec": "2.7.4",
+      "source": "$money\n___\n\nContent\n___\n",
+      "intent": "$ is not excluded from TYPE — expect valid TYPE"
+    },
+    {
+      "id": "cand.containers.type.percent-in-type",
+      "spec": "2.7.4",
+      "source": "100%\n___\n\nContent\n___\n",
+      "intent": "% is not excluded from TYPE — expect valid TYPE"
+    },
+    {
+      "id": "cand.containers.type.ampersand-in-type",
+      "spec": "2.7.4",
+      "source": "Q&A\n___\n\nContent\n___\n",
+      "intent": "ampersand is not excluded from TYPE — expect valid TYPE 'Q&A'"
+    },
+    {
+      "id": "cand.containers.lined.nested-lined-invalid",
+      "spec": "2.7.6",
+      "source": "Outer\n___\n\nInner\n___\n\nContent\n___\n___\n",
+      "intent": "a lined container inside a lined container is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.nested-fenced-invalid",
+      "spec": "2.7.6",
+      "source": "::: Outer\n::: Inner\nX\n:::\n:::\n",
+      "intent": "a fenced container inside a fenced container is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.contains-lined-invalid",
+      "spec": "2.7.6",
+      "source": "::: Outer\nInner\n___\n\nText\n___\n:::\n",
+      "intent": "a lined container inside a fenced container is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.containers.lined.contains-fenced-ok",
+      "spec": "2.7.6",
+      "source": "Outer\n___\n\n::: Note\nNested\n:::\n___\n",
+      "intent": "a fenced container as direct child of a lined container is allowed"
+    },
+    {
+      "id": "cand.containers.fenced.grid-only-valid",
+      "spec": "2.7.7",
+      "source": "::: Grid\nA\n--\nB\n:::\n",
+      "intent": "a Grid as the sole child of a fenced container — valid; columns>1 triggers Grid"
+    },
+    {
+      "id": "cand.containers.fenced.grid-not-in-lined",
+      "spec": "2.7.7",
+      "source": "Outer\n___\n\nA\n--\nB\n___\n",
+      "intent": "Grid marker lines inside a lined container are not Grid syntax — expect them as ordinary content"
+    },
+    {
+      "id": "cand.containers.fenced.grid-1x1-not-grid",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n:::\n",
+      "intent": "a single-cell body is not a semantic Grid (would be ordinary fenced content) — expect plain container"
+    },
+    {
+      "id": "cand.containers.fenced.grid-header-1x1-valid",
+      "spec": "2.7.7",
+      "source": "::: X\nH\n::\nB\n:::\n",
+      "intent": "the :: marker alone commits to Grid; 1x1 header plus 1x1 body is valid"
+    },
+    {
+      "id": "cand.containers.fenced.grid-2x2",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n--\nB\n==\nC\n--\nD\n:::\n",
+      "intent": "a canonical 2x2 Grid with header — valid"
+    },
+    {
+      "id": "cand.containers.fenced.grid-rowspan-first-invalid",
+      "spec": "2.7.7",
+      "source": "::: X\n^\n--\nB\n:::\n",
+      "intent": "^ continuation in the first row has no slot above — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.grid-colspan-first-invalid",
+      "spec": "2.7.7",
+      "source": "::: X\n<\n--\nB\n:::\n",
+      "intent": "< continuation in the first column has no slot left — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.grid-ragged-invalid",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n--\nB\n==\nC\n:::\n",
+      "intent": "rows with different slot widths — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.grid-nonrectangular-invalid",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n--\n<\n==\n^\n--\nB\n:::\n",
+      "intent": "an L-shaped span ownership is not rectangular — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.grid-marker-in-code-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n```\n::\n--\n```\n:::\n",
+      "intent": "Grid marker lines inside a code fence are literal, not triggers"
+    },
+    {
+      "id": "cand.containers.fenced.grid-caret-only-no-trigger",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n^\n:::\n",
+      "intent": "^ alone never triggers Grid recognition — expect ordinary fenced content with a caret line"
+    },
+    {
+      "id": "cand.containers.fenced.grid-angle-only-no-trigger",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n<\n:::\n",
+      "intent": "< alone never triggers Grid recognition — expect ordinary fenced content"
+    },
+    {
+      "id": "cand.containers.fenced.empty-semantic-error",
+      "spec": "2.7.6",
+      "source": ":::\n:::\n",
+      "intent": "empty fenced container — expect semantic error (non-empty children invariant)"
+    },
+    {
+      "id": "cand.containers.lined.empty-semantic-error",
+      "spec": "2.7.6",
+      "source": "___\n\n___\n",
+      "intent": "empty lined container — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.id-on-container",
+      "spec": "5.1",
+      "source": "::: Note\nText.\n:::\n{#n}\n",
+      "intent": "id suffix after a fenced container — valid, attaches to the container"
+    },
+    {
+      "id": "cand.containers.lined.id-on-container",
+      "spec": "5.1",
+      "source": "Exkurs\n___\n\nText.\n___\n{#l}\n",
+      "intent": "id suffix after a lined container — valid, attaches to the container"
+    },
+    {
+      "id": "cand.containers.fenced.id-on-grid",
+      "spec": "5.1",
+      "source": "::: Grid\nA\n--\nB\n:::\n{#g}\n",
+      "intent": "id after a fenced Grid container — attaches to the container (Grid itself has no id field)"
+    },
+    {
+      "id": "cand.containers.fenced.container-id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "::: Note\nText.\n:::\n\n{#n}\n",
+      "intent": "container id after a blank line — expect syntax error"
+    },
+    {
+      "id": "cand.containers.fenced.container-inside-quote-invalid",
+      "spec": "2.7.6",
+      "source": "> ::: Note\n> Text.\n> :::\n",
+      "intent": "a fenced container inside a quote is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.containers.lined.container-inside-list-invalid",
+      "spec": "2.7.6",
+      "source": "- item\n\n  Exkurs\n  ___\n\n  Text.\n  ___\n",
+      "intent": "a lined container inside a list item is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.containers.fenced.grid-cell-container-invalid",
+      "spec": "2.7.7",
+      "source": "::: Grid\n::: Inner\nX\n:::\n--\nB\n:::\n",
+      "intent": "a container inside a Grid cell is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.containers.lined.typed-header-collision-list",
+      "spec": "2.7.1",
+      "source": "- Header\n___\n\nContent\n___\n",
+      "intent": "a lined-header candidate beginning with a list marker keeps its list meaning, not a lined container"
+    },
+    {
+      "id": "cand.containers.lined.typed-header-collision-heading",
+      "spec": "2.7.1",
+      "source": "# Header\n___\n\nContent\n___\n",
+      "intent": "a lined-header candidate beginning with an ATX heading keeps heading meaning, not a lined container"
+    },
+    {
+      "id": "cand.containers.lined.typed-header-collision-hr",
+      "spec": "2.7.1",
+      "source": "---\n___\n\nContent\n___\n",
+      "intent": "a lined-header candidate beginning with an HR keeps HR meaning, not a lined container"
+    },
+    {
+      "id": "cand.containers.lined.typed-header-collision-quote",
+      "spec": "2.7.1",
+      "source": "> Header\n___\n\nContent\n___\n",
+      "intent": "a lined-header candidate beginning with a quote marker keeps quote meaning, not a lined container"
+    },
+    {
+      "id": "cand.containers.lined.typed-header-collision-table",
+      "spec": "2.7.1",
+      "source": "| A | B |\n___\n\nContent\n___\n",
+      "intent": "a table-looking header line before ___ — ambiguous; table/paragraph likely wins over lined container"
+    },
+    {
+      "id": "cand.containers.fenced.opener-not-at-baseline-literal",
+      "spec": "2.7.3",
+      "source": "  :::\nContent\n:::\n",
+      "intent": "indented fenced opener — no 0-3 space tolerance for container fences; expect literal text"
+    },
+    {
+      "id": "cand.containers.lined.title-preserves-literal-spacing",
+      "spec": "2.7.5",
+      "source": "Note a  b\n___\n\nContent\n___\n",
+      "intent": "TITLE is the literal remainder after TYPE — inner double space is preserved verbatim"
+    },
+    {
+      "id": "cand.containers.fenced.grid-multiple-fenced-siblings",
+      "spec": "2.7.6",
+      "source": "Outer\n___\n\n::: A\nOne.\n:::\n\n::: B\nTwo.\n:::\n___\n",
+      "intent": "a lined container with multiple fenced-container siblings — valid"
+    },
+    {
+      "id": "cand.containers.fenced.anonymous-mixed-with-content",
+      "spec": "2.7",
+      "source": ":::\nA\n--\nB\n:::\n",
+      "intent": "anonymous fenced container hosting Grid markers — Grid triggers and is valid"
+    },
+    {
+      "id": "cand.containers.fenced.type-unicode-normalized",
+      "spec": "2.7.4",
+      "source": "Re\u0301sume\u0301\n___\n\nText.\n___\n",
+      "intent": "TYPE is NFC-normalised — combining-accent source normalises to composed form"
+    },
+    {
+      "id": "cand.containers.fenced.grid-markers-in-comment-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n<!--\n::\n--\n-->\n:::\n",
+      "intent": "Grid marker lines inside a comment are literal, not triggers"
+    },
+    {
+      "id": "cand.containers.fenced.grid-rowspan-with-neighbor",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n--\nB\n==\n^\n--\nC\n:::\n",
+      "intent": "rowspan continuation with a resolved right neighbour — valid geometry"
+    }
+  ]
+}

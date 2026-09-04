@@ -1,0 +1,370 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Glossar"
+        }
+      ],
+      "id": "glossar"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Kurze Erläuterungen zu den wichtigsten Begriffen. Begriffserklärungen in"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Klammern erscheinen beim Überfahren als Tooltip: etwa"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "metadataSpan",
+          "attrs": {
+            "dataAttrs": {
+              "title": "Eindeutigkeit der Darstellung einer Bedeutung"
+            }
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "Kanonizität"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Kanonizität"
+        }
+      ],
+      "id": "kanonizitaet"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Eigenschaft eines Formats, genau eine gültige Darstellung pro"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Bedeutung zu besitzen. Eng verwandt mit dem Begriff "
+        },
+        {
+          "type": "link",
+          "href": "/idempotenz",
+          "children": [
+            {
+              "type": "text",
+              "value": "idempotenz"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "form": "fenced",
+      "containerType": "hinweis",
+      "title": null,
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Kanonizität ist eine stärkere Forderung als bloße"
+            },
+            {
+              "type": "softBreak"
+            },
+            {
+              "type": "metadataSpan",
+              "attrs": {
+                "dataAttrs": {
+                  "title": "Ein wiederholter Vorgang verändert das Ergebnis nicht mehr"
+                }
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Idempotenz"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "value": ":"
+            },
+            {
+              "type": "softBreak"
+            },
+            {
+              "type": "text",
+              "value": "Ein Formatter kann idempotent sein, ohne kanonisch zu sein."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Idempotenz"
+        }
+      ],
+      "id": "idempotenz"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Eigenschaft einer Abbildung "
+        },
+        {
+          "type": "inlineMath",
+          "value": "f"
+        },
+        {
+          "type": "text",
+          "value": ", dass "
+        },
+        {
+          "type": "inlineMath",
+          "value": "f(f(x)) = f(x)"
+        },
+        {
+          "type": "text",
+          "value": " gilt."
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Im Zusammenhang mit Formatierern beschreibt sie, dass ein erneuter"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Durchlauf das Ergebnis nicht verändert. Siehe auch "
+        },
+        {
+          "type": "link",
+          "href": "/kanonizitaet",
+          "children": [
+            {
+              "type": "text",
+              "value": "kanonizitaet"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Roundtrip"
+        }
+      ],
+      "id": "roundtrip"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Ein Durchlauf vom Quelltext zum"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "metadataSpan",
+          "attrs": {
+            "dataAttrs": {
+              "title": "Abstract Syntax Tree — abstrakter Syntaxbaum"
+            }
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "AST"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " und zurück."
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Die Bedingung "
+        },
+        {
+          "type": "inlineCode",
+          "value": "parse(format(ast)) ≡ ast"
+        },
+        {
+          "type": "text",
+          "value": " heißt Roundtrip-Gesetz und ist"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "eine der zentralen Garantien des Formats. Vgl. "
+        },
+        {
+          "type": "link",
+          "href": "/idempotenz",
+          "children": [
+            {
+              "type": "text",
+              "value": "idempotenz"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Normalform"
+        }
+      ],
+      "id": "normalform"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die kanonische Darstellung eines Dokuments. Alle tolerierten"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Schreibweisen desselben Inhalts konvergieren auf dieselbe Normalform —"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "siehe "
+        },
+        {
+          "type": "link",
+          "href": "/kanonizitaet",
+          "children": [
+            {
+              "type": "text",
+              "value": "kanonizitaet"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Strict Mode"
+        }
+      ],
+      "id": "strict-mode"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Ein Parsermodus, der ausschließlich die kanonische Form akzeptiert. Der"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Begriff ist ein Spezialfall des allgemeineren "
+        },
+        {
+          "type": "link",
+          "href": "/normalform",
+          "children": [
+            {
+              "type": "text",
+              "value": "normalform"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "-Konzepts."
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

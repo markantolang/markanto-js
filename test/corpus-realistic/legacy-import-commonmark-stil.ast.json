@@ -1,0 +1,381 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Einführung in Markdown"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Markdown ist eine vereinfachte Auszeichnungssprache, die sich leicht"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "lesen und schreiben lässt. Dieser Text verwendet ausschließlich"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Konstrukte, die in "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "CommonMark"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " und "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "GFM"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " gleichermaßen verstanden werden."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Textauszeichnung"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Überschriften, "
+        },
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "fette"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " und "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "kursive"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " Schrift sowie "
+        },
+        {
+          "type": "inlineCode",
+          "value": "Inline-Code"
+        },
+        {
+          "type": "text",
+          "value": " sind"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "die Grundbausteine. Ein Absatz wird durch eine Leerzeile beendet."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Listen und Zitate"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Einfache Listen verwenden Bindestriche"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Sie lassen sich auch verschachteln:"
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "kind": "unordered",
+              "items": [
+                {
+                  "type": "listItem",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Zweite Ebene"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Noch ein Punkt"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "quoteRegion",
+      "children": [
+        {
+          "level": 1,
+          "block": {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Zitate beginnen mit einem Größerzeichen"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "und können mehrere Zeilen umfassen."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Tabellen und Code"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "default",
+        "default"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Sprache"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Zweck"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "TypeScript"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Referenzimplementierung"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Rust"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "geplante Portierung"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "value": "echo \"Hallo, Welt!\"",
+      "lang": "bash"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Links und Bilder"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Weitere Informationen finden Sie auf "
+        },
+        {
+          "type": "link",
+          "href": "https://example.com",
+          "children": [
+            {
+              "type": "text",
+              "value": "example.com"
+            }
+          ]
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "oder in der "
+        },
+        {
+          "type": "link",
+          "href": "docs/README.md",
+          "children": [
+            {
+              "type": "text",
+              "value": "Dokumentation"
+            }
+          ],
+          "title": "Lokale Dokumentation"
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "imageBlock",
+      "src": "diagramm.png",
+      "alt": [
+        {
+          "type": "text",
+          "value": "Architekturdiagramm"
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

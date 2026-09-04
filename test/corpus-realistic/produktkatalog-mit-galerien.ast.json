@@ -1,0 +1,352 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Herbstkollektion"
+        }
+      ],
+      "id": "kollektion"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Unsere aktuelle Auswahl — jedes Produkt mit eigener Bildergalerie, dazu"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Preisangaben und eine Audio-Beschreibung für Menschen mit"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Sehbeeinträchtigung."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Tischleuchten"
+        }
+      ],
+      "id": "tischleuchten"
+    },
+    {
+      "type": "container",
+      "form": "fenced",
+      "containerType": "leuchte-nord",
+      "title": null,
+      "children": [
+        {
+          "type": "imageBlock",
+          "src": "bilder/nord-1.jpg",
+          "alt": [
+            {
+              "type": "text",
+              "value": "Leuchte Nord im Detail"
+            }
+          ],
+          "caption": [
+            {
+              "type": "text",
+              "value": "Gesamtansicht"
+            }
+          ]
+        },
+        {
+          "type": "imageBlock",
+          "src": "bilder/nord-2.jpg",
+          "alt": [
+            {
+              "type": "text",
+              "value": "Leuchte Nord, Detail"
+            }
+          ],
+          "caption": [
+            {
+              "type": "text",
+              "value": "Schirm und Fuß"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "form": "fenced",
+      "containerType": "leuchte-sued",
+      "title": null,
+      "children": [
+        {
+          "type": "imageBlock",
+          "src": "bilder/sued-1.jpg",
+          "alt": [
+            {
+              "type": "text",
+              "value": "Leuchte Süd"
+            }
+          ],
+          "caption": [
+            {
+              "type": "text",
+              "value": "Ansicht im Wohnraum"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "right",
+        "right",
+        "center"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Produkt"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Preis"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Verfügbar"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Leuchte Nord"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "89,00"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "ja"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Leuchte Süd"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "79,00"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "ja"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Stehleuchte Ost"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "149,00"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "nein"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Audio-Beschreibungen"
+        }
+      ],
+      "id": "audio"
+    },
+    {
+      "type": "audioBlock",
+      "src": "audio/nord.mp3",
+      "label": [
+        {
+          "type": "text",
+          "value": "Leuchte Nord — Beschreibung"
+        }
+      ],
+      "caption": [
+        {
+          "type": "text",
+          "value": "Ausführliche Beschreibung der Leuchte Nord"
+        }
+      ],
+      "attrs": {
+        "preview": "bilder/nord-cover.jpg"
+      }
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Bezugsquellen"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Leuchten sind bei den "
+        },
+        {
+          "type": "link",
+          "href": "https://example.de/haendler",
+          "children": [
+            {
+              "type": "text",
+              "value": "Händlern im Fachhandel"
+            }
+          ],
+          "title": "Händlerverzeichnis"
+        },
+        {
+          "type": "text",
+          "value": " sowie im"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "https://example.de/shop",
+          "children": [
+            {
+              "type": "text",
+              "value": "Online-Shop"
+            }
+          ],
+          "title": "Der offizielle Online-Shop"
+        },
+        {
+          "type": "text",
+          "value": " erhältlich. Weitere Informationen finden Sie auch auf dem"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "https://example.de/blog",
+          "children": [
+            {
+              "type": "text",
+              "value": "Herstellerblog"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

@@ -1,0 +1,405 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Markanto-API"
+        }
+      ],
+      "id": "uebersicht"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Referenzimplementierung von Markanto stellt einen "
+        },
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Parser"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": ", einen"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Formatter"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " und einen "
+        },
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Validator"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " bereit. Der Einstiegspunkt ist die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Funktion "
+        },
+        {
+          "type": "inlineCode",
+          "value": "parse"
+        },
+        {
+          "type": "text",
+          "value": ", die eine Zeichenkette in einen "
+        },
+        {
+          "type": "inlineCode",
+          "value": "Document"
+        },
+        {
+          "type": "text",
+          "value": "-Knoten"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "überführt."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Schnelleinstieg"
+        }
+      ],
+      "id": "schnelleinstieg"
+    },
+    {
+      "type": "codeBlock",
+      "value": "import { parse, format } from \"markanto\";\n\nconst ast = parse(\"# Titel\");\nconst out = format(ast);",
+      "lang": "typescript"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Ausgabe ist kanonisch: Genau eine gültige Darstellung pro Bedeutung."
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Details stehen im"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "../docs/markanto-manifest-v0.2.0.md",
+          "children": [
+            {
+              "type": "text",
+              "value": "Manifest"
+            }
+          ],
+          "title": "Markanto Manifest"
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Optionen"
+        }
+      ],
+      "id": "optionen"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die wichtigsten Parser-Optionen im Überblick:"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "left",
+        "center",
+        "right",
+        "default"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Option"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Typ"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Default"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Beschreibung"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "lineBreaks"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "string"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "soft"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Zeilenumbruch-Modus"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "maxListDepth"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "number"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "8"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Maximale Listentiefe"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "strict"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "boolean"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "false"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Nur kanonische Eingabe"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "quoteRegion",
+      "children": [
+        {
+          "level": 1,
+          "block": {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Die Optionen werden beim Parsen übergeben:"
+              }
+            ]
+          }
+        },
+        {
+          "level": 1,
+          "block": {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "lineBreaks"
+                      },
+                      {
+                        "type": "text",
+                        "value": " ist projektweit einheitlich"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "lang"
+                      },
+                      {
+                        "type": "text",
+                        "value": " ist dokumentbezogen"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

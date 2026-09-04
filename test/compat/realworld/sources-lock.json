@@ -1,0 +1,1375 @@
+{
+  "repositories": [
+    {
+      "repo": "facebook/react",
+      "branch": "main",
+      "commit": "f4e439e1980f0748091f7d36c2005f0463197ed7",
+      "license": "MIT",
+      "category": "github-readme"
+    },
+    {
+      "repo": "microsoft/vscode",
+      "branch": "main",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "license": "MIT",
+      "category": "github-readme"
+    },
+    {
+      "repo": "nodejs/node",
+      "branch": "main",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "license": "MIT",
+      "category": "github-readme"
+    },
+    {
+      "repo": "denoland/deno",
+      "branch": "main",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "license": "MIT",
+      "category": "github-readme"
+    },
+    {
+      "repo": "vitejs/vite",
+      "branch": "main",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "license": "MIT",
+      "category": "github-readme"
+    },
+    {
+      "repo": "kubernetes/kubernetes",
+      "branch": "master",
+      "commit": "c3af316a72bcbe06056e3827f81a922e0ce78f86",
+      "license": "Apache-2.0",
+      "category": "github-readme"
+    },
+    {
+      "repo": "rust-lang/rust",
+      "branch": "main",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "license": "MIT OR Apache-2.0",
+      "category": "github-readme"
+    },
+    {
+      "repo": "golang/go",
+      "branch": "master",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "license": "BSD-3-Clause",
+      "category": "github-readme"
+    },
+    {
+      "repo": "tokio-rs/tokio",
+      "branch": "master",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "license": "MIT",
+      "category": "github-readme"
+    },
+    {
+      "repo": "pallets/flask",
+      "branch": "main",
+      "commit": "d318b683471101618febed18996405ad26462110",
+      "license": "BSD-3-Clause",
+      "category": "github-readme"
+    },
+    {
+      "repo": "rust-lang/book",
+      "branch": "main",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "license": "MIT OR Apache-2.0",
+      "category": "doc-site"
+    },
+    {
+      "repo": "mdn/content",
+      "branch": "main",
+      "commit": "d29b5db872881c84ecfbf3ce0c22914474a01741",
+      "license": "CC-BY-SA-2.5",
+      "category": "doc-site"
+    },
+    {
+      "repo": "kubernetes/website",
+      "branch": "main",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "license": "CC-BY-4.0",
+      "category": "doc-site"
+    }
+  ],
+  "documents": [
+    {
+      "category": "github-readme",
+      "repo": "facebook/react",
+      "commit": "f4e439e1980f0748091f7d36c2005f0463197ed7",
+      "path": "README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/facebook/react/f4e439e1980f0748091f7d36c2005f0463197ed7/README.md",
+      "local": "documents/github-readme/facebook__react/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/README.md",
+      "local": "documents/github-readme/microsoft__vscode/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/editor/contrib/snippet/browser/snippet.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/editor/contrib/snippet/browser/snippet.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__editor__contrib__snippet__browser__snippet.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/editor/test/node/diffing/README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/editor/test/node/diffing/README.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__editor__test__node__diffing__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/AGENTS.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/AGENTS.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__AGENTS.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/common/state/AGENTS.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/common/state/AGENTS.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__common__state__AGENTS.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/LOCAL_ENDPOINT.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/LOCAL_ENDPOINT.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__LOCAL_ENDPOINT.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/node/chatContributions/TODO.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/node/chatContributions/TODO.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__node__chatContributions__TODO.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/node/claude/phase-plan.1.5.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/node/claude/phase-plan.1.5.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__node__claude__phase-plan.1.5.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/node/claude/phase-plan.2.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/node/claude/phase-plan.2.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__node__claude__phase-plan.2.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "microsoft/vscode",
+      "commit": "45f3f80c81c77d878ff93b9222acb7e8514ae996",
+      "path": "src/vs/platform/agentHost/node/claude/phase10-plan.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/45f3f80c81c77d878ff93b9222acb7e8514ae996/src/vs/platform/agentHost/node/claude/phase10-plan.md",
+      "local": "documents/github-readme/microsoft__vscode/src__vs__platform__agentHost__node__claude__phase10-plan.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/README.md",
+      "local": "documents/github-readme/nodejs__node/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/addons.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/addons.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__addons.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/assert.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/assert.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__assert.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/async_context.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/async_context.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__async_context.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/async_hooks.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/async_hooks.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__async_hooks.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/cluster.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/cluster.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__cluster.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/console.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/console.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__console.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/debugger.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/debugger.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__debugger.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/dgram.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/dgram.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__dgram.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "nodejs/node",
+      "commit": "728ae356784429569d36d305012179067ee8503a",
+      "path": "doc/api/diagnostics_channel.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/nodejs/node/728ae356784429569d36d305012179067ee8503a/doc/api/diagnostics_channel.md",
+      "local": "documents/github-readme/nodejs__node/doc__api__diagnostics_channel.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/README.md",
+      "local": "documents/github-readme/denoland__deno/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/architecture.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/architecture.md",
+      "local": "documents/github-readme/denoland__deno/doc__architecture.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/ci.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/ci.md",
+      "local": "documents/github-readme/denoland__deno/doc__ci.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/codebase-map.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/codebase-map.md",
+      "local": "documents/github-readme/denoland__deno/doc__codebase-map.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/desktop-architecture.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/desktop-architecture.md",
+      "local": "documents/github-readme/denoland__deno/doc__desktop-architecture.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/package-management.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/package-management.md",
+      "local": "documents/github-readme/denoland__deno/doc__package-management.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/README.md",
+      "local": "documents/github-readme/denoland__deno/doc__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "denoland/deno",
+      "commit": "c8af01d25ddaf908ee095dd42189afaf110e5d4c",
+      "path": "doc/testing.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/denoland/deno/c8af01d25ddaf908ee095dd42189afaf110e5d4c/doc/testing.md",
+      "local": "documents/github-readme/denoland__deno/doc__testing.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/README.md",
+      "local": "documents/github-readme/vitejs__vite/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/acknowledgements.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/acknowledgements.md",
+      "local": "documents/github-readme/vitejs__vite/docs__acknowledgements.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite2.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite2.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite2.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite3.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite3.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite3.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite4-3.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite4-3.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite4-3.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite4.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite4.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite4.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite5-1.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite5-1.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite5-1.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite5.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite5.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite5.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite6.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite6.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite6.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "vitejs/vite",
+      "commit": "1c46db555d2927fc62686341911b03f6d365a36a",
+      "path": "docs/blog/announcing-vite7.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/vitejs/vite/1c46db555d2927fc62686341911b03f6d365a36a/docs/blog/announcing-vite7.md",
+      "local": "documents/github-readme/vitejs__vite/docs__blog__announcing-vite7.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "kubernetes/kubernetes",
+      "commit": "c3af316a72bcbe06056e3827f81a922e0ce78f86",
+      "path": "README.md",
+      "license": "Apache-2.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/kubernetes/c3af316a72bcbe06056e3827f81a922e0ce78f86/README.md",
+      "local": "documents/github-readme/kubernetes__kubernetes/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/README.md",
+      "local": "documents/github-readme/rust-lang__rust/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/bootstrap/defaults/README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/bootstrap/defaults/README.md",
+      "local": "documents/github-readme/rust-lang__rust/src__bootstrap__defaults__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/bootstrap/README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/bootstrap/README.md",
+      "local": "documents/github-readme/rust-lang__rust/src__bootstrap__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/ci/citool/README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/ci/citool/README.md",
+      "local": "documents/github-readme/rust-lang__rust/src__ci__citool__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/ci/docker/README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/ci/docker/README.md",
+      "local": "documents/github-readme/rust-lang__rust/src__ci__docker__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/doc/grammar.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/doc/grammar.md",
+      "local": "documents/github-readme/rust-lang__rust/src__doc__grammar.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/doc/guide-pointers.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/doc/guide-pointers.md",
+      "local": "documents/github-readme/rust-lang__rust/src__doc__guide-pointers.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/doc/index.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/doc/index.md",
+      "local": "documents/github-readme/rust-lang__rust/src__doc__index.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/doc/not_found.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/doc/not_found.md",
+      "local": "documents/github-readme/rust-lang__rust/src__doc__not_found.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "rust-lang/rust",
+      "commit": "824336ad4127ce295849937a24c08a4aeff6ada7",
+      "path": "src/doc/rustc-dev-guide/README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/824336ad4127ce295849937a24c08a4aeff6ada7/src/doc/rustc-dev-guide/README.md",
+      "local": "documents/github-readme/rust-lang__rust/src__doc__rustc-dev-guide__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "README.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/README.md",
+      "local": "documents/github-readme/golang__go/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/godebug.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/godebug.md",
+      "local": "documents/github-readme/golang__go/doc__godebug.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/initial/1-intro.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/initial/1-intro.md",
+      "local": "documents/github-readme/golang__go/doc__initial__1-intro.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/1-intro.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/1-intro.md",
+      "local": "documents/github-readme/golang__go/doc__next__1-intro.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/3-tools.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/3-tools.md",
+      "local": "documents/github-readme/golang__go/doc__next__3-tools.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/5-toolchain.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/5-toolchain.md",
+      "local": "documents/github-readme/golang__go/doc__next__5-toolchain.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/6-stdlib/99-minor/flag/65675.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/6-stdlib/99-minor/flag/65675.md",
+      "local": "documents/github-readme/golang__go/doc__next__6-stdlib__99-minor__flag__65675.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/6-stdlib/99-minor/go/parser/79802.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/6-stdlib/99-minor/go/parser/79802.md",
+      "local": "documents/github-readme/golang__go/doc__next__6-stdlib__99-minor__go__parser__79802.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/6-stdlib/99-minor/net/29678.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/6-stdlib/99-minor/net/29678.md",
+      "local": "documents/github-readme/golang__go/doc__next__6-stdlib__99-minor__net__29678.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "golang/go",
+      "commit": "4756f33d43d84aa3b38e68cad67d24d0720c5a0d",
+      "path": "doc/next/6-stdlib/99-minor/net/http/79656.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/golang/go/4756f33d43d84aa3b38e68cad67d24d0720c5a0d/doc/next/6-stdlib/99-minor/net/http/79656.md",
+      "local": "documents/github-readme/golang__go/doc__next__6-stdlib__99-minor__net__http__79656.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/README.md",
+      "local": "documents/github-readme/tokio-rs__tokio/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "docs/contributing/contributing-in-issues.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/docs/contributing/contributing-in-issues.md",
+      "local": "documents/github-readme/tokio-rs__tokio/docs__contributing__contributing-in-issues.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "docs/contributing/how-to-specify-crates-dependencies-versions.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/docs/contributing/how-to-specify-crates-dependencies-versions.md",
+      "local": "documents/github-readme/tokio-rs__tokio/docs__contributing__how-to-specify-crates-dependencies-versions.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "docs/contributing/keeping-track-of-issues-and-prs.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/docs/contributing/keeping-track-of-issues-and-prs.md",
+      "local": "documents/github-readme/tokio-rs__tokio/docs__contributing__keeping-track-of-issues-and-prs.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "docs/contributing/pull-requests.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/docs/contributing/pull-requests.md",
+      "local": "documents/github-readme/tokio-rs__tokio/docs__contributing__pull-requests.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "docs/contributing/README.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/docs/contributing/README.md",
+      "local": "documents/github-readme/tokio-rs__tokio/docs__contributing__README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "tokio-rs/tokio",
+      "commit": "ea91b33ca57ff0581b38e735cc108f831bccbdaa",
+      "path": "docs/contributing/reviewing-pull-requests.md",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/tokio-rs/tokio/ea91b33ca57ff0581b38e735cc108f831bccbdaa/docs/contributing/reviewing-pull-requests.md",
+      "local": "documents/github-readme/tokio-rs__tokio/docs__contributing__reviewing-pull-requests.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "pallets/flask",
+      "commit": "d318b683471101618febed18996405ad26462110",
+      "path": "README.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/pallets/flask/d318b683471101618febed18996405ad26462110/README.md",
+      "local": "documents/github-readme/pallets__flask/README.md"
+    },
+    {
+      "category": "github-readme",
+      "repo": "pallets/flask",
+      "commit": "d318b683471101618febed18996405ad26462110",
+      "path": "src/flask/sansio/README.md",
+      "license": "BSD-3-Clause",
+      "url": "https://raw.githubusercontent.com/pallets/flask/d318b683471101618febed18996405ad26462110/src/flask/sansio/README.md",
+      "local": "documents/github-readme/pallets__flask/src__flask__sansio__README.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "README.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/README.md",
+      "local": "documents/doc-site/rust-lang__book/README.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-01-keywords.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-01-keywords.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-01-keywords.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-02-operators.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-02-operators.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-02-operators.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-03-derivable-traits.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-03-derivable-traits.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-03-derivable-traits.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-04-useful-development-tools.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-04-useful-development-tools.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-04-useful-development-tools.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-05-editions.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-05-editions.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-05-editions.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-06-translation.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-06-translation.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-06-translation.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/appendix-07-nightly-rust.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/appendix-07-nightly-rust.md",
+      "local": "documents/doc-site/rust-lang__book/src__appendix-07-nightly-rust.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch00-00-introduction.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch00-00-introduction.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch00-00-introduction.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch01-00-getting-started.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch01-00-getting-started.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch01-00-getting-started.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch01-01-installation.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch01-01-installation.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch01-01-installation.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch01-02-hello-world.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch01-02-hello-world.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch01-02-hello-world.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch01-03-hello-cargo.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch01-03-hello-cargo.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch01-03-hello-cargo.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch02-00-guessing-game-tutorial.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch02-00-guessing-game-tutorial.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch02-00-guessing-game-tutorial.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch03-00-common-programming-concepts.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch03-00-common-programming-concepts.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch03-00-common-programming-concepts.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "rust-lang/book",
+      "commit": "1500248d8f230566e4ec9f27fcbb8fe9e2898ab1",
+      "path": "src/ch03-01-variables-and-mutability.md",
+      "license": "MIT OR Apache-2.0",
+      "url": "https://raw.githubusercontent.com/rust-lang/book/1500248d8f230566e4ec9f27fcbb8fe9e2898ab1/src/ch03-01-variables-and-mutability.md",
+      "local": "documents/doc-site/rust-lang__book/src__ch03-01-variables-and-mutability.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "mdn/content",
+      "commit": "d29b5db872881c84ecfbf3ce0c22914474a01741",
+      "path": "README.md",
+      "license": "CC-BY-SA-2.5",
+      "url": "https://raw.githubusercontent.com/mdn/content/d29b5db872881c84ecfbf3ce0c22914474a01741/README.md",
+      "local": "documents/doc-site/mdn__content/README.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "README.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/README.md",
+      "local": "documents/doc-site/kubernetes__website/README.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/blog/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/blog/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__blog___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/blog/_posts/2023-12-18-read-write-once-pod-access-mode-ga.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/blog/_posts/2023-12-18-read-write-once-pod-access-mode-ga.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__blog___posts__2023-12-18-read-write-once-pod-access-mode-ga.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/blog/_posts/2024-05-09-gateway-api-v1.1/index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/blog/_posts/2024-05-09-gateway-api-v1.1/index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__blog___posts__2024-05-09-gateway-api-v1.1__index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/community/code-of-conduct.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/community/code-of-conduct.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__community__code-of-conduct.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/community/static/cncf-code-of-conduct.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/community/static/cncf-code-of-conduct.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__community__static__cncf-code-of-conduct.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/community/static/README.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/community/static/README.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__community__static__README.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/architecture/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/architecture/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__architecture___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/cluster-administration/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/cluster-administration/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__cluster-administration___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/configuration/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/configuration/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__configuration___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/containers/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/containers/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__containers___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/extend-kubernetes/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/extend-kubernetes/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__extend-kubernetes___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/extend-kubernetes/api-extension/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/extend-kubernetes/api-extension/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__extend-kubernetes__api-extension___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/extend-kubernetes/compute-storage-net/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/extend-kubernetes/compute-storage-net/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__extend-kubernetes__compute-storage-net___index.md"
+    },
+    {
+      "category": "doc-site",
+      "repo": "kubernetes/website",
+      "commit": "527a3586e1cab8754b353ff5185cc3b35190e069",
+      "path": "content/bn/docs/concepts/overview/_index.md",
+      "license": "CC-BY-4.0",
+      "url": "https://raw.githubusercontent.com/kubernetes/website/527a3586e1cab8754b353ff5185cc3b35190e069/content/bn/docs/concepts/overview/_index.md",
+      "local": "documents/doc-site/kubernetes__website/content__bn__docs__concepts__overview___index.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-001.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-002.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-003.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-004.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-005.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-006.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-007.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-008.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-009.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-010.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-011.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-012.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-013.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-014.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-015.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-016.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-017.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-018.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-019.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-020.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-021.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-022.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-023.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-024.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-025.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-026.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-027.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-028.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-029.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-030.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-031.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-032.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-033.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-034.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-035.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-036.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-037.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-038.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-039.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-040.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-041.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-042.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-043.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-044.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-045.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-046.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-047.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-048.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-049.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-050.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-051.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-052.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-053.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-054.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-055.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-056.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-057.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-058.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-059.md"
+    },
+    {
+      "category": "llm-generated",
+      "generator": "collect.mjs deterministic template",
+      "license": "CC0-1.0",
+      "local": "documents/llm-generated/answer-060.md"
+    }
+  ]
+}

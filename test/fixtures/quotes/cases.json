@@ -1,0 +1,1521 @@
+{
+  "schemaVersion": 1,
+  "group": "quotes",
+  "cases": [
+    {
+      "id": "quote.basic",
+      "spec": "3.2",
+      "source": "> Quote.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quote.multiline",
+      "spec": "3.2",
+      "source": "> First line,\n> second line.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> First line,\n> second line.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> First line,\n> second line.\n"
+        }
+      }
+    },
+    {
+      "id": "quote.paragraphs",
+      "spec": "3.5",
+      "source": "> First.\n>\n> Second.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> First.\n>\n> Second.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> First.\n>\n> Second.\n"
+        }
+      }
+    },
+    {
+      "id": "quote.depth-two-after-one",
+      "spec": "3.6",
+      "source": "> L1.\n> > L2.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1.\n> > L2.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1.\n> > L2.\n"
+        }
+      }
+    },
+    {
+      "id": "quote.depth-jump-invalid",
+      "spec": "3.6",
+      "source": "> L1.\n> > > L3.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.starts-depth-two-invalid",
+      "spec": "3.4",
+      "source": "> > L2.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.compact-normalizes",
+      "spec": "3.15.2",
+      "source": "> Level 1.\n>> Level 2.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Level 1.\n> > Level 2.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.no-space-normalizes",
+      "spec": "3.15.2",
+      "source": ">Text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Text\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.lazy-continuation-not-quote",
+      "spec": "3.7",
+      "source": "> Quote line.\nContinuation.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote line.\n\nContinuation.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The second line is outside the quote; normal mode restores sibling separation."
+    },
+    {
+      "id": "quote.attribution",
+      "spec": "3.17",
+      "source": "> Quote.\n-- Author\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n-- Author\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n-- Author\n"
+        }
+      }
+    },
+    {
+      "id": "quote.attribution-with-id",
+      "spec": "3.22",
+      "source": "> Quote.\n-- Author\n{#quote-1}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n-- Author\n{#quote-1}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n-- Author\n{#quote-1}\n"
+        }
+      }
+    },
+    {
+      "id": "quote.container-invalid",
+      "spec": "3.10",
+      "source": "> ::: Warning\n> Content.\n> :::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.empty-current-depth",
+      "spec": "3.5",
+      "source": "> First.\n>\n> Second.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> First.\n>\n> Second.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> First.\n>\n> Second.\n"
+        }
+      }
+    },
+    {
+      "id": "quote.empty-deeper-invalid",
+      "spec": "3.15.4",
+      "source": "> Text.\n> >\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.code-fence",
+      "spec": "3.10.3",
+      "source": "> ```js\n> x()\n> ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> ```js\n> x()\n> ```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> ```js\n> x()\n> ```\n"
+        }
+      }
+    },
+    {
+      "id": "quote.code-missing-prefix-invalid",
+      "spec": "3.16",
+      "source": "> ```js\nx()\n> ```\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quote.table",
+      "spec": "3.10.4",
+      "source": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n"
+        }
+      }
+    },
+    {
+      "id": "quote.block-media",
+      "spec": "3.10.5",
+      "source": "> <m video>[Video](film.mp4)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> <m video>[Video](film.mp4)</m>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> <m video>[Video](film.mp4)</m>\n"
+        }
+      }
+    },
+    {
+      "id": "quote.list",
+      "spec": "3.11",
+      "source": "> - One\n> - Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> - One\n> - Two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> - One\n> - Two\n"
+        }
+      }
+    },
+    {
+      "id": "quote.attribution.markup",
+      "spec": "3.17",
+      "source": "> Quote.\n-- *Author*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n-- *Author*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n-- *Author*\n"
+        }
+      }
+    },
+    {
+      "id": "quote.attribution.blank-separated-not-attribution",
+      "spec": "3.17",
+      "source": "> Quote.\n\n-- Author\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n\n-- Author\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n\n-- Author\n"
+        }
+      }
+    },
+    {
+      "id": "quote.tab-prefix-invalid",
+      "spec": "3.16",
+      "source": ">\tText\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quotes.inside-grid-cell",
+      "spec": "2.7.7",
+      "source": "::: X\n> Quote.\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\n> Quote.\n--\nB\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\n> Quote.\n--\nB\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "quoteRegion",
+                            "children": [
+                              {
+                                "level": 1,
+                                "block": {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Quote."
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.list-inside-nested",
+      "spec": "3.11",
+      "source": "> - One\n>   - Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> - One\n>   - Two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> - One\n>   - Two\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "list",
+                  "kind": "unordered",
+                  "items": [
+                    {
+                      "type": "listItem",
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "One"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "list",
+                          "kind": "unordered",
+                          "items": [
+                            {
+                              "type": "listItem",
+                              "children": [
+                                {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Two"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.paragraph-boundary-by-depth",
+      "spec": "3.8",
+      "source": "> L1.\n> > L2.\n> L1 again.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1.\n> > L2.\n> L1 again.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1.\n> > L2.\n> L1 again.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1."
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2."
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1 again."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.depth-jump-three-invalid",
+      "spec": "3.6",
+      "source": "> L1\n> > > > L4\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quotes.depth-jump-two-invalid",
+      "spec": "3.6",
+      "source": "> L1\n> > > L3\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "quotes.attribution.after-depth-two",
+      "spec": "3.17",
+      "source": "> L1\n> > L2\n-- Author\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n-- Author\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n-- Author\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              }
+            ],
+            "attribution": [
+              {
+                "type": "text",
+                "value": "Author"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.depth-decrease-multiple-ok",
+      "spec": "3.6",
+      "source": "> L1\n> > L2\n> > > L3\n> L1 again\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> > > L3\n> L1 again\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> > > L3\n> L1 again\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 3,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L3"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1 again"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.depth-decrease-one-ok",
+      "spec": "3.6",
+      "source": "> L1\n> > L2\n> L1 again\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> L1 again\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> L1 again\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1 again"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.depth-rise-one-at-a-time",
+      "spec": "3.6",
+      "source": "> L1\n> > L2\n> > > L3\n> > > > L4\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> > > L3\n> > > > L4\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> > > L3\n> > > > L4\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 3,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L3"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 4,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L4"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.emphasis-inside",
+      "spec": "3.8",
+      "source": "> *em* and **strong**\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> *em* and **strong**\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> *em* and **strong**\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "em",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "em"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": " and "
+                    },
+                    {
+                      "type": "strong",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "strong"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.empty-after-depth-change-ok",
+      "spec": "3.5",
+      "source": "> L1\n> > L2\n> >\n> > L3\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> >\n> > L3\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> >\n> > L3\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L3"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.hardbreak-inside",
+      "spec": "3.7",
+      "source": "> line one\\\n> line two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> line one\\\n> line two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> line one\\\n> line two\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "line one"
+                    },
+                    {
+                      "type": "hardBreak"
+                    },
+                    {
+                      "type": "text",
+                      "value": "line two"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.heading-inside",
+      "spec": "3.10.1",
+      "source": "> # Heading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> # Heading\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> # Heading\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "heading",
+                  "level": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Heading"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.hr-inside",
+      "spec": "3.10",
+      "source": "> ---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> ---\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> ---\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "horizontalRule"
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.inside-fenced-container",
+      "spec": "2.7",
+      "source": "::: Note\n> Quote.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\n> Quote.\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\n> Quote.\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Note",
+            "title": null,
+            "children": [
+              {
+                "type": "quoteRegion",
+                "children": [
+                  {
+                    "level": 1,
+                    "block": {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Quote."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.math-inside",
+      "spec": "3.10.3, 14.3",
+      "source": "> ```math\n> x^2\n> ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> ```math\n> x^2\n> ```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> ```math\n> x^2\n> ```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "mathBlock",
+                  "value": "x^2"
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.multi-line-with-depth-return",
+      "spec": "3.13",
+      "source": "> L1\n> > L2\n> > > L3\n> > L2 again\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> > > L3\n> > L2 again\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> > > L3\n> > L2 again\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 3,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L3"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2 again"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.compact-depth-two-normalizes",
+      "spec": "3.15.2",
+      "source": "> L1\n>> L2\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.empty-shallower-after-depth",
+      "spec": "3.5",
+      "source": "> L1\n> > L2\n>\n> > L3\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> L1\n> > L2\n> >\n> > L3\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L1"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L2"
+                    }
+                  ]
+                }
+              },
+              {
+                "level": 2,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "L3"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy-continuation-not-quote",
+      "spec": "3.7",
+      "source": "> Quote.\nContinuation.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n\nContinuation.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Continuation."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    }
+  ]
+}

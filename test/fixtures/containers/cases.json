@@ -1,0 +1,3378 @@
+{
+  "schemaVersion": 1,
+  "group": "containers",
+  "cases": [
+    {
+      "id": "container.fenced.typed",
+      "spec": "2.7",
+      "source": "::: Warning\nContent.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Warning\nContent.\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Warning\nContent.\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Warning",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.fenced.titled",
+      "spec": "2.7",
+      "source": "::: Warning Read this\nContent.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Warning Read this\nContent.\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Warning Read this\nContent.\n:::\n"
+        }
+      }
+    },
+    {
+      "id": "container.fenced.anonymous",
+      "spec": "2.7",
+      "source": ":::\nContent.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\nContent.\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ":::\nContent.\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.lined.typed",
+      "spec": "2.7",
+      "source": "Exkurs\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.lined.titled",
+      "spec": "2.7",
+      "source": "Exkurs Es geht um Sprache\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs Es geht um Sprache\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Exkurs Es geht um Sprache\n___\n\nContent.\n___\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": "Exkurs",
+            "title": "Es geht um Sprache",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.lined.anonymous",
+      "spec": "2.7",
+      "source": "___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.lined.typed.missing-opener-blank-normalizes",
+      "spec": "2.7.1",
+      "source": "Exkurs\n___\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.titled.missing-opener-blank-normalizes",
+      "spec": "2.7.1",
+      "source": "Exkurs Es geht um Sprache\n___\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs Es geht um Sprache\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.anonymous.missing-opener-blank-normalizes",
+      "spec": "2.7.1",
+      "source": "___\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.extra-opener-blanks-normalize",
+      "spec": "2.7.1",
+      "source": "Exkurs\n___\n\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.fenced.empty-invalid",
+      "spec": "2.7",
+      "source": ":::\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.empty-invalid",
+      "spec": "2.7",
+      "source": "___\n\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.fenced.long-normalizes",
+      "spec": "2.7.3",
+      "source": ":::: Warning\nContent.\n::::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Warning\nContent.\n:::\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.long-normalizes",
+      "spec": "2.7.3",
+      "source": "Exkurs\n____\n\nContent.\n____\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.contains-fenced",
+      "spec": "2.7.6",
+      "source": "Exkurs\n___\n\n::: Warning\nNested.\n:::\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\n::: Warning\nNested.\n:::\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Exkurs\n___\n\n::: Warning\nNested.\n:::\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.fenced.contains-fenced-invalid",
+      "spec": "2.7.6",
+      "source": "::: Outer\n::: Inner\nNested.\n:::\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.contains-lined-invalid",
+      "spec": "2.7.6",
+      "source": "Outer\n___\n\nInner\n___\n\nNested.\n___\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.rich-valid",
+      "spec": "2.7.4",
+      "source": "Q&A\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Q&A\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Q&A\n___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.csharp-valid",
+      "spec": "2.7.4",
+      "source": "C#\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "C#\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "C#\n___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.cpp-valid",
+      "spec": "2.7.4",
+      "source": "C++\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "C++\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "C++\n___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.colon-valid",
+      "spec": "2.7.4",
+      "source": "RFC:9110\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "RFC:9110\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "RFC:9110\n___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.pipe-invalid",
+      "spec": "2.7.4",
+      "source": "A|B\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.backslash-invalid",
+      "spec": "2.7.4",
+      "source": "A\\B\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.backtick-invalid",
+      "spec": "2.7.4",
+      "source": "A`B\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.title.literal-colon",
+      "spec": "2.7.5",
+      "source": "Note A: B\n___\n\nContent.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Note A: B\n___\n\nContent.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Note A: B\n___\n\nContent.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.less-than-invalid",
+      "spec": "2.7.4",
+      "source": "Bad<Type\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.greater-than-invalid",
+      "spec": "2.7.4",
+      "source": "Bad>Type\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.left-bracket-invalid",
+      "spec": "2.7.4",
+      "source": "Bad[Type\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.right-bracket-invalid",
+      "spec": "2.7.4",
+      "source": "Bad]Type\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.left-brace-invalid",
+      "spec": "2.7.4",
+      "source": "Bad{Type\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.right-brace-invalid",
+      "spec": "2.7.4",
+      "source": "Bad}Type\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.type.unicode-valid",
+      "spec": "2.7.4",
+      "source": "日本語\n___\n\n本文。\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "日本語\n___\n\n本文。\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "日本語\n___\n\n本文。\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.ampersand-valid",
+      "spec": "2.7.4",
+      "source": "Q&A\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Q&A\n___\n\nText.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Q&A\n___\n\nText.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.slash-valid",
+      "spec": "2.7.4",
+      "source": "Client/Server\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Client/Server\n___\n\nText.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Client/Server\n___\n\nText.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.parentheses-valid",
+      "spec": "2.7.4",
+      "source": "Hint(old)\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Hint(old)\n___\n\nText.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Hint(old)\n___\n\nText.\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.type.nfc-normalizes",
+      "spec": "2.7.4",
+      "source": "Résumé\n___\n\nText.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Résumé\n___\n\nText.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.title.quotes-literal",
+      "spec": "2.7.5",
+      "source": "::: Note \"Quoted\" title\nText.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note \"Quoted\" title\nText.\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note \"Quoted\" title\nText.\n:::\n"
+        }
+      }
+    },
+    {
+      "id": "container.title.backslash-literal",
+      "spec": "2.7.5",
+      "source": "::: Note Path \\ value\nText.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note Path \\ value\nText.\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note Path \\ value\nText.\n:::\n"
+        }
+      }
+    },
+    {
+      "id": "container.lined.multiple-fenced-siblings",
+      "spec": "2.7.6",
+      "source": "Outer\n___\n\n::: A\nOne.\n:::\n\n::: B\nTwo.\n:::\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Outer\n___\n\n::: A\nOne.\n:::\n\n::: B\nTwo.\n:::\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Outer\n___\n\n::: A\nOne.\n:::\n\n::: B\nTwo.\n:::\n___\n"
+        }
+      }
+    },
+    {
+      "id": "container.fenced.contains-lined-invalid",
+      "spec": "2.7.6",
+      "source": "::: Outer\nInner\n___\n\nText.\n___\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "container.lined.escaped-fence-literal",
+      "spec": "2.7.3",
+      "source": "\\___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\___\n"
+        }
+      },
+      "notes": "Escaping one underscore prevents lined-fence recognition."
+    },
+    {
+      "id": "container.fenced.grid.basic-2x2",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n--\nBeta\n==\nGamma\n--\nDelta\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\nBeta\n==\nGamma\n--\nDelta\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\nBeta\n==\nGamma\n--\nDelta\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Beta"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Gamma"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Delta"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.fenced.grid.colspan",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n--\n<\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\n<\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\n<\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "colSpan": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "The < slot extends the anchor to its left; source marker is not stored in the AST."
+    },
+    {
+      "id": "container.fenced.grid.rowspan",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n==\n^\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n==\n^\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n==\n^\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 1,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "rowSpan": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "The ^ slot extends the anchor above; a fully covered semantic row may have zero anchor cells."
+    },
+    {
+      "id": "container.fenced.grid.combined-span",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n--\n<\n==\n^\n--\n^\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\n<\n==\n^\n--\n^\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\n<\n==\n^\n--\n^\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "rowSpan": 2,
+                        "colSpan": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Canonical ambiguous continuation chooses ^ when above and left resolve to the same anchor."
+    },
+    {
+      "id": "container.fenced.grid.rowspan-with-neighbor",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n--\nBeta\n==\n^\n--\nGamma\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\nBeta\n==\n^\n--\nGamma\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\nBeta\n==\n^\n--\nGamma\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "rowSpan": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Beta"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Gamma"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.fenced.grid.single-row",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n--\nBeta\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\nBeta\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n--\nBeta\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Beta"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.fenced.grid.single-column",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nAlpha\n==\nBeta\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n==\nBeta\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nAlpha\n==\nBeta\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 1,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Alpha"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Beta"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.fenced.grid.ragged-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nA\n--\nB\n==\nC\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "All rows must have the same logical slot width."
+    },
+    {
+      "id": "container.fenced.grid.rowspan-first-row-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\n^\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "^ has no resolvable slot above in the first row."
+    },
+    {
+      "id": "container.fenced.grid.colspan-first-column-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\n<\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "< has no resolvable slot to the left in the first column."
+    },
+    {
+      "id": "container.fenced.grid.nonrectangular-span-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nA\n--\n<\n==\n^\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A would own an L-shaped set of slots; span ownership must be rectangular."
+    },
+    {
+      "id": "container.fenced.grid.header-1x1",
+      "spec": "2.7.7",
+      "source": "::: Karte\nHeader\n::\nBody\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Karte\nHeader\n::\nBody\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Karte\nHeader\n::\nBody\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Karte",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 1,
+                "header": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Header"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Body"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "The :: marker alone establishes Grid mode; a 1x1 header plus 1x1 body is valid."
+    },
+    {
+      "id": "container.fenced.grid.header-2x2",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nName\n--\nPlattform\n::\nBun\n--\nLinux\n==\nNode.js\n--\nLinux\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nName\n--\nPlattform\n::\nBun\n--\nLinux\n==\nNode.js\n--\nLinux\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nName\n--\nPlattform\n::\nBun\n--\nLinux\n==\nNode.js\n--\nLinux\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "header": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Name"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Plattform"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Bun"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Linux"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Node.js"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Linux"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Header and body share one logical Grid width but are separate span geometries."
+    },
+    {
+      "id": "container.fenced.grid.header-colspan",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nÜberschrift\n--\n<\n::\nA\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nÜberschrift\n--\n<\n::\nA\n--\nB\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nÜberschrift\n--\n<\n::\nA\n--\nB\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "header": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "colSpan": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Überschrift"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Colspan is permitted inside the Grid header."
+    },
+    {
+      "id": "container.fenced.grid.header-rowspan-internal",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nGruppe\n--\nA\n==\n^\n--\nB\n::\nX\n--\nY\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Vergleich\nGruppe\n--\nA\n==\n^\n--\nB\n::\nX\n--\nY\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Vergleich\nGruppe\n--\nA\n==\n^\n--\nB\n::\nX\n--\nY\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Vergleich",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "header": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "rowSpan": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Gruppe"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "X"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Y"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Rowspan may exist wholly inside a multi-row Grid header."
+    },
+    {
+      "id": "container.fenced.grid.header-rowspan-crosses-boundary-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nA\n::\n^\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The first body slot cannot continue a header anchor; rowspan never crosses ::."
+    },
+    {
+      "id": "container.fenced.grid.header-duplicate-separator-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nA\n::\nB\n::\nC\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A fenced Grid may contain at most one :: header/body separator."
+    },
+    {
+      "id": "container.fenced.grid.header-empty-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\n::\nBody\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "When :: is present, the header row group is non-empty."
+    },
+    {
+      "id": "container.fenced.grid.body-empty-invalid",
+      "spec": "2.7.7",
+      "source": "::: Vergleich\nHeader\n::\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "When :: is present, the body row group is non-empty."
+    },
+    {
+      "id": "container.fenced.grid-markers-in-code-are-literal",
+      "spec": "2.7.7",
+      "source": "::: Beispiel\n```text\n::\n--\n==\n```\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Beispiel\n```text\n::\n--\n==\n```\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Beispiel\n```text\n::\n--\n==\n```\n:::\n"
+        }
+      },
+      "notes": "Grid recognition ignores ::, --, and == marker-like lines inside fenced literal regions."
+    },
+    {
+      "id": "container.lined.escape-middle-normalizes",
+      "spec": "10.8",
+      "source": "_\\__\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Equivalent escape placement is tolerated in normal mode; canonical uses the leftmost effective escape."
+    },
+    {
+      "id": "container.lined.escape-right-normalizes",
+      "spec": "10.8",
+      "source": "__\\_\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Equivalent escape placement is tolerated in normal mode; canonical uses the leftmost effective escape."
+    },
+    {
+      "id": "container.fenced.longer-closer-normalizes",
+      "spec": "2.7.3",
+      "source": ":::: Warning\nContent.\n:::::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Warning\nContent.\n:::\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A normal-mode closer may be longer than its opener; canonical opener and closer are both :::."
+    },
+    {
+      "id": "container.fenced.grid.deferred-caret-first-cell-invalid",
+      "spec": "2.7.7",
+      "source": "::: X\n^\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "-- commits the whole fenced body to Grid; the pre-trigger ^ then resolves as an invalid first-row continuation cell."
+    },
+    {
+      "id": "container.fenced.grid.deferred-angle-first-cell-invalid",
+      "spec": "2.7.7",
+      "source": "::: X\n<\n==\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "== commits the whole fenced body to Grid; the pre-trigger < is an invalid first-column continuation cell."
+    },
+    {
+      "id": "container.lined.mixed-content-and-fenced-siblings",
+      "spec": "2.7.6",
+      "source": "Outer\n___\n\nBefore.\n\n::: A\nOne.\n:::\n\nBetween.\n\n::: B\nTwo.\n:::\n\nAfter.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Outer\n___\n\nBefore.\n\n::: A\nOne.\n:::\n\nBetween.\n\n::: B\nTwo.\n:::\n\nAfter.\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Outer\n___\n\nBefore.\n\n::: A\nOne.\n:::\n\nBetween.\n\n::: B\nTwo.\n:::\n\nAfter.\n___\n"
+        }
+      },
+      "notes": "A lined container may freely mix ordinary direct blocks with any number of direct fenced-container siblings."
+    },
+    {
+      "id": "container.fenced.shorter-closer-invalid",
+      "spec": "2.7.3",
+      "source": ":::: Warning\nContent.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A closer shorter than its opener does not close the container; EOF therefore leaves the fence unclosed."
+    },
+    {
+      "id": "container.direct-child-id-valid",
+      "spec": "5.1",
+      "source": "::: Section\nParagraph.\n{#inside}\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Section\nParagraph.\n{#inside}\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Section\nParagraph.\n{#inside}\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Section",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "id": "inside",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Paragraph."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Ordinary blocks directly owned by a Markanto container remain independently addressable."
+    },
+    {
+      "id": "container.fenced.block-id",
+      "spec": "5.1",
+      "source": "::: Note\nText.\n:::\n{#note}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\nText.\n:::\n{#note}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\nText.\n:::\n{#note}\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "footnotes": [],
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Note",
+            "title": null,
+            "id": "note",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.lined.block-id",
+      "spec": "5.1",
+      "source": "Exkurs All about it\n___\n\nContent.\n___\n{#aside-01}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Exkurs All about it\n___\n\nContent.\n___\n{#aside-01}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Exkurs All about it\n___\n\nContent.\n___\n{#aside-01}\n"
+        }
+      }
+    },
+    {
+      "id": "container.fenced.grid.block-id",
+      "spec": "5.1",
+      "source": "::: layout\na\n--\nb\n:::\n{#grid-1}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: layout\na\n--\nb\n:::\n{#grid-1}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: layout\na\n--\nb\n:::\n{#grid-1}\n"
+        }
+      }
+    },
+    {
+      "id": "container.fenced.block-id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "::: Note\nText.\n:::\n\n{#note}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "containers.fenced.anonymous-mixed-with-content",
+      "spec": "2.7",
+      "source": ":::\nA\n--\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\nA\n--\nB\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ":::\nA\n--\nB\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-1x1-not-grid",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\nA\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\nA\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-2x2",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n--\nB\n==\nC\n--\nD\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\nA\n--\nB\n==\nC\n--\nD\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\nA\n--\nB\n==\nC\n--\nD\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "D"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-angle-only-no-trigger",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n<\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\nA\n<\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\nA\n<\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A"
+                  },
+                  {
+                    "type": "softBreak"
+                  },
+                  {
+                    "type": "text",
+                    "value": "<"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-caret-only-no-trigger",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n^\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\nA\n^\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\nA\n^\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A"
+                  },
+                  {
+                    "type": "softBreak"
+                  },
+                  {
+                    "type": "text",
+                    "value": "^"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-header-1x1-valid",
+      "spec": "2.7.7",
+      "source": "::: X\nH\n::\nB\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\nH\n::\nB\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\nH\n::\nB\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 1,
+                "header": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "H"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-marker-in-code-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n```\n::\n--\n```\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\n```\n::\n--\n```\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\n```\n::\n--\n```\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "codeBlock",
+                "value": "::\n--"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-markers-in-comment-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n<!--\n::\n--\n-->\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: X\n<!--\n::\n--\n-->\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: X\n<!--\n::\n--\n-->\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "X",
+            "title": null,
+            "children": [
+              {
+                "type": "commentBlock",
+                "value": "\n::\n--\n"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.fenced.grid-marker-in-multiline-inline-code-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n`a\n--\nb`\n:::\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "::: X\n`a -- b`\n:::\n" },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container", "form": "fenced", "containerType": "X", "title": null,
+            "children": [
+              { "type": "paragraph", "children": [{ "type": "inlineCode", "value": "a -- b" }] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A multi-line inline code span (§10.9) is a literal region for the Grid commitment scan (§2.7.7): a physical `--`/`==`/`::` line inside the still-open span is content, not a Grid marker, so this body stays ordinary fenced-container content. The `partitionBody` pre-scan tracks the open backtick run across lines — a single forward pass, no second parse. Canonical form collapses the span to one line."
+    },
+    {
+      "id": "containers.lined.block-resource-before-anonymous-fence",
+      "spec": "2.7.1",
+      "source": "![Diagram](/d.png)\n___\n\nExplanation.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Diagram](/d.png)\n\n___\n\nExplanation.\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          { "type": "imageBlock", "src": "/d.png", "alt": [{ "type": "text", "value": "Diagram" }] },
+          {
+            "type": "container", "form": "lined", "containerType": null, "title": null,
+            "children": [
+              { "type": "paragraph", "children": [{ "type": "text", "value": "Explanation." }] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A standalone block-resource opener keeps its block meaning when a `___` follows: the resource line is not a lined-container TYPE (`isLinedHeaderIntroducer` lists the block-resource and `<…` openers alongside quotes / lists / fences), so this is an ImageBlock followed by an anonymous lined container, not a typed container with an invalid TYPE."
+    },
+    {
+      "id": "containers.lined.typed-header-collision-heading",
+      "spec": "2.7.1",
+      "source": "# Header\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Header\n\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Header"
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.lined.typed-header-collision-hr",
+      "spec": "2.7.1",
+      "source": "---\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "horizontalRule"
+          },
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.lined.typed-header-collision-list",
+      "spec": "2.7.1",
+      "source": "- Header\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Header\n\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Header"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.lined.typed-header-collision-quote",
+      "spec": "2.7.1",
+      "source": "> Header\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Header\n\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Header"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.lined.typed-header-collision-table",
+      "spec": "2.7.1",
+      "source": "| A | B |\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "containers.lined.container-inside-list-invalid",
+      "spec": "2.7.6",
+      "source": "- item\n\n  Exkurs\n  ___\n\n  Text.\n  ___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "containers.lined.escaped-first-underscore-literal",
+      "spec": "2.7.3",
+      "source": "\\___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "containers.lined.escaped-last-underscore-literal",
+      "spec": "2.7.3",
+      "source": "__\\_\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "containers.type.tab-invalid",
+      "spec": "2.7.4",
+      "source": "Bad\tType\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Bad Type\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": "Bad",
+            "title": "Type",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.type.ampersand-in-type",
+      "spec": "2.7.4",
+      "source": "Q&A\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Q&A\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Q&A\n___\n\nContent\n___\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": "Q&A",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.type.at-sign-valid",
+      "spec": "2.7.4",
+      "source": "Note@tag\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Note@tag\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Note@tag\n___\n\nContent\n___\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": "Note@tag",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "containers.type.dollar-in-type",
+      "spec": "2.7.4",
+      "source": "$money\n___\n\nContent\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "$money\n___\n\nContent\n___\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "$money\n___\n\nContent\n___\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": "$money",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Content"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "container.lined.body-last-line-adjacent-to-closer",
+      "spec": "2.7",
+      "source": "note\n___\n\nFirst line\nsecond line\nthird line\n___\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "note\n___\n\nFirst line\nsecond line\nthird line\n___\n" },
+        "strict": { "valid": true, "canonical": "note\n___\n\nFirst line\nsecond line\nthird line\n___\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container", "form": "lined", "containerType": "note", "title": null,
+            "children": [
+              { "type": "paragraph", "children": [
+                { "type": "text", "value": "First line" }, { "type": "softBreak" },
+                { "type": "text", "value": "second line" }, { "type": "softBreak" },
+                { "type": "text", "value": "third line" }
+              ] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A lined-container body whose last content line is directly adjacent to the closing ___ (no blank line) is still one paragraph — the boundary predicate stops at the closer, the last line is not split off."
+    },
+    {
+      "id": "container.fenced.body-backtick-in-info-is-inline-code",
+      "spec": "2.4",
+      "source": ":::\n```` ```math ```` caption\nbody line\n:::\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": ":::\n```` ```math ```` caption\nbody line\n:::\n" },
+        "strict": { "valid": true, "canonical": ":::\n```` ```math ```` caption\nbody line\n:::\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container", "form": "fenced", "containerType": null, "title": null,
+            "children": [
+              { "type": "paragraph", "children": [
+                { "type": "inlineCode", "value": "```math " },
+                { "type": "text", "value": " caption" }, { "type": "softBreak" },
+                { "type": "text", "value": "body line" }
+              ] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Inside a fenced-container body a `` ```+ `` line whose remainder holds a backtick is not a code fence (§2.4) — it opens an inline code span in a body paragraph. Exercises the `codeFenceOpener` recogniser used for container-body fence detection."
+    }
+
+  ]
+}

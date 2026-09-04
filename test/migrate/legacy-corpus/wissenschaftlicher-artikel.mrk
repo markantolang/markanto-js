@@ -1,0 +1,25 @@
+# Eine kurze Notiz zur Energie-Masse-Äquivalenz {#energie-masse}
+
+Die berühmteste Gleichung der Physik, $`E = mc^2`$, verbindet Energie und
+Masse über die Lichtgeschwindigkeit. Für ruhende Körper gilt sie exakt;
+für bewegte Körper tritt der relativistische Faktor hinzu.[^okun]
+
+Aus der speziellen Relativitätstheorie folgt unmittelbar die
+Energie-Impuls-Beziehung:[^einstein]
+
+```math
+E^2 = (pc)^2 + (m_0 c^2)^2
+```
+
+## Ergebnisse {#ergebnisse}
+
+Die folgende Tabelle fasst die Größenordnungen zusammen:
+
+| Prozess | Umgesetzte Energie | Wirkungsgrad |
+|--------:|:------------------:|:-------------|
+| Chemische Reaktion | 10^6 J/mol | 10^-10 |
+| Kernspaltung | 10^11 J/mol | 10^-3 |
+| Annihilation | 10^14 J/mol | 1 |
+
+[^einstein]: Einstein, A. (1905): Zur Elektrodynamik bewegter Körper.
+[^okun]: Okun, L. B. (1989): The Concept of Mass.

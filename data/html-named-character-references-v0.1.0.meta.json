@@ -1,0 +1,9 @@
+{
+  "markantoVersion": "0.1.0",
+  "entryCount": 2125,
+  "sha256": "ba802b3b1127cf8b5fc0860690b21f16b614a062a27344e9369205d7e5d02a9b",
+  "keyForm": "entity name without leading & or trailing ;",
+  "recognitionForm": "&NAME;",
+  "generatedFrom": "Python 3.13.5 stdlib html.entities.html5 (semicolon-terminated entries)",
+  "note": "The committed mapping itself is normative Markanto 0.1.0 language data; provenance is informational."
+}

@@ -1,0 +1,2254 @@
+{
+  "schemaVersion": 1,
+  "group": "tables",
+  "cases": [
+    {
+      "id": "table.basic",
+      "spec": "12.2",
+      "source": "| A | B |\n| --- | --- |\n| 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| 1 | 2 |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "table.alignment",
+      "spec": "12.2",
+      "source": "| L | C | R |\n| :--- | :---: | ---: |\n| a | b | c |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| L | C | R |\n| :--- | :---: | ---: |\n| a | b | c |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| L | C | R |\n| :--- | :---: | ---: |\n| a | b | c |\n"
+        }
+      }
+    },
+    {
+      "id": "table.padding-normalizes",
+      "spec": "12.4",
+      "source": "| Name  | Value |\n|-------|------:|\n| Width | 100   |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| Name | Value |\n| --- | ---: |\n| Width | 100 |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.no-outer-pipes-normalizes",
+      "spec": "12.3",
+      "source": "A | B\n--- | ---\n1 | 2\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.mismatched-columns-invalid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| 1 | 2 | 3 |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.missing-separator-not-table",
+      "spec": "12.3",
+      "source": "| A | B |\n| 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| 1 | 2 |\n"
+        }
+      },
+      "notes": "Without a confirming separator line this remains paragraph text."
+    },
+    {
+      "id": "table.align-left",
+      "spec": "12.4",
+      "source": "| A |\n| :--- |\n| x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| :--- |\n| x |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A |\n| :--- |\n| x |\n"
+        }
+      }
+    },
+    {
+      "id": "table.align-center",
+      "spec": "12.4",
+      "source": "| A |\n| :---: |\n| x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| :---: |\n| x |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A |\n| :---: |\n| x |\n"
+        }
+      }
+    },
+    {
+      "id": "table.align-right",
+      "spec": "12.4",
+      "source": "| A |\n| ---: |\n| x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| ---: |\n| x |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A |\n| ---: |\n| x |\n"
+        }
+      }
+    },
+    {
+      "id": "table.inline-markup",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| *x* | **y** |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| *x* | **y** |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| *x* | **y** |\n"
+        }
+      }
+    },
+    {
+      "id": "table.direct-link-pipe-atomic",
+      "spec": "12.5",
+      "source": "| Link | Value |\n| --- | --- |\n| [x](https://example.org/a|b) | y |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| Link | Value |\n| --- | --- |\n| [x](https://example.org/a|b) | y |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| Link | Value |\n| --- | --- |\n| [x](https://example.org/a|b) | y |\n"
+        }
+      }
+    },
+    {
+      "id": "table.header-only",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n"
+        }
+      }
+    },
+    {
+      "id": "table.empty-cell",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n|  | x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n|  | x |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n|  | x |\n"
+        }
+      }
+    },
+    {
+      "id": "table.with-id",
+      "spec": "5.1",
+      "source": "| A |\n| --- |\n| x |\n{#table}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| x |\n{#table}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| x |\n{#table}\n"
+        }
+      }
+    },
+    {
+      "id": "table.followed-heading-without-blank",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| x |\n# Next\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| x |\n\n# Next\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.short-body-row-invalid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| 1 |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.inline-code-pipe-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `x|y` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `x|y` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `x|y` | z |\n"
+        }
+      }
+    },
+    {
+      "id": "table.escaped-pipe-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| x\\|y | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| x\\|y | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| x\\|y | z |\n"
+        }
+      }
+    },
+    {
+      "id": "table.angle-marker-literal",
+      "spec": "12.3",
+      "source": "| A | < | B |\n| --- | --- | --- |\n| 1 | 2 | 3 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | < | B |\n| --- | --- | --- |\n| 1 | 2 | 3 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | < | B |\n| --- | --- | --- |\n| 1 | 2 | 3 |\n"
+        }
+      },
+      "notes": "Exact-cell < is ordinary table content; table spans are Grid-only in 0.1.0."
+    },
+    {
+      "id": "table.caret-marker-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| 1 | 2 |\n| ^ | 3 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| 1 | 2 |\n| ^ | 3 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| 1 | 2 |\n| ^ | 3 |\n"
+        }
+      },
+      "notes": "Exact-cell ^ is ordinary table content; table spans are Grid-only in 0.1.0."
+    },
+    {
+      "id": "table.span-shaped-markers-literal",
+      "spec": "12.3",
+      "source": "| A | B | C |\n| --- | --- | --- |\n| x | < | y |\n| ^ | ^ | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B | C |\n| --- | --- | --- |\n| x | < | y |\n| ^ | ^ | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B | C |\n| --- | --- | --- |\n| x | < | y |\n| ^ | ^ | z |\n"
+        }
+      },
+      "notes": "Sequences resembling Grid continuation geometry remain ordinary table-cell content.",
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "C"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "<"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "y"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "^"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "^"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "table.markers-inline-code-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `^` | `<` |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `^` | `<` |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `^` | `<` |\n"
+        }
+      },
+      "notes": "^ and < have no table-span semantics; inline code also preserves them literally."
+    },
+    {
+      "id": "table.caret-first-body-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| ^ | x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ^ | x |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ^ | x |\n"
+        }
+      },
+      "notes": "A first-body-row ^ cell is valid ordinary content because tables have no rowspan semantics."
+    },
+    {
+      "id": "table.angle-first-column-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| < | x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| < | x |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| < | x |\n"
+        }
+      },
+      "notes": "A first-column < cell is valid ordinary content because tables have no colspan semantics."
+    },
+    {
+      "id": "table.nonrectangular-looking-markers-literal",
+      "spec": "12.3",
+      "source": "| A | B | C |\n| --- | --- | --- |\n| x | < | y |\n| ^ | z | w |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B | C |\n| --- | --- | --- |\n| x | < | y |\n| ^ | z | w |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B | C |\n| --- | --- | --- |\n| x | < | y |\n| ^ | z | w |\n"
+        }
+      },
+      "notes": "Table cells do not resolve span geometry; this is an ordinary rectangular 3-column table."
+    },
+    {
+      "id": "table.caret-row-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| x | y |\n| ^ | ^ |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| x | y |\n| ^ | ^ |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| x | y |\n| ^ | ^ |\n"
+        }
+      },
+      "notes": "A row of ^ cells is ordinary table content, not a row covered by spans."
+    },
+    {
+      "id": "table.candidate-does-not-override-list-opener",
+      "spec": "12.3",
+      "source": "- A | B\n--- | ---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A | B\n\n--- | ---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The first line is claimed by list structure before table confirmation. The following baseline line is a separate block, not a retroactive table separator."
+    },
+    {
+      "id": "table.cell-unclosed-emphasis-literal",
+      "spec": "12.2",
+      "source": "| *oops | x |\n| --- | --- |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| \\*oops | x |\n| --- | --- |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.cell-unclosed-emphasis-body-literal",
+      "spec": "12.2",
+      "source": "| a | b |\n| --- | --- |\n| c | *oops |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| a | b |\n| --- | --- |\n| c | \\*oops |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "table.pipe-inside-link-not-delimiter",
+      "spec": "12.3",
+      "source": "| [t](/x?a|b) | y |\n| --- | --- |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| [t](/x?a|b) | y |\n| --- | --- |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| [t](/x?a|b) | y |\n| --- | --- |\n"
+        }
+      }
+    },
+    {
+      "id": "table.pipe-inside-metadata-wrapper-not-delimiter",
+      "spec": "12.3",
+      "source": "| <m data-x=\"</m>|x\">z</m> | y |\n| --- | --- |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| <m data-x=\"</m>|x\">z</m> | y |\n| --- | --- |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| <m data-x=\"</m>|x\">z</m> | y |\n| --- | --- |\n"
+        }
+      }
+    },
+    {
+      "id": "table.duplicate-id-invalid",
+      "spec": "6.1, 12.3",
+      "source": "| A |\n| --- |\n{#same}\n\n| B |\n| --- |\n{#same}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Tables participate in the document-wide durable block-ID relation."
+    },
+    {
+      "id": "tables.delimiter.pipe-in-autolink-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <https://x.org/a|b> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a|b> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a|b> | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "autolink",
+                        "kind": "url",
+                        "value": "https://x.org/a|b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.pipe-in-code-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `a|b` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a|b` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a|b` | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "a|b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.pipe-in-image-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| ![a|b](i.png) | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ![a|b](i.png) | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ![a|b](i.png) | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineImage",
+                        "src": "i.png",
+                        "alt": [
+                          {
+                            "type": "text",
+                            "value": "a|b"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.pipe-in-m-wrapper-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <m data-x=\"a|b\">t</m> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m data-x=a|b>t</m> | z |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "metadataSpan",
+                        "attrs": {
+                          "dataAttrs": {
+                            "x": "a|b"
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "t"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.cell.autolink-pipe-atomic",
+      "spec": "12.3",
+      "source": "| <https://x.org/a|b> | y |\n| --- | --- |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| <https://x.org/a|b> | y |\n| --- | --- |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| <https://x.org/a|b> | y |\n| --- | --- |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "autolink",
+                      "kind": "url",
+                      "value": "https://x.org/a|b"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "y"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": []
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.cell.inline-image-atomic",
+      "spec": "12.3",
+      "source": "| ![alt](i.png) | b |\n| --- | --- |\n| 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| ![alt](i.png) | b |\n| --- | --- |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| ![alt](i.png) | b |\n| --- | --- |\n| 1 | 2 |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "inlineImage",
+                      "src": "i.png",
+                      "alt": [
+                        {
+                          "type": "text",
+                          "value": "alt"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "b"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.cell.star-escaped-literal",
+      "spec": "12.3",
+      "source": "| \\*x* | y |\n| --- | --- |\n| 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| \\*x* | y |\n| --- | --- |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| \\*x* | y |\n| --- | --- |\n| 1 | 2 |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "*x*"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "y"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.container-table",
+      "spec": "2.7",
+      "source": "::: Note\n| A |\n| --- |\n| x |\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\n| A |\n| --- |\n| x |\n:::\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\n| A |\n| --- |\n| x |\n:::\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Note",
+            "title": null,
+            "children": [
+              {
+                "type": "table",
+                "alignments": [
+                  "default"
+                ],
+                "head": {
+                  "type": "tableRow",
+                  "cells": [
+                    {
+                      "type": "tableCell",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "A"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "body": [
+                  {
+                    "type": "tableRow",
+                    "cells": [
+                      {
+                        "type": "tableCell",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.list-table",
+      "spec": "9.8",
+      "source": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Data:"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "table",
+                    "alignments": [
+                      "default",
+                      "default"
+                    ],
+                    "head": {
+                      "type": "tableRow",
+                      "cells": [
+                        {
+                          "type": "tableCell",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "A"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "tableCell",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "B"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "body": [
+                      {
+                        "type": "tableRow",
+                        "cells": [
+                          {
+                            "type": "tableCell",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "1"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "tableCell",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "2"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.quote-table",
+      "spec": "3.10.4",
+      "source": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "table",
+                  "alignments": [
+                    "default",
+                    "default"
+                  ],
+                  "head": {
+                    "type": "tableRow",
+                    "cells": [
+                      {
+                        "type": "tableCell",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "A"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "tableCell",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "B"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "type": "tableRow",
+                      "cells": [
+                        {
+                          "type": "tableCell",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "1"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "tableCell",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "2"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-code",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `\\|` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `\\|` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `\\|` | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "\\|"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.pipe-in-link-title",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| [x](a \"ti|tle\") | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| [x](a \"ti|tle\") | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| [x](a \"ti|tle\") | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "link",
+                        "href": "a",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "x"
+                          }
+                        ],
+                        "title": "ti|tle"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.cell.escaped-backslash-in-cell",
+      "spec": "12.3",
+      "source": "| a\\\\b | c |\n| --- | --- |\n| 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| a\\b | c |\n| --- | --- |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "a\\b"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "c"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.after-heading",
+      "spec": "12.3",
+      "source": "# Heading\n| A |\n| --- |\n| x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Heading\n\n| A |\n| --- |\n| x |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Heading"
+              }
+            ]
+          },
+          {
+            "type": "table",
+            "alignments": [
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.after-hr-no-blank",
+      "spec": "12.3",
+      "source": "---\n| A |\n| --- |\n| x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n\n| A |\n| --- |\n| x |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "horizontalRule"
+          },
+          {
+            "type": "table",
+            "alignments": [
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.after-paragraph-no-blank",
+      "spec": "2.5, 12.3",
+      "source": "Text.\n| A |\n| --- |\n| x |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text.\n\n| A |\n| --- |\n| x |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text."
+              }
+            ]
+          },
+          {
+            "type": "table",
+            "alignments": [
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.followed-by-hr",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| x |\n---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| x |\n\n---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "horizontalRule"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.context.followed-by-paragraph",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| x |\nText.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| x |\n\nText.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.separator.mixed-edge-pipes",
+      "spec": "12.3",
+      "source": "| A | B\n| --- | ---\n| 1 | 2\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.double-pipe-empty-cell",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| a || b |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tables.rows.header-more-cells-invalid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The line-2 separator confirms the table (§12.3); its lower cell count than the header is a syntax error, not a paragraph fallback."
+    },
+    {
+      "id": "tables.rows.separator-more-cells-invalid",
+      "spec": "12.3",
+      "source": "| A |\n| --- | --- |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A separator cell count exceeding the header is a §12.3 syntax error."
+    }
+  ]
+}

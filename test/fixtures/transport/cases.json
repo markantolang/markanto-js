@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "group": "transport",
+  "cases": [
+    {
+      "id": "transport.final-lf.single-canonical",
+      "spec": "7.4",
+      "source": "a\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "a\n" },
+        "strict": { "valid": true, "canonical": "a\n" }
+      }
+    },
+    {
+      "id": "transport.final-lf.absent",
+      "spec": "7.4",
+      "source": "a",
+      "expect": {
+        "normal": { "valid": true, "canonical": "a\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.final-lf.absent-multiline",
+      "spec": "7.4",
+      "source": "first\nsecond",
+      "expect": {
+        "normal": { "valid": true, "canonical": "first\nsecond\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.final-lf.doubled",
+      "spec": "7.4",
+      "source": "a\n\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "a\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.final-lf.tripled",
+      "spec": "7.4",
+      "source": "a\n\n\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "a\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.empty.canonical-newline",
+      "spec": "7.4",
+      "source": "",
+      "expect": {
+        "normal": { "valid": true, "canonical": "\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.empty.single-newline-canonical",
+      "spec": "7.4",
+      "source": "\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "\n" },
+        "strict": { "valid": true, "canonical": "\n" }
+      }
+    },
+    {
+      "id": "transport.bom.stripped",
+      "spec": "7",
+      "source": "\uFEFFa\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "a\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.bom.empty-document",
+      "spec": "7",
+      "source": "\uFEFF",
+      "expect": {
+        "normal": { "valid": true, "canonical": "\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.crlf.normalized",
+      "spec": "7",
+      "source": "first\r\nsecond\r\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "first\nsecond\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.crlf.blank-line-normalized",
+      "spec": "7",
+      "source": "a\r\n\r\nb\r\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "a\n\nb\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.cr.lone-invalid",
+      "spec": "7",
+      "source": "a\rb\n",
+      "expect": {
+        "normal": { "valid": false, "diagnostics": [{ "category": "syntax", "severity": "error" }] },
+        "strict": { "valid": false, "diagnostics": [{ "category": "syntax", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.cr.trailing-lone-invalid",
+      "spec": "7",
+      "source": "a\r",
+      "expect": {
+        "normal": { "valid": false, "diagnostics": [{ "category": "syntax", "severity": "error" }] },
+        "strict": { "valid": false, "diagnostics": [{ "category": "syntax", "severity": "error" }] }
+      }
+    },
+    {
+      "id": "transport.surrogate.lone-invalid",
+      "spec": "7",
+      "source": "a\uD800b\n",
+      "expect": {
+        "normal": { "valid": false, "diagnostics": [{ "category": "syntax", "severity": "error" }] },
+        "strict": { "valid": false, "diagnostics": [{ "category": "syntax", "severity": "error" }] }
+      }
+    }
+  ]
+}

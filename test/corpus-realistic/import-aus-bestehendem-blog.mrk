@@ -1,0 +1,36 @@
+# Notizen zur Migration
+
+Dieser Beitrag stammt aus einem älteren Blog und wurde weitgehend
+unverändert übernommen. Er verwendet ausschließlich Konstrukte, die in
+CommonMark und GFM üblich sind.
+
+## Vergleich der Laufzeiten
+
+Die Tabelle unten wurde ohne durchgehende äußere Pipes geschrieben, wie
+es im ursprünglichen Blog üblich war:
+
+| Sprache | Erstlauf | Zehnter Lauf |
+| --- | --- | --- |
+| TypeScript | 120 ms | 118 ms |
+| Rust | 12 ms | 11 ms |
+
+## Aufgaben zur Vorbereitung
+
+Die folgende Liste stammt aus einem früheren Sprint und enthält
+verschachtelte Unterlisten mit Aufgaben-Markern:
+
+- [x] Repo einrichten
+  - [x] Lizenzen prüfen
+  - [ ] CI konfigurieren
+- [ ] Parser aufsetzen
+  - [ ] Tokenizer skizzieren
+  - [ ] Tests vorbereiten
+- [ ] Dokumentation beginnen
+
+> Der ursprüngliche Text enthielt an dieser Stelle ein Zitat ohne
+> eigene Lazy Continuation, daher trägt jede Zeile ihr Präfix.
+
+## Fazit
+
+Die Migration war weitgehend verlustfrei. Offen blieb nur die Frage der
+Tabellen-Pipes, die wir für künftige Beiträge vereinheitlichen sollten.

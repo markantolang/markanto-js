@@ -1,0 +1,4 @@
+# The real-world corpus and its analysis output are regenerated on demand and
+# not vendored — see README.md.
+documents/
+results.json

@@ -1,0 +1,461 @@
+{
+  "family": "resources",
+  "candidates": [
+    {
+      "id": "cand.resources.image.block-lone-line",
+      "spec": "4.4",
+      "source": "![](img.png)\n",
+      "intent": "a lone image line is a block ImageBlock, not a paragraph"
+    },
+    {
+      "id": "cand.resources.image.inline-in-paragraph",
+      "spec": "4.4",
+      "source": "before ![alt](img.png) after\n",
+      "intent": "an image with surrounding text is inline, not block"
+    },
+    {
+      "id": "cand.resources.image.trailing-text-inline",
+      "spec": "4.4",
+      "source": "![](img.png) after\n",
+      "intent": "an image line with trailing text — not a whole-line block; probe inline paragraph"
+    },
+    {
+      "id": "cand.resources.image.two-images-line",
+      "spec": "4.4",
+      "source": "![a](a.png) ![b](b.png)\n",
+      "intent": "two images on one line — not a block resource (whole-line rule); probe paragraph with two inline images"
+    },
+    {
+      "id": "cand.resources.image.with-title-block",
+      "spec": "4.4",
+      "source": "![Alt](img.jpg \"Title\")\n",
+      "intent": "a lone image line with a title — block ImageBlock with title"
+    },
+    {
+      "id": "cand.resources.image.empty-dest-block",
+      "spec": "4.4",
+      "source": "![](<>)\n",
+      "intent": "a lone image line with an empty destination — block with empty src"
+    },
+    {
+      "id": "cand.resources.image.grouped-block",
+      "spec": "4.3",
+      "source": "<m group=trip>![Alt](image.jpg)</m>\n",
+      "intent": "a kindless wrapper with group around a block image — valid block resource"
+    },
+    {
+      "id": "cand.resources.image.grouped-inline",
+      "spec": "4.3",
+      "source": "see <m group=trip>![a](i.jpg)</m> now\n",
+      "intent": "a grouped image with surrounding text is inline, not a block"
+    },
+    {
+      "id": "cand.resources.image.grouped-caption",
+      "spec": "4.5",
+      "source": "<m group=trip>![Alt](image.jpg)\\\n*Caption*</m>\n",
+      "intent": "a grouped block image with a caption inside the wrapper — valid"
+    },
+    {
+      "id": "cand.resources.image.empty-group",
+      "spec": "4.6",
+      "source": "<m group=\"\">![a](i.jpg)</m>\n",
+      "intent": "an empty group value — probe whether group=\"\" is valid or a semantic error"
+    },
+    {
+      "id": "cand.resources.image.data-only",
+      "spec": "4.6",
+      "source": "<m data-role=hero>![a](i.jpg)</m>\n",
+      "intent": "a kindless image wrapper with only data-* — valid"
+    },
+    {
+      "id": "cand.resources.image.group-nfc",
+      "spec": "4.6",
+      "source": "<m group=cafe\u0301>![a](i.jpg)</m>\n",
+      "intent": "group value is NFC-normalised — combining-accent source becomes composed"
+    },
+    {
+      "id": "cand.resources.image.typed-conflict-invalid",
+      "spec": "4.3",
+      "source": "<m video>![a](i.jpg)</m>\n",
+      "intent": "an explicit kind plus an image is a type conflict — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.video.whole-line-block",
+      "spec": "4.4",
+      "source": "<m video>[Video](film.mp4)</m>\n",
+      "intent": "a typed video occupying the whole line is a block resource"
+    },
+    {
+      "id": "cand.resources.video.inline-invalid",
+      "spec": "4.4",
+      "source": "watch <m video>[Video](film.mp4)</m> now\n",
+      "intent": "video is block-only — inline placement is a semantic error"
+    },
+    {
+      "id": "cand.resources.video.trailing-text-invalid",
+      "spec": "4.4",
+      "source": "<m video>[Video](film.mp4)</m> extra\n",
+      "intent": "a typed video line with trailing text — not a whole-line block; probe error"
+    },
+    {
+      "id": "cand.resources.audio.block",
+      "spec": "4.4",
+      "source": "<m audio>[Audio](sound.mp3)</m>\n",
+      "intent": "a whole-line audio resource is a block"
+    },
+    {
+      "id": "cand.resources.audio.inline-invalid",
+      "spec": "4.4",
+      "source": "play <m audio>[Audio](sound.mp3)</m> here\n",
+      "intent": "audio is block-only — inline placement is an error"
+    },
+    {
+      "id": "cand.resources.embed.block",
+      "spec": "4.4",
+      "source": "<m embed>[Demo](https://example.org)</m>\n",
+      "intent": "a whole-line embed resource is a block"
+    },
+    {
+      "id": "cand.resources.embed.inline-invalid",
+      "spec": "4.4",
+      "source": "see <m embed>[Demo](https://example.org)</m> here\n",
+      "intent": "embed is block-only — inline placement is an error"
+    },
+    {
+      "id": "cand.resources.download.block",
+      "spec": "4.4",
+      "source": "<m download>[File](file.zip)</m>\n",
+      "intent": "a whole-line download is a block resource"
+    },
+    {
+      "id": "cand.resources.download.inline",
+      "spec": "4.4",
+      "source": "Get <m download>[File](file.zip)</m> now.\n",
+      "intent": "download may be inline — valid"
+    },
+    {
+      "id": "cand.resources.download.inline-with-lang",
+      "spec": "4.6",
+      "source": "Get <m download lang=de>[File](file.zip)</m> now.\n",
+      "intent": "download allows lang even inline — valid"
+    },
+    {
+      "id": "cand.resources.download.group-invalid",
+      "spec": "4.6",
+      "source": "<m download group=docs>[File](file.zip)</m>\n",
+      "intent": "download has no group attribute — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.typed.two-links-invalid",
+      "spec": "4.4",
+      "source": "<m video>[A](a.mp4)[B](b.mp4)</m>\n",
+      "intent": "a typed wrapper must contain exactly one link — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.typed.no-link-invalid",
+      "spec": "4.4",
+      "source": "<m video>just text</m>\n",
+      "intent": "typed resource with free text instead of a link — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.typed.link-extra-text-invalid",
+      "spec": "4.4",
+      "source": "<m video>[A](a.mp4) extra</m>\n",
+      "intent": "a typed resource with extra text after the link — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.typed.empty-label-ok",
+      "spec": "4.4",
+      "source": "<m video>[](a.mp4)</m>\n",
+      "intent": "an empty link label inside a typed wrapper — permitted (empty label is not a link here)"
+    },
+    {
+      "id": "cand.resources.typed.caption",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n*Recorded live*</m>\n",
+      "intent": "a typed block resource with a caption — valid"
+    },
+    {
+      "id": "cand.resources.typed.caption-bold-content",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n*Recorded **live** in 2026*</m>\n",
+      "intent": "caption content parses the ordinary inline grammar — nested strong is allowed"
+    },
+    {
+      "id": "cand.resources.typed.unclosed-wrapper-invalid",
+      "spec": "4.4",
+      "source": "<m video>[Talk](talk.mp4)\\\n*caption*\n",
+      "intent": "a typed wrapper without its closer — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.typed.caption-trailing-backslash-no-caption",
+      "spec": "4.5",
+      "source": "<m video>[Talk](talk.mp4)\\\n</m>\n",
+      "intent": "a trailing hard break with no emphasis line — probe whether the caption is missing and errors"
+    },
+    {
+      "id": "cand.resources.caption.basic",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*Caption*\n",
+      "intent": "a bare block image with a caption — valid without a wrapper"
+    },
+    {
+      "id": "cand.resources.caption.missing-hardbreak-not-caption",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\n*Caption*\n",
+      "intent": "an adjacent emphasis line without the hard break is not a caption — separate paragraph"
+    },
+    {
+      "id": "cand.resources.caption.plain-text-not-caption",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\nplain text\n",
+      "intent": "the caption carrier must be a complete emphasis line — plain text after the hard break is not a caption"
+    },
+    {
+      "id": "cand.resources.caption.double-emphasis-carrier",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n**Caption**\n",
+      "intent": "a strong line after the hard break — probe whether ** is a valid caption carrier"
+    },
+    {
+      "id": "cand.resources.caption.underscore-carrier",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n_Caption_\n",
+      "intent": "an underscore-emphasis line as the caption carrier — probe acceptance"
+    },
+    {
+      "id": "cand.resources.caption.unclosed-emphasis-invalid",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*unclosed\n",
+      "intent": "an unclosed emphasis line after the hard break — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.caption.soft-break-invalid",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*line one\nline two*\n",
+      "intent": "a caption spanning two physical lines — soft breaks are not permitted in a caption; expect error"
+    },
+    {
+      "id": "cand.resources.caption.empty-invalid",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n**\n",
+      "intent": "an empty emphasis line as the caption — probe error"
+    },
+    {
+      "id": "cand.resources.caption.trailing-spaces",
+      "spec": "4.5",
+      "source": "![Alt](image.jpg)\\\n*Caption*   \n",
+      "intent": "trailing ASCII whitespace on the caption line — probe removal"
+    },
+    {
+      "id": "cand.resources.resource-line.trailing-spaces",
+      "spec": "4.4",
+      "source": "<m video>[Video](film.mp4)</m>   \n",
+      "intent": "trailing ASCII whitespace on a block resource line — probe removal vs inline reclassification"
+    },
+    {
+      "id": "cand.resources.image.line.trailing-spaces",
+      "spec": "4.4",
+      "source": "![Alt](img.jpg)   \n",
+      "intent": "trailing spaces on a lone image line — probe whether it stays a block resource"
+    },
+    {
+      "id": "cand.resources.image.caption-trailing-spaces",
+      "spec": "4.5",
+      "source": "![Alt](img.jpg)   \\\n*Cap*\n",
+      "intent": "trailing spaces before the caption hard break — probe acceptance"
+    },
+    {
+      "id": "cand.resources.attr.data-duplicate-invalid",
+      "spec": "4.7",
+      "source": "<m data-x=1 data-x=2>Text</m>\n",
+      "intent": "duplicate data-* keys — expect a syntax error even with different values"
+    },
+    {
+      "id": "cand.resources.attr.data-order-normalizes",
+      "spec": "4.7",
+      "source": "<m data-z=1 data-a=2>Text</m>\n",
+      "intent": "data-* keys are sorted in ASCII order — canonical is data-a then data-z"
+    },
+    {
+      "id": "cand.resources.attr.data-before-core-normalizes",
+      "spec": "4.7",
+      "source": "<m data-a=1 lang=en>Text</m>\n",
+      "intent": "canonical order puts bare core attributes before data-* — normalises"
+    },
+    {
+      "id": "cand.resources.attr.lang-data-mix",
+      "spec": "4.2",
+      "source": "<m lang=en data-role=term>Text</m>\n",
+      "intent": "lang plus data-* on a kindless span — valid"
+    },
+    {
+      "id": "cand.resources.attr.class-invalid",
+      "spec": "4.6",
+      "source": "<m class=hero>Text</m>\n",
+      "intent": "class is not a Core attribute — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.attr.style-invalid",
+      "spec": "4.6",
+      "source": "<m video style=dark>[Video](v.mp4)</m>\n",
+      "intent": "style is not a Core attribute — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.attr.preview-quoted-space",
+      "spec": "4.6",
+      "source": "<m video preview=\"poster image.jpg\">[V](v.mp4)</m>\n",
+      "intent": "preview uses destination semantics — a quoted value with a space is allowed"
+    },
+    {
+      "id": "cand.resources.attr.preview-angle-bare-invalid",
+      "spec": "4.7",
+      "source": "<m video preview=<a>>[V](v.mp4)</m>\n",
+      "intent": "< and > are excluded from bare values — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.attr.bare-value-equals",
+      "spec": "4.7",
+      "source": "<m data-x=a=b>Text</m>\n",
+      "intent": "'=' is allowed inside a bare value — probe that the first '=' splits key and value"
+    },
+    {
+      "id": "cand.resources.attr.bare-value-slash",
+      "spec": "4.7",
+      "source": "<m data-url=https://example.org/x>Text</m>\n",
+      "intent": "a bare value containing slashes and colons — valid"
+    },
+    {
+      "id": "cand.resources.attr.empty-bare-invalid",
+      "spec": "4.7",
+      "source": "<m data-x=>Text</m>\n",
+      "intent": "key= with no value is invalid — the empty string needs \"\""
+    },
+    {
+      "id": "cand.resources.attr.lang-uppercase-normalizes",
+      "spec": "4.6",
+      "source": "<m lang=EN-US>Text</m>\n",
+      "intent": "lang is ASCII-lowercased — canonical lang=en-us"
+    },
+    {
+      "id": "cand.resources.attr.lang-invalid-bcp47",
+      "spec": "4.6",
+      "source": "<m lang=de__DE>Text</m>\n",
+      "intent": "a malformed BCP 47 tag — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.attr.video-all-canonical",
+      "spec": "4.6",
+      "source": "<m video group=trip lang=de preview=poster.jpg data-role=hero>[V](v.mp4)</m>\n",
+      "intent": "video with every allowed attribute in canonical order — valid"
+    },
+    {
+      "id": "cand.resources.attr.generic-preview-invalid",
+      "spec": "4.6",
+      "source": "<m preview=x>Text</m>\n",
+      "intent": "preview is not allowed on a kindless generic span — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.attr.generic-group-invalid",
+      "spec": "4.6",
+      "source": "<m group=x>Text</m>\n",
+      "intent": "group is not allowed on a kindless generic span — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.metadata.empty-wrapper-invalid",
+      "spec": "4.2",
+      "source": "<m>Text</m>\n",
+      "intent": "a kindless wrapper with no attribute adds no semantics — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.metadata.lang-only",
+      "spec": "4.2",
+      "source": "<m lang=de>Text</m>\n",
+      "intent": "a generic span with only lang — valid"
+    },
+    {
+      "id": "cand.resources.metadata.kind-among-attrs-invalid",
+      "spec": "4.1",
+      "source": "<m data-x=1 video>Text</m>\n",
+      "intent": "mKind must be the first token after <m>, never among attributes — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.kind.uppercase-invalid",
+      "spec": "4.1",
+      "source": "<m Video>[V](v.mp4)</m>\n",
+      "intent": "kinds are lowercase-only — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.image.kindless-no-attr-invalid",
+      "spec": "4.2",
+      "source": "<m>![a](i.jpg)</m>\n",
+      "intent": "a kindless image wrapper still needs at least one attribute — expect a semantic error"
+    },
+    {
+      "id": "cand.resources.wrapper.unclosed-invalid",
+      "spec": "4.1",
+      "source": "<m lang=en>Text\n",
+      "intent": "an unclosed MIB wrapper — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.wrapper.cross-line-invalid",
+      "spec": "4.7",
+      "source": "<m lang=en>Text\nmore</m>\n",
+      "intent": "an MIB wrapper spanning a physical line — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.wrapper.uppercase-m-literal",
+      "spec": "4.1",
+      "source": "<M lang=en>Text</M>\n",
+      "intent": "uppercase M is not the MIB tag — expect literal text"
+    },
+    {
+      "id": "cand.resources.attr.quoted-newline-invalid",
+      "spec": "4.7",
+      "source": "<m data-x=\"a\nb\">Text</m>\n",
+      "intent": "a quoted value spanning a physical line — expect a syntax error"
+    },
+    {
+      "id": "cand.resources.image.inline-wrapper-in-paragraph",
+      "spec": "4.3",
+      "source": "text <m data-role=fig>![a](i.jpg)</m> text\n",
+      "intent": "a data-wrapped inline image inside a paragraph — valid inline"
+    },
+    {
+      "id": "cand.resources.embed.any-uri",
+      "spec": "4.4",
+      "source": "<m embed>[Demo](mailto:user@x.org)</m>\n",
+      "intent": "an embed link with a mailto destination — the link grammar allows it; probe validation"
+    },
+    {
+      "id": "cand.resources.video.group-lang-preview",
+      "spec": "4.6",
+      "source": "<m video lang=de preview=p.jpg>[V](v.mp4)</m>\n",
+      "intent": "video with a subset of attributes — valid"
+    },
+    {
+      "id": "cand.resources.image.alt-markup",
+      "spec": "4.3",
+      "source": "![An *important* image](image.jpg)\n",
+      "intent": "alt content parses inline markup — valid block image"
+    },
+    {
+      "id": "cand.resources.caption.after-grouped-image",
+      "spec": "4.5",
+      "source": "<m group=x>![a](i.jpg)\\\n*Cap*</m>\n",
+      "intent": "caption on a grouped block image — valid"
+    },
+    {
+      "id": "cand.resources.image.caption-with-id",
+      "spec": "5.1",
+      "source": "![Alt](image.jpg)\\\n*Caption*\n{#img}\n",
+      "intent": "an id suffix after a block resource with a caption — attaches to the resource block"
+    },
+    {
+      "id": "cand.resources.download.block-with-caption",
+      "spec": "4.5",
+      "source": "<m download>[File](file.zip)\\\n*Download*</m>\n",
+      "intent": "a block download may carry a caption — valid"
+    }
+  ]
+}

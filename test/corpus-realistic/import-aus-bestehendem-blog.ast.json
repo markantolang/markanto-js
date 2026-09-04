@@ -1,0 +1,370 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Notizen zur Migration"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Dieser Beitrag stammt aus einem älteren Blog und wurde weitgehend"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "unverändert übernommen. Er verwendet ausschließlich Konstrukte, die in"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "CommonMark und GFM üblich sind."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Vergleich der Laufzeiten"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Tabelle unten wurde ohne durchgehende äußere Pipes geschrieben, wie"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "es im ursprünglichen Blog üblich war:"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "default",
+        "default",
+        "default"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Sprache"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Erstlauf"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Zehnter Lauf"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "TypeScript"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "120 ms"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "118 ms"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Rust"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "12 ms"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "11 ms"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Aufgaben zur Vorbereitung"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die folgende Liste stammt aus einem früheren Sprint und enthält"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "verschachtelte Unterlisten mit Aufgaben-Markern:"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "task": "done",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Repo einrichten"
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "kind": "unordered",
+              "items": [
+                {
+                  "type": "listItem",
+                  "task": "done",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Lizenzen prüfen"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "task": "open",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "CI konfigurieren"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Parser aufsetzen"
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "kind": "unordered",
+              "items": [
+                {
+                  "type": "listItem",
+                  "task": "open",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Tokenizer skizzieren"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "task": "open",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Tests vorbereiten"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Dokumentation beginnen"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "quoteRegion",
+      "children": [
+        {
+          "level": 1,
+          "block": {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Der ursprüngliche Text enthielt an dieser Stelle ein Zitat ohne"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "eigene Lazy Continuation, daher trägt jede Zeile ihr Präfix."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Fazit"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Migration war weitgehend verlustfrei. Offen blieb nur die Frage der"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Tabellen-Pipes, die wir für künftige Beiträge vereinheitlichen sollten."
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

@@ -1,0 +1,12 @@
+{
+  "source": "monorepo/corpus — the v0.5.3 conformance corpus (spec v0.5.3, AST v0.4.0)",
+  "extractedFields": [
+    "id",
+    "specRef",
+    "input"
+  ],
+  "validOnly": true,
+  "note": "The v0.4.0 expected AST is not vendored; the evolution gate checks the migrated 0.1.0 output, not equality against the old AST.",
+  "caseCount": 265,
+  "inputsSha256": "607c12cb4d27eb41d9b00d7e635e45fa5b7038bc8535affa5aac8dbd3d35261d"
+}

@@ -1,0 +1,383 @@
+{
+  "family": "quotes",
+  "candidates": [
+    {
+      "id": "cand.quotes.start-depth-two-invalid",
+      "spec": "3.4",
+      "source": "> > Level 2\n",
+      "intent": "a quote region may not begin at depth 2 — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.start-depth-three-invalid",
+      "spec": "3.4",
+      "source": "> > > Level 3\n",
+      "intent": "a quote region may not begin at depth 3 — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.start-compact-depth-two-invalid",
+      "spec": "3.4",
+      "source": ">> Level 2\n",
+      "intent": "compact >> at region start is still depth 2 — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.depth-rise-one-at-a-time",
+      "spec": "3.6",
+      "source": "> L1\n> > L2\n> > > L3\n> > > > L4\n",
+      "intent": "depth rising by one per line — valid"
+    },
+    {
+      "id": "cand.quotes.depth-jump-two-invalid",
+      "spec": "3.6",
+      "source": "> L1\n> > > L3\n",
+      "intent": "a jump from depth 1 to depth 3 rises by two — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.depth-jump-three-invalid",
+      "spec": "3.6",
+      "source": "> L1\n> > > > L4\n",
+      "intent": "a jump from depth 1 to depth 4 — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.depth-decrease-multiple-ok",
+      "spec": "3.6",
+      "source": "> L1\n> > L2\n> > > L3\n> L1 again\n",
+      "intent": "decreasing from depth 3 back to depth 1 closes multiple levels at once — valid"
+    },
+    {
+      "id": "cand.quotes.depth-decrease-one-ok",
+      "spec": "3.6",
+      "source": "> L1\n> > L2\n> L1 again\n",
+      "intent": "decreasing by one level — valid"
+    },
+    {
+      "id": "cand.quotes.compact-depth-two-normalizes",
+      "spec": "3.15.2",
+      "source": "> L1\n>> L2\n",
+      "intent": "compact >> after a depth-1 line — normalised to '> > L2'"
+    },
+    {
+      "id": "cand.quotes.compact-depth-three-normalizes",
+      "spec": "3.15.2",
+      "source": "> L1\n>>> L3\n",
+      "intent": "compact >>> after depth 1 — a two-level rise; likely an error, not a normalisation"
+    },
+    {
+      "id": "cand.quotes.no-space-content-normalizes",
+      "spec": "3.15.2",
+      "source": ">Text\n",
+      "intent": "no space after the prefix — normalised to '> Text'"
+    },
+    {
+      "id": "cand.quotes.two-spaces-after-prefix",
+      "spec": "3.3",
+      "source": ">  Text\n",
+      "intent": "two spaces after the prefix — canonical wants one; probe whether extra space is trimmed or kept"
+    },
+    {
+      "id": "cand.quotes.tab-prefix-invalid",
+      "spec": "3.16",
+      "source": ">\tText\n",
+      "intent": "tab inside the canonical prefix — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.content-tab-literal",
+      "spec": "3.9",
+      "source": "> \tText\n",
+      "intent": "a tab in the content after a proper prefix — tabs are allowed as literal running text; probe"
+    },
+    {
+      "id": "cand.quotes.empty-line-trailing-space",
+      "spec": "3.5",
+      "source": "> \n> Second\n",
+      "intent": "an empty quote line with a trailing space — canonical has no trailing space; probe normalisation"
+    },
+    {
+      "id": "cand.quotes.lone-greater-than",
+      "spec": "3.5",
+      "source": ">\n",
+      "intent": "a lone > is an empty quote line, never a closer — probe whether a region of only an empty line is valid"
+    },
+    {
+      "id": "cand.quotes.compact-empty-line-literal",
+      "spec": "3.5",
+      "source": "> Text\n>>\n",
+      "intent": "an empty compact >> after depth 1 — a deeper empty line; expect syntax error"
+    },
+    {
+      "id": "cand.quotes.empty-after-depth-change-ok",
+      "spec": "3.5",
+      "source": "> L1\n> > L2\n> >\n> > L3\n",
+      "intent": "an empty quote line at the current depth 2 after the change — valid separator"
+    },
+    {
+      "id": "cand.quotes.empty-shallower-after-depth",
+      "spec": "3.5",
+      "source": "> L1\n> > L2\n>\n> > L3\n",
+      "intent": "an empty line at depth 1 between depth-2 lines — probe whether re-entering depth 2 after a shallower empty line is valid"
+    },
+    {
+      "id": "cand.quotes.lazy-continuation-not-quote",
+      "spec": "3.7",
+      "source": "> Quote.\nContinuation.\n",
+      "intent": "an unmarked continuation line ends the quote; the text becomes a sibling paragraph"
+    },
+    {
+      "id": "cand.quotes.unprefixed-blank-ends-region",
+      "spec": "3.4",
+      "source": "> Quote.\n\nParagraph.\n",
+      "intent": "an unprefixed blank line ends the quote region"
+    },
+    {
+      "id": "cand.quotes.paragraph-boundary-by-depth",
+      "spec": "3.8",
+      "source": "> L1.\n> > L2.\n> L1 again.\n",
+      "intent": "a depth change ends the current leaf block and begins a new one at the new depth"
+    },
+    {
+      "id": "cand.quotes.heading-inside",
+      "spec": "3.10.1",
+      "source": "> # Heading\n",
+      "intent": "after prefix removal the content is a heading — valid"
+    },
+    {
+      "id": "cand.quotes.heading-depth-two",
+      "spec": "3.10.1",
+      "source": "> > ## Heading\n",
+      "intent": "a heading at quote depth 2 — valid"
+    },
+    {
+      "id": "cand.quotes.hr-inside",
+      "spec": "3.10",
+      "source": "> ---\n",
+      "intent": "an HR inside a quote after prefix removal — valid"
+    },
+    {
+      "id": "cand.quotes.emphasis-inside",
+      "spec": "3.8",
+      "source": "> *em* and **strong**\n",
+      "intent": "inline markup inside a quote — parses normally"
+    },
+    {
+      "id": "cand.quotes.hardbreak-inside",
+      "spec": "3.7",
+      "source": "> line one\\\n> line two\n",
+      "intent": "a prefixed hard break inside the quote — both lines carry the full prefix"
+    },
+    {
+      "id": "cand.quotes.code-fence-covered",
+      "spec": "3.10.3",
+      "source": "> ```js\n> x()\n> ```\n",
+      "intent": "a code fence inside a quote — every line carries the prefix; content excludes it"
+    },
+    {
+      "id": "cand.quotes.code-missing-prefix-invalid",
+      "spec": "3.16",
+      "source": "> ```js\nx()\n> ```\n",
+      "intent": "a fence line missing its quote prefix — expect a syntax error"
+    },
+    {
+      "id": "cand.quotes.table-inside",
+      "spec": "3.10.4",
+      "source": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n",
+      "intent": "a table inside a quote — prefix removed per line, then table parses"
+    },
+    {
+      "id": "cand.quotes.list-inside",
+      "spec": "3.11",
+      "source": "> - One\n> - Two\n",
+      "intent": "a list inside a quote — valid"
+    },
+    {
+      "id": "cand.quotes.list-inside-nested",
+      "spec": "3.11",
+      "source": "> - One\n>   - Two\n",
+      "intent": "a nested list inside a quote — list indentation is independent of quote depth"
+    },
+    {
+      "id": "cand.quotes.container-fenced-invalid",
+      "spec": "3.10",
+      "source": "> ::: Warning\n> Content.\n> :::\n",
+      "intent": "a fenced container inside a quote is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.quotes.container-lined-invalid",
+      "spec": "3.10",
+      "source": "> Exkurs\n> ___\n>\n> Content.\n> ___\n",
+      "intent": "a lined container inside a quote is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.quotes.container-anonymous-lined-invalid",
+      "spec": "3.10",
+      "source": "> ___\n>\n> Content.\n> ___\n",
+      "intent": "an anonymous lined container inside a quote is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.quotes.block-media-inside",
+      "spec": "3.10.5",
+      "source": "> <m video>[Video](film.mp4)</m>\n",
+      "intent": "a block resource inside a quote — recognised as a block-media node"
+    },
+    {
+      "id": "cand.quotes.id-after-region",
+      "spec": "3.22",
+      "source": "> Quote.\n{#q}\n",
+      "intent": "an id on the whole quote region — valid, attaches to the region"
+    },
+    {
+      "id": "cand.quotes.id-after-attribution",
+      "spec": "3.22",
+      "source": "> Quote.\n-- Author\n{#q}\n",
+      "intent": "attribution first, then the region id — canonical order; valid"
+    },
+    {
+      "id": "cand.quotes.id-before-attribution-invalid",
+      "spec": "3.22",
+      "source": "> Quote.\n{#q}\n-- Author\n",
+      "intent": "id before the attribution — wrong order; probe whether this is an error or the attribution becomes text"
+    },
+    {
+      "id": "cand.quotes.id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "> Quote.\n\n{#q}\n",
+      "intent": "a region id after a blank line — expect syntax error"
+    },
+    {
+      "id": "cand.quotes.id-on-nested-block-invalid",
+      "spec": "5.1",
+      "source": "> Paragraph.\n> {#inner}\n",
+      "intent": "an id on a block inside a quote is not addressable — expect semantic error"
+    },
+    {
+      "id": "cand.quotes.attribution.basic",
+      "spec": "3.17",
+      "source": "> Quote.\n-- Author\n",
+      "intent": "a single attribution line right after the region — valid"
+    },
+    {
+      "id": "cand.quotes.attribution.markup-content",
+      "spec": "3.17",
+      "source": "> Quote.\n-- *Author*, from [Source](https://x.org)\n",
+      "intent": "attribution content is inline-parsed — emphasis and links work"
+    },
+    {
+      "id": "cand.quotes.attribution.blank-before-not-attribution",
+      "spec": "3.17",
+      "source": "> Quote.\n\n-- Author\n",
+      "intent": "a blank line before -- makes it ordinary paragraph text"
+    },
+    {
+      "id": "cand.quotes.attribution.no-space-after-literal",
+      "spec": "3.17",
+      "source": "> Quote.\n--Author\n",
+      "intent": "-- with no space is not an attribution marker — expect literal text"
+    },
+    {
+      "id": "cand.quotes.attribution.two-spaces-literal",
+      "spec": "3.17",
+      "source": "> Quote.\n--  Author\n",
+      "intent": "two spaces after -- is not the exact '-- ' marker — expect literal text"
+    },
+    {
+      "id": "cand.quotes.attribution.empty-invalid",
+      "spec": "3.17",
+      "source": "> Quote.\n-- \n",
+      "intent": "an attribution with empty content — expect a syntax error"
+    },
+    {
+      "id": "cand.quotes.attribution.second-attribution-literal",
+      "spec": "3.17",
+      "source": "> Quote.\n-- Author\n-- Second\n",
+      "intent": "exactly one attribution is permitted — the second -- line becomes ordinary text"
+    },
+    {
+      "id": "cand.quotes.attribution.three-dashes-hr",
+      "spec": "3.17",
+      "source": "> Quote.\n---\n",
+      "intent": "three dashes is not an attribution but an HR — the quote ends and an HR follows"
+    },
+    {
+      "id": "cand.quotes.attribution.dash-only-literal",
+      "spec": "3.17",
+      "source": "> Quote.\n--\n",
+      "intent": "-- alone has no space after it — not an attribution; probe literal vs HR"
+    },
+    {
+      "id": "cand.quotes.attribution.in-list",
+      "spec": "3.17",
+      "source": "- Item\n\n  > Quote.\n  -- Author\n",
+      "intent": "an attribution with the same list indentation as the quote stays inside the list item"
+    },
+    {
+      "id": "cand.quotes.attribution.in-list-unindented-outside",
+      "spec": "3.17",
+      "source": "- Item\n\n  > Quote.\n-- Author\n",
+      "intent": "an attribution without the list indentation ends the list and becomes ordinary text"
+    },
+    {
+      "id": "cand.quotes.attribution.after-depth-two",
+      "spec": "3.17",
+      "source": "> L1\n> > L2\n-- Author\n",
+      "intent": "an attribution after a quote ending at depth 2 — attaches to the whole region"
+    },
+    {
+      "id": "cand.quotes.attribution.without-quote-literal",
+      "spec": "3.17",
+      "source": "-- Author\n",
+      "intent": "-- without a preceding quote region is ordinary paragraph text"
+    },
+    {
+      "id": "cand.quotes.math-inside",
+      "spec": "3.10.3, 14.3",
+      "source": "> ```math\n> x^2\n> ```\n",
+      "intent": "a math fence inside a quote — valid after prefix removal"
+    },
+    {
+      "id": "cand.quotes.inside-fenced-container",
+      "spec": "2.7",
+      "source": "::: Note\n> Quote.\n:::\n",
+      "intent": "a quote inside a fenced container — valid ordinary content"
+    },
+    {
+      "id": "cand.quotes.inside-grid-cell",
+      "spec": "2.7.7",
+      "source": "::: X\n> Quote.\n--\nB\n:::\n",
+      "intent": "a quote inside a Grid cell — cells may contain ordinary non-container blocks"
+    },
+    {
+      "id": "cand.quotes.multi-line-with-depth-return",
+      "spec": "3.13",
+      "source": "> L1\n> > L2\n> > > L3\n> > L2 again\n",
+      "intent": "returning to an outer depth after a deeper block — valid"
+    },
+    {
+      "id": "cand.quotes.prefixed-every-line-attribution-excluded",
+      "spec": "3.17",
+      "source": "> A.\n> B.\n-- Author\n",
+      "intent": "multi-line quote followed by attribution — the attribution carries no quote prefix by design"
+    },
+    {
+      "id": "cand.quotes.followed-by-paragraph-no-blank",
+      "spec": "3.7",
+      "source": "> Quote.\nNext.\n",
+      "intent": "an unmarked line directly after the quote begins a new paragraph outside it"
+    },
+    {
+      "id": "cand.quotes.followed-by-heading-no-blank",
+      "spec": "2.5",
+      "source": "> Quote.\n# Heading\n",
+      "intent": "a heading directly after a quote without a blank line — valid normal mode"
+    },
+    {
+      "id": "cand.quotes.trailing-space-after-content",
+      "spec": "3.3",
+      "source": "> Text   \n",
+      "intent": "trailing structural whitespace inside the quote line — removed"
+    },
+    {
+      "id": "cand.quotes.empty-then-attribution-literal",
+      "spec": "3.17",
+      "source": "> Quote.\n>\n-- Author\n",
+      "intent": "an empty quote line between the content and -- breaks the attribution relation — probe"
+    }
+  ]
+}

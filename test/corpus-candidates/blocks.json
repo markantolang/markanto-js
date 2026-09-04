@@ -1,0 +1,449 @@
+{
+  "family": "blocks",
+  "candidates": [
+    {
+      "id": "cand.blocks.heading.six-plus-hashes-literal",
+      "spec": "2.1",
+      "source": "####### Seven\n",
+      "intent": "seven hashes is beyond the 1-6 ATX range — expect literal paragraph text, not a heading"
+    },
+    {
+      "id": "cand.blocks.heading.one-hash-no-space",
+      "spec": "2.1",
+      "source": "#NoSpace\n",
+      "intent": "opening marker must be followed by a space — expect literal paragraph text"
+    },
+    {
+      "id": "cand.blocks.heading.closing-hash-extra-space",
+      "spec": "2.1",
+      "source": "# Title  #\n",
+      "intent": "two spaces before the closing hash run — tolerated and normalised to '# Title'"
+    },
+    {
+      "id": "cand.blocks.heading.closing-more-hashes",
+      "spec": "2.1",
+      "source": "# Title ###\n",
+      "intent": "closing run longer than the opening marker — tolerated, normalised to '# Title'"
+    },
+    {
+      "id": "cand.blocks.heading.closing-fewer-hashes",
+      "spec": "2.1",
+      "source": "### Title #\n",
+      "intent": "closing run shorter than the opening marker — tolerated, normalised to '### Title'"
+    },
+    {
+      "id": "cand.blocks.heading.tab-after-hash",
+      "spec": "2.1",
+      "source": "#\tTitle\n",
+      "intent": "tab instead of a space after the marker — ambiguous; expect literal text or a tab tolerance case"
+    },
+    {
+      "id": "cand.blocks.heading.empty-closing-invalid",
+      "spec": "2.1",
+      "source": "## ##\n",
+      "intent": "only closing hashes after the marker leaves empty content — expect syntax error"
+    },
+    {
+      "id": "cand.blocks.heading.three-leading-spaces-normalizes",
+      "spec": "2.1",
+      "source": "   # Title\n",
+      "intent": "three leading spaces is the max accepted — normalises to '# Title'"
+    },
+    {
+      "id": "cand.blocks.heading.four-leading-spaces-literal",
+      "spec": "2.1",
+      "source": "    # Title\n",
+      "intent": "four leading spaces exceeds the ATX tolerance — expect literal text or a different block"
+    },
+    {
+      "id": "cand.blocks.heading.inline-code-content",
+      "spec": "2.1",
+      "source": "# A `b` c\n",
+      "intent": "inline code inside heading content — stays as code span, canonical round-trips"
+    },
+    {
+      "id": "cand.blocks.heading.emphasis-content",
+      "spec": "2.1",
+      "source": "# *em* and **strong**\n",
+      "intent": "emphasis delimiters in heading content parse normally"
+    },
+    {
+      "id": "cand.blocks.heading.hardbreak-trailing-backslash-literal",
+      "spec": "2.1",
+      "source": "# Title\\\n",
+      "intent": "a trailing backslash in a heading is a literal backslash (no heading-specific escape) — expect literal backslash"
+    },
+    {
+      "id": "cand.blocks.heading.id-extra-content-invalid",
+      "spec": "5.1",
+      "source": "# Title {#a} extra\n",
+      "intent": "text after the same-line ID suffix — expect the id not to be recognised or a syntax error"
+    },
+    {
+      "id": "cand.blocks.heading.id-hyphen-underscore",
+      "spec": "5.2",
+      "source": "# Title {#a-b_c}\n",
+      "intent": "id with hyphen and underscore — valid identifier per grammar, round-trips"
+    },
+    {
+      "id": "cand.blocks.heading.id-space-invalid",
+      "spec": "5.2",
+      "source": "# Title {#a b}\n",
+      "intent": "space inside the identifier — expect the id not to be a valid suffix"
+    },
+    {
+      "id": "cand.blocks.hr.one-dash-literal",
+      "spec": "2.2",
+      "source": "--\n",
+      "intent": "two dashes is fewer than three — expect literal text, not an HR"
+    },
+    {
+      "id": "cand.blocks.hr.star-single-literal",
+      "spec": "2.2",
+      "source": "**\n",
+      "intent": "two stars is fewer than three — expect literal text"
+    },
+    {
+      "id": "cand.blocks.hr.spaced-stars",
+      "spec": "2.2",
+      "source": "* * *\n",
+      "intent": "classic spaced star form — accepted and normalised to '---'"
+    },
+    {
+      "id": "cand.blocks.hr.star-trailing-space",
+      "spec": "2.2",
+      "source": "***   \n",
+      "intent": "stars with trailing spaces — tolerated in normal mode, normalised to '---'"
+    },
+    {
+      "id": "cand.blocks.hr.dash-tab-separator",
+      "spec": "2.2",
+      "source": "-\t-\t-\n",
+      "intent": "tab-separated dashes — ambiguous whether tabs are allowed between HR chars; expect normalisation or literal"
+    },
+    {
+      "id": "cand.blocks.hr.underscore-not-hr",
+      "spec": "2.2",
+      "source": "___\n",
+      "intent": "underscore run is no longer an HR — expect it to try lined-container recognition instead"
+    },
+    {
+      "id": "cand.blocks.hr.id-on-same-line",
+      "spec": "2.2",
+      "source": "--- {#d}\n",
+      "intent": "HR with same-line id — canonical and round-trips"
+    },
+    {
+      "id": "cand.blocks.hr.id-on-next-line-literal",
+      "spec": "5.1",
+      "source": "---\n{#d}\n",
+      "intent": "HR id on the following line instead of same line — ambiguous; heading/HR require same-line id"
+    },
+    {
+      "id": "cand.blocks.hr.dash-plus-content-literal",
+      "spec": "2.2",
+      "source": "--- text\n",
+      "intent": "dashes followed by non-ID content — not a valid HR; expect literal text"
+    },
+    {
+      "id": "cand.blocks.hr.star-plus-content-literal",
+      "spec": "2.2",
+      "source": "*** x\n",
+      "intent": "stars followed by content — not a valid HR; expect literal text"
+    },
+    {
+      "id": "cand.blocks.code.info-uppercase-lang",
+      "spec": "2.4",
+      "source": "```JS\nx\n```\n",
+      "intent": "language token case is preserved (no case folding) — expect lang 'JS' retained"
+    },
+    {
+      "id": "cand.blocks.code.info-with-backtick-invalid",
+      "spec": "2.4",
+      "source": "```a`b\nx\n```\n",
+      "intent": "backtick in the language token — forbidden for backtick fences; expect syntax error"
+    },
+    {
+      "id": "cand.blocks.code.info-leading-space-literal",
+      "spec": "2.4",
+      "source": "``` js\nx\n```\n",
+      "intent": "space before the language token — ambiguous whether it is tolerated or the lang becomes two tokens; expect a syntax error (extra field) or normalisation"
+    },
+    {
+      "id": "cand.blocks.code.info-only-whitespace",
+      "spec": "2.4",
+      "source": "```  \nx\n```\n",
+      "intent": "info string is only whitespace — ambiguous between empty lang and extra fields"
+    },
+    {
+      "id": "cand.blocks.code.mixed-fence-characters-literal",
+      "spec": "2.4",
+      "source": "```~~~\nx\n```\n",
+      "intent": "mixed backtick/tilde in one fence run — expect literal text, not a code fence"
+    },
+    {
+      "id": "cand.blocks.code.tilde-closer-mismatch",
+      "spec": "2.4",
+      "source": "~~~\nx\n```\n",
+      "intent": "tilde opener with backtick closer — opener and closer must match; expect unclosed error"
+    },
+    {
+      "id": "cand.blocks.code.opener-longer-than-closer",
+      "spec": "2.4",
+      "source": "````\nx\n```\n",
+      "intent": "closer shorter than the opener — closer must be at least as long; expect unclosed error"
+    },
+    {
+      "id": "cand.blocks.code.closer-longer-than-opener",
+      "spec": "2.4",
+      "source": "```\nx\n````\n",
+      "intent": "closer longer than the opener — valid in normal mode, normalised to shortest safe fence"
+    },
+    {
+      "id": "cand.blocks.code.content-with-same-run",
+      "spec": "2.4",
+      "source": "````\n```\n````\n",
+      "intent": "content containing a shorter backtick run — the four-backtick opener keeps the inner ``` literal"
+    },
+    {
+      "id": "cand.blocks.code.content-final-blank",
+      "spec": "2.4",
+      "source": "```\na\n\n```\n",
+      "intent": "blank content line before closer is structural only — value is 'a\\n'"
+    },
+    {
+      "id": "cand.blocks.code.empty-content",
+      "spec": "2.4",
+      "source": "```\n```\n",
+      "intent": "empty code block — ambiguous whether empty value is valid or a syntax error"
+    },
+    {
+      "id": "cand.blocks.code.content-leading-spaces-not-stripped",
+      "spec": "2.4",
+      "source": "```\n  indented\n```\n",
+      "intent": "content indentation is not stripped/re-based — value keeps the two leading spaces"
+    },
+    {
+      "id": "cand.blocks.code.tilde-opener-content-tilde-literal",
+      "spec": "2.4",
+      "source": "~~~\n~~~x\n~~~\n",
+      "intent": "an info-bearing tilde line inside a tilde fence — the closer must match run length, so this stays content until the final ~~~"
+    },
+    {
+      "id": "cand.blocks.comment.four-leading-spaces-literal",
+      "spec": "2.4.1",
+      "source": "    <!-- x -->\n",
+      "intent": "four leading spaces before the comment marker exceeds the 0-3 tolerance — expect literal text"
+    },
+    {
+      "id": "cand.blocks.comment.closer-then-space-only-ok",
+      "spec": "2.4.1",
+      "source": "<!-- x -->   \n",
+      "intent": "whitespace after the closer is permitted — comment still parses, whitespace removed"
+    },
+    {
+      "id": "cand.blocks.comment.closer-then-text-invalid",
+      "spec": "2.4.1",
+      "source": "<!-- x --> y\n",
+      "intent": "visible content after the closer — expect syntax error"
+    },
+    {
+      "id": "cand.blocks.comment.content-close-sequence-cannot-escape",
+      "spec": "2.4.1",
+      "source": "<!-- a --> b -->\n",
+      "intent": "the first --> closes the comment and the rest is invalid visible content — expect syntax error"
+    },
+    {
+      "id": "cand.blocks.comment.closer-on-later-line",
+      "spec": "2.4.1",
+      "source": "<!-- first\nsecond\n-->\n",
+      "intent": "multiline comment with closer on its own later line — value preserves the inner newline"
+    },
+    {
+      "id": "cand.blocks.comment.empty-value",
+      "spec": "2.4.1",
+      "source": "<!---->\n",
+      "intent": "empty comment value — valid and round-trips"
+    },
+    {
+      "id": "cand.blocks.comment.only-whitespace-value",
+      "spec": "2.4.1",
+      "source": "<!--   -->\n",
+      "intent": "comment containing only spaces — value preserves the spaces literally"
+    },
+    {
+      "id": "cand.blocks.comment.does-not-render-but-keeps-id-out",
+      "spec": "2.4.1",
+      "source": "<!-- x -->\n{#c}\n",
+      "intent": "comment followed by an id suffix — CommentBlock has no id field; expect the id to attach to nothing or error"
+    },
+    {
+      "id": "cand.blocks.boundary.heading-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n## Head\n",
+      "intent": "heading follows a paragraph without a blank line — valid normal mode, canonical adds a blank line"
+    },
+    {
+      "id": "cand.blocks.boundary.hr-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n---\n",
+      "intent": "HR follows a paragraph without a blank line — valid normal mode, blank inserted"
+    },
+    {
+      "id": "cand.blocks.boundary.code-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n```\nx\n```\n",
+      "intent": "code fence follows a paragraph without a blank line — valid normal mode"
+    },
+    {
+      "id": "cand.blocks.boundary.comment-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n<!-- c -->\n",
+      "intent": "comment follows a paragraph without a blank line — valid normal mode"
+    },
+    {
+      "id": "cand.blocks.boundary.setext-after-paragraph-diagnostic",
+      "spec": "2.1",
+      "source": "Para.\n===\n",
+      "intent": "equals line after an in-progress paragraph is a rejected Setext attempt — expect a syntax diagnostic"
+    },
+    {
+      "id": "cand.blocks.boundary.standalone-dash-line-literal",
+      "spec": "2.1",
+      "source": "===\n",
+      "intent": "standalone equals line is literal paragraph text (covered) — variant with a dash-only two-dash line"
+    },
+    {
+      "id": "cand.blocks.boundary.two-lines-same-paragraph",
+      "spec": "2.5",
+      "source": "First.\nSecond.\n",
+      "intent": "two consecutive text lines form one paragraph with a soft break"
+    },
+    {
+      "id": "cand.blocks.terminal.no-trailing-lf-normalizes",
+      "spec": "7.4",
+      "source": "Text.\n",
+      "intent": "terminal-newline handling — a document whose final text line has one LF is canonical; probes whether a missing second LF is tolerated"
+    },
+    {
+      "id": "cand.blocks.terminal.multiple-trailing-lf-normalize",
+      "spec": "7.4",
+      "source": "Text.\n\n\n",
+      "intent": "several trailing LFs are terminal surface, normalised to one"
+    },
+    {
+      "id": "cand.blocks.terminal.trailing-spaces-stripped",
+      "spec": "7.4",
+      "source": "Text.   \n",
+      "intent": "trailing structural whitespace on a paragraph line is removed"
+    },
+    {
+      "id": "cand.blocks.priority.heading-vs-hr",
+      "spec": "15.1",
+      "source": "---\n# x\n",
+      "intent": "heading after HR without a blank — heading wins as its own block; expect separation"
+    },
+    {
+      "id": "cand.blocks.priority.comment-vs-fence",
+      "spec": "15.1",
+      "source": "<!--\n```\n```\n-->\n",
+      "intent": "comment opener precedes a fence-looking line — comment literal content wins over code fence inside"
+    },
+    {
+      "id": "cand.blocks.priority.list-vs-heading-line",
+      "spec": "15.1",
+      "source": "- # not heading\n",
+      "intent": "a list marker before a hash — list opener claims the line; hash stays inline content"
+    },
+    {
+      "id": "cand.blocks.priority.hr-vs-list-item",
+      "spec": "15.1",
+      "source": "- ---\n",
+      "intent": "list marker then an HR run on the same line — list claims the line; expect literal inline text"
+    },
+    {
+      "id": "cand.blocks.priority.quote-vs-heading",
+      "spec": "15.1",
+      "source": "> # inside quote\n",
+      "intent": "quote prefix then heading — quote wins as the structural opener, heading becomes inner content"
+    },
+    {
+      "id": "cand.blocks.priority.block-id-after-list",
+      "spec": "5.1",
+      "source": "- item\n{#list-id}\n",
+      "intent": "id suffix after a list — ambiguous whether id attaches to the list node (addressable) or errors"
+    },
+    {
+      "id": "cand.blocks.priority.setext-after-code-literal",
+      "spec": "2.1",
+      "source": "```\n===\n```\n",
+      "intent": "equals line inside a code fence is literal content, not a Setext attempt"
+    },
+    {
+      "id": "cand.blocks.heading.blank-before-id-invalid",
+      "spec": "5.1",
+      "source": "# Title\n\n{#h}\n",
+      "intent": "id separated from the heading by a blank line — expect syntax error"
+    },
+    {
+      "id": "cand.blocks.heading.id-attached-to-following-block",
+      "spec": "5.1",
+      "source": "# Title {#h}\n\nPara.\n",
+      "intent": "same-line heading id stays on the heading; following paragraph unaffected"
+    },
+    {
+      "id": "cand.blocks.hr.id-attached-to-following",
+      "spec": "5.1",
+      "source": "--- {#hr}\n\nPara.\n",
+      "intent": "same-line HR id stays on the HR; following paragraph has no id"
+    },
+    {
+      "id": "cand.blocks.code.id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "```\nx\n```\n\n{#c}\n",
+      "intent": "id after a blank line following a code block — expect syntax error"
+    },
+    {
+      "id": "cand.blocks.comment.empty-doc-comment-only",
+      "spec": "2.4.1",
+      "source": "<!-- only -->\n",
+      "intent": "document consisting solely of a comment — valid with an empty visible AST"
+    },
+    {
+      "id": "cand.blocks.boundary.comment-between-paragraphs",
+      "spec": "2.5",
+      "source": "A.\n<!-- c -->\nB.\n",
+      "intent": "comment between two paragraphs without blank lines — comment is its own block; separation normalises"
+    },
+    {
+      "id": "cand.blocks.heading.escaped-hash-literal",
+      "spec": "2.1",
+      "source": "\\# Not heading\n",
+      "intent": "escaped hash at line start — escape neutralises the marker; expect literal text starting with #"
+    },
+    {
+      "id": "cand.blocks.hr.escaped-dash-literal",
+      "spec": "2.2",
+      "source": "\\---\n",
+      "intent": "escaped dash prevents HR recognition — expect literal text"
+    },
+    {
+      "id": "cand.blocks.code.escaped-backtick-literal",
+      "spec": "2.4",
+      "source": "\\```\nx\n",
+      "intent": "escaped backtick at line start prevents fence recognition — expect literal text"
+    },
+    {
+      "id": "cand.blocks.boundary.heading-escaped-then-real",
+      "spec": "15.1",
+      "source": "\\# literal\n# real\n",
+      "intent": "escaped hash line then a real heading — the escaped line is text, the next is a heading"
+    },
+    {
+      "id": "cand.blocks.priority.blank-then-id-invalid",
+      "spec": "5.1",
+      "source": "Para.\n\n{#orphan}\n",
+      "intent": "id after a blank line is a syntax error even at document level"
+    }
+  ]
+}

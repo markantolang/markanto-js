@@ -1,0 +1,25 @@
+# Kommentierte Ressourcenliste {#ressourcen}
+
+Diese Liste sammelt Werkzeuge und Quellen, die ich beim Arbeiten mit
+Markdown regelmäßig nutze. Den Einstieg bildet die
+[CommonMark-Spezifikation][commonmark], praktische Hinweise liefert das
+[Handbuch][]. Der [Projektblog] ist die erste Anlaufstelle für
+Neuigkeiten.[^sammlung] Wer es eilig hat, springt direkt zu
+[weiterfuehrendes](/weiterfuehrendes).
+
+[commonmark]: https://spec.commonmark.org/0.31.2/ "CommonMark Spezifikation 0.31.2"
+[Handbuch]: https://example.de/handbuch "Das Markanto-Handbuch"
+[Projektblog]: https://example.de/blog
+
+## Weiterführendes {#weiterfuehrendes}
+
+Weitere Empfehlungen:
+
+- Die [GFM-Spezifikation][gfm] beschreibt die Tabellen-Erweiterung.[^tabelle]
+- Das [Kurzdokument] fasst die wichtigsten Regeln zusammen.
+
+[gfm]: https://github.github.com/gfm/ "GitHub Flavored Markdown"
+[Kurzdokument]: https://example.de/kurzdokument
+
+[^sammlung]: Persönliche Auswahl, Stand August 2026.
+[^tabelle]: GFM-Tabellen sind in Markanto als Kern-Syntax übernommen.

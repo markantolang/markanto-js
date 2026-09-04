@@ -1,0 +1,8 @@
+{
+  "sourceUrl": "https://github.github.com/gfm/",
+  "retrievalDate": "2026-09-01",
+  "baselineVersion": "0.29-gfm",
+  "caseCount": 20,
+  "sha256": "f1232873de16c2a479b7eb76945027fbe05dd0c2951c98f5cc4b37c26a90538e",
+  "note": "Small locally curated selection. Each case records its GFM section; HTML is reference context only."
+}

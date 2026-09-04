@@ -1,0 +1,407 @@
+{
+  "family": "math",
+  "candidates": [
+    {
+      "id": "cand.math.inline.basic",
+      "spec": "14.2",
+      "source": "E = $`mc^2`$\n",
+      "intent": "the canonical inline-math form — valid and round-trips"
+    },
+    {
+      "id": "cand.math.inline.literal-content",
+      "spec": "14.2",
+      "source": "$`a_*_b \\frac{1}{2}`$\n",
+      "intent": "content is literal — underscores and backslashes are not parsed as markup"
+    },
+    {
+      "id": "cand.math.inline.whitespace-content",
+      "spec": "14.2",
+      "source": "$`  x  `$\n",
+      "intent": "content with leading/trailing spaces — non-empty, so valid; spaces preserved literally"
+    },
+    {
+      "id": "cand.math.inline.empty-invalid",
+      "spec": "14.2",
+      "source": "$``$\n",
+      "intent": "empty inline math — expect syntax error"
+    },
+    {
+      "id": "cand.math.inline.cross-line-invalid",
+      "spec": "14.2",
+      "source": "$`a\nb`$\n",
+      "intent": "inline math across a physical line — expect syntax error"
+    },
+    {
+      "id": "cand.math.inline.dollar-in-content",
+      "spec": "14.2",
+      "source": "$`a$b`$\n",
+      "intent": "a bare dollar inside the content is not the closer (only `$ closes) — content 'a$b'"
+    },
+    {
+      "id": "cand.math.inline.backtick-run-in-content",
+      "spec": "14.2",
+      "source": "$`x``$\n",
+      "intent": "a backtick run before the closing $ — the first `$ closes; content includes the extra backtick"
+    },
+    {
+      "id": "cand.math.inline.escaped-dollar-literal",
+      "spec": "10.8",
+      "source": "\\$`x`$\n",
+      "intent": "escaped dollar does not open math — the backtick becomes a code span instead; expect a mixture"
+    },
+    {
+      "id": "cand.math.inline.at-line-start",
+      "spec": "14.2",
+      "source": "$`x`$ alone\n",
+      "intent": "inline math at the start of a paragraph line — still inline, not a block"
+    },
+    {
+      "id": "cand.math.inline.in-heading",
+      "spec": "14.2",
+      "source": "# Formula $`x`$\n",
+      "intent": "inline math inside heading content — valid"
+    },
+    {
+      "id": "cand.math.inline.in-link-label",
+      "spec": "14.2, 10.5.1",
+      "source": "[$`x`$](u)\n",
+      "intent": "inline math inside a link label — valid inline content"
+    },
+    {
+      "id": "cand.math.inline.in-code-literal",
+      "spec": "10.4",
+      "source": "`$`x`$`\n",
+      "intent": "a math-looking token inside a code span — code priority; no math node"
+    },
+    {
+      "id": "cand.math.inline.dollar-in-code-literal",
+      "spec": "10.4",
+      "source": "`$100`\n",
+      "intent": "a dollar inside inline code is literal — no math"
+    },
+    {
+      "id": "cand.math.inline.adjacent-footnote",
+      "spec": "14.2, 11.3",
+      "source": "x = $`a`$[^f]\n\n[^f]: note.\n",
+      "intent": "inline math directly followed by a footnote reference — both parse independently"
+    },
+    {
+      "id": "cand.math.block.basic",
+      "spec": "14.3",
+      "source": "```math\n\\left( x \\right)\n```\n",
+      "intent": "a math fence with a multi-line expression — valid MathBlock"
+    },
+    {
+      "id": "cand.math.block.multiline",
+      "spec": "14.3",
+      "source": "```math\na^2\n+\nb^2\n```\n",
+      "intent": "a multi-line math block — internal LFs are part of the value"
+    },
+    {
+      "id": "cand.math.block.tilde-normalizes",
+      "spec": "14.3",
+      "source": "~~~math\nx^2\n~~~\n",
+      "intent": "tilde-fenced math — tolerated in normal mode, normalised to backtick form"
+    },
+    {
+      "id": "cand.math.block.longer-tilde",
+      "spec": "14.3",
+      "source": "~~~~~math\nx^2\n~~~~~\n",
+      "intent": "a longer tilde fence with math info — normalised to shortest backtick form"
+    },
+    {
+      "id": "cand.math.block.unclosed-invalid",
+      "spec": "14.3",
+      "source": "```math\nx^2\n",
+      "intent": "an unclosed math fence — expect syntax error"
+    },
+    {
+      "id": "cand.math.block.tilde-unclosed-invalid",
+      "spec": "14.3",
+      "source": "~~~math\nx^2\n",
+      "intent": "an unclosed tilde math fence — expect syntax error"
+    },
+    {
+      "id": "cand.math.block.closer-mismatch-invalid",
+      "spec": "14.3",
+      "source": "```math\nx^2\n~~~\n",
+      "intent": "a tilde closer for a backtick opener — no match; expect unclosed error"
+    },
+    {
+      "id": "cand.math.block.empty-value",
+      "spec": "14.3",
+      "source": "```math\n```\n",
+      "intent": "a math fence with no content — ambiguous whether the empty value is valid or an error"
+    },
+    {
+      "id": "cand.math.block.blank-content-line",
+      "spec": "14.3",
+      "source": "```math\n\n```\n",
+      "intent": "a blank content line before the closer — the LF is structural; value may be empty"
+    },
+    {
+      "id": "cand.math.block.info-extra-field-invalid",
+      "spec": "2.4",
+      "source": "```math extra\nx\n```\n",
+      "intent": "two info-string fields on a math fence — expect syntax error (single-token rule)"
+    },
+    {
+      "id": "cand.math.block.info-uppercase-lang",
+      "spec": "2.4",
+      "source": "```MATH\nx\n```\n",
+      "intent": "uppercase MATH is not the lowercase 'math' token — expect a CodeBlock with lang 'MATH', not MathBlock"
+    },
+    {
+      "id": "cand.math.block.info-leading-space",
+      "spec": "2.4",
+      "source": "``` math\nx\n```\n",
+      "intent": "a space before the math token — ambiguous between an empty-info fence and a two-token error"
+    },
+    {
+      "id": "cand.math.block.content-backticks-literal",
+      "spec": "14.3",
+      "source": "```math\n`a` and ```\n```\n",
+      "intent": "backticks inside math content are literal — only the closing fence matters"
+    },
+    {
+      "id": "cand.math.block.four-backtick-opener",
+      "spec": "14.3",
+      "source": "````math\nx\n````\n",
+      "intent": "a longer backtick math fence — normalised to the shortest safe form"
+    },
+    {
+      "id": "cand.math.block.leading-spaces",
+      "spec": "2.4",
+      "source": "  ```math\nx\n  ```\n",
+      "intent": "zero-to-three leading spaces before a math fence — tolerated and removed"
+    },
+    {
+      "id": "cand.math.block.inside-quote",
+      "spec": "3.10.3",
+      "source": "> ```math\n> x^2\n> ```\n",
+      "intent": "a math fence inside a quote region — prefix removed per line, then math parses"
+    },
+    {
+      "id": "cand.math.block.inside-container",
+      "spec": "14.3",
+      "source": "::: Note\n```math\nx^2\n```\n:::\n",
+      "intent": "a math block inside a fenced container — valid"
+    },
+    {
+      "id": "cand.math.block.inside-list",
+      "spec": "9.8",
+      "source": "- Eq:\n\n  ```math\n  x^2\n  ```\n",
+      "intent": "a math block as a structured list child — valid fenced literal"
+    },
+    {
+      "id": "cand.math.block.grid-cell",
+      "spec": "2.7.7",
+      "source": "::: X\nA\n```math\nx\n```\n--\nB\n:::\n",
+      "intent": "a math block inside a Grid cell — cells may contain ordinary blocks including math"
+    },
+    {
+      "id": "cand.math.block.id",
+      "spec": "5.1",
+      "source": "```math\nx\n```\n{#m}\n",
+      "intent": "an id suffix on a math block — valid"
+    },
+    {
+      "id": "cand.math.block.id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "```math\nx\n```\n\n{#m}\n",
+      "intent": "a math id after a blank line — expect syntax error"
+    },
+    {
+      "id": "cand.math.dollar.bare-dollar-line-literal",
+      "spec": "14.4",
+      "source": "$\n",
+      "intent": "a lone dollar on a line is literal text, not math"
+    },
+    {
+      "id": "cand.math.dollar.pair-literal",
+      "spec": "14.4",
+      "source": "$5.00$\n",
+      "intent": "$...$ with plain content is literal — inline math requires the backtick span"
+    },
+    {
+      "id": "cand.math.dollar.double-pair-literal",
+      "spec": "14.4",
+      "source": "$$x$$\n",
+      "intent": "double-dollar is not Markanto block math — literal text"
+    },
+    {
+      "id": "cand.math.dollar.price-literal",
+      "spec": "14.4",
+      "source": "Cost: $5 - $3 = $2\n",
+      "intent": "price dollars in running text are literal — no math trigger"
+    },
+    {
+      "id": "cand.math.dollar.shell-literal",
+      "spec": "14.4",
+      "source": "Run $HOME/bin\n",
+      "intent": "shell-variable dollars are literal"
+    },
+    {
+      "id": "cand.math.dollar.escaped-literal",
+      "spec": "10.8",
+      "source": "\\$100\n",
+      "intent": "an escaped dollar stays a literal dollar"
+    },
+    {
+      "id": "cand.math.dollar.dollar-in-heading-literal",
+      "spec": "14.4",
+      "source": "# Budget $5\n",
+      "intent": "a bare dollar in heading text is literal"
+    },
+    {
+      "id": "cand.math.dollar.dollar-before-backtick-unclosed",
+      "spec": "14.2",
+      "source": "$`unterminated\n",
+      "intent": "a dollar-backtick opener with no closer — expect a syntax error, not literal fallback"
+    },
+    {
+      "id": "cand.math.block.comment-not-math",
+      "spec": "2.4.1",
+      "source": "<!-- ```math\nnot math\n-->\n",
+      "intent": "a math-fence-looking line inside a comment is literal comment content"
+    },
+    {
+      "id": "cand.math.block.math-not-code",
+      "spec": "14.3",
+      "source": "```math\nconst x = 1;\n```\n",
+      "intent": "a 'math' info string always yields MathBlock even when the content looks like code"
+    },
+    {
+      "id": "cand.math.block.followed-without-blank",
+      "spec": "2.5",
+      "source": "Para.\n```math\nx\n```\n",
+      "intent": "a math fence after a paragraph without a blank line — valid normal mode, blank inserted"
+    },
+    {
+      "id": "cand.math.inline.single-space-content",
+      "spec": "14.2",
+      "source": "$` `$\n",
+      "intent": "content that is a single space — non-empty, so valid inline math"
+    },
+    {
+      "id": "cand.math.inline.two-on-one-line",
+      "spec": "14.2",
+      "source": "a $`x`$ b $`y`$ c\n",
+      "intent": "two inline-math spans on one line — both parse independently"
+    },
+    {
+      "id": "cand.math.inline.in-table-cell",
+      "spec": "12.3, 14.2",
+      "source": "| A | B |\n| --- | --- |\n| $`x`$ | y |\n",
+      "intent": "inline math inside a table cell — valid single-line inline content"
+    },
+    {
+      "id": "cand.math.inline.in-footnote",
+      "spec": "11.3, 14.2",
+      "source": "Text[^a]\n\n[^a]: value $`x`$.\n",
+      "intent": "inline math inside a footnote definition — valid inline content"
+    },
+    {
+      "id": "cand.math.inline.in-emphasis",
+      "spec": "14.2",
+      "source": "*bold $`x`$ math*\n",
+      "intent": "inline math nested inside emphasis — both constructs parse"
+    },
+    {
+      "id": "cand.math.inline.in-wrapper",
+      "spec": "10.6, 14.2",
+      "source": "<i>$`x`$</i>\n",
+      "intent": "inline math inside a wrapper — valid; wrapper normalises to *...*"
+    },
+    {
+      "id": "cand.math.inline.followed-by-emphasis",
+      "spec": "14.2",
+      "source": "x = $`a`$*note*\n",
+      "intent": "inline math directly followed by emphasis — both parse; no delimiter conflict"
+    },
+    {
+      "id": "cand.math.inline.closing-sequence-at-start-invalid",
+      "spec": "14.2",
+      "source": "$``$x`$\n",
+      "intent": "the closing sequence `$ appears immediately after the opener — content empty; expect a syntax error"
+    },
+    {
+      "id": "cand.math.block.anonymous-container",
+      "spec": "2.7, 14.3",
+      "source": ":::\n```math\nx\n```\n:::\n",
+      "intent": "a math block inside an anonymous fenced container — valid"
+    },
+    {
+      "id": "cand.math.block.heading-then-fence",
+      "spec": "2.5, 14.3",
+      "source": "# Math\n```math\nx\n```\n",
+      "intent": "a math fence after a heading without a blank line — valid normal mode"
+    },
+    {
+      "id": "cand.math.block.info-tab",
+      "spec": "2.4",
+      "source": "```math\t\nx\n```\n",
+      "intent": "a tab after the math info token — ambiguous trailing-field case; expect a syntax error"
+    },
+    {
+      "id": "cand.math.block.grid-marker-in-math-literal",
+      "spec": "2.7.7",
+      "source": "::: X\n```math\n--\n==\n```\n:::\n",
+      "intent": "Grid marker lines inside a math fence are literal — no Grid trigger"
+    },
+    {
+      "id": "cand.math.dollar.leading-dollar-in-code-literal",
+      "spec": "10.4",
+      "source": "`$`\n",
+      "intent": "a lone dollar inside a code span is literal — no math"
+    },
+    {
+      "id": "cand.math.dollar.dollar-then-code-span",
+      "spec": "14.4, 10.4",
+      "source": "price is $ `x`\n",
+      "intent": "a bare dollar followed by a code span — the dollar is literal and the code span parses separately"
+    },
+    {
+      "id": "cand.math.block.three-tilde-fence-no-info",
+      "spec": "2.4",
+      "source": "~~~\nx\n~~~\n",
+      "intent": "a tilde fence without info is a CodeBlock, not math — normalises to backtick code"
+    },
+    {
+      "id": "cand.math.block.overlong-math-fence",
+      "spec": "14.3",
+      "source": "``````math\nx\n``````\n",
+      "intent": "a very long math fence — tolerated in normal mode, normalised to shortest safe form"
+    },
+    {
+      "id": "cand.math.block.blank-before-closer-literal-lf",
+      "spec": "14.3",
+      "source": "```math\na\n\n```\n",
+      "intent": "a blank content line before the closer — value is 'a\\n' (final LF is structural)"
+    },
+    {
+      "id": "cand.math.inline.dollar-within-content-twice",
+      "spec": "14.2",
+      "source": "$`a$b$c`$\n",
+      "intent": "two bare dollars inside the content are not closers — content 'a$b$c'"
+    },
+    {
+      "id": "cand.math.block.fence-info-lowercase-only",
+      "spec": "2.4",
+      "source": "```Math\nx\n```\n",
+      "intent": "mixed-case 'Math' is not the lowercase token — expect a CodeBlock lang 'Math'"
+    },
+    {
+      "id": "cand.math.inline.empty-then-valid",
+      "spec": "14.2",
+      "source": "$``$ and $`x`$\n",
+      "intent": "an empty inline math followed by a valid one — expect an error for the empty span"
+    },
+    {
+      "id": "cand.math.block.unclosed-with-other-fence",
+      "spec": "14.3",
+      "source": "```math\n```text\n",
+      "intent": "a different fence inside an open math block does not close it — expect unclosed error"
+    }
+  ]
+}

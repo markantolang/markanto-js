@@ -1,0 +1,419 @@
+{
+  "family": "lists",
+  "candidates": [
+    {
+      "id": "cand.lists.unordered.no-space-invalid",
+      "spec": "9.3",
+      "source": "-Item\n",
+      "intent": "no space after the marker — invalid list item; expect literal text or error"
+    },
+    {
+      "id": "cand.lists.unordered.two-spaces-invalid",
+      "spec": "9.3",
+      "source": "-  Item\n",
+      "intent": "two spaces after the marker — invalid; not an acceptable continuation"
+    },
+    {
+      "id": "cand.lists.unordered.marker-alone-invalid",
+      "spec": "9.6",
+      "source": "- \n",
+      "intent": "a marker with no content — empty item; expect syntax error"
+    },
+    {
+      "id": "cand.lists.unordered.star-only-invalid",
+      "spec": "9.3",
+      "source": "*\n",
+      "intent": "a lone star is not a list marker and not an HR — literal text"
+    },
+    {
+      "id": "cand.lists.unordered.four-spaces-after-invalid",
+      "spec": "9.3",
+      "source": "-    Item\n",
+      "intent": "four spaces after the marker — beyond the single-space rule; expect error"
+    },
+    {
+      "id": "cand.lists.unordered.marker-tab-invalid",
+      "spec": "9.5",
+      "source": "-\tItem\n",
+      "intent": "tab after the marker — tabs not permitted in structural indentation; expect error"
+    },
+    {
+      "id": "cand.lists.unordered.mixed-star-plus-dash",
+      "spec": "9.3",
+      "source": "* a\n+ b\n- c\n",
+      "intent": "* and + and - are the same unordered kind — one list, all normalised to '-'"
+    },
+    {
+      "id": "cand.lists.ordered.dot-required-normalizes-paren",
+      "spec": "9.3.1",
+      "source": "1) One\n2) Two\n",
+      "intent": "paren delimiter normalises to '.' — covered; variant with mixed delimiters"
+    },
+    {
+      "id": "cand.lists.ordered.mixed-paren-dot",
+      "spec": "9.3.1",
+      "source": "1) One\n2. Two\n",
+      "intent": "mixed ')' and '.' delimiters in one list — tolerated and normalised to '.'"
+    },
+    {
+      "id": "cand.lists.ordered.space-between-number-dot-invalid",
+      "spec": "9.3.1",
+      "source": "1 . One\n",
+      "intent": "space between the number and the dot — invalid marker; expect literal text"
+    },
+    {
+      "id": "cand.lists.ordered.two-spaces-invalid",
+      "spec": "9.3.1",
+      "source": "1.  Two\n",
+      "intent": "two spaces after the ordered marker — invalid"
+    },
+    {
+      "id": "cand.lists.ordered.marker-alone-invalid",
+      "spec": "9.6",
+      "source": "1. \n",
+      "intent": "empty ordered item — expect syntax error"
+    },
+    {
+      "id": "cand.lists.ordered.leading-zeros-triple",
+      "spec": "9.3.1",
+      "source": "001. One\n",
+      "intent": "leading zeros normalise — '001.' becomes '1.'"
+    },
+    {
+      "id": "cand.lists.ordered.zeros-within-range",
+      "spec": "9.3.1",
+      "source": "0000000001. One\n",
+      "intent": "ten digits but value 1 after normalisation — within range; expect normalisation to '1.'"
+    },
+    {
+      "id": "cand.lists.ordered.start-non-one",
+      "spec": "9.3.1",
+      "source": "3. Three\n4. Four\n",
+      "intent": "list starts at 3 — start is stored; round-trips"
+    },
+    {
+      "id": "cand.lists.ordered.start-zero-continues",
+      "spec": "9.3.1",
+      "source": "0. Zero\n1. One\n",
+      "intent": "start 0 then a sequential 1 — the second item has no value field"
+    },
+    {
+      "id": "cand.lists.ordered.deviation-resets-sequence",
+      "spec": "9.3.1",
+      "source": "1. One\n3. Three\n4. Four\n",
+      "intent": "visible 3 deviates from expected 2 (stores value 3); following implicit numbering continues from 3"
+    },
+    {
+      "id": "cand.lists.ordered.repeated-number-deviation",
+      "spec": "9.3.1",
+      "source": "1. One\n1. Again\n",
+      "intent": "second visible 1 deviates from expected 2 — stores value 1"
+    },
+    {
+      "id": "cand.lists.ordered.max-start",
+      "spec": "9.3.1",
+      "source": "999999999. Nine\n",
+      "intent": "max allowed marker value — valid"
+    },
+    {
+      "id": "cand.lists.ordered.over-range-invalid",
+      "spec": "9.3.1",
+      "source": "1000000000. Too big\n",
+      "intent": "ten digits exceeding the max — expect syntax error"
+    },
+    {
+      "id": "cand.lists.task.open-no-content-invalid",
+      "spec": "9.3.2",
+      "source": "- [ ]\n",
+      "intent": "task marker with no inline content after it — expect syntax error"
+    },
+    {
+      "id": "cand.lists.task.invalid-character-invalid",
+      "spec": "9.3.2",
+      "source": "- [y] no\n",
+      "intent": "only [ ], [x], [X] are task markers — [y] is not; expect literal bracket text or error"
+    },
+    {
+      "id": "cand.lists.task.space-in-brackets-invalid",
+      "spec": "9.3.2",
+      "source": "- [ x ] no\n",
+      "intent": "spaces inside the brackets — not a valid task marker; expect literal"
+    },
+    {
+      "id": "cand.lists.task.uppercase-x-normalizes",
+      "spec": "9.3.2",
+      "source": "- [X] done\n",
+      "intent": "uppercase X normalises to lowercase [x]"
+    },
+    {
+      "id": "cand.lists.task.ordered-task",
+      "spec": "9.3.2",
+      "source": "1. [ ] ordered\n",
+      "intent": "a task marker on an ordered item — permitted"
+    },
+    {
+      "id": "cand.lists.task.nested-task",
+      "spec": "9.3.2",
+      "source": "- [ ] outer\n  - [x] inner\n",
+      "intent": "task markers in a nested sub-list — permitted"
+    },
+    {
+      "id": "cand.lists.task.definition-literal",
+      "spec": "9.3.2",
+      "source": ": [x] term\n",
+      "intent": "task-shaped text on a definition item is ordinary term content, not a task — valid"
+    },
+    {
+      "id": "cand.lists.task.empty-content-after-space-invalid",
+      "spec": "9.3.2",
+      "source": "- [x] \n",
+      "intent": "space after the task marker but no content — expect syntax error"
+    },
+    {
+      "id": "cand.lists.definition.colon-no-space-literal",
+      "spec": "9.18.1",
+      "source": ":Term\n",
+      "intent": "colon without a following space is not a definition marker — expect literal paragraph text"
+    },
+    {
+      "id": "cand.lists.definition.empty-invalid",
+      "spec": "9.18.1",
+      "source": ": \n",
+      "intent": "empty definition item — expect syntax error"
+    },
+    {
+      "id": "cand.lists.definition.two-spaces-invalid",
+      "spec": "9.18.1",
+      "source": ":  Term\n",
+      "intent": "two spaces after the colon — expect syntax error"
+    },
+    {
+      "id": "cand.lists.definition.term-group-then-def",
+      "spec": "9.18.2",
+      "source": ": HTML\n: HyperText\n\n  A markup language.\n",
+      "intent": "consecutive terms before one definition group into a term group"
+    },
+    {
+      "id": "cand.lists.definition.term-group-at-end",
+      "spec": "9.18.2",
+      "source": ": HTML\n: HyperText\n",
+      "intent": "a trailing term group with no following definition — valid; renders as bare <dt>s"
+    },
+    {
+      "id": "cand.lists.definition.term-then-def-then-term",
+      "spec": "9.18.7",
+      "source": ": Apple\n\n  A fruit.\n\n: Orange\n",
+      "intent": "a defined item then a term-only item — the trailing term has no definition"
+    },
+    {
+      "id": "cand.lists.definition.old-form-paragraph",
+      "spec": "9.18.1",
+      "source": "Term\n: Definition\n",
+      "intent": "the HMD term-on-own-line pattern is not a definition — first line is a paragraph, second starts a list"
+    },
+    {
+      "id": "cand.lists.definition.structured-child-list",
+      "spec": "9.18.3",
+      "source": ": Fruit\n\n  : Apple\n\n    A fruit with a core.\n",
+      "intent": "a nested definition list inside a definition item — permitted recursive structure"
+    },
+    {
+      "id": "cand.lists.kindswitch.ordered-to-unordered",
+      "spec": "9.3.1",
+      "source": "1. One\n- Two\n",
+      "intent": "ordered to unordered switch at the same level — starts a new list"
+    },
+    {
+      "id": "cand.lists.kindswitch.unordered-to-ordered",
+      "spec": "9.3.1",
+      "source": "- One\n1. Two\n",
+      "intent": "unordered to ordered switch — starts a new list"
+    },
+    {
+      "id": "cand.lists.kindswitch.definition-to-unordered",
+      "spec": "9.18.3",
+      "source": ": Term\n- Item\n",
+      "intent": "definition to unordered switch — new list, not an error"
+    },
+    {
+      "id": "cand.lists.indent.one-space-ambiguous",
+      "spec": "9.4",
+      "source": "- a\n - b\n",
+      "intent": "one-space indent is not a valid level-2 — ambiguous continuation; expect it to join the item as a continuation"
+    },
+    {
+      "id": "cand.lists.indent.three-space-ambiguous",
+      "spec": "9.4",
+      "source": "- a\n   - b\n",
+      "intent": "three-space indent is not canonical two-per-level — ambiguous; CommonMark assignment may attach it as a child or continuation"
+    },
+    {
+      "id": "cand.lists.indent.four-space-level-jump-invalid",
+      "spec": "9.5",
+      "source": "- a\n    - b\n",
+      "intent": "four-space indent is a two-level jump (level 1 to 3) — expect syntax error"
+    },
+    {
+      "id": "cand.lists.indent.tab-invalid",
+      "spec": "9.5",
+      "source": "- a\n\t- b\n",
+      "intent": "tab as list indentation — not permitted; expect syntax error"
+    },
+    {
+      "id": "cand.lists.indent.skip-back-valid",
+      "spec": "9.5",
+      "source": "- a\n  - b\n    - c\n- d\n",
+      "intent": "closing multiple levels at once when going back — valid"
+    },
+    {
+      "id": "cand.lists.depth.four-levels",
+      "spec": "9.4",
+      "source": "- a\n  - b\n    - c\n      - d\n",
+      "intent": "four nested levels — no fixed depth limit; expect valid"
+    },
+    {
+      "id": "cand.lists.depth.five-levels",
+      "spec": "9.4",
+      "source": "- a\n  - b\n    - c\n      - d\n        - e\n",
+      "intent": "five nested levels — still valid grammar-wise"
+    },
+    {
+      "id": "cand.lists.continuation.unindented-ends-list",
+      "spec": "9.9",
+      "source": "- a\n  continuing\noutside\n",
+      "intent": "a column-0 line after a list continuation ends the list — 'outside' is a new paragraph"
+    },
+    {
+      "id": "cand.lists.continuation.column-zero-new-paragraph",
+      "spec": "9.7",
+      "source": "- a\nb\n",
+      "intent": "an unindented text line after a list item — the list ends; 'b' is a new paragraph"
+    },
+    {
+      "id": "cand.lists.continuation.soft-break-inside-item",
+      "spec": "9.6",
+      "source": "- a longer item,\n  continuing here.\n",
+      "intent": "a two-space continuation joins the same paragraph with a soft break"
+    },
+    {
+      "id": "cand.lists.continuation.deeper-indent-normalizes",
+      "spec": "9.6",
+      "source": "- a\n    deeper continuation\n",
+      "intent": "four-space continuation — accepted in normal mode, normalised to the two-space baseline"
+    },
+    {
+      "id": "cand.lists.structured.heading-invalid",
+      "spec": "9.8",
+      "source": "- a\n\n  # Heading\n",
+      "intent": "a heading is not in the permitted structured-child list — expect the heading to end the list or an error"
+    },
+    {
+      "id": "cand.lists.structured.hr-invalid",
+      "spec": "9.8",
+      "source": "- a\n\n  ---\n",
+      "intent": "an HR is not a permitted structured child of a list item — expect list end or error"
+    },
+    {
+      "id": "cand.lists.structured.comment-child",
+      "spec": "9.8",
+      "source": "- a\n\n  <!-- note -->\n",
+      "intent": "a comment inside a structured list item — comment is a fenced literal, likely permitted"
+    },
+    {
+      "id": "cand.lists.structured.quote-child",
+      "spec": "9.8",
+      "source": "- a\n\n  > Quote.\n",
+      "intent": "a quote as a structured child — valid"
+    },
+    {
+      "id": "cand.lists.structured.sub-list-without-paragraph",
+      "spec": "9.8",
+      "source": "- a\n\n  - sub\n",
+      "intent": "a sub-list as the first structured child after the intro paragraph — valid"
+    },
+    {
+      "id": "cand.lists.structured.blank-closes-leaf-not-item",
+      "spec": "9.8",
+      "source": "- a\n\n  second paragraph.\n\n  third.\n",
+      "intent": "blank lines close leaf paragraphs but keep the item open at child indentation"
+    },
+    {
+      "id": "cand.lists.quote.list-inside-quote",
+      "spec": "3.11",
+      "source": "> - a\n>   - b\n",
+      "intent": "a nested list inside a quote — quote depth and list depth independent"
+    },
+    {
+      "id": "cand.lists.quote.quote-inside-list-inside-quote",
+      "spec": "9.10",
+      "source": "> - a\n>\n>   > nested quote\n",
+      "intent": "quote-in-list-in-quote recursion — permitted by the ordinary grammar"
+    },
+    {
+      "id": "cand.lists.quote.list-item-attribute-placement",
+      "spec": "9.10",
+      "source": "- Outer\n\n  > Context.\n  >\n  > - Inner\n",
+      "intent": "a list inside a quote inside a structured list item — valid recursion"
+    },
+    {
+      "id": "cand.lists.container.fenced-in-list-invalid",
+      "spec": "9.8",
+      "source": "- a\n\n  ::: Note\n  Text.\n  :::\n",
+      "intent": "a fenced container inside a list item is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.lists.container.lined-in-list-invalid",
+      "spec": "9.8",
+      "source": "- a\n\n  Note\n  ___\n\n  Text.\n  ___\n",
+      "intent": "a lined container inside a list item is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.lists.id.list-level-id",
+      "spec": "5.1",
+      "source": "- a\n- b\n{#list}\n",
+      "intent": "an id suffix after a list — the list node is addressable; expect valid"
+    },
+    {
+      "id": "cand.lists.id.contained-invalid",
+      "spec": "5.1",
+      "source": "- a\n\n  inner.\n  {#inner}\n",
+      "intent": "an id on a block inside a list item is not addressable — expect semantic error"
+    },
+    {
+      "id": "cand.lists.structured.table-child",
+      "spec": "9.8",
+      "source": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n",
+      "intent": "a table as a structured child — valid"
+    },
+    {
+      "id": "cand.lists.structured.code-child-fence-len",
+      "spec": "9.8",
+      "source": "- Example:\n\n  `````\n  ```\n  `````\n",
+      "intent": "a code fence inside a list item whose content contains a triple backtick — needs a longer fence"
+    },
+    {
+      "id": "cand.lists.continuation.not-enough-indent-simple",
+      "spec": "9.6",
+      "source": "- a\n b\n",
+      "intent": "one-space continuation — CommonMark attaches it as a lazy continuation; expect it joins the paragraph"
+    },
+    {
+      "id": "cand.lists.task.mixed-with-plain",
+      "spec": "9.3.2",
+      "source": "- plain\n- [ ] open\n- [x] done\n",
+      "intent": "plain and task items mix freely in one list"
+    },
+    {
+      "id": "cand.lists.structured.math-child",
+      "spec": "9.8",
+      "source": "- Eq:\n\n  ```math\n  x^2\n  ```\n",
+      "intent": "a math fence as a structured child — permitted as a fenced literal"
+    },
+    {
+      "id": "cand.lists.unordered.continuation-then-sibling",
+      "spec": "9.9",
+      "source": "- a\n  continuation\n- b\n",
+      "intent": "after a continuation, a same-level marker starts a new sibling item"
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Kommentierte Ressourcenliste"
+        }
+      ],
+      "id": "ressourcen"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Diese Liste sammelt Werkzeuge und Quellen, die ich beim Arbeiten mit"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Markdown regelmäßig nutze. Den Einstieg bildet die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "https://spec.commonmark.org/0.31.2/",
+          "children": [
+            {
+              "type": "text",
+              "value": "CommonMark-Spezifikation"
+            }
+          ],
+          "title": "CommonMark Spezifikation 0.31.2"
+        },
+        {
+          "type": "text",
+          "value": ", praktische Hinweise liefert das"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "https://example.de/handbuch",
+          "children": [
+            {
+              "type": "text",
+              "value": "Handbuch"
+            }
+          ],
+          "title": "Das Markanto-Handbuch"
+        },
+        {
+          "type": "text",
+          "value": ". Der "
+        },
+        {
+          "type": "link",
+          "href": "https://example.de/blog",
+          "children": [
+            {
+              "type": "text",
+              "value": "Projektblog"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " ist die erste Anlaufstelle für"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Neuigkeiten."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "sammlung"
+        },
+        {
+          "type": "text",
+          "value": " Wer es eilig hat, springt direkt zu"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "/weiterfuehrendes",
+          "children": [
+            {
+              "type": "text",
+              "value": "weiterfuehrendes"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Weiterführendes"
+        }
+      ],
+      "id": "weiterfuehrendes"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Weitere Empfehlungen:"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Die "
+                },
+                {
+                  "type": "link",
+                  "href": "https://github.github.com/gfm/",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "GFM-Spezifikation"
+                    }
+                  ],
+                  "title": "GitHub Flavored Markdown"
+                },
+                {
+                  "type": "text",
+                  "value": " beschreibt die Tabellen-Erweiterung."
+                },
+                {
+                  "type": "footnoteReference",
+                  "identifier": "tabelle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Das "
+                },
+                {
+                  "type": "link",
+                  "href": "https://example.de/kurzdokument",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Kurzdokument"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": " fasst die wichtigsten Regeln zusammen."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "type": "footnoteDefinition",
+      "identifier": "sammlung",
+      "children": [
+        {
+          "type": "text",
+          "value": "Persönliche Auswahl, Stand August 2026."
+        }
+      ]
+    },
+    {
+      "type": "footnoteDefinition",
+      "identifier": "tabelle",
+      "children": [
+        {
+          "type": "text",
+          "value": "GFM-Tabellen sind in Markanto als Kern-Syntax übernommen."
+        }
+      ]
+    }
+  ]
+}

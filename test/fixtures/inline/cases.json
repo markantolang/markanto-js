@@ -1,0 +1,3357 @@
+{
+  "schemaVersion": 1,
+  "group": "inline",
+  "cases": [
+    {
+      "id": "inline.em.star",
+      "spec": "10.2",
+      "source": "*em*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*em*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "*em*\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "em"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.em.underscore-normalizes",
+      "spec": "10.11",
+      "source": "_em_\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*em*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.strong.star",
+      "spec": "10.2",
+      "source": "**strong**\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "**strong**\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "**strong**\n"
+        }
+      }
+    },
+    {
+      "id": "inline.strong.underscore-normalizes",
+      "spec": "10.11",
+      "source": "__strong__\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "**strong**\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.code.basic",
+      "spec": "10.9",
+      "source": "`code`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`code`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`code`\n"
+        }
+      }
+    },
+    {
+      "id": "inline.code.backtick-content",
+      "spec": "10.9",
+      "source": "``code with ` backtick``\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "``code with ` backtick``\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "``code with ` backtick``\n"
+        }
+      }
+    },
+    {
+      "id": "inline.escape.star",
+      "spec": "10.8",
+      "source": "\\*literal*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\*literal*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\*literal*\n"
+        }
+      }
+    },
+    {
+      "id": "inline.escape.underscore-run-midline",
+      "spec": "10.8",
+      "source": "p _\\__ q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "p \\___ q\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "p ___ q"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "An escaped `_` inside a run of three or more underscores makes the whole run literal (§10.8); canonical escapes only the leftmost."
+    },
+    {
+      "id": "inline.escape.underscore-run-four",
+      "spec": "10.8",
+      "source": "\\____\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\____\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\____\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "____"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.escape.unknown-backslash-literal",
+      "spec": "10.8",
+      "source": "\\q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\q\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\q\n"
+        }
+      }
+    },
+    {
+      "id": "inline.deletion",
+      "spec": "10.2",
+      "source": "~~old~~\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "~~old~~\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "~~old~~\n"
+        }
+      },
+      "notes": "Deletion is semantically distinct from Obsolete and maps to editorial deletion.",
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "deletion",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "old"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.obsolete",
+      "spec": "10.2",
+      "source": "--old--\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "--old--\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "--old--\n"
+        }
+      },
+      "notes": "Obsolete means retained-but-no-longer-accurate content; it is not an alias of Deletion.",
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "obsolete",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "old"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.insert",
+      "spec": "10.2",
+      "source": "++new++\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "++new++\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "++new++\n"
+        }
+      }
+    },
+    {
+      "id": "inline.mark",
+      "spec": "10.2",
+      "source": "==mark==\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "==mark==\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "==mark==\n"
+        }
+      }
+    },
+    {
+      "id": "inline.sup",
+      "spec": "10.11",
+      "source": "mc^2^\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "mc^2^\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "mc^2^\n"
+        }
+      }
+    },
+    {
+      "id": "inline.sub",
+      "spec": "10.11",
+      "source": "H~2~O\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "H~2~O\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "H~2~O\n"
+        }
+      }
+    },
+    {
+      "id": "inline.sub.literal-home",
+      "spec": "10.10",
+      "source": "~/.bashrc\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "~/.bashrc\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "~/.bashrc\n"
+        }
+      }
+    },
+    {
+      "id": "inline.sup.whitespace-no-token",
+      "spec": "10.10",
+      "source": "a ^ b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a ^ b\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "a ^ b\n"
+        }
+      }
+    },
+    {
+      "id": "inline.direct-link",
+      "spec": "10.5",
+      "source": "[Link](https://example.org)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[Link](https://example.org)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[Link](https://example.org)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "https://example.org",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Link"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.anchor-link",
+      "spec": "10.5",
+      "source": "[Introduction](#intro)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[Introduction](#intro)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[Introduction](#intro)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "#intro",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Introduction"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.symbolic-link",
+      "spec": "10.5",
+      "source": "[$id]($id)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[$id]($id)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[$id]($id)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "$id",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "$id"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.symbolic-link-hyphen",
+      "spec": "10.5",
+      "source": "[$section-2]($section-2)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[$section-2]($section-2)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[$section-2]($section-2)\n"
+        }
+      }
+    },
+    {
+      "id": "inline.reference-link-is-literal-text",
+      "spec": "1.2",
+      "source": "[Text][id]\n\n[id]: /target\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[Text][id]\n\n[id]: /target\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[Text][id]\n\n[id]: /target\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[Text][id]"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[id]: /target"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.image.markup-alt",
+      "spec": "10.5",
+      "source": "![An *important* image](image.jpg)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![An *important* image](image.jpg)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![An *important* image](image.jpg)\n"
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bracket-url",
+      "spec": "13.2",
+      "source": "<https://example.org>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<https://example.org>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<https://example.org>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "kind": "url",
+                "value": "https://example.org"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.autolink.bare-url-normalizes",
+      "spec": "13.2a",
+      "source": "See https://example.org.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org>.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.email",
+      "spec": "13.2",
+      "source": "<user@example.org>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<user@example.org>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<user@example.org>\n"
+        }
+      }
+    },
+    {
+      "id": "inline.unclosed-em-literal",
+      "spec": "10.10",
+      "source": "*no end\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\*no end\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "*no end" }] }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.unclosed.obsolete-option-literal",
+      "spec": "10.10",
+      "source": "use --verbose flag\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "use \\--verbose flag\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "use --verbose flag" }] }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.unclosed.obsolete-diff-literal",
+      "spec": "10.10",
+      "source": "diff --git a/x b/x\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "diff \\--git a/x b/x\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "diff --git a/x b/x" }] }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.unclosed.em-glob-literal",
+      "spec": "10.10",
+      "source": "use *.txt files\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "use \\*.txt files\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "use *.txt files" }] }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.unclosed.insert-preincrement-literal",
+      "spec": "10.10",
+      "source": "++i is preincrement\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "\\++i is preincrement\n" },
+        "strict": { "valid": false, "diagnostics": [{ "category": "noncanonical", "severity": "error" }] }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "++i is preincrement" }] }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.underscore-intraword-literal",
+      "spec": "10.11",
+      "source": "x_y_z mid-word\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "x_y_z mid-word\n" },
+        "strict": { "valid": true, "canonical": "x_y_z mid-word\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "x_y_z mid-word" }] }],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.unclosed-code-invalid",
+      "spec": "10.9",
+      "source": "`no end\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.sup.whitespace-invalid-token",
+      "spec": "10.11",
+      "source": "^a b^\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "^a b^\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "^a b^\n"
+        }
+      },
+      "notes": "No valid atomic sup token is formed; carets remain literal."
+    },
+    {
+      "id": "inline.em.parenthesized",
+      "spec": "10.3",
+      "source": "(*em*)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "(*em*)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "(*em*)\n"
+        }
+      }
+    },
+    {
+      "id": "inline.em.unicode-symbol-flanking",
+      "spec": "10.3",
+      "source": "©*x*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "©*x*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "©*x*\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "©"
+              },
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.em.intraword-star-literal",
+      "spec": "10.3",
+      "source": "a*b*c\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a*b*c\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "a*b*c\n"
+        }
+      }
+    },
+    {
+      "id": "inline.strong.intraword-literal",
+      "spec": "10.3",
+      "source": "mc**2\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "mc**2\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "mc**2\n"
+        }
+      }
+    },
+    {
+      "id": "inline.em.wrapper-normalizes",
+      "spec": "10.6",
+      "source": "<i>em</i>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*em*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.strong.wrapper-normalizes",
+      "spec": "10.6",
+      "source": "<b>strong</b>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "**strong**\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.wrapper.em-strong-normalizes",
+      "spec": "10.6",
+      "source": "<i><b>x</b></i>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*__x__*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.hardbreak.backslash",
+      "spec": "7.1",
+      "source": "Line one\\\nLine two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Line one\\\nLine two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Line one\\\nLine two\n"
+        }
+      }
+    },
+    {
+      "id": "inline.hardbreak.spaces-normalize",
+      "spec": "7.1",
+      "source": "Line one  \nLine two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Line one\\\nLine two\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.hardbreak.space-before-backslash-normalizes",
+      "spec": "10.7",
+      "source": "Line one \\\nLine two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Line one\\\nLine two\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.escape.backslash",
+      "spec": "10.8",
+      "source": "\\\\\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\\\\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\\\\n"
+        }
+      }
+    },
+    {
+      "id": "inline.entity.amp-normalizes",
+      "spec": "10.8.1",
+      "source": "&amp;\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "&\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.entity.structure-does-not-retroactively-open",
+      "spec": "10.8.1",
+      "source": "&ast;em&ast;\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\*em*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Structure is recognised before entity decoding: &ast; decoding to * does not open Em. The AST is Text(\"*em*\"); canonical escapes only the leftmost * (leftmost-effective rule, 10.8) so it round-trips to the same Text. The entity source is noncanonical in strict mode."
+    },
+    {
+      "id": "inline.code.protect-edge-backticks",
+      "spec": "10.9",
+      "source": "`` `code` ``\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`` `code` ``\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`` `code` ``\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": "`code`"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.em.cross-line",
+      "spec": "10.10",
+      "source": "*Line one\nLine two*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*Line one\nLine two*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "*Line one\nLine two*\n"
+        }
+      }
+    },
+    {
+      "id": "inline.same-kind-direct-nesting-invalid",
+      "spec": "10.12",
+      "source": "**a **b** c**\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.sup.single-literal",
+      "spec": "10.10",
+      "source": "Ctrl ^C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Ctrl ^C\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Ctrl ^C\n"
+        }
+      }
+    },
+    {
+      "id": "inline.sub.single-literal",
+      "spec": "10.10",
+      "source": "5~10\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "5~10\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "5~10\n"
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-trailing-dot",
+      "spec": "13.2a",
+      "source": "See https://example.org.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org>.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-balanced-parens",
+      "spec": "13.2a",
+      "source": "https://example.org/a(b)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<https://example.org/a(b)>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-extra-paren",
+      "spec": "13.2a",
+      "source": "https://example.org/a(b))\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<https://example.org/a(b)>)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-email-literal",
+      "spec": "13.2a",
+      "source": "user@example.org\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "user@example.org\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "user@example.org\n"
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.code-prevents-recognition",
+      "spec": "13.3",
+      "source": "`https://example.org`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`https://example.org`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`https://example.org`\n"
+        }
+      }
+    },
+    {
+      "id": "inline.anchor-link.underscore",
+      "spec": "5.3",
+      "source": "[Section](#section_1)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[Section](#section_1)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[Section](#section_1)\n"
+        }
+      }
+    },
+    {
+      "id": "inline.symbolic-link.underscore",
+      "spec": "10.5",
+      "source": "[$section_1]($section_1)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[$section_1]($section_1)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[$section_1]($section_1)\n"
+        }
+      }
+    },
+    {
+      "id": "inline.reference-image-is-literal-text",
+      "spec": "1.2",
+      "source": "![Alt][img]\n\n[img]: image.png\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![Alt][img]\n\n[img]: image.png\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![Alt][img]\n\n[img]: image.png\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "![Alt][img]"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[img]: image.png"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.code.real-boundary-spaces-preserved",
+      "spec": "10.9",
+      "source": "``  `code`  ``\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "``  `code`  ``\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "``  `code`  ``\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": " `code` "
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.autolink.bare-trailing-star",
+      "spec": "13.2a",
+      "source": "See https://example.org*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org>*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-trailing-underscore",
+      "spec": "13.2a",
+      "source": "See https://example.org_\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org>_\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-trailing-tilde",
+      "spec": "13.2a",
+      "source": "See https://example.org~\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org>~\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-entitylike-semicolon",
+      "spec": "13.2a",
+      "source": "See https://example.org/x&hl;\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org/x>&hl;\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-ordinary-semicolon-kept",
+      "spec": "13.2a",
+      "source": "See https://example.org/x;\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "See <https://example.org/x;>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.strong-em.stack-aware",
+      "spec": "10.4",
+      "source": "***x***\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "***x***\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "***x***\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "strong",
+                "children": [
+                  {
+                    "type": "em",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Closer recognition is stack-aware: inner Em closes before outer Strong."
+    },
+    {
+      "id": "inline.deletion-sub.stack-aware",
+      "spec": "10.4",
+      "source": "p ~~~q~~~ r\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "p ~~~q~~~ r\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "p ~~~q~~~ r\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "p "
+              },
+              {
+                "type": "deletion",
+                "children": [
+                  {
+                    "type": "sub",
+                    "value": "q"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": " r"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Mid-line ~~~q~~~ takes the inline path: the atomic Sub closer on top of the stack closes before the outer Deletion delimiter. A line-start ~~~ run is a block fence instead (spec 10.11, 2.4, 15.1) -- see inline.deletion-sub.line-start-is-fence."
+    },
+    {
+      "id": "inline.deletion-sub.line-start-is-fence",
+      "spec": "10.11",
+      "source": "~~~x~~~\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Block recognition wins over inline (15.1): a line beginning with three or more tildes is a code/math fence (2.4) with info token 'x~~~', not the inline ~~~x~~~ edge case. Unclosed, so a syntax error -- never an inline fallback."
+    },
+    {
+      "id": "inline.hardbreak.terminal-backslash-is-literal",
+      "spec": "10.7",
+      "source": "text\\\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "text\\\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "text\\\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "text\\"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A trailing backslash with nothing after it is a literal backslash, not a HardBreak carrier (spec 10.7)."
+    },
+    {
+      "id": "inline.hardbreak.leading-backslash-line-is-literal",
+      "spec": "10.7",
+      "source": "\\\nnext\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\\nnext\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\\nnext\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "\\"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "next"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A backslash with no content before it on its line is literal; the line boundary is a soft break."
+    },
+    {
+      "id": "inline.hardbreak.mid-paragraph-backslash-line",
+      "spec": "10.7",
+      "source": "a\\\n\\\nb\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a\\\n\\\nb\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "a\\\n\\\nb\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a"
+              },
+              {
+                "type": "hardBreak"
+              },
+              {
+                "type": "text",
+                "value": "\\"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Line 1 has content before the backslash and a following line -> HardBreak. Line 2 backslash has no content before it -> literal. No two break nodes adjacent."
+    },
+    {
+      "id": "inline.entity.newline-not-decoded",
+      "spec": "10.8.1",
+      "source": "a&NewLine;b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a&NewLine;b\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "a&NewLine;b\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a&NewLine;b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "The one committed named entity whose decoded value is LF: not decoded, stays literal text, no diagnostic (spec 10.8.1)."
+    },
+    {
+      "id": "inline.entity.numeric-newline-not-decoded",
+      "spec": "10.8.1",
+      "source": "a&#10;b and a&#x0d;c\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a&#10;b and a&#x0d;c\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "a&#10;b and a&#x0d;c\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a&#10;b and a&#x0d;c"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Numeric decimal/hex entities decoding to LF or CR are not decoded either."
+    },
+    {
+      "id": "inline.link.dest-angle-not-needed",
+      "spec": "10.5.1",
+      "source": "[x](<ab>)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[x](ab)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "ab",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Angle form with no space and balanced parens normalises to the bare destination."
+    },
+    {
+      "id": "inline.link.dest-angle-needed",
+      "spec": "10.5.1",
+      "source": "[x](<a b>)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[x](<a b>)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[x](<a b>)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "a b",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A destination containing a space is canonical only in the angle form."
+    },
+    {
+      "id": "inline.link.dest-bare-balanced-parens",
+      "spec": "10.5.1",
+      "source": "[x](a(b)c)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[x](a(b)c)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[x](a(b)c)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "a(b)c",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Balanced parentheses in a bare destination need no escaping."
+    },
+    {
+      "id": "inline.link.empty-title",
+      "spec": "10.5.1",
+      "source": "[x](u \"\")\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "[x](u \"\")\n" },
+        "strict": { "valid": true, "canonical": "[x](u \"\")\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [{
+          "type": "paragraph",
+          "children": [{
+            "type": "link",
+            "href": "u",
+            "title": "",
+            "children": [{ "type": "text", "value": "x" }]
+          }]
+        }],
+        "footnotes": []
+      },
+      "notes": "A present empty title is distinct from an absent title."
+    },
+    {
+      "id": "inline.link.title-single-quote-normalizes",
+      "spec": "10.5.1",
+      "source": "[x](a 'title')\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[x](a \"title\")\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "a",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ],
+                "title": "title"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A title is canonical only as a double-quoted string with one leading space."
+    },
+    {
+      "id": "inline.wrapper.multiline-normalizes",
+      "spec": "10.11",
+      "source": "<i>a\nb</i>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*a\nb*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "<i>/<b> may span a paragraph SoftBreak and normalize to the canonical star surface."
+    },
+    {
+      "id": "inline.link.label-cross-line",
+      "spec": "10.5.1",
+      "source": "[a\nb](x)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a\nb](x)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[a\nb](x)\n"
+        }
+      },
+      "notes": "A direct-link label may span a paragraph SoftBreak; destination and title remain line-local."
+    },
+    {
+      "id": "inline.link.label-autolink-invalid",
+      "spec": "10.5.1",
+      "source": "[<https://inner.org>](https://outer.org)\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A nested Link or Autolink in a link label is forbidden."
+    },
+    {
+      "id": "inline.entity.numeric-invalid-stays-literal",
+      "spec": "10.8.1",
+      "source": "a &#0; &#xD800; &#x110000; &#; z\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a &#0; &#xD800; &#x110000; &#; z\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "a &#0; &#xD800; &#x110000; &#; z\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a &#0; &#xD800; &#x110000; &#; z"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "NUL, surrogate, out-of-range, and digitless numeric references stay literal with no diagnostic."
+    },
+    {
+      "id": "inline.entity.numeric-uppercase-x-decodes",
+      "spec": "10.8.1",
+      "source": "&#X41;\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "A\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "A"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "&#X...; (uppercase X) is a valid hexadecimal reference; it decodes and the literal char is canonical."
+    },
+    {
+      "id": "inline.link.label-bracket-escaped",
+      "spec": "10.5.1",
+      "source": "[a\\]b](y)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a\\]b](y)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[a\\]b](y)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "y",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a]b"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.image.alt-bracket-escaped",
+      "spec": "10.5.1",
+      "source": "p ![x\\]y](i) q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "p ![x\\]y](i) q\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "p ![x\\]y](i) q\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "p "
+              },
+              {
+                "type": "inlineImage",
+                "src": "i",
+                "alt": [
+                  {
+                    "type": "text",
+                    "value": "x]y"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": " q"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.label-open-bracket-escaped",
+      "spec": "10.5.1",
+      "source": "[a\\[b](y)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a\\[b](y)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[a\\[b](y)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "y",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a[b"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.linked-image",
+      "spec": "10.5.1",
+      "source": "[![alt](img.png)](https://example.org)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[![alt](img.png)](https://example.org)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[![alt](img.png)](https://example.org)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "https://example.org",
+                "children": [
+                  {
+                    "type": "inlineImage",
+                    "src": "img.png",
+                    "alt": [
+                      {
+                        "type": "text",
+                        "value": "alt"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.linked-image-with-title",
+      "spec": "10.5.1",
+      "source": "[![a](i \"t\")](u)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[![a](i \"t\")](u)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[![a](i \"t\")](u)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "u",
+                "children": [
+                  {
+                    "type": "inlineImage",
+                    "src": "i",
+                    "title": "t",
+                    "alt": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.nested-direct-link-invalid",
+      "spec": "10.5.1",
+      "source": "[[x](y)](z)\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.image.alt-nested-link-invalid",
+      "spec": "10.5.1",
+      "source": "![a [x](y) b](z)\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.link.empty-label-invalid",
+      "spec": "10.5.1",
+      "source": "[](https://example.org)\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "An empty link label is error 10.3; an empty image alt stays valid."
+    },
+    {
+      "id": "inline.link.label-footnote-reference-invalid",
+      "spec": "10.5.1",
+      "source": "see [the note [^n] inline](https://example.org)\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A FootnoteReference renders as an anchor and is forbidden in a link label / image alt."
+    },
+    {
+      "id": "inline.image.alt-footnote-reference-invalid",
+      "spec": "10.5.1",
+      "source": "![figure [^n] detail](image.png)\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.link.destination-entity",
+      "spec": "10.5.1, 10.8.1",
+      "source": "[a](/x?q=1&amp;r=2)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a](/x?q=1&r=2)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "/x?q=1&r=2",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.title-entity",
+      "spec": "10.5.1, 10.8.1",
+      "source": "[a](/x \"&quot;q&quot;\")\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a](/x \"\\\"q\\\"\")\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "/x",
+                "title": "\"q\"",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.destination-entity-control-stays-literal",
+      "spec": "10.5.1, 10.8.1",
+      "source": "[a](/x&NewLine;y)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a](/x&NewLine;y)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[a](/x&NewLine;y)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "/x&NewLine;y",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.empty-destination",
+      "spec": "10.5.1",
+      "source": "[link]()\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[link](<>)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "link"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.destination-literal-entity-text",
+      "spec": "10.5.1, 10.8.1",
+      "source": "[a](/x\\&amp;y)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a](/x\\&amp;y)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[a](/x\\&amp;y)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "/x&amp;y",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.empty-destination-angle",
+      "spec": "10.5.1",
+      "source": "[link](<>)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[link](<>)\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[link](<>)\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "link"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.image.empty-destination",
+      "spec": "10.5.1",
+      "source": "![alt]()\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![alt](<>)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The Phase-2 parser still exposes a full-line image through its transitional inline surface; Phase 4 lowers it to ImageBlock."
+    },
+    {
+      "id": "inline.metadata.group-invalid",
+      "spec": "4.6, 10.6",
+      "source": "<m group=x>Text</m>\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A kindless inline MetadataSpan may carry lang and data-* only; group is a semantic context violation."
+    },
+    {
+      "id": "inline.code.priority-over-em",
+      "spec": "10.4",
+      "source": "`*not em*`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`*not em*`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`*not em*`\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": "*not em*"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.em.nested-strong",
+      "spec": "10.2",
+      "source": "*a **b** c*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "*a **b** c*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "*a **b** c*\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a "
+                  },
+                  {
+                    "type": "strong",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " c"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.escape.leftmost-effective-pair",
+      "spec": "10.8",
+      "source": "\\*x*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\*x*\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\*x*\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "*x*"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.priority.autolink-vs-email",
+      "spec": "13.2",
+      "source": "<https://user@example.org>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<https://user@example.org>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<https://user@example.org>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "kind": "url",
+                "value": "https://user@example.org"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.priority.code-vs-reference",
+      "spec": "11.4",
+      "source": "`[^a]`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`[^a]`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`[^a]`\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": "[^a]"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.strong.nested-em",
+      "spec": "10.2",
+      "source": "**a *b* c**\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "**a *b* c**\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "**a *b* c**\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "strong",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a "
+                  },
+                  {
+                    "type": "em",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " c"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.autolink.bare-trailing-underscore-inside",
+      "spec": "13.2a",
+      "source": "see https://example.org/a_b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "see <https://example.org/a_b>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "see "
+              },
+              {
+                "type": "autolink",
+                "kind": "url",
+                "value": "https://example.org/a_b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.autolink.space-inside-literal",
+      "spec": "13.3",
+      "source": "<https://example.org/a b>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<<https://example.org/a> b>\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<"
+              },
+              {
+                "type": "autolink",
+                "kind": "url",
+                "value": "https://example.org/a"
+              },
+              {
+                "type": "text",
+                "value": " b>"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.em.underscore-nested-punct",
+      "spec": "10.3",
+      "source": "(_em_)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "(*em*)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "("
+              },
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "em"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": ")"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.escape.both-escaped-tolerated",
+      "spec": "10.8",
+      "source": "\\*x\\*\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\*x*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "*x*"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.escape.deletion-leftmost",
+      "spec": "10.8",
+      "source": "\\~~x~~\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\~~x~\\~\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "~"
+              },
+              {
+                "type": "sub",
+                "value": "x"
+              },
+              {
+                "type": "text",
+                "value": "~"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.escape.double-backslash",
+      "spec": "10.8",
+      "source": "a\\\\b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "a\\b\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a\\b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.escape.strong-leftmost",
+      "spec": "10.8",
+      "source": "\\**x**\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\**x*\\*\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "*"
+              },
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "*"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.link.dest-escaped-paren",
+      "spec": "10.5.1",
+      "source": "[a](b\\)c)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a](<b)c>)\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "link",
+                "href": "b)c",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.wrapper.attribute-invalid",
+      "spec": "10.2",
+      "source": "<i lang=en>x</i>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<i lang=en>x</i>\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<i lang=en>x</i>\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<i lang=en>x</i>"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.code.double-empty-invalid",
+      "spec": "10.9",
+      "source": "`` ``\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "` `\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": " "
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.deletion-sub.midline-with-space-invalid",
+      "spec": "10.11",
+      "source": "p ~~~a b~~~ r\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "p ~~~a b~~\\~ r\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "p "
+              },
+              {
+                "type": "deletion",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "~a b"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "~ r"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.em.nested-same-kind",
+      "spec": "10.4",
+      "source": "*a *b* c*\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.em.overlapping-invalid",
+      "spec": "10.12",
+      "source": "**a *b** c*\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inline.autolink.bare-ftp-literal",
+      "spec": "13.3",
+      "source": "see ftp://example.org\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "see ftp://example.org\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "see ftp://example.org\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "see ftp://example.org"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    }
+  ]
+}

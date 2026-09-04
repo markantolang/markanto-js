@@ -1,0 +1,6 @@
+{
+  "source": "monorepo/fixtures/*.mrk",
+  "sourceCommit": "fb20a5d",
+  "note": "Original Markanto v0.5.3-surface documents. Their hand-ported 0.1.0 equivalents are test/corpus-realistic/*.mrk (Phase 10B). migrate.test.ts uses these as the migration oracle.",
+  "count": 14
+}

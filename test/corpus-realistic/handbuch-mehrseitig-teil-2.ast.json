@@ -1,0 +1,578 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Konfiguration und Fehlerbehebung"
+        }
+      ],
+      "id": "konfiguration"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Dies ist der zweite Teil des Handbuchs. Die Installation selbst ist im"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "ersten Teil unter "
+        },
+        {
+          "type": "link",
+          "href": "/installation",
+          "children": [
+            {
+              "type": "text",
+              "value": "installation"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " beschrieben; hier geht es um die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Feinabstimmung des laufenden Systems."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Inhalt"
+        }
+      ],
+      "id": "inhalt-2"
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/optionen",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "optionen"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/strenge",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "strenge"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/fehlerbehebung",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "fehlerbehebung"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Parser-Optionen"
+        }
+      ],
+      "id": "optionen"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die wichtigsten Optionen werden beim Parsen übergeben:"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "left",
+        "center",
+        "right",
+        "default"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Option"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Typ"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Default"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Bedeutung"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "lineBreaks"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "string"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "soft"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Zeilenumbruch-Modus"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "maxListDepth"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "number"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "8"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Maximale Listentiefe"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "strict"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "boolean"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "false"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Nur kanonische Eingabe"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Optionen sind sprachrelevant und müssen projektweit einheitlich"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "gesetzt werden, damit Kanonizitätsgesetz 5 (Optionsstabilität) greift."
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Einzelheiten nennt der erste Teil unter "
+        },
+        {
+          "type": "link",
+          "href": "/funktionen",
+          "children": [
+            {
+              "type": "text",
+              "value": "funktionen"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Strict Mode"
+        }
+      ],
+      "id": "strenge"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Im Strict Mode wird ausschließlich die kanonische Form akzeptiert:"
+        }
+      ]
+    },
+    {
+      "type": "quoteRegion",
+      "children": [
+        {
+          "level": 1,
+          "block": {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Der Strict Mode ist für Kontexte gedacht, in denen maximale"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "Vorhersagbarkeit wichtiger ist als Schreibkomfort:"
+              }
+            ]
+          }
+        },
+        {
+          "level": 1,
+          "block": {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "CI-Pipelines und Linting"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "automatische Verarbeitung"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "bytegenaue Diff-Vergleiche"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Fehlerbehebung"
+        }
+      ],
+      "id": "fehlerbehebung"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Treten beim Parsen Fehler auf, erzeugt der Parser statt eines Abbruchs"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "einen "
+        },
+        {
+          "type": "inlineCode",
+          "value": "ErrorBlock"
+        },
+        {
+          "type": "text",
+          "value": " und fährt fort."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "recovery"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Prüfen Sie zuerst die Zeile, die der "
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "ErrorBlock"
+                },
+                {
+                  "type": "text",
+                  "value": " benennt."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Vergleichen Sie mit dem Abschnitt "
+                },
+                {
+                  "type": "link",
+                  "href": "/voraussetzungen",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "voraussetzungen"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": " aus Teil 1."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Bei Mehrdeutigkeiten hilft der Strict Mode, den Auslöser einzugrenzen."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "type": "footnoteDefinition",
+      "identifier": "recovery",
+      "children": [
+        {
+          "type": "text",
+          "value": "Spec 7.5: Der Parser scheitert nicht am ersten Fehler, sondern sammelt Fehlerblöcke."
+        }
+      ]
+    }
+  ]
+}

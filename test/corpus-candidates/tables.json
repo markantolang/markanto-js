@@ -1,0 +1,407 @@
+{
+  "family": "tables",
+  "candidates": [
+    {
+      "id": "cand.tables.delimiter.escaped-pipe-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| x\\|y | z |\n",
+      "intent": "an escaped pipe is a literal cell character, not a column boundary"
+    },
+    {
+      "id": "cand.tables.delimiter.pipe-in-image-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| ![a|b](i.png) | z |\n",
+      "intent": "a pipe inside a complete image token is atomic — not a column delimiter"
+    },
+    {
+      "id": "cand.tables.delimiter.pipe-in-autolink-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <https://x.org/a|b> | z |\n",
+      "intent": "a pipe inside a bracketed autolink is atomic — not a column delimiter"
+    },
+    {
+      "id": "cand.tables.delimiter.pipe-in-link-title",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| [x](a \"ti|tle\") | z |\n",
+      "intent": "a pipe inside a link title is part of the atomic link token"
+    },
+    {
+      "id": "cand.tables.delimiter.pipe-in-m-wrapper-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <m data-x=\"a|b\">t</m> | z |\n",
+      "intent": "a pipe inside a quoted MIB attribute is atomic — not a column delimiter"
+    },
+    {
+      "id": "cand.tables.delimiter.pipe-in-code-atomic",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `a|b` | z |\n",
+      "intent": "a pipe inside an inline-code span is atomic"
+    },
+    {
+      "id": "cand.tables.delimiter.double-pipe-empty-cell",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| a || b |\n",
+      "intent": "two adjacent pipes produce an empty middle cell"
+    },
+    {
+      "id": "cand.tables.delimiter.backslash-pipe-in-code",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `\\|` | z |\n",
+      "intent": "a backslash-pipe inside a code span is literal code content, not an escape"
+    },
+    {
+      "id": "cand.tables.separator.too-short-not-table",
+      "spec": "12.3",
+      "source": "| A | B |\n| -- | -- |\n",
+      "intent": "a separator cell of two dashes is not a valid separator — the lines stay paragraph text"
+    },
+    {
+      "id": "cand.tables.separator.single-dash-not-table",
+      "spec": "12.3",
+      "source": "| A |\n| - |\n",
+      "intent": "a single dash is not a separator cell — not a table"
+    },
+    {
+      "id": "cand.tables.separator.colon-both-sides-short",
+      "spec": "12.3",
+      "source": "| A |\n| :--: |\n| x |\n",
+      "intent": "a :--: separator with two dashes — probe whether two dashes are enough for alignment cells"
+    },
+    {
+      "id": "cand.tables.separator.extra-dashes",
+      "spec": "12.4",
+      "source": "| A | B |\n| ----- | ----- |\n| x | y |\n",
+      "intent": "longer separator dashes normalise to ---"
+    },
+    {
+      "id": "cand.tables.separator.double-colon-invalid",
+      "spec": "12.3",
+      "source": "| A |\n| ::--- |\n",
+      "intent": "a double-colon separator cell is not valid alignment grammar — not a table"
+    },
+    {
+      "id": "cand.tables.separator.space-in-marker-invalid",
+      "spec": "12.3",
+      "source": "| A |\n| : --- |\n",
+      "intent": "a space inside the alignment marker — not a valid separator"
+    },
+    {
+      "id": "cand.tables.separator.dash-then-colon-end-invalid",
+      "spec": "12.3",
+      "source": "| A |\n| ---:: |\n",
+      "intent": "a trailing double colon in a separator cell — invalid alignment marker"
+    },
+    {
+      "id": "cand.tables.separator.mixed-widths",
+      "spec": "12.4",
+      "source": "| L | C | R |\n| :--- | :---: | ---: |\n| a | b | c |\n",
+      "intent": "mixed alignment markers across columns — valid, normalised compactly"
+    },
+    {
+      "id": "cand.tables.separator.without-outer-pipes",
+      "spec": "12.3",
+      "source": "A | B\n--- | ---\n1 | 2\n",
+      "intent": "a table with no edge pipes at all — tolerated, normalised to canonical edge pipes"
+    },
+    {
+      "id": "cand.tables.separator.mixed-edge-pipes",
+      "spec": "12.3",
+      "source": "| A | B\n| --- | ---\n| 1 | 2\n",
+      "intent": "edge pipes only on the left of every row — probe normalisation"
+    },
+    {
+      "id": "cand.tables.rows.header-more-cells-invalid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- |\n",
+      "intent": "the separator has fewer cells than the header — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.rows.separator-more-cells-invalid",
+      "spec": "12.3",
+      "source": "| A |\n| --- | --- |\n",
+      "intent": "the separator has more cells than the header — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.rows.body-short-invalid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| 1 |\n",
+      "intent": "a body row with too few cells — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.rows.body-long-invalid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| 1 | 2 | 3 |\n",
+      "intent": "a body row with too many cells — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.rows.empty-body-cells-valid",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n|  |  |\n",
+      "intent": "a body row of two empty cells — valid"
+    },
+    {
+      "id": "cand.tables.rows.empty-header-cell-valid",
+      "spec": "12.3",
+      "source": "| A |  |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "an empty header cell — valid"
+    },
+    {
+      "id": "cand.tables.single-column.basic",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| x |\n",
+      "intent": "a single-column table — valid"
+    },
+    {
+      "id": "cand.tables.single-column.align-right",
+      "spec": "12.4",
+      "source": "| A |\n| ---: |\n| x |\n",
+      "intent": "a single-column right-aligned table — valid"
+    },
+    {
+      "id": "cand.tables.single-column.center",
+      "spec": "12.4",
+      "source": "| A |\n| :---: |\n| x |\n",
+      "intent": "a single-column centred table — valid"
+    },
+    {
+      "id": "cand.tables.single-column.no-edge-pipes",
+      "spec": "12.3",
+      "source": "A\n---\n1\n",
+      "intent": "a single-column table without edge pipes — probe whether the separator line confirms it"
+    },
+    {
+      "id": "cand.tables.single-column.body-many",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| 1 |\n| 2 |\n| 3 |\n",
+      "intent": "a single-column table with several body rows — valid"
+    },
+    {
+      "id": "cand.tables.cell.angle-exact-literal",
+      "spec": "12.3",
+      "source": "| < | B |\n| --- | --- |\n| x | y |\n",
+      "intent": "an exact-cell < is ordinary text, not a span — valid"
+    },
+    {
+      "id": "cand.tables.cell.caret-exact-literal",
+      "spec": "12.3",
+      "source": "| ^ | B |\n| --- | --- |\n| x | y |\n",
+      "intent": "an exact-cell ^ in the header is ordinary text, not a span"
+    },
+    {
+      "id": "cand.tables.cell.caret-code-literal",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `^` | `<` |\n",
+      "intent": "^ and < inside code cells are literal code content"
+    },
+    {
+      "id": "cand.tables.cell.unclosed-code-invalid",
+      "spec": "12.3",
+      "source": "| `oops | x |\n| --- | --- |\n",
+      "intent": "an unclosed code span inside a header cell — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.cell.unclosed-link-invalid",
+      "spec": "12.3",
+      "source": "| [x](a | y |\n| --- | --- |\n",
+      "intent": "an unclosed direct link in a cell — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.cell.bad-destination-invalid",
+      "spec": "12.3",
+      "source": "| [x](a b) | y |\n| --- | --- |\n",
+      "intent": "a link whose destination has an unescaped space — malformed; expect a syntax error"
+    },
+    {
+      "id": "cand.tables.cell.sup-valid",
+      "spec": "12.3",
+      "source": "| x^2^ | y |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "superscript in a cell — valid single-line inline content"
+    },
+    {
+      "id": "cand.tables.cell.math-valid",
+      "spec": "12.3",
+      "source": "| $`x`$ | y |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "inline math in a cell — valid"
+    },
+    {
+      "id": "cand.tables.cell.footnote-reference",
+      "spec": "11.3, 12.3",
+      "source": "| a[^f] | b |\n| --- | --- |\n| 1 | 2 |\n\n[^f]: note.\n",
+      "intent": "a footnote reference in a cell — valid; definition at document level"
+    },
+    {
+      "id": "cand.tables.cell.hardbreak-invalid",
+      "spec": "12.3",
+      "source": "| a\\\n| --- |\n| b |\n",
+      "intent": "a trailing backslash in a header cell line — cells are break-free; probe how the line is handled"
+    },
+    {
+      "id": "cand.tables.cell.tab-content",
+      "spec": "12.3",
+      "source": "| a\tb | c |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "a tab inside a cell is literal running text — valid"
+    },
+    {
+      "id": "cand.tables.cell.inline-image-atomic",
+      "spec": "12.3",
+      "source": "| ![alt](i.png) | b |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "an inline image in a cell is atomic — valid"
+    },
+    {
+      "id": "cand.tables.id.valid",
+      "spec": "5.1",
+      "source": "| A |\n| --- |\n| x |\n{#t}\n",
+      "intent": "an id suffix on a table — valid"
+    },
+    {
+      "id": "cand.tables.id.after-blank-invalid",
+      "spec": "5.1",
+      "source": "| A |\n| --- |\n| x |\n\n{#t}\n",
+      "intent": "a table id after a blank line — expect a syntax error"
+    },
+    {
+      "id": "cand.tables.context.after-paragraph-no-blank",
+      "spec": "2.5, 12.3",
+      "source": "Text.\n| A |\n| --- |\n| x |\n",
+      "intent": "a table immediately after a paragraph line — probe whether confirmation still happens"
+    },
+    {
+      "id": "cand.tables.context.after-heading",
+      "spec": "12.3",
+      "source": "# Heading\n| A |\n| --- |\n| x |\n",
+      "intent": "a table immediately after a heading without a blank line — valid normal mode"
+    },
+    {
+      "id": "cand.tables.context.followed-by-paragraph",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| x |\nText.\n",
+      "intent": "a paragraph directly after a table — probe separation"
+    },
+    {
+      "id": "cand.tables.context.followed-by-hr",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n| x |\n---\n",
+      "intent": "an HR directly after a table — probe block separation"
+    },
+    {
+      "id": "cand.tables.context.quote-prefix-mismatch-not-table",
+      "spec": "12.3",
+      "source": "> | A | B |\n| --- | --- |\n",
+      "intent": "the separator lacks the quote prefix — different context identity; expect no table"
+    },
+    {
+      "id": "cand.tables.context.heading-line-not-table",
+      "spec": "12.3",
+      "source": "# A\n| --- |\n",
+      "intent": "a heading claims the first line, so the separator line cannot confirm a table"
+    },
+    {
+      "id": "cand.tables.context.list-opener-not-table",
+      "spec": "12.3",
+      "source": "- A | B\n--- | ---\n",
+      "intent": "the first line is claimed by a list — no retroactive table confirmation"
+    },
+    {
+      "id": "cand.tables.context.footnote-opener-not-table",
+      "spec": "12.3",
+      "source": "[^a]: note\n---\n",
+      "intent": "a footnote-definition-looking first line is claimed by the footnote opener — no table"
+    },
+    {
+      "id": "cand.tables.context.quote-table",
+      "spec": "3.10.4",
+      "source": "> | A | B |\n> | --- | --- |\n> | 1 | 2 |\n",
+      "intent": "a table inside a quote with the prefix on every line — valid"
+    },
+    {
+      "id": "cand.tables.context.list-table",
+      "spec": "9.8",
+      "source": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n",
+      "intent": "a table as a structured list child — valid"
+    },
+    {
+      "id": "cand.tables.context.container-table",
+      "spec": "2.7",
+      "source": "::: Note\n| A |\n| --- |\n| x |\n:::\n",
+      "intent": "a table inside a fenced container — valid ordinary content"
+    },
+    {
+      "id": "cand.tables.context.after-hr-no-blank",
+      "spec": "12.3",
+      "source": "---\n| A |\n| --- |\n| x |\n",
+      "intent": "a table after an HR without a blank line — valid normal mode"
+    },
+    {
+      "id": "cand.tables.alignment.header-align-vs-separator",
+      "spec": "12.4",
+      "source": "| A | B |\n| :--- | :---: |\n| 1 | 2 |\n",
+      "intent": "alignment is carried by the separator row only — canonical"
+    },
+    {
+      "id": "cand.tables.alignment.long-form-normalizes",
+      "spec": "12.4",
+      "source": "| A |\n| :------: |\n| x |\n",
+      "intent": "an overlong aligned separator normalises to :---:"
+    },
+    {
+      "id": "cand.tables.separator.alignment-pipe-in-cell",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| :--- | x |\n",
+      "intent": "a colon-dash sequence in a body cell is ordinary content, not an alignment marker"
+    },
+    {
+      "id": "cand.tables.rows.separator-only-document",
+      "spec": "12.3",
+      "source": "| A |\n| --- |\n",
+      "intent": "a header plus separator with no body rows — valid header-only table"
+    },
+    {
+      "id": "cand.tables.rows.spaces-only-cell-valid",
+      "spec": "12.3",
+      "source": "|   | B |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "a cell containing only spaces — an empty cell; valid"
+    },
+    {
+      "id": "cand.tables.rows.leading-indent-before-pipe",
+      "spec": "12.3",
+      "source": "  | A |\n  | --- |\n  | x |\n",
+      "intent": "leading spaces before every table row — probe whether indentation is tolerated"
+    },
+    {
+      "id": "cand.tables.rows.trailing-space-before-pipe",
+      "spec": "12.3",
+      "source": "| A  | B |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "spaces before a pipe inside a cell — trailing cell whitespace; probe trimming"
+    },
+    {
+      "id": "cand.tables.rows.space-after-edge-pipe",
+      "spec": "12.3",
+      "source": "| A | B | \n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "a trailing space after the last edge pipe — probe tolerance"
+    },
+    {
+      "id": "cand.tables.separator.empty-separator-cell",
+      "spec": "12.3",
+      "source": "| A | B |\n| | --- |\n",
+      "intent": "an empty separator cell — not a valid alignment marker; probe table rejection"
+    },
+    {
+      "id": "cand.tables.cell.autolink-pipe-atomic",
+      "spec": "12.3",
+      "source": "| <https://x.org/a|b> | y |\n| --- | --- |\n",
+      "intent": "a bracketed autolink in a header cell with an internal pipe — atomic, one cell"
+    },
+    {
+      "id": "cand.tables.cell.escaped-backslash-in-cell",
+      "spec": "12.3",
+      "source": "| a\\\\b | c |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "a backslash escape inside a cell is a literal backslash"
+    },
+    {
+      "id": "cand.tables.cell.star-escaped-literal",
+      "spec": "12.3",
+      "source": "| \\*x* | y |\n| --- | --- |\n| 1 | 2 |\n",
+      "intent": "an escaped star in a cell neutralises the emphasis pair — literal *x*"
+    }
+  ]
+}

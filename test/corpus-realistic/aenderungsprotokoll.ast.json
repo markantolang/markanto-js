@@ -1,0 +1,388 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Änderungsprotokoll"
+        }
+      ],
+      "id": "aenderungen"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Dieses Protokoll hält die wichtigsten Änderungen an Markanto fest. Das"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Format orientiert sich an "
+        },
+        {
+          "type": "link",
+          "href": "https://keepachangelog.com",
+          "children": [
+            {
+              "type": "text",
+              "value": "Keep a Changelog"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": ","
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "die Versionsnummern folgen "
+        },
+        {
+          "type": "link",
+          "href": "https://semver.org",
+          "children": [
+            {
+              "type": "text",
+              "value": "Semantic Versioning"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "0.2.0 — 2026-08-18"
+        }
+      ],
+      "id": "v0-2-0"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Diese Fassung schließt die Spezifikation v0.2.0 ab und erweitert den"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Referenzparser um Fußnoten, HTML-Entities und die "
+        },
+        {
+          "type": "inlineCode",
+          "value": "raw-html"
+        },
+        {
+          "type": "text",
+          "value": "-Vorbereitung."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "Hinzugefügt"
+        }
+      ],
+      "id": "v0-2-0-hinzugefuegt"
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Fußnoten mit kanonischer Reihenfolge am Dokumentende"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "HTML-Entity-Dekodierung gegen die vollständige HTML5-Tabelle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Referenzlinks als tolerante Eingabeform ("
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "[text][label]"
+                },
+                {
+                  "type": "text",
+                  "value": ")"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "Behoben"
+        }
+      ],
+      "id": "v0-2-0-behoben"
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Ziele mit geschütztem Leerzeichen brachen den Link-Parse fälschlich ab"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Der Formatter escapet Blockanfänge nach Entity-Dekodierung jetzt korrekt"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "0.1.0 — 2026-06-01"
+        }
+      ],
+      "id": "v0-1-0"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Erster interner Stand mit Kernparser und ersten Tabellen."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "Bekannte Einschränkungen"
+        }
+      ],
+      "id": "v0-1-0-einschraenkungen"
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Fußnoten noch nicht implementiert"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "open",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Kein Strict Mode"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "task": "done",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Basis-Tabellen (GFM) umgesetzt"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Planung"
+        }
+      ],
+      "id": "planung"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die nächsten Schritte sind im "
+        },
+        {
+          "type": "link",
+          "href": "../docs/markanto-manifest-v0.2.0.md",
+          "children": [
+            {
+              "type": "text",
+              "value": "Manifest"
+            }
+          ],
+          "title": "Markanto Manifest"
+        },
+        {
+          "type": "text",
+          "value": " beschrieben. Ausstehend sind insbesondere:"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "die "
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "raw-html"
+                },
+                {
+                  "type": "text",
+                  "value": "-Extension,"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "der Validator für Ganzdokument-Prüfungen,"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "die Fixture- und Korpus-Pflege."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

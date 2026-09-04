@@ -1,0 +1,545 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Zur Robustheit kanonischer Serialisierer"
+        }
+      ],
+      "id": "robustheit"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Dieser Bericht untersucht, unter welchen Bedingungen ein Formatter die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Garantie „genau eine Darstellung pro Bedeutung\" tatsächlich einhält. Die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "zentrale Größe ist die Stabilität unter wiederholtem"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Rundlauf."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "okun"
+        },
+        {
+          "type": "text",
+          "value": " Bereits die Definition der Äquivalenz zweier Dokumente"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "ist nicht trivial."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "einstein"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Vorüberlegungen"
+        }
+      ],
+      "id": "vorueberlegungen"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Ein Formatter heißt "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "idempotent"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": ", wenn gilt: "
+        },
+        {
+          "type": "inlineMath",
+          "value": "F(P(F(x))) = F(P(x))"
+        },
+        {
+          "type": "text",
+          "value": "."
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Für den Sonderfall leerer Eingaben vereinfacht sich die Prüfung"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "erheblich."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "einstein"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Aus der kanonischen Form folgt unmittelbar die Energie-Impuls-Beziehung"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "der Rundläufe:"
+        }
+      ]
+    },
+    {
+      "type": "mathBlock",
+      "value": "F \\circ P \\circ F = F"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Diese Identität lässt sich als Fixpunktgleichung lesen."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Methode"
+        }
+      ],
+      "id": "methode"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Wir betrachten drei Parser-Familien und messen die Abweichung nach einem"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "und nach zehn Rundläufen."
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "left",
+        "center",
+        "right",
+        "left"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Familie"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Stabilität"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Abweichung"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Bewertung"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "A"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "stabil"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "sehr gut"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "B"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "stabil"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "0.02"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "gut"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "C"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "oszillierend"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "0.41"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "unbrauchbar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Für den praktischen Einsatz relevant ist die Kombination der Maße:"
+        }
+      ]
+    },
+    {
+      "type": "mathBlock",
+      "value": "\\text{Robustheit} = \\frac{1}{N} \\sum_{i=1}^{N} d\\left(F^i(x), F^{i-1}(x)\\right)"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Diskussion"
+        }
+      ],
+      "id": "diskussion"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Ergebnisse deuten darauf hin, dass Idempotenz allein nicht genügt:"
+        }
+      ]
+    },
+    {
+      "type": "quoteRegion",
+      "children": [
+        {
+          "level": 1,
+          "block": {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Ein Formatter kann idempotent sein und dennoch Bedeutung verlieren:"
+              }
+            ]
+          }
+        },
+        {
+          "level": 1,
+          "block": {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Fall A: er löscht Kommentare stillschweigend."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Fall B: er normalisiert Leerraum über die Semantik hinaus."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Fall C: er sortiert Listen, die geordnet sein sollten."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die drei Fälle unterscheiden sich in der Frage, welche Information als"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "Bedeutung"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " zählt — das ist keine rein technische Entscheidung."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "okun"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Zusammenfassung"
+        }
+      ],
+      "id": "zusammenfassung"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Kanonische Serialisierung erfordert Idempotenz, Konvergenz und einen"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "klar definierten Äquivalenzbegriff. Fehlt einer der drei Pfeiler, bleibt"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "die Garantie hohl."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "einstein"
+        }
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "type": "footnoteDefinition",
+      "identifier": "okun",
+      "children": [
+        {
+          "type": "text",
+          "value": "Okun, L. B. (1989): The Concept of Mass."
+        }
+      ]
+    },
+    {
+      "type": "footnoteDefinition",
+      "identifier": "einstein",
+      "children": [
+        {
+          "type": "text",
+          "value": "Einstein, A. (1905): Zur Elektrodynamik bewegter Körper."
+        }
+      ]
+    }
+  ]
+}

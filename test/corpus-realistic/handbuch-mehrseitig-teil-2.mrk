@@ -1,0 +1,47 @@
+# Konfiguration und Fehlerbehebung {#konfiguration}
+
+Dies ist der zweite Teil des Handbuchs. Die Installation selbst ist im
+ersten Teil unter [installation](/installation) beschrieben; hier geht es um die
+Feinabstimmung des laufenden Systems.
+
+## Inhalt {#inhalt-2}
+
+- [optionen](/optionen)
+- [strenge](/strenge)
+- [fehlerbehebung](/fehlerbehebung)
+
+## Parser-Optionen {#optionen}
+
+Die wichtigsten Optionen werden beim Parsen übergeben:
+
+| Option | Typ | Default | Bedeutung |
+| :--- | :---: | ---: | --- |
+| `lineBreaks` | `string` | `soft` | Zeilenumbruch-Modus |
+| `maxListDepth` | `number` | `8` | Maximale Listentiefe |
+| `strict` | `boolean` | `false` | Nur kanonische Eingabe |
+
+Die Optionen sind sprachrelevant und müssen projektweit einheitlich
+gesetzt werden, damit Kanonizitätsgesetz 5 (Optionsstabilität) greift.
+Einzelheiten nennt der erste Teil unter [funktionen](/funktionen).
+
+## Strict Mode {#strenge}
+
+Im Strict Mode wird ausschließlich die kanonische Form akzeptiert:
+
+> Der Strict Mode ist für Kontexte gedacht, in denen maximale
+> Vorhersagbarkeit wichtiger ist als Schreibkomfort:
+>
+> - CI-Pipelines und Linting
+> - automatische Verarbeitung
+> - bytegenaue Diff-Vergleiche
+
+## Fehlerbehebung {#fehlerbehebung}
+
+Treten beim Parsen Fehler auf, erzeugt der Parser statt eines Abbruchs
+einen `ErrorBlock` und fährt fort.[^recovery]
+
+- Prüfen Sie zuerst die Zeile, die der `ErrorBlock` benennt.
+- Vergleichen Sie mit dem Abschnitt [voraussetzungen](/voraussetzungen) aus Teil 1.
+- Bei Mehrdeutigkeiten hilft der Strict Mode, den Auslöser einzugrenzen.
+
+[^recovery]: Spec 7.5: Der Parser scheitert nicht am ersten Fehler, sondern sammelt Fehlerblöcke.

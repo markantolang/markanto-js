@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "test/fixtures/blocks/cases.json",
+      "group": "blocks",
+      "cases": 63
+    },
+    {
+      "path": "test/fixtures/containers/cases.json",
+      "group": "containers",
+      "cases": 97
+    },
+    {
+      "path": "test/fixtures/footnotes/cases.json",
+      "group": "footnotes",
+      "cases": 36
+    },
+    {
+      "path": "test/fixtures/inline/cases.json",
+      "group": "inline",
+      "cases": 123
+    },
+    {
+      "path": "test/fixtures/lists/cases.json",
+      "group": "lists",
+      "cases": 59
+    },
+    {
+      "path": "test/fixtures/math/cases.json",
+      "group": "math",
+      "cases": 30
+    },
+    {
+      "path": "test/fixtures/quotes/cases.json",
+      "group": "quotes",
+      "cases": 42
+    },
+    {
+      "path": "test/fixtures/resources/cases.json",
+      "group": "resources",
+      "cases": 64
+    },
+    {
+      "path": "test/fixtures/tables/cases.json",
+      "group": "tables",
+      "cases": 54
+    },
+    {
+      "path": "test/fixtures/transport/cases.json",
+      "group": "transport",
+      "cases": 14
+    }
+  ],
+  "caseCount": 582
+}

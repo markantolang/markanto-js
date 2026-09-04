@@ -1,0 +1,11 @@
+export * from './ast.js';
+export * from './parser-contract.js';
+export * from './source/index.js';
+export * from './diagnostics.js';
+export * from './semantic-equality.js';
+export * from './shared/result.js';
+export * from './parser/parse.js';
+export * from './parser/check-canonical.js';
+export * from './formatter/format.js';
+export { validate, isIdRequired, walkBlockScopes } from './validator/validate.js';
+export { adoptDocument } from './validator/adopt.js';

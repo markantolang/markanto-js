@@ -1,0 +1,1405 @@
+{
+  "schemaVersion": 1,
+  "group": "footnotes",
+  "cases": [
+    {
+      "id": "footnote.basic",
+      "spec": "11.2",
+      "source": "Text.[^1]\n\n[^1]: Note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text.[^1]\n\n[^1]: Note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text.[^1]\n\n[^1]: Note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text."
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "1"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "1",
+            "children": [
+              {
+                "type": "text",
+                "value": "Note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnote.descriptive",
+      "spec": "11.2",
+      "source": "Text.[^source]\n\n[^source]: Note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text.[^source]\n\n[^source]: Note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text.[^source]\n\n[^source]: Note.\n"
+        }
+      }
+    },
+    {
+      "id": "footnote.missing-definition-invalid",
+      "spec": "11.3",
+      "source": "Text.[^missing]\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.unused-definition-warning",
+      "spec": "11.3",
+      "source": "Text.\n\n[^unused]: Note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text.\n\n[^unused]: Note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text.\n\n[^unused]: Note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.definition-order-normalizes",
+      "spec": "11.7",
+      "source": "A.[^b] B.[^a]\n\n[^a]: A.\n[^b]: B.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "A.[^b] B.[^a]\n\n[^b]: B.\n[^a]: A.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.identifier-case-sensitive",
+      "spec": "11.3",
+      "source": "A.[^A]\n\n[^a]: lower.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.repeated-reference",
+      "spec": "11.3",
+      "source": "A[^x] and B[^x].\n\n[^x]: Note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "A[^x] and B[^x].\n\n[^x]: Note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "A[^x] and B[^x].\n\n[^x]: Note.\n"
+        }
+      }
+    },
+    {
+      "id": "footnote.inline-markup",
+      "spec": "11.3",
+      "source": "A[^x].\n\n[^x]: *Em* and `code`.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "A[^x].\n\n[^x]: *Em* and `code`.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "A[^x].\n\n[^x]: *Em* and `code`.\n"
+        }
+      }
+    },
+    {
+      "id": "footnote.nested-reference-invalid",
+      "spec": "11.3",
+      "source": "A[^x].\n\n[^x]: Nested[^y].\n[^y]: Other.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.definition-after-paragraph-moves-end",
+      "spec": "11.3",
+      "source": "First[^x].\n[^x]: Note.\n\nSecond.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "First[^x].\n\nSecond.\n\n[^x]: Note.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.in-quote-reference",
+      "spec": "11.3",
+      "source": "> Quote[^x].\n\n[^x]: Note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote[^x].\n\n[^x]: Note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote[^x].\n\n[^x]: Note.\n"
+        }
+      }
+    },
+    {
+      "id": "footnote.in-fenced-container-reference",
+      "spec": "11.3",
+      "source": "::: Note\nText[^x].\n:::\n\n[^x]: Note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\nText[^x].\n:::\n\n[^x]: Note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\nText[^x].\n:::\n\n[^x]: Note.\n"
+        }
+      }
+    },
+    {
+      "id": "footnote.duplicate-definition-invalid",
+      "spec": "11.3",
+      "source": "Text.[^x]\n\n[^x]: First.\n[^x]: Second.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.unused-ascii-order-normalizes",
+      "spec": "11.7",
+      "source": "Text.\n\n[^a]: lower.\n[^_]: underscore.\n[^A]: upper.\n[^0]: digit.\n[^-]: dash.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text.\n\n[^-]: dash.\n[^0]: digit.\n[^A]: upper.\n[^_]: underscore.\n[^a]: lower.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnote.definition.block-id",
+      "spec": "5.1",
+      "source": "Ref.[^a]\n\n[^a]: A note.\n{#fn-a}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Ref.[^a]\n\n[^a]: A note.\n{#fn-a}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Ref.[^a]\n\n[^a]: A note.\n{#fn-a}\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Ref."
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "id": "fn-a",
+            "children": [
+              {
+                "type": "text",
+                "value": "A note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnote.definition.block-id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "Ref.[^a]\n\n[^a]: A note.\n\n{#fn-a}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnotes.order.mixed-referenced-unused",
+      "spec": "11.7",
+      "source": "X[^y]\n\n[^z]: unused.\n[^y]: used.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "X[^y]\n\n[^y]: used.\n[^z]: unused.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "X"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "y"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "y",
+            "children": [
+              {
+                "type": "text",
+                "value": "used."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "z",
+            "children": [
+              {
+                "type": "text",
+                "value": "unused."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.definition.inside-grid-cell",
+      "spec": "11.2",
+      "source": "::: X\n[^a]: cell\n--\nB\n:::\n\nText[^a].\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnotes.definition.escaped-prefix-literal",
+      "spec": "11.2",
+      "source": "\\[^a]: literal\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\[^a]: literal\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\[^a]: literal\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[^a]: literal"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "footnotes.definition.nested-sup-literal",
+      "spec": "11.3",
+      "source": "Ref.[^a]\n\n[^a]: Has ^sup^ inside.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Ref.[^a]\n\n[^a]: Has ^sup^ inside.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Ref.[^a]\n\n[^a]: Has ^sup^ inside.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Ref."
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "Has "
+              },
+              {
+                "type": "sup",
+                "value": "sup"
+              },
+              {
+                "type": "text",
+                "value": " inside."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.adjacent-unclosed-caret",
+      "spec": "11.4",
+      "source": "Text[^a] and then ^b^\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text[^a] and then ^b^\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text[^a] and then ^b^\n\n[^a]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              },
+              {
+                "type": "text",
+                "value": " and then "
+              },
+              {
+                "type": "sup",
+                "value": "b"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.escaped-bracket-literal",
+      "spec": "11.2",
+      "source": "Text\\[^a]\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text\\[^a]\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text\\[^a]\n\n[^a]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text[^a]"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.escaped-caret-literal",
+      "spec": "11.2",
+      "source": "Text[^\\^x]\n\n[^x]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text[^\\^x]\n\n[^x]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text[^\\^x]\n\n[^x]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text["
+              },
+              {
+                "type": "sup",
+                "value": "\\"
+              },
+              {
+                "type": "text",
+                "value": "x]"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "x",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.inside-heading",
+      "spec": "11.3",
+      "source": "# Heading[^a]\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Heading[^a]\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "# Heading[^a]\n\n[^a]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Heading"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.inside-table-cell",
+      "spec": "11.3",
+      "source": "| A[^a] | B |\n| --- | --- |\n| 1 | 2 |\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A[^a] | B |\n| --- | --- |\n| 1 | 2 |\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A[^a] | B |\n| --- | --- |\n| 1 | 2 |\n\n[^a]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    },
+                    {
+                      "type": "footnoteReference",
+                      "identifier": "a"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.two-adjacent-references",
+      "spec": "11.3",
+      "source": "Text[^a][^b]\n\n[^a]: A.\n[^b]: B.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text[^a][^b]\n\n[^a]: A.\n[^b]: B.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text[^a][^b]\n\n[^a]: A.\n[^b]: B.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "b"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "A."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "b",
+            "children": [
+              {
+                "type": "text",
+                "value": "B."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.definition.adjacent-paragraph-reference",
+      "spec": "11.3",
+      "source": "Text[^a].\n[^a]: note.\n\nMore text.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text[^a].\n\nMore text.\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              },
+              {
+                "type": "text",
+                "value": "."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "More text."
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.order.referenced-first",
+      "spec": "11.7",
+      "source": "B[^b] A[^a]\n\n[^a]: A.\n[^b]: B.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "B[^b] A[^a]\n\n[^b]: B.\n[^a]: A.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "B"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "b"
+              },
+              {
+                "type": "text",
+                "value": " A"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "b",
+            "children": [
+              {
+                "type": "text",
+                "value": "B."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "A."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.order.unused-ascii",
+      "spec": "11.7",
+      "source": "Text.\n\n[^z]: z.\n[^a]: a.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text.\n\n[^a]: a.\n[^z]: z.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text."
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "a."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "z",
+            "children": [
+              {
+                "type": "text",
+                "value": "z."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.reference.escaped-caret-in-id-literal",
+      "spec": "11.2",
+      "source": "Text[^a\\]b]\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text\\[^a]b]\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text[^a]b]"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.definition.content-leading-space-normalize",
+      "spec": "11.2",
+      "source": "[^a]:  leading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\n\n[^a]:  leading\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": " leading"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.definition.nested-reference-invalid",
+      "spec": "11.3",
+      "source": "Ref.[^a]\n\n[^a]: Nested[^b].\n[^b]: Other.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "footnotes.definition.block-id",
+      "spec": "5.1",
+      "source": "Ref[^a]\n\n[^a]: note.\n{#fn}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Ref[^a]\n\n[^a]: note.\n{#fn}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Ref[^a]\n\n[^a]: note.\n{#fn}\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Ref"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "a"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ],
+            "id": "fn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.definition.duplicate-uppercase-distinct",
+      "spec": "11.3",
+      "source": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text"
+              },
+              {
+                "type": "footnoteReference",
+                "identifier": "A"
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "A",
+            "children": [
+              {
+                "type": "text",
+                "value": "Upper."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "Lower."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.in-container-reference",
+      "spec": "11.3",
+      "source": "::: Note\nText[^a].\n:::\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\nText[^a].\n:::\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\nText[^a].\n:::\n\n[^a]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "Note",
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Text"
+                  },
+                  {
+                    "type": "footnoteReference",
+                    "identifier": "a"
+                  },
+                  {
+                    "type": "text",
+                    "value": "."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "footnotes.in-list-reference",
+      "spec": "11.3",
+      "source": "- Item[^a]\n\n[^a]: note.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Item[^a]\n\n[^a]: note.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Item[^a]\n\n[^a]: note.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Item"
+                      },
+                      {
+                        "type": "footnoteReference",
+                        "identifier": "a"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "note."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

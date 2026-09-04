@@ -1,0 +1,444 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Sommerkolloquium 2026"
+        }
+      ],
+      "id": "programm"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Das Programm der diesjährigen Tagung im Überblick. Alle Vorträge werden"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "aufgezeichnet; die Aufnahmen sind unter den jeweiligen Beiträgen"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "verlinkt."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Zeitplan"
+        }
+      ],
+      "id": "zeitplan"
+    },
+    {
+      "type": "container",
+      "form": "fenced",
+      "containerType": "grid",
+      "title": null,
+      "children": [
+        {
+          "type": "grid",
+          "columns": 2,
+          "rows": [
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "09:30 — Eröffnung"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Begrüßung und organisatorische Hinweise durch das Organisationsteam."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "10:00 — Keynote"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Formalization and tooling, anschließend Fragen aus dem Publikum."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "11:00 — Pause"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Kaffee und Gespräche im Foyer."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "11:30 — Session A"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Vorträge zu Parsern und Formatierern, anschließend Diskussion."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Referenten"
+        }
+      ],
+      "id": "referenten"
+    },
+    {
+      "type": "table",
+      "alignments": [
+        "default",
+        "default",
+        "default"
+      ],
+      "head": {
+        "type": "tableRow",
+        "cells": [
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Name"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Vortrag"
+              }
+            ]
+          },
+          {
+            "type": "tableCell",
+            "children": [
+              {
+                "type": "text",
+                "value": "Sprache"
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "A. Meier"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Markanto im Einsatz"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Deutsch"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "B. Smith"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Formalization"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "English"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tableRow",
+          "cells": [
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "C. Dubois"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "La présentation"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Français"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Vortragsdetails"
+        }
+      ],
+      "id": "details"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Der Beitrag von B. Smith trägt den Titel"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "metadataSpan",
+          "attrs": {
+            "lang": "en"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "Formalization and tooling"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " und wird im Original gehalten. Die Aufnahme:"
+        }
+      ]
+    },
+    {
+      "type": "videoBlock",
+      "src": "video/keynote.mp4",
+      "label": [
+        {
+          "type": "text",
+          "value": "Formalization and tooling"
+        }
+      ],
+      "caption": [
+        {
+          "type": "text",
+          "value": "Aufzeichnung der Keynote"
+        }
+      ],
+      "attrs": {
+        "preview": "bilder/keynote.jpg"
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Der Beitrag von C. Dubois ("
+        },
+        {
+          "type": "metadataSpan",
+          "attrs": {
+            "lang": "fr"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "La présentation"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": ") ist auf Anfrage"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "ebenfalls als Aufzeichnung erhältlich."
+        }
+      ]
+    }
+  ],
+  "footnotes": []
+}

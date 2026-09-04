@@ -1,0 +1,61 @@
+# Zur Robustheit kanonischer Serialisierer {#robustheit}
+
+Dieser Bericht untersucht, unter welchen Bedingungen ein Formatter die
+Garantie „genau eine Darstellung pro Bedeutung" tatsächlich einhält. Die
+zentrale Größe ist die Stabilität unter wiederholtem
+Rundlauf.[^okun] Bereits die Definition der Äquivalenz zweier Dokumente
+ist nicht trivial.[^einstein]
+
+## Vorüberlegungen {#vorueberlegungen}
+
+Ein Formatter heißt *idempotent*, wenn gilt: $`F(P(F(x))) = F(P(x))`$.
+Für den Sonderfall leerer Eingaben vereinfacht sich die Prüfung
+erheblich.[^einstein]
+
+Aus der kanonischen Form folgt unmittelbar die Energie-Impuls-Beziehung
+der Rundläufe:
+
+```math
+F \circ P \circ F = F
+```
+
+Diese Identität lässt sich als Fixpunktgleichung lesen.
+
+## Methode {#methode}
+
+Wir betrachten drei Parser-Familien und messen die Abweichung nach einem
+und nach zehn Rundläufen.
+
+| Familie | Stabilität | Abweichung | Bewertung |
+| :--- | :---: | ---: | :--- |
+| A | stabil | 0 | sehr gut |
+| B | stabil | 0.02 | gut |
+| C | oszillierend | 0.41 | unbrauchbar |
+
+Für den praktischen Einsatz relevant ist die Kombination der Maße:
+
+```math
+\text{Robustheit} = \frac{1}{N} \sum_{i=1}^{N} d\left(F^i(x), F^{i-1}(x)\right)
+```
+
+## Diskussion {#diskussion}
+
+Die Ergebnisse deuten darauf hin, dass Idempotenz allein nicht genügt:
+
+> Ein Formatter kann idempotent sein und dennoch Bedeutung verlieren:
+>
+> - Fall A: er löscht Kommentare stillschweigend.
+> - Fall B: er normalisiert Leerraum über die Semantik hinaus.
+> - Fall C: er sortiert Listen, die geordnet sein sollten.
+
+Die drei Fälle unterscheiden sich in der Frage, welche Information als
+*Bedeutung* zählt — das ist keine rein technische Entscheidung.[^okun]
+
+## Zusammenfassung {#zusammenfassung}
+
+Kanonische Serialisierung erfordert Idempotenz, Konvergenz und einen
+klar definierten Äquivalenzbegriff. Fehlt einer der drei Pfeiler, bleibt
+die Garantie hohl.[^einstein]
+
+[^okun]: Okun, L. B. (1989): The Concept of Mass.
+[^einstein]: Einstein, A. (1905): Zur Elektrodynamik bewegter Körper.

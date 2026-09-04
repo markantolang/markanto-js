@@ -1,0 +1,8 @@
+{
+  "vendored_from": "monorepo/js/dist (parse-only subset)",
+  "source_commit": "fb20a5d",
+  "package": "@markantolang/parser@0.3.0",
+  "spec": "Markanto v0.5.3 / AST v0.4.0",
+  "note": "Frozen. Only the files transitively reachable from parser.js are kept (format/validator/adopt/cli/index dropped). Do not edit; re-vendor from the source commit if the previous parser ever needs updating.",
+  "kept": ["parser.js", "inline.js", "resource.js", "heading-slug.js", "sourceRange.js", "errors.js", "entities.js", "generated/html-entities.js"]
+}

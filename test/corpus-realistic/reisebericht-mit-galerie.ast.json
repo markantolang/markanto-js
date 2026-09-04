@@ -1,0 +1,271 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Eine Woche auf Malta"
+        }
+      ],
+      "id": "malta-2025"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Diesen Sommer sind wir eine Woche über die Insel Malta gereist. Die"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Insel hat uns mit ihrer "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "Mischung"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " aus Geschichte und Küste überrascht —"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "vor allem die Altstadt von"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "https://de.wikipedia.org/wiki/Valletta",
+          "children": [
+            {
+              "type": "text",
+              "value": "Valletta"
+            }
+          ],
+          "title": "Valletta bei Wikipedia"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "hat uns begeistert."
+        }
+      ]
+    },
+    {
+      "type": "quoteRegion",
+      "children": [
+        {
+          "level": 1,
+          "block": {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Malta ist wie ein Geschichtsbuch, das man zu Fuß durchwandert."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "form": "fenced",
+      "containerType": "urlaub-2025",
+      "title": null,
+      "children": [
+        {
+          "type": "imageBlock",
+          "src": "bilder/blaue-grotte.jpg",
+          "alt": [
+            {
+              "type": "text",
+              "value": "Blaue Grotte am Morgen"
+            }
+          ],
+          "caption": [
+            {
+              "type": "text",
+              "value": "Die Blaue Grotte vor dem ersten Ansturm"
+            }
+          ]
+        },
+        {
+          "type": "imageBlock",
+          "src": "bilder/markt-marsaxlokk.jpg",
+          "alt": [
+            {
+              "type": "text",
+              "value": "Markt von Marsaxlokk"
+            }
+          ],
+          "caption": [
+            {
+              "type": "text",
+              "value": "Bunte Fischerboote im Hafen"
+            }
+          ]
+        },
+        {
+          "type": "imageBlock",
+          "src": "bilder/mdina.jpg",
+          "alt": [
+            {
+              "type": "text",
+              "value": "Stadtmauer von Mdina"
+            }
+          ],
+          "caption": [
+            {
+              "type": "text",
+              "value": "Mdina, die stille Stadt"
+            }
+          ]
+        }
+      ],
+      "id": "galerie-malta"
+    },
+    {
+      "type": "videoBlock",
+      "src": "filme/malta.mp4",
+      "label": [
+        {
+          "type": "text",
+          "value": "Unser Urlaub in 60 Sekunden"
+        }
+      ],
+      "caption": [
+        {
+          "type": "text",
+          "value": "Zusammenschnitt der schönsten Momente"
+        }
+      ],
+      "attrs": {
+        "preview": "bilder/vorschau.jpg"
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Reise hat sich gelohnt — auch wenn der Wind an der Küste manchmal"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "heftiger war als erwartet."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "meltemi"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Packliste"
+        }
+      ],
+      "id": "packliste"
+    },
+    {
+      "type": "list",
+      "kind": "ordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Sonnencreme mit hohem Lichtschutzfaktor"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Leichte Wanderschuhe für die Küstenwege"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Eine Wasserflasche pro Person"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Reiseführer und Kartenmaterial"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "type": "footnoteDefinition",
+      "identifier": "meltemi",
+      "children": [
+        {
+          "type": "text",
+          "value": "Der Meltemi erreicht im Sommer regelmäßig Stärke sechs bis sieben."
+        }
+      ]
+    }
+  ]
+}

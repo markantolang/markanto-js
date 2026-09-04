@@ -1,0 +1,630 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Installationshandbuch"
+        }
+      ],
+      "id": "installation"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Dieses Handbuch führt Sie durch die Installation und Ersteinrichtung von"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Markanto. Es ist der erste Teil einer zweiteiligen Reihe; der zweite Teil"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "behandelt Konfiguration und Fehlerbehebung und ist unter"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "link",
+          "href": "/konfiguration",
+          "children": [
+            {
+              "type": "text",
+              "value": "konfiguration"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " zu finden."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Inhalt"
+        }
+      ],
+      "id": "inhalt"
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/voraussetzungen",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "voraussetzungen"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/schritt-1",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "schritt-1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/schritt-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "schritt-2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "link",
+                  "href": "/funktionen",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "funktionen"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Voraussetzungen"
+        }
+      ],
+      "id": "voraussetzungen"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Bevor Sie beginnen, prüfen Sie die folgenden Punkte:"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "kind": "unordered",
+      "items": [
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Eine aktuelle Laufzeitumgebung ("
+                },
+                {
+                  "type": "link",
+                  "href": "https://bun.sh",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Bun"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": " ab Version 1.0)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Ein Terminal mit UTF-8-Unterstützung"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Schreibrechte im Zielverzeichnis"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Markanto selbst bringt keine Laufzeit-Abhängigkeiten mit; der Parser ist"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "bewusst "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "dependency-frei"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " gehalten."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "runtime"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Installation"
+        }
+      ],
+      "id": "schritt-1"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Der Einstieg ist ein Einzeiler:"
+        }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "value": "bun add markanto",
+      "lang": "sh"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Anschließend steht die Bibliothek unter "
+        },
+        {
+          "type": "inlineCode",
+          "value": "markanto"
+        },
+        {
+          "type": "text",
+          "value": " zur Verfügung. Der"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Aufruf läuft über die drei Kernfunktionen "
+        },
+        {
+          "type": "inlineCode",
+          "value": "parse"
+        },
+        {
+          "type": "text",
+          "value": ", "
+        },
+        {
+          "type": "inlineCode",
+          "value": "format"
+        },
+        {
+          "type": "text",
+          "value": " und"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "inlineCode",
+          "value": "check"
+        },
+        {
+          "type": "text",
+          "value": "."
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "kernfunktionen"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Erster Test"
+        }
+      ],
+      "id": "schritt-2"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Ein minimaler Rundlauf sieht so aus:"
+        }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "value": "import { parse, format } from \"markanto\";\n\nconst ast = parse(\"# Titel\");\nconst out = format(ast);",
+      "lang": "ts"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die Ausgabe ist kanonisch: genau eine gültige Darstellung pro Bedeutung."
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Details dazu stehen im "
+        },
+        {
+          "type": "link",
+          "href": "../docs/markanto-manifest-v0.2.0.md",
+          "children": [
+            {
+              "type": "text",
+              "value": "Manifest"
+            }
+          ],
+          "title": "Markanto Manifest"
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Funktionsumfang im Überblick"
+        }
+      ],
+      "id": "funktionen"
+    },
+    {
+      "type": "container",
+      "form": "fenced",
+      "containerType": "grid",
+      "title": null,
+      "children": [
+        {
+          "type": "grid",
+          "columns": 2,
+          "rows": [
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Parser"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Liest vertrautes Markdown tolerant und modelliert es streng in einem"
+                        },
+                        {
+                          "type": "softBreak"
+                        },
+                        {
+                          "type": "text",
+                          "value": "eindeutigen AST."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Formatter"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Serialisiert den AST kanonisch — genau eine gültige Darstellung pro"
+                        },
+                        {
+                          "type": "softBreak"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Bedeutung."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "gridRow",
+              "cells": [
+                {
+                  "type": "gridCell",
+                  "column": 1,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Validator"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "gridCell",
+                  "column": 2,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Prüft den AST auf semantische Gültigkeit und (optional) Kanonizität."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Nächste Schritte"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Die weiteren Einstellungen — Zeilenumbruch-Modus, Tiefenlimits, Strict"
+        },
+        {
+          "type": "softBreak"
+        },
+        {
+          "type": "text",
+          "value": "Mode — beschreibt der zweite Teil unter "
+        },
+        {
+          "type": "link",
+          "href": "/optionen",
+          "children": [
+            {
+              "type": "text",
+              "value": "optionen"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "type": "footnoteDefinition",
+      "identifier": "runtime",
+      "children": [
+        {
+          "type": "text",
+          "value": "Der Parser hängt ausschließlich von der Sprache ab, nicht von externen Paketen."
+        }
+      ]
+    },
+    {
+      "type": "footnoteDefinition",
+      "identifier": "kernfunktionen",
+      "children": [
+        {
+          "type": "inlineCode",
+          "value": "parse"
+        },
+        {
+          "type": "text",
+          "value": " liest, "
+        },
+        {
+          "type": "inlineCode",
+          "value": "format"
+        },
+        {
+          "type": "text",
+          "value": " normalisiert, "
+        },
+        {
+          "type": "inlineCode",
+          "value": "check"
+        },
+        {
+          "type": "text",
+          "value": " diagnostiziert."
+        }
+      ]
+    }
+  ]
+}

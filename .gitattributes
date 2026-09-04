@@ -1,0 +1,9 @@
+* text=auto eol=lf
+
+# Conformance corpus and fixture input files are byte-exact parser input
+# (CRLF, tabs, and other raw bytes can be a normative test dimension).
+# Never let Git normalize their line endings — that would silently corrupt
+# CRLF-sensitive cases.
+test/fixtures/**/*.mrk -text
+test/corpus-realistic/**/*.mrk -text
+test/migrate/legacy-corpus/**/*.mrk -text

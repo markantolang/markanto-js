@@ -1,0 +1,407 @@
+{
+  "family": "footnotes",
+  "candidates": [
+    {
+      "id": "cand.footnotes.definition.indented-literal",
+      "spec": "11.2",
+      "source": " [^x]: indented\n",
+      "intent": "definition must be at column 0 — a leading space makes it ordinary paragraph text, not a definition"
+    },
+    {
+      "id": "cand.footnotes.definition.space-before-colon-literal",
+      "spec": "11.2",
+      "source": "[^x] : note\n",
+      "intent": "space between the bracket and the colon — not a valid definition; expect literal text"
+    },
+    {
+      "id": "cand.footnotes.definition.no-space-after-colon-invalid",
+      "spec": "11.2",
+      "source": "[^x]:note\n",
+      "intent": "no space after the colon — the content must be non-empty and separated; expect syntax error or literal"
+    },
+    {
+      "id": "cand.footnotes.definition.multiple-spaces-normalize",
+      "spec": "11.2",
+      "source": "[^x]:  note\n",
+      "intent": "two spaces after the colon — canonical wants exactly one; expect normalisation"
+    },
+    {
+      "id": "cand.footnotes.definition.empty-content-invalid",
+      "spec": "11.2",
+      "source": "[^x]: \n",
+      "intent": "definition with empty content — expect syntax error"
+    },
+    {
+      "id": "cand.footnotes.definition.soft-break-error",
+      "spec": "11.3",
+      "source": "[^x]: first\n[^x]: second\n",
+      "intent": "the definition content must be single-line; this is a duplicate definition — expect semantic error"
+    },
+    {
+      "id": "cand.footnotes.definition.multiline-invalid",
+      "spec": "11.3",
+      "source": "[^x]: first\n[^y]: second\n",
+      "intent": "two separate definitions are fine — probes single-line requirement is per-definition not per-block"
+    },
+    {
+      "id": "cand.footnotes.definition.block-content-invalid",
+      "spec": "11.3",
+      "source": "[^x]: note\n\n  continuation\n",
+      "intent": "a block continuation line after a footnote definition — content is inline-only; expect the continuation not to join the definition"
+    },
+    {
+      "id": "cand.footnotes.definition.nested-reference-invalid",
+      "spec": "11.3",
+      "source": "Ref.[^a]\n\n[^a]: Nested[^b].\n[^b]: Other.\n",
+      "intent": "a footnote reference inside a footnote definition is forbidden — expect semantic error"
+    },
+    {
+      "id": "cand.footnotes.definition.nested-sup-literal",
+      "spec": "11.3",
+      "source": "Ref.[^a]\n\n[^a]: Has ^sup^ inside.\n",
+      "intent": "a superscript caret inside a definition — the ^ and [^ must not collide; expect sup literal or parsed normally"
+    },
+    {
+      "id": "cand.footnotes.reference.no-space-before",
+      "spec": "11.7",
+      "source": "Text[^a]\n\n[^a]: note.\n",
+      "intent": "canonical reference directly on the word — round-trips"
+    },
+    {
+      "id": "cand.footnotes.reference.space-before-trivium",
+      "spec": "11.7",
+      "source": "Text [^a]\n\n[^a]: note.\n",
+      "intent": "ASCII whitespace before a reference is tolerated trivia and discarded — same AST as no-space"
+    },
+    {
+      "id": "cand.footnotes.reference.tab-before-trivium",
+      "spec": "11.7",
+      "source": "Text\t[^a]\n\n[^a]: note.\n",
+      "intent": "tab before a reference — ambiguous whether tab counts as discarded trivia"
+    },
+    {
+      "id": "cand.footnotes.reference.inline-markup",
+      "spec": "11.3",
+      "source": "Text with *em* [^a].\n\n[^a]: note.\n",
+      "intent": "reference after inline markup — parses normally"
+    },
+    {
+      "id": "cand.footnotes.reference.double-prefix",
+      "spec": "11.4",
+      "source": "Text[^^a]\n\n[^a]: note.\n",
+      "intent": "double caret in the reference — identifier grammar is [a-zA-Z0-9_-]+ so ^^ is not a valid id; expect literal text"
+    },
+    {
+      "id": "cand.footnotes.reference.space-in-id-literal",
+      "spec": "11.2",
+      "source": "Text[^a b]\n\n[^a b]: note.\n",
+      "intent": "space in the identifier — not a valid reference; expect literal text"
+    },
+    {
+      "id": "cand.footnotes.reference.uppercase-id-case-sensitive",
+      "spec": "11.3",
+      "source": "Text[^A]\n\n[^a]: lower.\n",
+      "intent": "identifiers are case-sensitive — reference A and definition a do not match; expect semantic error"
+    },
+    {
+      "id": "cand.footnotes.reference.dash-underscore-id",
+      "spec": "11.2",
+      "source": "Text[^a-b_c]\n\n[^a-b_c]: note.\n",
+      "intent": "dash and underscore in the identifier — valid and round-trips"
+    },
+    {
+      "id": "cand.footnotes.reference.digit-id",
+      "spec": "11.2",
+      "source": "Text[^1]\n\n[^1]: note.\n",
+      "intent": "numeric identifier — valid"
+    },
+    {
+      "id": "cand.footnotes.reference.missing-definition-error",
+      "spec": "11.3",
+      "source": "Text[^missing]\n",
+      "intent": "a reference with no matching definition — expect semantic error"
+    },
+    {
+      "id": "cand.footnotes.definition.unused-warning",
+      "spec": "11.3",
+      "source": "Text.\n\n[^unused]: note.\n",
+      "intent": "a definition with no reference — expect advisory warning, still valid"
+    },
+    {
+      "id": "cand.footnotes.definition.duplicate-error",
+      "spec": "11.3",
+      "source": "Text[^x]\n\n[^x]: First.\n[^x]: Second.\n",
+      "intent": "duplicate definition of the same id — expect semantic error, neither first-wins nor last-wins"
+    },
+    {
+      "id": "cand.footnotes.definition.duplicate-uppercase-distinct",
+      "spec": "11.3",
+      "source": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n",
+      "intent": "definitions differing only in case are distinct — valid"
+    },
+    {
+      "id": "cand.footnotes.order.referenced-first",
+      "spec": "11.7",
+      "source": "B[^b] A[^a]\n\n[^a]: A.\n[^b]: B.\n",
+      "intent": "referenced definitions sort by first-reference order, not source order — expect normalisation to b then a"
+    },
+    {
+      "id": "cand.footnotes.order.unused-ascii",
+      "spec": "11.7",
+      "source": "Text.\n\n[^z]: z.\n[^a]: a.\n",
+      "intent": "unused definitions sort in ASCII order at the end — expect a then z"
+    },
+    {
+      "id": "cand.footnotes.order.mixed-referenced-unused",
+      "spec": "11.7",
+      "source": "X[^y]\n\n[^z]: unused.\n[^y]: used.\n",
+      "intent": "referenced first, then unused in ASCII order — expect y then z"
+    },
+    {
+      "id": "cand.footnotes.definition.block-id",
+      "spec": "5.1",
+      "source": "Ref[^a]\n\n[^a]: note.\n{#fn}\n",
+      "intent": "id suffix on a footnote definition — valid, attaches to the definition"
+    },
+    {
+      "id": "cand.footnotes.definition.block-id-after-blank-invalid",
+      "spec": "5.1",
+      "source": "Ref[^a]\n\n[^a]: note.\n\n{#fn}\n",
+      "intent": "definition id after a blank line — expect syntax error"
+    },
+    {
+      "id": "cand.footnotes.in-literal-reference",
+      "spec": "11.4",
+      "source": "`[^a]`\n\n[^a]: note.\n",
+      "intent": "a footnote-looking token inside inline code is literal, not a reference"
+    },
+    {
+      "id": "cand.footnotes.in-link-label-reference",
+      "spec": "11.3",
+      "source": "See [the note [^a] here](https://x.org)\n\n[^a]: note.\n",
+      "intent": "a footnote reference inside a link label is a nested anchor — expect syntax error"
+    },
+    {
+      "id": "cand.footnotes.in-quote-reference",
+      "spec": "11.3",
+      "source": "> Quote[^a]\n\n[^a]: note.\n",
+      "intent": "a reference inside a quote — valid; definition stays at document level"
+    },
+    {
+      "id": "cand.footnotes.in-list-reference",
+      "spec": "11.3",
+      "source": "- Item[^a]\n\n[^a]: note.\n",
+      "intent": "a reference inside a list item — valid; definition at document level"
+    },
+    {
+      "id": "cand.footnotes.in-container-reference",
+      "spec": "11.3",
+      "source": "::: Note\nText[^a].\n:::\n\n[^a]: note.\n",
+      "intent": "a reference inside a fenced container — valid"
+    },
+    {
+      "id": "cand.footnotes.definition.looks-like-in-container",
+      "spec": "11.2",
+      "source": "::: Note\n[^a]: inside\n:::\n\nText[^a].\n",
+      "intent": "a [^a]: line inside a container is ordinary text but the [^a] token still needs a definition — expect an unresolved-reference semantic error"
+    },
+    {
+      "id": "cand.footnotes.definition.looks-like-in-quote",
+      "spec": "11.2",
+      "source": "> [^a]: inside\n\nText[^a].\n",
+      "intent": "a [^a]: line inside a quote is ordinary text, while Text[^a] is a real reference — expect the reference to need a definition"
+    },
+    {
+      "id": "cand.footnotes.reference.adjacent-unclosed-caret",
+      "spec": "11.4",
+      "source": "Text[^a] and then ^b^\n\n[^a]: note.\n",
+      "intent": "a valid reference and a separate superscript caret — the reference wins by priority; sup parses normally"
+    },
+    {
+      "id": "cand.footnotes.reference.escaped-bracket-literal",
+      "spec": "11.2",
+      "source": "Text\\[^a]\n\n[^a]: note.\n",
+      "intent": "an escaped bracket before the reference — escape neutralises the opener; expect literal text, not a reference"
+    },
+    {
+      "id": "cand.footnotes.definition.at-document-end",
+      "spec": "11.3",
+      "source": "Text[^a].\n\n[^a]: note.\n\nMore.\n",
+      "intent": "definitions normalise to the end of the document even when written mid-document — expect reorder"
+    },
+    {
+      "id": "cand.footnotes.reference.multiline-paragraph",
+      "spec": "11.3",
+      "source": "First line[^a]\nsecond line.\n\n[^a]: note.\n",
+      "intent": "a reference on the first line of a multi-line paragraph — valid, reference belongs to the paragraph"
+    },
+    {
+      "id": "cand.footnotes.reference.at-line-start",
+      "spec": "11.2",
+      "source": "[^a] at start.\n\n[^a]: note.\n",
+      "intent": "a reference at the start of a line — valid"
+    },
+    {
+      "id": "cand.footnotes.definition.eof-no-trailing-blank",
+      "spec": "11.7",
+      "source": "Text[^a]\n[^a]: note.\n",
+      "intent": "a definition immediately after the paragraph with no blank — normal mode moves it to the end"
+    },
+    {
+      "id": "cand.footnotes.reference.inside-heading",
+      "spec": "11.3",
+      "source": "# Heading[^a]\n\n[^a]: note.\n",
+      "intent": "a reference inside a heading — valid; definition at document level"
+    },
+    {
+      "id": "cand.footnotes.definition.id-uppercase-lowercase-distinct",
+      "spec": "11.7",
+      "source": "Text.\n\n[^A]: upper.\n[^a]: lower.\n",
+      "intent": "two unused definitions differing in case — both valid and independently addressable"
+    },
+    {
+      "id": "cand.footnotes.reference.inside-table-cell",
+      "spec": "11.3",
+      "source": "| A[^a] | B |\n| --- | --- |\n| 1 | 2 |\n\n[^a]: note.\n",
+      "intent": "a reference inside a table cell — valid; definition at document level"
+    },
+    {
+      "id": "cand.footnotes.definition.escaped-prefix-literal",
+      "spec": "11.2",
+      "source": "\\[^a]: literal\n",
+      "intent": "an escaped bracket at the start of a definition line — expect literal text, not a definition"
+    },
+    {
+      "id": "cand.footnotes.reference.two-adjacent-references",
+      "spec": "11.3",
+      "source": "Text[^a][^b]\n\n[^a]: A.\n[^b]: B.\n",
+      "intent": "two adjacent references — both valid and order-preserved by first occurrence"
+    },
+    {
+      "id": "cand.footnotes.definition.unclosed-emphasis-in-content",
+      "spec": "11.3",
+      "source": "Text[^a]\n\n[^a]: has *unclosed\n",
+      "intent": "an unclosed emphasis inside the definition content — expect syntax error"
+    },
+    {
+      "id": "cand.footnotes.reference.escaped-caret-in-id-literal",
+      "spec": "11.2",
+      "source": "Text[^a\\]b]\n\n[^a]: note.\n",
+      "intent": "an escaped bracket inside the reference token — ambiguous; likely not a valid identifier"
+    },
+    {
+      "id": "cand.footnotes.reference.empty-id-literal",
+      "spec": "11.2",
+      "source": "Text[^]\n",
+      "intent": "empty identifier inside the bracket — not a valid reference; expect literal text"
+    },
+    {
+      "id": "cand.footnotes.reference.double-hyphen-id",
+      "spec": "11.2",
+      "source": "Text[^a--b]\n\n[^a--b]: note.\n",
+      "intent": "double hyphen inside the identifier — valid per grammar, round-trips"
+    },
+    {
+      "id": "cand.footnotes.definition.content-leading-space-normalize",
+      "spec": "11.2",
+      "source": "[^a]:  leading\n",
+      "intent": "extra space after the colon — normal mode collapses to exactly one; strict rejects"
+    },
+    {
+      "id": "cand.footnotes.reference.only-unused-definitions",
+      "spec": "11.7",
+      "source": "[^b]: B.\n[^a]: A.\n",
+      "intent": "a document of only unused definitions — valid with warnings, sorted a then b"
+    },
+    {
+      "id": "cand.footnotes.definition.title-asterisk-content",
+      "spec": "11.3",
+      "source": "Text[^a]\n\n[^a]: *emphasis* and `code`.\n",
+      "intent": "inline markup inside a definition — valid, emphasis and code parse"
+    },
+    {
+      "id": "cand.footnotes.definition.trailing-backslash-literal",
+      "spec": "11.3",
+      "source": "Text[^a]\n\n[^a]: note\\\n",
+      "intent": "a trailing backslash in a definition is a literal backslash (single-line inline content)"
+    },
+    {
+      "id": "cand.footnotes.reference.in-attribution",
+      "spec": "3.17, 11.3",
+      "source": "> Quote[^a]\n-- Author[^b]\n\n[^a]: A.\n[^b]: B.\n",
+      "intent": "references inside a quote and its attribution line — both valid; attribution is inline content"
+    },
+    {
+      "id": "cand.footnotes.definition.adjacent-paragraph-reference",
+      "spec": "11.3",
+      "source": "Text[^a].\n[^a]: note.\n\nMore text.\n",
+      "intent": "definition immediately after the referencing paragraph, then more text — normal mode reorders to the end"
+    },
+    {
+      "id": "cand.footnotes.reference.in-image-alt-invalid",
+      "spec": "11.3",
+      "source": "![alt [^a] text](img.png)\n\n[^a]: note.\n",
+      "intent": "a footnote reference inside an image alt is a nested anchor — expect syntax error"
+    },
+    {
+      "id": "cand.footnotes.reference.bare-caret-no-bracket-literal",
+      "spec": "11.4",
+      "source": "Text^a and Text[^a]\n\n[^a]: note.\n",
+      "intent": "a bare caret is not a reference (only [^id] is); the bracketed one is a real reference"
+    },
+    {
+      "id": "cand.footnotes.definition.paragraph-after-no-blank",
+      "spec": "11.3",
+      "source": "Ref[^a]\n\n[^a]: note.\nNext paragraph.\n",
+      "intent": "a paragraph directly after a definition without a blank line — probe the block boundary"
+    },
+    {
+      "id": "cand.footnotes.definition.inside-grid-cell",
+      "spec": "11.2",
+      "source": "::: X\n[^a]: cell\n--\nB\n:::\n\nText[^a].\n",
+      "intent": "a [^a]: line inside a Grid cell is ordinary text, while the reference still needs a doc-level definition"
+    },
+    {
+      "id": "cand.footnotes.reference.in-table-cell",
+      "spec": "11.3, 12.3",
+      "source": "| a[^f] | b |\n| --- | --- |\n| 1 | 2 |\n\n[^f]: note.\n",
+      "intent": "a footnote reference in a table cell — valid; definition at document level"
+    },
+    {
+      "id": "cand.footnotes.definition.inline-code-content",
+      "spec": "11.3",
+      "source": "Ref[^a]\n\n[^a]: code `x|y` here.\n",
+      "intent": "a pipe inside inline code in a definition — the definition is inline-only and parses code"
+    },
+    {
+      "id": "cand.footnotes.reference.two-references-one-definition",
+      "spec": "11.3",
+      "source": "A[^x] B[^x]\n\n[^x]: note.\n",
+      "intent": "two references to the same identifier — both valid, one definition in output"
+    },
+    {
+      "id": "cand.footnotes.definition.definition-then-blank-then-more",
+      "spec": "11.3",
+      "source": "Ref[^a]\n\n[^a]: note.\n\nLater.\n",
+      "intent": "a definition followed by a blank line and later content — canonical end-of-document placement"
+    },
+    {
+      "id": "cand.footnotes.reference.with-underscore-only",
+      "spec": "11.2",
+      "source": "Text[^_]\n\n[^_]: note.\n",
+      "intent": "an identifier that is only an underscore — valid per grammar, round-trips"
+    },
+    {
+      "id": "cand.footnotes.reference.escaped-caret-literal",
+      "spec": "11.2",
+      "source": "Text[^\\^x]\n\n[^x]: note.\n",
+      "intent": "an escaped caret inside the bracket — not a valid identifier; expect literal text"
+    },
+    {
+      "id": "cand.footnotes.definition.leading-brackets-content",
+      "spec": "11.3",
+      "source": "Ref[^a]\n\n[^a]: [bracket] text.\n",
+      "intent": "literal brackets inside definition content — ordinary inline text"
+    }
+  ]
+}

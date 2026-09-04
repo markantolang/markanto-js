@@ -1,0 +1,2136 @@
+{
+  "schemaVersion": 1,
+  "group": "lists",
+  "cases": [
+    {
+      "id": "list.unordered.basic",
+      "spec": "9.2",
+      "source": "- One\n- Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- One\n- Two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- One\n- Two\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Two"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.unordered.star-normalizes",
+      "spec": "9.3",
+      "source": "* One\n* Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- One\n- Two\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.unordered.plus-normalizes",
+      "spec": "9.3",
+      "source": "+ One\n+ Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- One\n- Two\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.empty-item-invalid",
+      "spec": "9.6",
+      "source": "- \n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.nested",
+      "spec": "9.4",
+      "source": "- One\n  - Child\n- Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- One\n  - Child\n- Two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- One\n  - Child\n- Two\n"
+        }
+      }
+    },
+    {
+      "id": "list.level-jump-invalid",
+      "spec": "9.5",
+      "source": "- One\n    - Too deep\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.ordered.basic",
+      "spec": "9.3.1",
+      "source": "1. One\n2. Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n2. Two\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1. One\n2. Two\n"
+        }
+      }
+    },
+    {
+      "id": "list.ordered.paren-normalizes",
+      "spec": "9.3.1",
+      "source": "1) One\n2) Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n2. Two\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.ordered.leading-zero-normalizes",
+      "spec": "9.3.1",
+      "source": "01. One\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.ordered.max-valid",
+      "spec": "9.3.1",
+      "source": "999999999. Item\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "999999999. Item\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "999999999. Item\n"
+        }
+      }
+    },
+    {
+      "id": "list.ordered.too-large-invalid",
+      "spec": "9.3.1",
+      "source": "1000000000. Item\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.task.open",
+      "spec": "9.3.2",
+      "source": "- [ ] open\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [ ] open\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- [ ] open\n"
+        }
+      }
+    },
+    {
+      "id": "list.task.done",
+      "spec": "9.3.2",
+      "source": "- [x] done\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [x] done\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- [x] done\n"
+        }
+      }
+    },
+    {
+      "id": "list.task.uppercase-normalizes",
+      "spec": "9.3.2",
+      "source": "- [X] done\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [x] done\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.structured.paragraph",
+      "spec": "9.8",
+      "source": "- Intro\n\n  Second paragraph.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Intro\n\n  Second paragraph.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Intro\n\n  Second paragraph.\n"
+        }
+      }
+    },
+    {
+      "id": "list.container-child-invalid",
+      "spec": "9.8",
+      "source": "- Intro\n\n  ::: Warning\n  Content.\n  :::\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.definition.basic",
+      "spec": "9.18",
+      "source": ": Apple\n\n  A fruit.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": Apple\n\n  A fruit.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ": Apple\n\n  A fruit.\n"
+        }
+      }
+    },
+    {
+      "id": "list.definition.multiple-terms",
+      "spec": "9.18.2",
+      "source": ": HTML\n: HyperText Markup Language\n\n  A markup language.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": HTML\n: HyperText Markup Language\n\n  A markup language.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ": HTML\n: HyperText Markup Language\n\n  A markup language.\n"
+        }
+      }
+    },
+    {
+      "id": "list.definition.old-form-not-definition",
+      "spec": "9.18.1",
+      "source": "Term\n: Definition\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Term\n\n: Definition\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "The first line is a paragraph; the second starts a prefix-form definition list."
+    },
+    {
+      "id": "list.ordered.zero-valid",
+      "spec": "9.3.1",
+      "source": "0. Zero\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "0. Zero\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "0. Zero\n"
+        }
+      }
+    },
+    {
+      "id": "list.ordered.visible-deviation-preserved",
+      "spec": "9.3.1",
+      "source": "3. Three\n7. Seven\n8. Eight\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "3. Three\n7. Seven\n8. Eight\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "3. Three\n7. Seven\n8. Eight\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 3,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Three"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "value": 7,
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Seven"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Eight"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.task.mixed-items",
+      "spec": "9.3.2",
+      "source": "- normal\n- [ ] open\n- [x] done\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- normal\n- [ ] open\n- [x] done\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- normal\n- [ ] open\n- [x] done\n"
+        }
+      }
+    },
+    {
+      "id": "list.task.missing-space-invalid",
+      "spec": "9.3.2",
+      "source": "- [x]done\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.continuation.indent-normalizes",
+      "spec": "9.6",
+      "source": "- A longer item,\n    continuing here.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A longer item,\n  continuing here.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.structured.code",
+      "spec": "9.8",
+      "source": "- Example:\n\n  ```js\n  example()\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Example:\n\n  ```js\n  example()\n  ```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Example:\n\n  ```js\n  example()\n  ```\n"
+        }
+      }
+    },
+    {
+      "id": "list.structured.table",
+      "spec": "9.8",
+      "source": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Data:\n\n  | A | B |\n  | --- | --- |\n  | 1 | 2 |\n"
+        }
+      }
+    },
+    {
+      "id": "list.structured.quote",
+      "spec": "9.8",
+      "source": "- Claim:\n\n  > Evidence.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Claim:\n\n  > Evidence.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Claim:\n\n  > Evidence.\n"
+        }
+      }
+    },
+    {
+      "id": "list.recursive.quote-list-sublist-valid",
+      "spec": "9.10",
+      "source": "- Outer\n\n  > Context.\n  >\n  > - Inner\n  >   - Too deep\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Outer\n\n  > Context.\n  >\n  > - Inner\n  >   - Too deep\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Outer\n\n  > Context.\n  >\n  > - Inner\n  >   - Too deep\n"
+        }
+      }
+    },
+    {
+      "id": "list.recursive.quote-list-quote-valid",
+      "spec": "9.10",
+      "source": "- Outer\n\n  > Context.\n  >\n  > - Inner\n  >\n  >   > Too deep.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Outer\n\n  > Context.\n  >\n  > - Inner\n  >\n  >   > Too deep.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Outer\n\n  > Context.\n  >\n  > - Inner\n  >\n  >   > Too deep.\n"
+        }
+      }
+    },
+    {
+      "id": "list.definition.term-only",
+      "spec": "9.18.7",
+      "source": ": Term\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": Term\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ": Term\n"
+        }
+      }
+    },
+    {
+      "id": "list.definition.bad-spacing-invalid",
+      "spec": "9.18.1",
+      "source": ":  Term\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.definition.kind-switch",
+      "spec": "9.18.3",
+      "source": ": Term\n- Item\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": Term\n\n- Item\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.contained-paragraph-id-invalid",
+      "spec": "5.1",
+      "source": "- Item\n\n  Inner.\n  {#inner}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Blocks owned by a ListItem are not independently addressable; an inner paragraph ID is semantically invalid."
+    },
+    {
+      "id": "list.definition.task-shaped-term-is-literal",
+      "spec": "9.3.2",
+      "source": ": [ ] Not a task\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": [ ] Not a task\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ": [ ] Not a task\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "definition",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "[ ] Not a task"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Task recognition is restricted to ordered/unordered list items; task-shaped text after : remains term content."
+    },
+    {
+      "id": "lists.continuation.soft-break-inside-item",
+      "spec": "9.6",
+      "source": "- a longer item,\n  continuing here.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a longer item,\n  continuing here.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a longer item,\n  continuing here.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a longer item,"
+                      },
+                      {
+                        "type": "softBreak"
+                      },
+                      {
+                        "type": "text",
+                        "value": "continuing here."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.unordered.continuation-then-sibling",
+      "spec": "9.9",
+      "source": "- a\n  continuation\n- b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n  continuation\n- b\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a\n  continuation\n- b\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      },
+                      {
+                        "type": "softBreak"
+                      },
+                      {
+                        "type": "text",
+                        "value": "continuation"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.mixed-paren-dot",
+      "spec": "9.3.1",
+      "source": "1) One\n2. Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n2. Two\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Two"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.unordered.mixed-star-plus-dash",
+      "spec": "9.3",
+      "source": "* a\n+ b\n- c\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n- b\n- c\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "c"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.depth.five-levels",
+      "spec": "9.4",
+      "source": "- a\n  - b\n    - c\n      - d\n        - e\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n  - b\n    - c\n      - d\n        - e\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a\n  - b\n    - c\n      - d\n        - e\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "b"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "c"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "list",
+                                    "kind": "unordered",
+                                    "items": [
+                                      {
+                                        "type": "listItem",
+                                        "children": [
+                                          {
+                                            "type": "paragraph",
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "value": "d"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "list",
+                                            "kind": "unordered",
+                                            "items": [
+                                              {
+                                                "type": "listItem",
+                                                "children": [
+                                                  {
+                                                    "type": "paragraph",
+                                                    "children": [
+                                                      {
+                                                        "type": "text",
+                                                        "value": "e"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.depth.four-levels",
+      "spec": "9.4",
+      "source": "- a\n  - b\n    - c\n      - d\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n  - b\n    - c\n      - d\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a\n  - b\n    - c\n      - d\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "b"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "c"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "list",
+                                    "kind": "unordered",
+                                    "items": [
+                                      {
+                                        "type": "listItem",
+                                        "children": [
+                                          {
+                                            "type": "paragraph",
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "value": "d"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.deviation-resets-sequence",
+      "spec": "9.3.1",
+      "source": "1. One\n3. Three\n4. Four\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n3. Three\n4. Four\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1. One\n3. Three\n4. Four\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "value": 3,
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Three"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Four"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.max-start",
+      "spec": "9.3.1",
+      "source": "999999999. Nine\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "999999999. Nine\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "999999999. Nine\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 999999999,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Nine"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.repeated-number-deviation",
+      "spec": "9.3.1",
+      "source": "1. One\n1. Again\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n1. Again\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1. One\n1. Again\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "value": 1,
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Again"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.space-between-number-dot-invalid",
+      "spec": "9.3.1",
+      "source": "1 . One\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1 . One\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1 . One\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "1 . One"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.start-non-one",
+      "spec": "9.3.1",
+      "source": "3. Three\n4. Four\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "3. Three\n4. Four\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "3. Three\n4. Four\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 3,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Three"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Four"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.start-zero-continues",
+      "spec": "9.3.1",
+      "source": "0. Zero\n1. One\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "0. Zero\n1. One\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "0. Zero\n1. One\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 0,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Zero"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.quote.list-inside-quote",
+      "spec": "3.11",
+      "source": "> - a\n>   - b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> - a\n>   - b\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> - a\n>   - b\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "list",
+                  "kind": "unordered",
+                  "items": [
+                    {
+                      "type": "listItem",
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "a"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "list",
+                          "kind": "unordered",
+                          "items": [
+                            {
+                              "type": "listItem",
+                              "children": [
+                                {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "b"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.quote.quote-inside-list-inside-quote",
+      "spec": "9.10",
+      "source": "> - a\n>\n>   > nested quote\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> - a\n>\n>   > nested quote\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> - a\n>\n>   > nested quote\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "list",
+                  "kind": "unordered",
+                  "items": [
+                    {
+                      "type": "listItem",
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "a"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "quoteRegion",
+                          "children": [
+                            {
+                              "level": 1,
+                              "block": {
+                                "type": "paragraph",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "value": "nested quote"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.structured.blank-closes-leaf-not-item",
+      "spec": "9.8",
+      "source": "- a\n\n  second paragraph.\n\n  third.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n\n  second paragraph.\n\n  third.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a\n\n  second paragraph.\n\n  third.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "second paragraph."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "third."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.structured.comment-child",
+      "spec": "9.8",
+      "source": "- a\n\n  <!-- note -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n\n  <!-- note -->\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a\n\n  <!-- note -->\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "commentBlock",
+                    "value": " note "
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.structured.math-child",
+      "spec": "9.8",
+      "source": "- Eq:\n\n  ```math\n  x^2\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Eq:\n\n  ```math\n  x^2\n  ```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Eq:\n\n  ```math\n  x^2\n  ```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Eq:"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "mathBlock",
+                    "value": "x^2"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.structured.quote-child",
+      "spec": "9.8",
+      "source": "- a\n\n  > Quote.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n\n  > Quote.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- a\n\n  > Quote.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "quoteRegion",
+                    "children": [
+                      {
+                        "level": 1,
+                        "block": {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Quote."
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.task.mixed-with-plain",
+      "spec": "9.3.2",
+      "source": "- plain\n- [ ] open\n- [x] done\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- plain\n- [ ] open\n- [x] done\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- plain\n- [ ] open\n- [x] done\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "plain"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "task": "open",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "open"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "task": "done",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "done"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.task.nested-task",
+      "spec": "9.3.2",
+      "source": "- [ ] outer\n  - [x] inner\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [ ] outer\n  - [x] inner\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- [ ] outer\n  - [x] inner\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "task": "open",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "outer"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "task": "done",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "inner"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.structured.heading-invalid",
+      "spec": "9.8",
+      "source": "- a\n\n  # Heading\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A heading is not in the §9.8 closed set of structured list-item children; the parser rejects it rather than silently ending the list."
+    },
+    {
+      "id": "lists.structured.hr-invalid",
+      "spec": "9.8",
+      "source": "- a\n\n  ---\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "A thematic break is not a permitted structured child of a list item (§9.8)."
+    },
+    {
+      "id": "lists.unordered.blank-line-between-items-merges",
+      "spec": "9.9",
+      "source": "- a\n\n- b\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "- a\n- b\n" },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "a" }] }] },
+              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "b" }] }] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "0.1.0 uses a uniform list model with no tight/loose distinction (§9.15/§9.19). A blank line between simple-list items does not split the list; it is a tolerated normal-mode surface, removed in the canonical form, rejected by strict. Two adjacent same-kind lists have no canonical surface (EVOLUTION_V053_TO_010.md §A12)."
+    },
+    {
+      "id": "lists.ordered.blank-line-between-items-merges",
+      "spec": "9.9",
+      "source": "1. a\n\n2. b\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "1. a\n2. b\n" },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "a" }] }] },
+              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "b" }] }] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Ordered lists merge across a blank line the same way; the ordinals stay consecutive so no visible deviation is recorded."
+    },
+    {
+      "id": "lists.unordered.bullet-change-across-blank-merges",
+      "spec": "9.9",
+      "source": "- a\n\n+ b\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "- a\n- b\n" },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "a" }] }] },
+              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "b" }] }] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "The bullet character (`-`/`+`/`*`) is not semantic in 0.1.0 (§9.2), so a CommonMark bullet change that would start a new list is absorbed into the same uniform list."
+    }
+  ]
+}

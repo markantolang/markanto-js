@@ -1,0 +1,1605 @@
+{
+  "schemaVersion": 1,
+  "group": "blocks",
+  "cases": [
+    {
+      "id": "block.heading.h1",
+      "spec": "2.1",
+      "source": "# Heading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Heading\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "# Heading\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Heading"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.heading.h6",
+      "spec": "2.1",
+      "source": "###### Heading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "###### Heading\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "###### Heading\n"
+        }
+      }
+    },
+    {
+      "id": "block.heading.setext-rejected",
+      "spec": "2.1",
+      "source": "Heading\n===\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "notes": "Setext headings are excluded from Markanto."
+    },
+    {
+      "id": "block.hr.canonical",
+      "spec": "2.2",
+      "source": "---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "---\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "horizontalRule"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.hr.stars-normalizes",
+      "spec": "2.2",
+      "source": "* * *\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.hr.long-normalizes",
+      "spec": "2.2",
+      "source": "------\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.hr.mixed-invalid",
+      "spec": "2.2",
+      "source": "-*-\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.backticks",
+      "spec": "2.4",
+      "source": "```js\nconst x = 1;\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```js\nconst x = 1;\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```js\nconst x = 1;\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "codeBlock",
+            "lang": "js",
+            "value": "const x = 1;"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.code.tilde-normalizes",
+      "spec": "2.4",
+      "source": "~~~js\nconst x = 1;\n~~~\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```js\nconst x = 1;\n```\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.comment.single-line",
+      "spec": "2.4.1",
+      "source": "<!-- note -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<!-- note -->\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<!-- note -->\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "commentBlock",
+            "value": " note "
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.comment.multiline",
+      "spec": "2.4.1",
+      "source": "<!-- first\nsecond -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<!-- first\nsecond -->\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<!-- first\nsecond -->\n"
+        }
+      }
+    },
+    {
+      "id": "block.comment.unclosed",
+      "spec": "2.4.1",
+      "source": "<!-- note\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.comment.trailing-visible-invalid",
+      "spec": "2.4.1",
+      "source": "<!-- note --> text\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.boundary.heading-without-blank",
+      "spec": "2.5",
+      "source": "Paragraph.\n# Heading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Paragraph.\n\n# Heading\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.id.heading",
+      "spec": "5.1",
+      "source": "## Introduction {#intro}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "## Introduction {#intro}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "## Introduction {#intro}\n"
+        }
+      }
+    },
+    {
+      "id": "block.id.paragraph",
+      "spec": "5.1",
+      "source": "Paragraph.\n{#p1}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Paragraph.\n{#p1}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Paragraph.\n{#p1}\n"
+        }
+      }
+    },
+    {
+      "id": "block.id.after-blank-invalid",
+      "spec": "5.1",
+      "source": "Paragraph.\n\n{#p1}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.id.long-form-removed",
+      "spec": "5.1.1",
+      "source": "Paragraph.\n{id: p1}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.hr.spaced-dashes-normalizes",
+      "spec": "2.2",
+      "source": "- - -\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.hr.trailing-space-normalizes",
+      "spec": "2.2",
+      "source": "---   \n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.overlong-normalizes",
+      "spec": "2.4",
+      "source": "````js\nconst x = 1;\n````\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```js\nconst x = 1;\n```\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.shortest-safe-four",
+      "spec": "2.4",
+      "source": "````text\n```\n````\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "````text\n```\n````\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "````text\n```\n````\n"
+        }
+      }
+    },
+    {
+      "id": "block.code.unclosed-invalid",
+      "spec": "2.4",
+      "source": "```js\nconst x = 1;\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.comment.empty",
+      "spec": "2.4.1",
+      "source": "<!---->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<!---->\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<!---->\n"
+        }
+      }
+    },
+    {
+      "id": "block.comment.inner-whitespace-preserved",
+      "spec": "2.4.1",
+      "source": "<!--  note  -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<!--  note  -->\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<!--  note  -->\n"
+        }
+      }
+    },
+    {
+      "id": "block.boundary.multiple-blanks-normalize",
+      "spec": "2.5",
+      "source": "First.\n\n\nSecond.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "First.\n\nSecond.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.id.hr",
+      "spec": "5.1",
+      "source": "--- {#divider}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "--- {#divider}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "--- {#divider}\n"
+        }
+      }
+    },
+    {
+      "id": "block.id.code",
+      "spec": "5.1",
+      "source": "```text\nx\n```\n{#code}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```text\nx\n```\n{#code}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```text\nx\n```\n{#code}\n"
+        }
+      }
+    },
+    {
+      "id": "block.id.container",
+      "spec": "5.1",
+      "source": "::: Note\nText.\n:::\n{#note}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: Note\nText.\n:::\n{#note}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: Note\nText.\n:::\n{#note}\n"
+        }
+      }
+    },
+    {
+      "id": "block.id.duplicate-invalid",
+      "spec": "6.1",
+      "source": "# One {#same}\n\n# Two {#same}\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "semantic",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.final-blank-line-preserved",
+      "spec": "2.4",
+      "source": "```\nline\n\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```\nline\n\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```\nline\n\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "codeBlock",
+            "value": "line\n"
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "Only the LF immediately introducing the closer is structural; an earlier LF represents the final blank content line."
+    },
+    {
+      "id": "block.heading.leading-spaces-normalizes",
+      "spec": "2.1",
+      "source": "  ## Heading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "## Heading\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.heading.closing-hashes-normalize",
+      "spec": "2.1",
+      "source": "## Heading ##\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "## Heading\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.heading.empty-invalid",
+      "spec": "2.1",
+      "source": "##\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.leading-spaces-normalizes",
+      "spec": "2.4",
+      "source": "  ```js\n  x\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```js\n  x\n```\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.extra-info-invalid",
+      "spec": "2.4",
+      "source": "```js linenums\nx\n```\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.backtick-in-info-is-inline-code",
+      "spec": "2.4",
+      "source": "` ```math ` opens an inline code span at line start\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "```` ```math ```` opens an inline code span at line start\n" },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              { "type": "inlineCode", "value": "```math " },
+              { "type": "text", "value": " opens an inline code span at line start" }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A `` ```+ `` line whose remainder contains a backtick is not a code fence (the info token may not contain a backtick, §2.4); it is a paragraph whose leading run opens an inline code span, matching CommonMark. The canonical surface widens the delimiter to four backticks."
+    },
+    {
+      "id": "block.code.backtick-fence-info-token",
+      "spec": "2.4",
+      "source": "````math ``` ```` is inline code, not a fence\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "````math ``` ```` is inline code, not a fence\n" },
+        "strict": { "valid": true, "canonical": "````math ``` ```` is inline code, not a fence\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              { "type": "inlineCode", "value": "math ```" },
+              { "type": "text", "value": " is inline code, not a fence" }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.code.backtick-in-info-does-not-interrupt-paragraph",
+      "spec": "2.4",
+      "source": "A paragraph line.\n```` ```math ```` still the same paragraph\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "A paragraph line.\n```` ```math ```` still the same paragraph\n" },
+        "strict": { "valid": true, "canonical": "A paragraph line.\n```` ```math ```` still the same paragraph\n" }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              { "type": "text", "value": "A paragraph line." },
+              { "type": "softBreak" },
+              { "type": "inlineCode", "value": "```math " },
+              { "type": "text", "value": " still the same paragraph" }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "A `` ```+ `` line whose remainder holds a backtick is not a fence (§2.4), so it does not interrupt an in-progress paragraph — it is a continuation line whose leading run opens an inline code span. Exercises the `startsFence` recogniser."
+    },
+    {
+      "id": "block.terminal.empty-document-canonical",
+      "spec": "7.4",
+      "source": "\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [],
+        "footnotes": []
+      },
+      "notes": "The empty document canonicalises to a single LF, not the empty string."
+    },
+    {
+      "id": "block.terminal.trailing-blank-lines-normalize",
+      "spec": "7.4",
+      "source": "Paragraph.\n\n\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Paragraph.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.comment.leading-spaces-normalizes",
+      "spec": "2.4.1",
+      "source": "  <!-- note -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<!-- note -->\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.heading.setext-standalone-is-text",
+      "spec": "2.1",
+      "source": "===\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "===\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "===\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "==="
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.heading-escaped-then-real",
+      "spec": "15.1",
+      "source": "\\# literal\n# real\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\# literal\n\n# real\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "# literal"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "real"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.priority.block-id-after-list",
+      "spec": "5.1",
+      "source": "- item\n{#list-id}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- item\n{#list-id}\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- item\n{#list-id}\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "item"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "id": "list-id"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.two-lines-same-paragraph",
+      "spec": "2.5",
+      "source": "First.\nSecond.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "First.\nSecond.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "First.\nSecond.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "First."
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "Second."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.code.mixed-fence-characters-literal",
+      "spec": "2.4",
+      "source": "```~~~\nx\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```~~~\nx\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```~~~\nx\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "codeBlock",
+            "value": "x",
+            "lang": "~~~"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.heading.escaped-hash-literal",
+      "spec": "2.1",
+      "source": "\\# Not heading\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\# Not heading\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\# Not heading\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "# Not heading"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.hr.escaped-dash-literal",
+      "spec": "2.2",
+      "source": "\\---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "\\---\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "\\---\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "---"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.priority.comment-vs-fence",
+      "spec": "15.1",
+      "source": "<!--\n```\n```\n-->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<!--\n```\n```\n-->\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<!--\n```\n```\n-->\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "commentBlock",
+            "value": "\n```\n```\n"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.priority.quote-vs-heading",
+      "spec": "15.1",
+      "source": "> # inside quote\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> # inside quote\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> # inside quote\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "heading",
+                  "level": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "inside quote"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.priority.setext-after-code-literal",
+      "spec": "2.1",
+      "source": "```\n===\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "```\n===\n```\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "```\n===\n```\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "codeBlock",
+            "value": "==="
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.code-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n```\nx\n```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Para.\n\n```\nx\n```\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Para."
+              }
+            ]
+          },
+          {
+            "type": "codeBlock",
+            "value": "x"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.comment-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n<!-- c -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Para.\n\n<!-- c -->\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Para."
+              }
+            ]
+          },
+          {
+            "type": "commentBlock",
+            "value": " c "
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.comment-between-paragraphs",
+      "spec": "2.5",
+      "source": "A.\n<!-- c -->\nB.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "A.\n\n<!-- c -->\n\nB.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "A."
+              }
+            ]
+          },
+          {
+            "type": "commentBlock",
+            "value": " c "
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "B."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.heading-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n## Head\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Para.\n\n## Head\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Para."
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "children": [
+              {
+                "type": "text",
+                "value": "Head"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.hr-after-paragraph-no-blank",
+      "spec": "2.5",
+      "source": "Para.\n---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Para.\n\n---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Para."
+              }
+            ]
+          },
+          {
+            "type": "horizontalRule"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.priority.heading-vs-hr",
+      "spec": "15.1",
+      "source": "---\n# x\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n\n# x\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "horizontalRule"
+          },
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "x"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.priority.hr-vs-list-item",
+      "spec": "15.1",
+      "source": "- ---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "---\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "horizontalRule"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.heading.id-extra-content-invalid",
+      "spec": "5.1",
+      "source": "# Title {#a} extra\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Title {#a} extra\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "# Title {#a} extra\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Title {#a} extra"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "block.boundary.setext-after-paragraph-diagnostic",
+      "spec": "2.1",
+      "source": "Para.\n===\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.code.escaped-backtick-literal",
+      "spec": "2.4",
+      "source": "\\```\nx\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "block.comment.content-close-sequence-cannot-escape",
+      "spec": "2.4.1",
+      "source": "<!-- a --> b -->\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

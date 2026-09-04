@@ -1,0 +1,635 @@
+{
+  "family": "inline",
+  "candidates": [
+    {
+      "id": "cand.inline.em.intraword-underscore-literal",
+      "spec": "10.11",
+      "source": "snake_case_name\n",
+      "intent": "underscores within a word open no markup — expect all literal text"
+    },
+    {
+      "id": "cand.inline.em.intraword-star-em",
+      "spec": "10.3",
+      "source": "foo*bar*baz\n",
+      "intent": "a single star between word characters is an Em opener/closer (W-after rule differs from _) — expect Em around 'bar'"
+    },
+    {
+      "id": "cand.inline.em.spaces-around-literal",
+      "spec": "10.3",
+      "source": "a * b\n",
+      "intent": "star surrounded by spaces is neither opener nor closer — literal"
+    },
+    {
+      "id": "cand.inline.em.single-star-literal",
+      "spec": "10.3",
+      "source": "*\n",
+      "intent": "a lone star on a line is not an HR (needs 3) and not a delimiter — literal text"
+    },
+    {
+      "id": "cand.inline.em.empty-pair-invalid",
+      "spec": "10.12",
+      "source": "****\n",
+      "intent": "directly closed empty token — error 10.3; also could be an HR with 4 stars — block priority may claim it as HR instead"
+    },
+    {
+      "id": "cand.inline.em.nested-same-kind",
+      "spec": "10.4",
+      "source": "*a *b* c*\n",
+      "intent": "single-star nesting closes stack-aware — ambiguous whether Em>Em same-kind nesting is allowed or a syntax error"
+    },
+    {
+      "id": "cand.inline.strong.nested-em",
+      "spec": "10.2",
+      "source": "**a *b* c**\n",
+      "intent": "Strong containing Em — valid and canonical"
+    },
+    {
+      "id": "cand.inline.em.nested-strong",
+      "spec": "10.2",
+      "source": "*a **b** c*\n",
+      "intent": "Em containing Strong — valid and canonical"
+    },
+    {
+      "id": "cand.inline.em.overlapping-invalid",
+      "spec": "10.12",
+      "source": "**a *b** c*\n",
+      "intent": "overlapping delimiters — expect a syntax error (error 10.2)"
+    },
+    {
+      "id": "cand.inline.em.star-dash-mix-literal",
+      "spec": "10.3",
+      "source": "a *-* b\n",
+      "intent": "Em around a dash — valid; probes punctuation flanking"
+    },
+    {
+      "id": "cand.inline.em.unicode-word",
+      "spec": "10.3",
+      "source": "Über *em* fließt\n",
+      "intent": "unicode letters count as word characters — Em still parses between them"
+    },
+    {
+      "id": "cand.inline.strong.unclosed-invalid",
+      "spec": "10.12",
+      "source": "**no end\n",
+      "intent": "unclosed strong — expect syntax error"
+    },
+    {
+      "id": "cand.inline.em.unclosed-underscore-invalid",
+      "spec": "10.12",
+      "source": "_no end\n",
+      "intent": "unclosed underscore emphasis — expect syntax error (no literal fallback)"
+    },
+    {
+      "id": "cand.inline.em.underscore-nested-punct",
+      "spec": "10.3",
+      "source": "(_em_)\n",
+      "intent": "underscore emphasis inside parentheses — punctuation flanking allows it; normalises to *em*"
+    },
+    {
+      "id": "cand.inline.strong.underscore-intraword-literal",
+      "spec": "10.11",
+      "source": "a__b__c\n",
+      "intent": "double underscore between word characters — no Strong; literal text"
+    },
+    {
+      "id": "cand.inline.wrapper.strong-then-em-canonical",
+      "spec": "10.6",
+      "source": "<b><i>x</i></b>\n",
+      "intent": "Strong containing Em via wrappers — canonical surface is ***x***"
+    },
+    {
+      "id": "cand.inline.wrapper.intraword-valid",
+      "spec": "10.3",
+      "source": "a<i>b</i>c\n",
+      "intent": "wrapper enables intra-word emphasis which * cannot express — valid, canonicalises to a*b*c"
+    },
+    {
+      "id": "cand.inline.wrapper.attribute-invalid",
+      "spec": "10.2",
+      "source": "<i lang=en>x</i>\n",
+      "intent": "attribute on an <i> wrapper — not allowed; expect literal text or error"
+    },
+    {
+      "id": "cand.inline.wrapper.uppercase-literal",
+      "spec": "10.2",
+      "source": "<I>x</I>\n",
+      "intent": "uppercase wrapper tag — MIB tags are exact lowercase; expect literal text"
+    },
+    {
+      "id": "cand.inline.wrapper.unclosed-invalid",
+      "spec": "10.11",
+      "source": "<b>x\n",
+      "intent": "unclosed strong wrapper — expect syntax error"
+    },
+    {
+      "id": "cand.inline.wrapper.self-closing-literal",
+      "spec": "10.2",
+      "source": "<i/>x\n",
+      "intent": "self-closing wrapper — not part of MIB grammar; expect literal text"
+    },
+    {
+      "id": "cand.inline.wrapper.unknown-tag-literal",
+      "spec": "10.4",
+      "source": "<div>x</div>\n",
+      "intent": "unknown HTML-like tag — no raw HTML passthrough; expect literal text"
+    },
+    {
+      "id": "cand.inline.deletion.intraword",
+      "spec": "10.3",
+      "source": "a~~b~~c\n",
+      "intent": "deletion between word characters — flanking rule W-before/P-after; ambiguous whether it parses or stays literal"
+    },
+    {
+      "id": "cand.inline.deletion.unclosed-invalid",
+      "spec": "10.12",
+      "source": "~~no end\n",
+      "intent": "unclosed deletion — expect syntax error"
+    },
+    {
+      "id": "cand.inline.obsolete.three-hyphens-literal",
+      "spec": "10.11",
+      "source": "this is --- I think --- my opinion\n",
+      "intent": "three hyphens are never an Obsolete opener (em-dash ASCII) — expect literal text"
+    },
+    {
+      "id": "cand.inline.obsolete.unclosed-invalid",
+      "spec": "10.12",
+      "source": "--no end\n",
+      "intent": "unclosed Obsolete — expect syntax error"
+    },
+    {
+      "id": "cand.inline.insert.unclosed-invalid",
+      "spec": "10.12",
+      "source": "++no end\n",
+      "intent": "unclosed insertion (error 10.9) — expect syntax error"
+    },
+    {
+      "id": "cand.inline.mark.unclosed-invalid",
+      "spec": "10.12",
+      "source": "==no end\n",
+      "intent": "unclosed mark — expect syntax error"
+    },
+    {
+      "id": "cand.inline.mark.setext-like-literal",
+      "spec": "10.2",
+      "source": "=== x\n",
+      "intent": "three equals at line start — mark delimiter needs a closer; ambiguous with setext-looking line; expect literal"
+    },
+    {
+      "id": "cand.inline.sup.punctuation-content",
+      "spec": "10.11",
+      "source": "x^(a+b)^\n",
+      "intent": "sup with punctuation-only content — valid atomic sup"
+    },
+    {
+      "id": "cand.inline.sup.whitespace-literal",
+      "spec": "10.11",
+      "source": "a^b c^d\n",
+      "intent": "whitespace inside the caret pair — no valid atomic sup; carets stay literal"
+    },
+    {
+      "id": "cand.inline.sup.intraword",
+      "spec": "10.11",
+      "source": "x^y^z\n",
+      "intent": "superscript between word characters — no flanking rule for ^; expect Sup"
+    },
+    {
+      "id": "cand.inline.sub.intraword",
+      "spec": "10.11",
+      "source": "a~b~c\n",
+      "intent": "subscript between word characters — no flanking rule; expect Sub"
+    },
+    {
+      "id": "cand.inline.sub.whitespace-literal",
+      "spec": "10.11",
+      "source": "a~b c~d\n",
+      "intent": "whitespace inside the tilde pair — no valid atomic sub; literal"
+    },
+    {
+      "id": "cand.inline.sub.unclosed-literal",
+      "spec": "10.10",
+      "source": "a~b\n",
+      "intent": "unclosed single tilde — stays literal text, even in strict mode"
+    },
+    {
+      "id": "cand.inline.deletion-sub.midline-with-space-invalid",
+      "spec": "10.11",
+      "source": "p ~~~a b~~~ r\n",
+      "intent": "~~~ mid-line with a space in the sub child — atomic sub rule fails; expect syntax error"
+    },
+    {
+      "id": "cand.inline.deletion-sub.midline-valid",
+      "spec": "10.11",
+      "source": "p ~~~q~~~ r\n",
+      "intent": "mid-line ~~~ gives Deletion wrapping Sub — valid (block fence only at line start)"
+    },
+    {
+      "id": "cand.inline.link.space-before-paren-literal",
+      "spec": "10.5.1",
+      "source": "[x] (a)\n",
+      "intent": "a space between the label and the parens — not a direct link; expect literal text"
+    },
+    {
+      "id": "cand.inline.link.ref-style-literal",
+      "spec": "1.2",
+      "source": "[x][y]\n",
+      "intent": "reference-style link stays literal — not an error, never promoted"
+    },
+    {
+      "id": "cand.inline.link.ref-style-collapsed-literal",
+      "spec": "1.2",
+      "source": "[x][]\n",
+      "intent": "collapsed reference form stays literal text"
+    },
+    {
+      "id": "cand.inline.link.bare-bracket-literal",
+      "spec": "1.2",
+      "source": "[x]\n",
+      "intent": "a lone bracket pair stays literal text"
+    },
+    {
+      "id": "cand.inline.link.extra-text-after-title-invalid",
+      "spec": "10.5.1",
+      "source": "[x](a \"t\" extra)\n",
+      "intent": "content after the title — malformed group; expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.unclosed-title-invalid",
+      "spec": "10.5.1",
+      "source": "[x](a \"t)\n",
+      "intent": "unclosed title quote — malformed group; expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.two-titles-invalid",
+      "spec": "10.5.1",
+      "source": "[x](a \"t\" 'u')\n",
+      "intent": "two title strings — malformed group; expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.empty-string-title-invalid",
+      "spec": "10.5.1",
+      "source": "[x](a \"\")\n",
+      "intent": "empty-string title is invalid — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.paren-title",
+      "spec": "10.5.1",
+      "source": "[x](a (t))\n",
+      "intent": "parenthesised title — tolerated, normalises to double-quoted title"
+    },
+    {
+      "id": "cand.inline.link.unclosed-angle-dest-invalid",
+      "spec": "10.5.1",
+      "source": "[x](<a\n",
+      "intent": "unclosed angle destination — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.bare-dest-trailing-paren-literal-part",
+      "spec": "10.5.1",
+      "source": "[x](a) b\n",
+      "intent": "text after a valid link — the link parses, then space and b"
+    },
+    {
+      "id": "cand.inline.link.dest-unbalanced-paren-invalid",
+      "spec": "10.5.1",
+      "source": "[x](a(b)\n",
+      "intent": "unbalanced parentheses in a bare destination — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.dest-newline-invalid",
+      "spec": "10.5.1",
+      "source": "[x](<a\nb>)\n",
+      "intent": "destination spanning a physical line — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.label-code-valid",
+      "spec": "10.5.1",
+      "source": "[`code` in label](a)\n",
+      "intent": "inline code inside a link label — valid"
+    },
+    {
+      "id": "cand.inline.link.label-em-valid",
+      "spec": "10.5.1",
+      "source": "[*em* label](a)\n",
+      "intent": "emphasis inside a link label — valid"
+    },
+    {
+      "id": "cand.inline.link.label-image-valid",
+      "spec": "10.5.1",
+      "source": "[![alt](i)](u)\n",
+      "intent": "a nested image inside a link label is allowed (image is not an anchor) — valid"
+    },
+    {
+      "id": "cand.inline.link.label-autolink-invalid",
+      "spec": "10.5.1",
+      "source": "[<https://inner.org>](https://outer.org)\n",
+      "intent": "autolink inside a link label is a nested anchor — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.label-nested-link-invalid",
+      "spec": "10.5.1",
+      "source": "[[x](y)](z)\n",
+      "intent": "nested direct link in a label — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.label-footnote-invalid",
+      "spec": "10.5.1",
+      "source": "[[^n]](a)\n",
+      "intent": "footnote reference in a link label — expect syntax error"
+    },
+    {
+      "id": "cand.inline.link.fragment-id-dest",
+      "spec": "5.3",
+      "source": "[Go](#section-2)\n",
+      "intent": "concrete document anchor destination — valid, href stored literally"
+    },
+    {
+      "id": "cand.inline.link.symbolic-dest",
+      "spec": "10.5",
+      "source": "[$sym]($sym)\n",
+      "intent": "symbolic internal target — valid, dollar preserved literally"
+    },
+    {
+      "id": "cand.inline.link.dest-bare-with-entity",
+      "spec": "10.5.1",
+      "source": "[a](/x?q=1&amp;r=2)\n",
+      "intent": "entity in the destination is decoded — href '/x?q=1&r=2'"
+    },
+    {
+      "id": "cand.inline.link.dest-escaped-paren",
+      "spec": "10.5.1",
+      "source": "[a](b\\)c)\n",
+      "intent": "escaped parenthesis in a bare destination — valid, href 'b)c'"
+    },
+    {
+      "id": "cand.inline.autolink.http",
+      "spec": "13.2",
+      "source": "<http://example.org>\n",
+      "intent": "http scheme autolink — valid"
+    },
+    {
+      "id": "cand.inline.autolink.ftp-literal",
+      "spec": "13.3",
+      "source": "<ftp://example.org>\n",
+      "intent": "non-http scheme — not an autolink; expect literal text"
+    },
+    {
+      "id": "cand.inline.autolink.mailto-literal",
+      "spec": "13.3",
+      "source": "<mailto:user@example.org>\n",
+      "intent": "mailto is not a recognised scheme — expect literal text"
+    },
+    {
+      "id": "cand.inline.autolink.space-inside-literal",
+      "spec": "13.3",
+      "source": "<https://example.org/a b>\n",
+      "intent": "space inside the angle brackets — not a valid autolink; expect literal text"
+    },
+    {
+      "id": "cand.inline.autolink.email-single-letter-tld-literal",
+      "spec": "13.2",
+      "source": "<user@example.c>\n",
+      "intent": "email TLD needs at least two letters — expect literal text"
+    },
+    {
+      "id": "cand.inline.autolink.email-plus-in-local",
+      "spec": "13.2",
+      "source": "<user+tag@example.org>\n",
+      "intent": "plus in the local part — valid email autolink"
+    },
+    {
+      "id": "cand.inline.autolink.bare-at-line-start",
+      "spec": "13.2a",
+      "source": "https://example.org/path\n",
+      "intent": "bare URL at line start — opener position valid; autolink, canonical to <...>"
+    },
+    {
+      "id": "cand.inline.autolink.bare-in-parens",
+      "spec": "13.2a",
+      "source": "(see https://example.org/path)\n",
+      "intent": "bare URL inside parentheses — autolink; trailing ')' stays literal"
+    },
+    {
+      "id": "cand.inline.autolink.bare-trailing-comma",
+      "spec": "13.2a",
+      "source": "see https://example.org, ok\n",
+      "intent": "bare URL followed by a comma — trailing punctuation trimmed; comma stays literal"
+    },
+    {
+      "id": "cand.inline.autolink.bare-trailing-underscore-inside",
+      "spec": "13.2a",
+      "source": "see https://example.org/a_b\n",
+      "intent": "underscore inside a bare URL is reserved, not markup — full URL preserved"
+    },
+    {
+      "id": "cand.inline.autolink.bare-ftp-literal",
+      "spec": "13.3",
+      "source": "see ftp://example.org\n",
+      "intent": "bare ftp scheme — not recognised; expect literal text"
+    },
+    {
+      "id": "cand.inline.autolink.bare-https-after-punct",
+      "spec": "13.2a",
+      "source": "word:https://example.org\n",
+      "intent": "bare URL after a colon — colon is punctuation, so opener position valid; expect autolink"
+    },
+    {
+      "id": "cand.inline.code.double-empty-invalid",
+      "spec": "10.9",
+      "source": "`` ``\n",
+      "intent": "empty code content with a double-backtick delimiter — expect syntax error"
+    },
+    {
+      "id": "cand.inline.code.single-space-content",
+      "spec": "10.9",
+      "source": "` `\n",
+      "intent": "a code span containing a single space — content is non-empty; expect valid code with value ' '"
+    },
+    {
+      "id": "cand.inline.code.two-backticks-in-content",
+      "spec": "10.9",
+      "source": "``` `` ```\n",
+      "intent": "content containing two backticks — the triple-backtick delimiter keeps them literal"
+    },
+    {
+      "id": "cand.inline.code.leading-protective-space",
+      "spec": "10.9",
+      "source": "`` `x` ``\n",
+      "intent": "protective space around an edge backtick — value is '`x`'"
+    },
+    {
+      "id": "cand.inline.code.unclosed-run-invalid",
+      "spec": "10.9",
+      "source": "``no end`\n",
+      "intent": "opener run without a matching closer of equal length — expect syntax error"
+    },
+    {
+      "id": "cand.inline.code.cross-line-invalid",
+      "spec": "10.9",
+      "source": "`a\nb`\n",
+      "intent": "inline code crossing a physical line — expect syntax error"
+    },
+    {
+      "id": "cand.inline.code.priority-over-em",
+      "spec": "10.4",
+      "source": "`*not em*`\n",
+      "intent": "code span has higher priority — the stars inside are literal code content"
+    },
+    {
+      "id": "cand.inline.entity.named-decodes",
+      "spec": "10.8.1",
+      "source": "&copy; 2026\n",
+      "intent": "named entity decodes to © — canonical text"
+    },
+    {
+      "id": "cand.inline.entity.decimal-decodes",
+      "spec": "10.8.1",
+      "source": "&#65; and &#x42;\n",
+      "intent": "decimal and hex numeric references decode to A and B"
+    },
+    {
+      "id": "cand.inline.entity.unknown-literal",
+      "spec": "10.8.1",
+      "source": "&notanentity;\n",
+      "intent": "unknown entity name stays literal text"
+    },
+    {
+      "id": "cand.inline.entity.too-many-digits-literal",
+      "spec": "10.8.1",
+      "source": "&#999999999;\n",
+      "intent": "more than seven decimal digits — not a numeric reference; literal"
+    },
+    {
+      "id": "cand.inline.entity.invalid-hex-literal",
+      "spec": "10.8.1",
+      "source": "&#xZZ;\n",
+      "intent": "invalid hex digits — not a numeric reference; literal"
+    },
+    {
+      "id": "cand.inline.entity.tab-decodes",
+      "spec": "10.8.1",
+      "source": "a&Tab;b\n",
+      "intent": "&Tab; decodes to a tab (the one allowed control) — valid"
+    },
+    {
+      "id": "cand.inline.entity.numeric-tab-decodes",
+      "spec": "10.8.1",
+      "source": "a&#9;b\n",
+      "intent": "numeric tab reference decodes to a tab — valid"
+    },
+    {
+      "id": "cand.inline.entity.emoji-decodes",
+      "spec": "10.8.1",
+      "source": "&#x1F600;\n",
+      "intent": "emoji code point decodes — valid scalar, canonical text"
+    },
+    {
+      "id": "cand.inline.entity.newline-literal",
+      "spec": "10.8.1",
+      "source": "a&NewLine;b\n",
+      "intent": "&NewLine; decodes to LF — not decoded; stays literal, no diagnostic"
+    },
+    {
+      "id": "cand.inline.entity.structure-before-decode",
+      "spec": "10.8.1",
+      "source": "&ast;em&ast;\n",
+      "intent": "decoded stars must not retroactively open emphasis — Text('*em*') with leftmost escape canonical"
+    },
+    {
+      "id": "cand.inline.entity.amp-at-line-start",
+      "spec": "10.8.1",
+      "source": "&amp; leading\n",
+      "intent": "entity at line start decodes to & — canonical text"
+    },
+    {
+      "id": "cand.inline.hardbreak.two-spaces-mid-paragraph",
+      "spec": "7.1",
+      "source": "a  \nb\n",
+      "intent": "two trailing spaces in the middle of a paragraph — accepted hard break, normalised to backslash"
+    },
+    {
+      "id": "cand.inline.hardbreak.three-trailing-spaces",
+      "spec": "7.1",
+      "source": "a   \nb\n",
+      "intent": "three trailing spaces — still a hard break, canonical backslash"
+    },
+    {
+      "id": "cand.inline.hardbreak.single-trailing-space-soft",
+      "spec": "7.1",
+      "source": "a \nb\n",
+      "intent": "a single trailing space is not a hard break — soft break, space removed"
+    },
+    {
+      "id": "cand.inline.hardbreak.space-before-backslash-normalizes",
+      "spec": "10.7",
+      "source": "a \\\nb\n",
+      "intent": "space before the trailing backslash — tolerated, removed; canonical backslash"
+    },
+    {
+      "id": "cand.inline.hardbreak.backslash-empty-line-literal",
+      "spec": "10.7",
+      "source": "a\\\n\\\nb\n",
+      "intent": "a backslash-only line inside a paragraph is literal; surrounding lines give a hard break then soft break"
+    },
+    {
+      "id": "cand.inline.escape.leftmost-effective-pair",
+      "spec": "10.8",
+      "source": "\\*x*\n",
+      "intent": "escaping only the leftmost delimiter neutralises the whole pair — canonical Text('*x*')"
+    },
+    {
+      "id": "cand.inline.escape.both-escaped-tolerated",
+      "spec": "10.8",
+      "source": "\\*x\\*\n",
+      "intent": "both delimiters escaped — tolerated normal mode, noncanonical; canonical is \\*x*"
+    },
+    {
+      "id": "cand.inline.escape.strong-leftmost",
+      "spec": "10.8",
+      "source": "\\**x**\n",
+      "intent": "escaping the leftmost star neutralises the strong pair — Text('**x**')"
+    },
+    {
+      "id": "cand.inline.escape.deletion-leftmost",
+      "spec": "10.8",
+      "source": "\\~~x~~\n",
+      "intent": "escaping the leftmost tilde neutralises the deletion pair — Text('~~x~~')"
+    },
+    {
+      "id": "cand.inline.escape.non-escapable-literal-backslash",
+      "spec": "10.8",
+      "source": "\\q\n",
+      "intent": "backslash before a non-escapable character stays a literal backslash"
+    },
+    {
+      "id": "cand.inline.escape.double-backslash",
+      "spec": "10.8",
+      "source": "a\\\\b\n",
+      "intent": "a backslash escape produces a literal backslash — Text('a\\b')"
+    },
+    {
+      "id": "cand.inline.terminal.backslash-only-doc",
+      "spec": "10.7",
+      "source": "\\\n",
+      "intent": "a document that is only a backslash — literal backslash, valid"
+    },
+    {
+      "id": "cand.inline.math.backtick-code-vs-math",
+      "spec": "14.2",
+      "source": "$`x`\n",
+      "intent": "a dollar-backtick with no closing $ — ambiguous between unclosed inline math and a dollar followed by code; expect an error"
+    },
+    {
+      "id": "cand.inline.priority.autolink-vs-email",
+      "spec": "13.2",
+      "source": "<https://user@example.org>\n",
+      "intent": "a URL containing an @ — the URL scheme wins as a URL autolink, not an email"
+    },
+    {
+      "id": "cand.inline.priority.code-vs-reference",
+      "spec": "11.4",
+      "source": "`[^a]`\n",
+      "intent": "footnote-looking token in a code span — code priority; no reference"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+# Sommerkolloquium 2026 {#programm}
+
+Das Programm der diesjährigen Tagung im Überblick. Alle Vorträge werden
+aufgezeichnet; die Aufnahmen sind unter den jeweiligen Beiträgen
+verlinkt.
+
+## Zeitplan {#zeitplan}
+
+::: grid
+09:30 — Eröffnung
+:--
+Begrüßung und organisatorische Hinweise durch das Organisationsteam.
+:==
+10:00 — Keynote
+:--
+Formalization and tooling, anschließend Fragen aus dem Publikum.
+:==
+11:00 — Pause
+:--
+Kaffee und Gespräche im Foyer.
+:==
+11:30 — Session A
+:--
+Vorträge zu Parsern und Formatierern, anschließend Diskussion.
+:::
+
+## Referenten {#referenten}
+
+| Name | Vortrag | Sprache |
+|------|---------|---------|
+| A. Meier | Markanto im Einsatz | Deutsch |
+| B. Smith | Formalization | English |
+| C. Dubois | La présentation | Français |
+
+## Vortragsdetails {#details}
+
+Der Beitrag von B. Smith trägt den Titel [Formalization and
+tooling]{lang: en} und wird im Original gehalten. Die Aufnahme:
+
+<v preview=bilder/keynote.jpg>[Formalization and tooling](video/keynote.mp4)</v>
+: Aufzeichnung der Keynote
+
+Der Beitrag von C. Dubois (<m lang=fr>La présentation</m>) ist auf Anfrage
+ebenfalls als Aufzeichnung erhältlich.
