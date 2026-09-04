@@ -2,14 +2,31 @@
   "name": "@markantolang/parser",
   "version": "0.1.0",
   "private": true,
-  "description": "Markanto reference parser — reads familiar Markdown tolerantly, models it in a strict semantic AST, and serialises exactly one canonical form per meaning",
+  "description": "Reference implementation of Markanto, a Markdown variant with one canonical form — a tolerant parser, a canonical formatter, and an AST validator. Zero runtime dependencies.",
+  "keywords": [
+    "markanto",
+    "markdown",
+    "commonmark",
+    "gfm",
+    "parser",
+    "formatter",
+    "canonical",
+    "ast",
+    "markdown-parser"
+  ],
   "homepage": "https://markanto.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/markantolang/markanto"
+    "url": "git+https://github.com/markantolang/markanto-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/markantolang/markanto-js/issues"
   },
   "license": "ISC",
   "author": "Michael Kortstiege",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "exports": {
     ".": {
