@@ -207,6 +207,18 @@ test('a pipe-less table separator surface after content is escaped', () => {
   roundTrips([{ type: 'paragraph', children: [t('Cost'), sb, t('| --- |')] }], 'Cost / | --- |', 'Cost\n| --- |\n');
 });
 
+test('a `|` inside an atomic inline token on the header line does not trigger the separator guard', () => {
+  const t = (value: string) => ({ type: 'text', value });
+  const sb = { type: 'softBreak' };
+  // The parser reads a `|` inside a code span as content, so `` `|` header `` is
+  // not a table row and `--- | ---` below it needs no escape (the guard must
+  // walk atomic tokens exactly as the row scanner does).
+  roundTrips(
+    [{ type: 'paragraph', children: [{ type: 'inlineCode', value: '|' }, t(' header'), sb, t('--- | ---')] }],
+    'code-span pipe / ---|---', '`|` header\n--- | ---\n',
+  );
+});
+
 test('a paragraph line that is a table separator surface after content is escaped', () => {
   // `| a |` then `| --- |` would reparse as a table — escape the separator line.
   const doc: Document = {

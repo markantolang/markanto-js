@@ -18,7 +18,7 @@ interface Expectation {
 
 const fixtures = load('../fixtures/containers/cases.json');
 
-assert.equal(fixtures.length, 97, 'all 97 container fixtures are covered');
+assert.equal(fixtures.length, 98, 'all 98 container fixtures are covered');
 
 for (const fixture of fixtures) {
   test(`Phase 3 conformance: ${fixture.id}`, () => {

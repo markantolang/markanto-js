@@ -70,11 +70,21 @@ export function tokenizeRow(text: string, start: number, end: number): CellSpan[
   return spans.map((span) => trim(text, span));
 }
 
+/**
+ * True when `text[start, end)` carries table-row syntax: a real column
+ * delimiter or an edge pipe, with atomic inline tokens (`\|` escapes, code
+ * spans, autolinks, images, `<m>` wrappers, inline math) skipped exactly as the
+ * row tokenizer skips them. The formatter's paragraph guards call this on a
+ * bare line so they cannot disagree with the parser about which `|` is live.
+ */
+export function rowHasTableSyntax(text: string, start: number, end: number): boolean {
+  const scan = scanRow(text, start, end);
+  return scan.delimiters.length > 0 || scan.leadingEdge || scan.trailingEdge;
+}
+
 /** True when the row carries table syntax: a real delimiter or an edge pipe. */
 export function looksLikeTableRow(text: string, line: PhysicalLine): boolean {
-  const end = trimAsciiBlankEnd(text, line.start, line.contentEnd);
-  const scan = scanRow(text, line.start, end);
-  return scan.delimiters.length > 0 || scan.leadingEdge || scan.trailingEdge;
+  return rowHasTableSyntax(text, line.start, trimAsciiBlankEnd(text, line.start, line.contentEnd));
 }
 
 function trim(text: string, span: CellSpan): CellSpan {

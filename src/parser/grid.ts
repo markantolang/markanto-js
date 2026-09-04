@@ -313,8 +313,12 @@ function partitionBody(bodyLines: readonly PhysicalLine[], text: string): Partit
         if (codeFenceCloser(text, line, literal.char, literal.length)) literal = null;
       } else if (literal.kind === 'comment') {
         if (commentClosesOnLine(text, line, line.start)) literal = null;
-      } else if (inlineCodeStateAfter(text, line.start, line.contentEnd, literal.length) === 0) {
-        literal = null;
+      } else {
+        // A line may both close the tracked span and reopen a new one with a
+        // different run length; carry that new length forward, don't keep the
+        // stale one (a later run of the old length would falsely close it).
+        const stateAfter = inlineCodeStateAfter(text, line.start, line.contentEnd, literal.length);
+        literal = stateAfter === 0 ? null : { kind: 'code', length: stateAfter };
       }
       demoteContinuation();
       currentLines.push(line);

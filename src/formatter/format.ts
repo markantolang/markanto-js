@@ -9,6 +9,7 @@ import { scanEntity } from '../parser/inline/entities.js';
 import { hasAttrs, isWellFormedBcp47, normalizeGroup, validateAttributeContext, type AttributeContext, type MKind, type ParsedAttributes } from '../parser/resources.js';
 import { canonicalFootnoteOrder } from '../parser/footnotes.js';
 import { exceedsGridMatrixBudget } from '../parser/grid.js';
+import { rowHasTableSyntax, separatorAlignments, tokenizeRow } from '../parser/tables.js';
 import { DEFAULT_VALIDATION_BUDGET } from '../validator/shape.js';
 
 /** Thrown deep in the recursive `formatInline` when inline nesting exceeds the
@@ -859,28 +860,13 @@ function isThematicBreakSurface(line: string): boolean {
 }
 
 /**
- * A GFM table separator row (spec §12): after optional edge pipes, every
- * `|`-delimited cell is `:?-+:?` once trimmed. This mirrors `separatorAlignments`
- * in the parser, so the guard escapes exactly the surfaces that would confirm a
- * table and no ordinary pipe/dash prose beyond them.
+ * A GFM table separator row (spec §12): every `|`-delimited cell is `:?-+:?`
+ * once trimmed. Delegates cell splitting and alignment recognition to the
+ * parser's `tokenizeRow` / `separatorAlignments`, so the guard and the
+ * confirmer stay in lockstep on `\|` escapes, atomic-token pipes, and tabs.
  */
 function looksLikeSeparatorRow(line: string): boolean {
-  let start = 0;
-  let end = line.length;
-  while (start < end && (line.charCodeAt(start) === 0x20 || line.charCodeAt(start) === 0x09)) start += 1;
-  while (end > start && (line.charCodeAt(end - 1) === 0x20 || line.charCodeAt(end - 1) === 0x09)) end -= 1;
-  if (start === end) return false;
-  if (line.charCodeAt(start) === 0x7c) start += 1;
-  if (end > start && line.charCodeAt(end - 1) === 0x7c) end -= 1;
-  if (start >= end) return false;
-  let cellStart = start;
-  for (let index = start; index <= end; index += 1) {
-    if (index === end || line.charCodeAt(index) === 0x7c) {
-      if (!/^[ \t]*:?-+:?[ \t]*$/u.test(line.slice(cellStart, index))) return false;
-      cellStart = index + 1;
-    }
-  }
-  return true;
+  return separatorAlignments(line, tokenizeRow(line, 0, line.length)) !== null;
 }
 
 /**
@@ -894,17 +880,14 @@ function isSeparatorRowThatConfirmsTable(line: string): boolean {
 }
 
 /**
- * The line carries pipe-table row syntax: a live, unescaped `|` (an interior
- * delimiter or an edge pipe). A line with no such `|` can never be read as a
+ * The line carries pipe-table row syntax: a live column delimiter or an edge
+ * pipe, with atomic inline tokens skipped exactly as the parser's row scanner
+ * skips them (a `|` inside a code span, autolink, image, `<m>` wrapper, or
+ * inline math is not live). A line with no such `|` can never be read as a
  * table header or a table separator row.
  */
 function looksLikeTableRowSurface(line: string): boolean {
-  for (let index = 0; index < line.length; index += 1) {
-    const code = line.charCodeAt(index);
-    if (code === 0x5c) { index += 1; continue; }
-    if (code === 0x7c) return true;
-  }
-  return false;
+  return rowHasTableSyntax(line, 0, line.length);
 }
 
 function allOf(value: string, code: number): boolean {

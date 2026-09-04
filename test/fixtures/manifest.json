@@ -9,7 +9,7 @@
     {
       "path": "test/fixtures/containers/cases.json",
       "group": "containers",
-      "cases": 97
+      "cases": 98
     },
     {
       "path": "test/fixtures/footnotes/cases.json",
@@ -52,5 +52,5 @@
       "cases": 14
     }
   ],
-  "caseCount": 582
+  "caseCount": 583
 }

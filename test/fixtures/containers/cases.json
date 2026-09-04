@@ -2814,6 +2814,35 @@
       "notes": "A multi-line inline code span (§10.9) is a literal region for the Grid commitment scan (§2.7.7): a physical `--`/`==`/`::` line inside the still-open span is content, not a Grid marker, so this body stays ordinary fenced-container content. The `partitionBody` pre-scan tracks the open backtick run across lines — a single forward pass, no second parse. Canonical form collapses the span to one line."
     },
     {
+      "id": "containers.fenced.grid-marker-after-inline-code-span-reopens-shorter",
+      "spec": "2.7.7",
+      "source": "::: X\n`` a\n`` b `c\n`` d\n--\nc `\n:::\n",
+      "expect": {
+        "normal": { "valid": true, "canonical": "::: X\n` a ` b ```c `` d -- c ```\n:::\n" },
+        "strict": {
+          "valid": false,
+          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container", "form": "fenced", "containerType": "X", "title": null,
+            "children": [
+              { "type": "paragraph", "children": [
+                { "type": "inlineCode", "value": " a " },
+                { "type": "text", "value": " b " },
+                { "type": "inlineCode", "value": "c `` d -- c " }
+              ] }
+            ]
+          }
+        ],
+        "footnotes": []
+      },
+      "notes": "The Grid pre-scan tracks the *current* open backtick-run length, not the length it first saw. Line 3 closes the two-backtick span and opens a one-backtick span on the same line; line 4's `` `` `` (two backticks) is then content, not a closer, so the span is still open when `--` arrives on line 5 and that line stays content. Regression guard: tracking the stale entry length made line 4 look like a closer and committed `--` as a Grid marker (parse failed as `unclosed inline code`)."
+    },
+    {
       "id": "containers.lined.block-resource-before-anonymous-fence",
       "spec": "2.7.1",
       "source": "![Diagram](/d.png)\n___\n\nExplanation.\n___\n",
