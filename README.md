@@ -1,13 +1,19 @@
 # @markantolang/parser
 
 The reference implementation of **Markanto 0.1.0** — a parser, a semantic-AST
-validator, and a canonical formatter for a Markdown-family document language.
+validator, and a canonical formatter for a Markdown variant.
 
-Markanto reads familiar Markdown tolerantly, models it in a strict semantic AST,
-and serialises **exactly one canonical surface form per meaning**. Parsing,
-validation, canonical formatting, and diagnostics are separate operations with
-separate result types; resource exhaustion is always distinct from language
-invalidity.
+**Read tolerantly, model strictly, serialise canonically.** CommonMark
+standardises how Markdown is *read*; Markanto also standardises how it is
+*written*. The parser accepts the loose Markdown people actually write, models
+it in a strict semantic AST, and the formatter serialises **exactly one
+canonical surface form per meaning**. Markanto-specific syntax is designed to
+degrade gracefully — in a plain Markdown renderer it should lose its meaning,
+never its readability.
+
+Parsing, validation, canonical formatting, and diagnostics are separate
+operations with separate result types; resource exhaustion is always distinct
+from language invalidity.
 
 - **Zero production dependencies.** `npm install @markantolang/parser` pulls
   nothing else.

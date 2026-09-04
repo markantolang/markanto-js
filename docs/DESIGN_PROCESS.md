@@ -6,11 +6,10 @@ validated. For the *what* and *why* of individual rules, see
 
 ## The 0.1.0 reset
 
-Markanto began as a Markdown-family document language with a 0.5.3-era
-specification and a working parser. 0.1.0 is a deliberate reset: the language
-was redesigned from a clean sheet and the version number was **lowered** on
-purpose, to mark the new stable baseline rather than imply continuity with the
-earlier drafts.
+Markanto began as a Markdown variant with a 0.5.3-era specification and a
+working parser. 0.1.0 is a deliberate reset: the language was redesigned from a
+clean sheet and the version number was **lowered** on purpose, to mark the new
+stable baseline rather than imply continuity with the earlier drafts.
 
 The redesign has one through-line — **exactly one canonical surface form per
 meaning** — and a few consequences that shaped everything else:
