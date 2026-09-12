@@ -7,7 +7,9 @@ exercise how constructs hold together across a whole document.
 ## Status: Markanto 0.1.0 canonical
 
 These 14 files originated under the **Markanto spec v0.5.3** surface and are
-now ported to canonical 0.1.0. The migration covered:
+now ported to canonical 0.1.0; they carry the `.md` extension the specification
+recommends (their frozen v0.5.3 inputs keep `.mrk` in
+`test/migrate/legacy-corpus/`). The migration covered:
 
 - old media wrappers to typed `<m>` resources and canonical captions;
 - reference-style links resolved manually to direct links;

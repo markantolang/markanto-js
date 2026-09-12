@@ -4,6 +4,6 @@
 # (CRLF, tabs, and other raw bytes can be a normative test dimension).
 # Never let Git normalize their line endings — that would silently corrupt
 # CRLF-sensitive cases.
-test/fixtures/**/*.mrk -text
-test/corpus-realistic/**/*.mrk -text
+test/corpus-realistic/*.md -text
+test/corpus-realistic/README*.md text
 test/migrate/legacy-corpus/**/*.mrk -text

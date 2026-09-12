@@ -29,7 +29,7 @@ const marked = { lexer: (s) => markedMod.marked.lexer(s), toHtml: (s) => markedM
 
 const corpusDir = resolve(repo, 'test/corpus-realistic');
 const docs = readdirSync(corpusDir)
-  .filter((n) => n.endsWith('.mrk'))
+  .filter((n) => n.endsWith('.md') && !n.startsWith('README'))
   .sort()
   .map((name) => ({ name, text: readFileSync(resolve(corpusDir, name), 'utf8') }));
 const corpusBytes = docs.reduce((n, d) => n + d.text.length, 0);

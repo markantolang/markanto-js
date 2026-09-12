@@ -96,8 +96,8 @@ test('packed package is minimal and works under every local Node baseline and Bu
       if (adopted.addedIds !== 1 || adopted.document.children[0].id !== 'id-1') throw new Error('adopt');
       process.exit(42);
     `);
-    writeFileSync(join(project, 'valid.mrk'), '# Title\n');
-    writeFileSync(join(project, 'noncanonical.mrk'), '##  Title\n');
+    writeFileSync(join(project, 'valid.md'), '# Title\n');
+    writeFileSync(join(project, 'noncanonical.md'), '##  Title\n');
 
     const cli = join(project, 'node_modules', '@markantolang', 'parser', 'dist', 'cli.js');
     assert.ok(existsSync(cli), 'installed CLI entry exists');
@@ -107,23 +107,23 @@ test('packed package is minimal and works under every local Node baseline and Bu
       assert.equal(version.status, 0, explain(`${binary} --version`, version));
       const api = run(binary, ['probe.mjs'], project);
       assert.equal(api.status, 42, explain(`${binary} API`, api));
-      const check = run(binary, [cli, 'check', 'valid.mrk'], project);
+      const check = run(binary, [cli, 'check', 'valid.md'], project);
       assert.equal(check.status, 0, explain(`${binary} CLI check`, check));
 
-      writeFileSync(join(project, 'stdout.mrk'), '##  Title\n');
-      const stdoutRun = run(binary, [cli, 'format', 'stdout.mrk', '--stdout'], project);
+      writeFileSync(join(project, 'stdout.md'), '##  Title\n');
+      const stdoutRun = run(binary, [cli, 'format', 'stdout.md', '--stdout'], project);
       assert.equal(stdoutRun.status, 0, explain(`${binary} CLI --stdout`, stdoutRun));
       assert.equal(stdoutRun.stdout, '## Title\n', explain(`${binary} --stdout output`, stdoutRun));
-      assert.equal(readFileSync(join(project, 'stdout.mrk'), 'utf8'), '##  Title\n', '--stdout must not touch the file');
+      assert.equal(readFileSync(join(project, 'stdout.md'), 'utf8'), '##  Title\n', '--stdout must not touch the file');
 
-      writeFileSync(join(project, 'noncanonical.mrk'), '##  Title\n');
-      const formatted = run(binary, [cli, 'format', 'noncanonical.mrk'], project);
+      writeFileSync(join(project, 'noncanonical.md'), '##  Title\n');
+      const formatted = run(binary, [cli, 'format', 'noncanonical.md'], project);
       assert.equal(formatted.status, 0, explain(`${binary} CLI format`, formatted));
-      assert.equal(readFileSync(join(project, 'noncanonical.mrk'), 'utf8'), '## Title\n');
-      writeFileSync(join(project, 'adopt.mrk'), '# Title\n');
-      const adopt = run(binary, [cli, 'adopt', 'adopt.mrk'], project);
+      assert.equal(readFileSync(join(project, 'noncanonical.md'), 'utf8'), '## Title\n');
+      writeFileSync(join(project, 'adopt.md'), '# Title\n');
+      const adopt = run(binary, [cli, 'adopt', 'adopt.md'], project);
       assert.equal(adopt.status, 0, explain(`${binary} CLI adopt`, adopt));
-      assert.match(readFileSync(join(project, 'adopt.mrk'), 'utf8'), /\{#[A-Za-z0-9_-]+\}/u);
+      assert.match(readFileSync(join(project, 'adopt.md'), 'utf8'), /\{#[A-Za-z0-9_-]+\}/u);
     }
 
     const bunVersion = run('bun', ['--version'], project);
@@ -133,22 +133,22 @@ test('packed package is minimal and works under every local Node baseline and Bu
       assert.equal(bunVersion.status, 0, explain('bun --version', bunVersion));
       const api = run('bun', ['probe.mjs'], project);
       assert.equal(api.status, 42, explain('bun API', api));
-      const check = run('bun', [cli, 'check', 'valid.mrk'], project);
+      const check = run('bun', [cli, 'check', 'valid.md'], project);
       assert.equal(check.status, 0, explain('bun CLI check', check));
 
-      writeFileSync(join(project, 'bun-stdout.mrk'), '##  Title\n');
-      const stdoutRun = run('bun', [cli, 'format', 'bun-stdout.mrk', '--stdout'], project);
+      writeFileSync(join(project, 'bun-stdout.md'), '##  Title\n');
+      const stdoutRun = run('bun', [cli, 'format', 'bun-stdout.md', '--stdout'], project);
       assert.equal(stdoutRun.status, 0, explain('bun CLI --stdout', stdoutRun));
       assert.equal(stdoutRun.stdout, '## Title\n', explain('bun --stdout output', stdoutRun));
-      assert.equal(readFileSync(join(project, 'bun-stdout.mrk'), 'utf8'), '##  Title\n', '--stdout must not touch the file');
+      assert.equal(readFileSync(join(project, 'bun-stdout.md'), 'utf8'), '##  Title\n', '--stdout must not touch the file');
 
-      writeFileSync(join(project, 'bun-adopt.mrk'), '# Title\n');
-      const adopt = run('bun', [cli, 'adopt', 'bun-adopt.mrk'], project);
+      writeFileSync(join(project, 'bun-adopt.md'), '# Title\n');
+      const adopt = run('bun', [cli, 'adopt', 'bun-adopt.md'], project);
       assert.equal(adopt.status, 0, explain('bun CLI adopt', adopt));
-      assert.match(readFileSync(join(project, 'bun-adopt.mrk'), 'utf8'), /\{#[A-Za-z0-9_-]+\}/u);
+      assert.match(readFileSync(join(project, 'bun-adopt.md'), 'utf8'), /\{#[A-Za-z0-9_-]+\}/u);
     }
 
-    assert.equal(readFileSync(join(project, 'valid.mrk'), 'utf8'), '# Title\n', 'check never mutates its input');
+    assert.equal(readFileSync(join(project, 'valid.md'), 'utf8'), '# Title\n', 'check never mutates its input');
   } finally {
     rmSync(temporary, { recursive: true, force: true });
   }

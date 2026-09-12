@@ -6,13 +6,13 @@ import type { Document } from '../../src/ast.js';
 import { format, parse, semanticDocumentEquals, validate } from '../../src/index.js';
 
 const directory = new URL('./', import.meta.url);
-const documents = readdirSync(directory).filter((name) => name.endsWith('.mrk')).sort();
+const documents = readdirSync(directory).filter((name) => name.endsWith('.md') && !name.startsWith('README')).sort();
 assert.equal(documents.length, 14, 'all realistic documents are registered');
 
 for (const name of documents) {
   test(`realistic canonical document: ${name}`, () => {
     const source = readFileSync(new URL(name, directory), 'utf8');
-    const snapshot = JSON.parse(readFileSync(new URL(`${name.slice(0, -4)}.ast.json`, directory), 'utf8')) as Document;
+    const snapshot = JSON.parse(readFileSync(new URL(`${name.replace(/\.md$/, '')}.ast.json`, directory), 'utf8')) as Document;
 
     const normal = parse(source);
     assert.equal(normal.status, 'ok', describe(normal));

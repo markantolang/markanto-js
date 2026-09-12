@@ -48,7 +48,8 @@ for (const name of legacyFiles) {
     assertStable(result.text, name);
 
     const migrated = parse(result.text);
-    const ported = parse(readFileSync(`${portedDir}${name}`, 'utf8'));
+    // the hand-ported 0.1.0 equivalents carry the spec's recommended .md extension
+    const ported = parse(readFileSync(`${portedDir}${name.replace(/\.mrk$/, '.md')}`, 'utf8'));
     assert.equal(migrated.status, 'ok');
     assert.equal(ported.status, 'ok');
     if (migrated.status !== 'ok' || ported.status !== 'ok') return;
