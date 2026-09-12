@@ -1,7 +1,7 @@
 {
   "name": "@markantolang/parser",
   "version": "0.1.0",
-  "description": "Reference implementation of Markanto, a Markdown variant with one canonical form — a tolerant parser, a canonical formatter, and an AST validator. Zero runtime dependencies.",
+  "description": "Reference implementation of Markanto, a Markdown variant for robust, canonical, agent-ready documents — a tolerant parser, a canonical formatter, and a semantic-AST validator. Zero runtime dependencies.",
   "keywords": [
     "markanto",
     "markdown",

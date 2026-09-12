@@ -9,9 +9,9 @@ validator, and a canonical formatter for a Markdown variant.
 standardises how Markdown is *read*; Markanto also standardises how it is
 *written*. The parser accepts the loose Markdown people actually write, models
 it in a strict semantic AST, and the formatter serialises **exactly one
-canonical surface form per meaning**. Markanto-specific syntax is designed to
-degrade gracefully — in a plain Markdown renderer it should lose its meaning,
-never its readability.
+canonical form per meaning**. Markanto-specific syntax is designed to degrade
+gracefully — in a plain Markdown renderer it should lose its meaning, never its
+readability.
 
 Parsing, validation, canonical formatting, and diagnostics are separate
 operations with separate result types; resource exhaustion is always distinct
