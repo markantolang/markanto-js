@@ -11,6 +11,7 @@ import type { DocumentBlock, FootnoteDefinition } from '../ast.js';
 import type { DiagnosticSink } from '../diagnostics.js';
 import type { SourceAnnotationBuilder } from '../parser-contract.js';
 import type { PhysicalLine } from '../source/index.js';
+import type { Span } from '../source/position.js';
 import { parseInline } from './inline/scanner.js';
 
 export interface FootnoteDefinitionResult {
@@ -74,7 +75,13 @@ export function recognizeFootnoteDefinition(
  */
 export function resolveFootnotes(
   children: readonly DocumentBlock[], definitions: readonly FootnoteDefinition[], diagnostics: DiagnosticSink,
+  annotations: SourceAnnotationBuilder,
 ): { footnotes: FootnoteDefinition[]; ok: boolean } {
+  // `exactOptionalPropertyTypes` rejects `range: undefined`; omit the key instead.
+  const rangeInit = (node: object): { range?: Span } => {
+    const range = annotations.forNode(node)?.range;
+    return range === undefined ? {} : { range };
+  };
   const byIdentifier = new Map<string, FootnoteDefinition[]>();
   for (const definition of definitions) {
     const existing = byIdentifier.get(definition.identifier);
@@ -85,30 +92,41 @@ export function resolveFootnotes(
   let ok = true;
   for (const [identifier, group] of byIdentifier) {
     if (group.length > 1) {
-      diagnostics.semanticError({ message: `duplicate footnote definition [^${identifier}]` });
+      diagnostics.semanticError({
+        message: `duplicate footnote definition [^${identifier}]`,
+        ...rangeInit(group[1]!),
+      });
       ok = false;
     }
   }
 
   const referenceOrder: string[] = [];
   const referenced = new Set<string>();
-  for (const identifier of collectFootnoteReferences(children)) {
-    if (!referenced.has(identifier)) {
-      referenced.add(identifier);
-      referenceOrder.push(identifier);
+  const firstReferenceNode = new Map<string, object>();
+  for (const entry of collectFootnoteReferenceEntries(children)) {
+    if (!referenced.has(entry.identifier)) {
+      referenced.add(entry.identifier);
+      referenceOrder.push(entry.identifier);
+      firstReferenceNode.set(entry.identifier, entry.node);
     }
   }
 
   for (const identifier of referenceOrder) {
     if (!byIdentifier.has(identifier)) {
-      diagnostics.semanticError({ message: `footnote reference [^${identifier}] has no definition` });
+      diagnostics.semanticError({
+        message: `footnote reference [^${identifier}] has no definition`,
+        ...rangeInit(firstReferenceNode.get(identifier)!),
+      });
       ok = false;
     }
   }
 
   const unusedIdentifiers = [...byIdentifier.keys()].filter((identifier) => !referenced.has(identifier)).sort(compareAscii);
   for (const identifier of unusedIdentifiers) {
-    diagnostics.advisory({ message: `unused footnote definition [^${identifier}]` });
+    diagnostics.advisory({
+      message: `unused footnote definition [^${identifier}]`,
+      ...rangeInit(byIdentifier.get(identifier)![0]!),
+    });
   }
 
   const orderedReferenced = referenceOrder
@@ -149,7 +167,17 @@ export function canonicalFootnoteOrder(
  * AST cannot overflow the host call stack.
  */
 export function collectFootnoteReferences(root: unknown): string[] {
-  const out: string[] = [];
+  return collectFootnoteReferenceEntries(root).map((entry) => entry.identifier);
+}
+
+interface FootnoteReferenceEntry {
+  readonly identifier: string;
+  readonly node: object;
+}
+
+/** Like {@link collectFootnoteReferences}, but keeps each reference's node for range lookups. */
+function collectFootnoteReferenceEntries(root: unknown): FootnoteReferenceEntry[] {
+  const out: FootnoteReferenceEntry[] = [];
   const stack: unknown[] = [];
   pushReversed(stack, Array.isArray(root) ? root : [root]);
   while (stack.length > 0) {
@@ -157,7 +185,7 @@ export function collectFootnoteReferences(root: unknown): string[] {
     if (node === null || typeof node !== 'object') continue;
     const record = node as Record<string, unknown>;
     if (record['type'] === 'footnoteReference') {
-      if (typeof record['identifier'] === 'string') out.push(record['identifier']);
+      if (typeof record['identifier'] === 'string') out.push({ identifier: record['identifier'], node: record });
       continue;
     }
     pushReversed(stack, orderedChildren(record));

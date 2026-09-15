@@ -1,6 +1,6 @@
 import type { Container, Document, DocumentBlock, ErrorBlock, FootnoteDefinition, RecoveryDocument } from '../ast.js';
 import { DiagnosticSink } from '../diagnostics.js';
-import { createSourceAnnotationBuilder, type ParserOptions, type ParseResult } from '../parser-contract.js';
+import { createSourceAnnotationBuilder, type ParserOptions, type ParseResult, type SourceAnnotationBuilder } from '../parser-contract.js';
 import { openSource } from '../source/index.js';
 import { leadingSpaces, recognizeBlock } from './blocks.js';
 import { isIdentifier, parseStandaloneSuffix } from './block-id.js';
@@ -15,6 +15,9 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
   const { text, lines, transport } = source;
   const annotations = createSourceAnnotationBuilder(source);
   const diagnostics = new DiagnosticSink();
+  /** Project a pair of normalised parser offsets into a public-space `Diagnostic.range`. */
+  const spanFor = (start: number, end: number) =>
+    source.sourceMap.spanAt(source.toSourceOffset(start), source.toSourceOffset(end));
   const children: DocumentBlock[] = [];
   const recoveryChildren: Array<DocumentBlock | ErrorBlock> = [];
   const footnoteDefinitions: FootnoteDefinition[] = [];
@@ -37,7 +40,8 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       ? 'lone UTF-16 surrogate is not a valid Unicode scalar value'
       : null;
   if (transportFault !== null) {
-    diagnostics.syntaxError({ message: transportFault });
+    const transportOffset = transport.loneCrOffsets.length > 0 ? transport.loneCrOffsets[0]! : transport.firstLoneSurrogateOffset;
+    diagnostics.syntaxError({ message: transportFault, range: spanFor(transportOffset, transportOffset + 1) });
     if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
     const error: ErrorBlock = { type: 'errorBlock', reason: transportFault, rawContent: text };
     annotations.set(error, 0, text.length);
@@ -59,7 +63,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       const message = standalone.kind === 'valid' && separatedByBlank
         ? 'block id after blank line'
         : 'invalid block id suffix';
-      diagnostics.syntaxError({ message });
+      diagnostics.syntaxError({ message, range: spanFor(current.start, current.contentEnd) });
       if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
       const error: ErrorBlock = { type: 'errorBlock', reason: message, rawContent: text.slice(current.start, current.contentEnd) };
       annotations.set(error, current.start, current.contentEnd);
@@ -74,8 +78,9 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
     if (footnote !== null) {
       lines.advance();
       if ('error' in footnote) {
-        if (footnote.category === 'semantic') diagnostics.semanticError({ message: footnote.error });
-        else diagnostics.syntaxError({ message: footnote.error });
+        const range = spanFor(footnote.start, footnote.end);
+        if (footnote.category === 'semantic') diagnostics.semanticError({ message: footnote.error, range });
+        else diagnostics.syntaxError({ message: footnote.error, range });
         if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
         const error: ErrorBlock = { type: 'errorBlock', reason: footnote.error, rawContent: text.slice(footnote.start, footnote.end) };
         annotations.set(error, footnote.start, footnote.end);
@@ -95,7 +100,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
           } else if (suffix.kind === 'invalid') {
             lines.advance();
             const message = 'invalid block id suffix';
-            diagnostics.syntaxError({ message });
+            diagnostics.syntaxError({ message, range: spanFor(suffixLine.start, suffixLine.contentEnd) });
             if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
             const error: ErrorBlock = { type: 'errorBlock', reason: message, rawContent: text.slice(suffixLine.start, suffixLine.contentEnd) };
             annotations.set(error, suffixLine.start, suffixLine.contentEnd);
@@ -124,11 +129,13 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
     if (result.status !== 'error' && result.node.type === 'paragraph' && freshBlockIndent >= 4) {
       diagnostics.advisory({
         message: 'leading indentation on this block is dropped, not preserved (§1.2): Markanto has no indented code block — use a fenced code block for code',
+        range: spanFor(result.start, result.end),
       });
     }
     if (result.status === 'error') {
-      if (result.category === 'semantic') diagnostics.semanticError({ message: result.message });
-      else diagnostics.syntaxError({ message: result.message });
+      const range = spanFor(result.start, result.safeEnd);
+      if (result.category === 'semantic') diagnostics.semanticError({ message: result.message, range });
+      else diagnostics.syntaxError({ message: result.message, range });
       if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
       const error: ErrorBlock = { type: 'errorBlock', reason: result.message, rawContent: text.slice(result.start, result.safeEnd) };
       annotations.set(error, result.start, result.safeEnd);
@@ -156,7 +163,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
             recoveryChildren.push(result.node);
             nodeCount += result.nodeCount;
             const message = 'invalid block id suffix';
-            diagnostics.syntaxError({ message });
+            diagnostics.syntaxError({ message, range: spanFor(suffixLine.start, suffixLine.contentEnd) });
             if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
             const error: ErrorBlock = { type: 'errorBlock', reason: message, rawContent: text.slice(suffixLine.start, suffixLine.contentEnd) };
             annotations.set(error, suffixLine.start, suffixLine.contentEnd);
@@ -184,8 +191,8 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
     }
   }
 
-  const footnoteResolution = resolveFootnotes(children, footnoteDefinitions, diagnostics);
-  const idsUnique = checkBlockIdUniqueness(children, footnoteDefinitions, diagnostics);
+  const footnoteResolution = resolveFootnotes(children, footnoteDefinitions, diagnostics, annotations);
+  const idsUnique = checkBlockIdUniqueness(children, footnoteDefinitions, diagnostics, annotations);
 
   if (failed || !footnoteResolution.ok || !idsUnique) {
     const recovery: RecoveryDocument = { type: 'recoveryDocument', children: recoveryChildren, footnotes: footnoteResolution.footnotes };
@@ -217,22 +224,25 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
  */
 function checkBlockIdUniqueness(
   children: readonly DocumentBlock[], footnotes: readonly FootnoteDefinition[], diagnostics: DiagnosticSink,
+  annotations: SourceAnnotationBuilder,
 ): boolean {
   const seen = new Set<string>();
   let ok = true;
-  const register = (id: string): void => {
+  const register = (id: string, node: object): void => {
+    const range = annotations.forNode(node)?.range;
+    const rangeInit = range === undefined ? {} : { range };
     if (!isIdentifier(id)) {
-      diagnostics.semanticError({ message: `invalid block id {#${id}}` });
+      diagnostics.semanticError({ message: `invalid block id {#${id}}`, ...rangeInit });
       ok = false;
     } else if (seen.has(id)) {
-      diagnostics.semanticError({ message: `duplicate block id {#${id}}` });
+      diagnostics.semanticError({ message: `duplicate block id {#${id}}`, ...rangeInit });
       ok = false;
     } else {
       seen.add(id);
     }
   };
   const walk = (block: DocumentBlock): void => {
-    if ('id' in block && block.id !== undefined) register(block.id);
+    if ('id' in block && block.id !== undefined) register(block.id, block);
     if (block.type === 'container') {
       for (const child of (block as Container).children) {
         if (child.type !== 'grid') walk(child);
@@ -240,7 +250,7 @@ function checkBlockIdUniqueness(
     }
   };
   for (const block of children) walk(block);
-  for (const definition of footnotes) if (definition.id !== undefined) register(definition.id);
+  for (const definition of footnotes) if (definition.id !== undefined) register(definition.id, definition);
   return ok;
 }
 
