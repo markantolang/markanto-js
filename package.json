@@ -1,6 +1,6 @@
 {
   "name": "@markantolang/parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reference implementation of Markanto, a Markdown variant for robust, canonical, agent-ready documents — a tolerant parser, a canonical formatter, and a semantic-AST validator. Zero runtime dependencies.",
   "keywords": [
     "markanto",
@@ -81,9 +81,15 @@
     "micromark-extension-gfm": "3.0.0"
   },
   "peerDependenciesMeta": {
-    "mdast-util-from-markdown": { "optional": true },
-    "mdast-util-gfm": { "optional": true },
-    "micromark-extension-gfm": { "optional": true }
+    "mdast-util-from-markdown": {
+      "optional": true
+    },
+    "mdast-util-gfm": {
+      "optional": true
+    },
+    "micromark-extension-gfm": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/node": "26.4.0",
