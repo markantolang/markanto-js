@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.1 — 2026-09-16
+
+Diagnostics now carry source locations.
+
+### Parser
+
+- `Diagnostic.range` — part of the type since 0.1.0, but never populated by
+  any emission site — is now set on every syntax, semantic, and advisory
+  diagnostic `parse()` reports: duplicate/unreferenced footnote definitions,
+  an unresolved footnote reference, invalid or duplicate block ids, unclosed
+  wrappers and other recognition failures, malformed `{#id}` suffixes,
+  dropped leading indentation, and invalid transport (lone CR / lone
+  surrogate). A consumer (e.g. an editor) can now locate an error precisely
+  instead of matching on message text, which stays implementation-defined.
+- No parsing behaviour changed and no new public API was added — `range` was
+  already part of the `Diagnostic` type (`docs/IMPLEMENTATION.md` §12). As
+  before, `validate()`, `format()`, and strict-mode canonicality diagnostics
+  operate on a source-less semantic AST and never carry `range`.
+
 ## 0.1.0 — 2026-09-04
 
 First release of `@markantolang/parser` as the reference implementation of the
