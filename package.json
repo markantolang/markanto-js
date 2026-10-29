@@ -66,6 +66,7 @@
     "migrate": "bun scripts/migrate.ts",
     "verify": "bun run check && bun run corpus && bun test",
     "verify:node": "node scripts/validate-corpus.mjs && node --test test/unit/*.test.mjs && tsc -p test/compat/tsconfig.node.json && node --test .compat-dist/test/compat/compat.test.js && tsc -p test/import/tsconfig.node.json && node --test .import-dist/test/import/import.test.js && tsc -p test/migrate/tsconfig.node.json && node --test '.migrate-dist/test/migrate/*.test.js'",
+    "check:spec-sync": "bun scripts/check-spec-sync.ts",
     "audit:corpus": "bun scripts/audit-corpus.mjs",
     "audit:corpus:node": "node scripts/audit-corpus.mjs",
     "snapshots:realistic": "bun scripts/update-realistic-snapshots.ts",
