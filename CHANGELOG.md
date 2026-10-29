@@ -14,16 +14,21 @@ specification of 0.1.0 stays as it was.
   stay errors. The escape 0.1.0 needed (`3\.14`) is now a tolerated,
   noncanonical surface.
 - **`\|` in a table cell is a pipe, inside code too.** Within a table cell,
-  `\|` stands for `|` also inside a code span, inline math and an autolink, as
-  in GFM; `\\|` stands for `\|`. Canonical cells write every literal `|` as
-  `\|`, in code spans, inline math, autolinks and link destinations and titles
-  as well, so a canonical table is the same table on GitHub. An MIB attribute
-  value keeps `|` as written.
+  `\|` stands for `|` also inside a code span, inline math, an autolink, a
+  superscript and a subscript, as in GFM; `\\|` stands for `\|` in a code
+  span, inline math and an autolink. Canonical cells write every literal `|` as
+  `\|`, in all of these and in link destinations and titles as well, so a
+  canonical table is the same table on GitHub. An MIB attribute value keeps `|`
+  as written, and GitHub splits a cell there. A superscript or subscript is not
+  atomic for the row tokenizer, so in a cell its value cannot hold a `\`
+  directly before a `|`; `format` reports such a tree as invalid.
 
 ### Conformance
 
-- Nine table cases now expect the escaped canonical form; eleven new cases cover
-  both changes. The corpus has 594 cases.
+- Nine table cases now expect the escaped canonical form; thirty-nine new cases
+  cover both changes, among them pipes in wrapped images, downloads, metadata
+  spans, superscripts and subscripts, and numbers in list items, quotes,
+  footnotes and headings. The corpus has 622 cases.
 
 ## 0.1.1 — 2026-09-16
 

@@ -65,6 +65,8 @@ The formatter must additionally be byte-idempotent.
   closing sequence `` `$ ``
 - `Sup.value` is non-empty, contains no Unicode whitespace, and contains no `^`
 - `Sub.value` is non-empty, contains no Unicode whitespace, and contains no `~`
+- in table-cell content, at any depth, neither `Sup.value` nor `Sub.value`
+  contains `\` directly before `|` (spec §12.3)
 - `CodeBlock.lang`, when present, is non-empty and whitespace-free; `math` is
   represented by `MathBlock`, not `CodeBlock`; it contains no backtick because
   canonical code fences use backticks

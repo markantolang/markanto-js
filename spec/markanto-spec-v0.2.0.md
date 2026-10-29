@@ -27,15 +27,17 @@ Two changes bring Markanto closer to GFM where 0.1.0 differed without need:
   escape is no longer needed, so it is a tolerated surface, noncanonical in
   strict mode (§10.8).
 2. **`\|` in a table cell is a pipe, inside code too.** Within a table cell,
-  `\|` stands for `|` also inside a code span, inline math or an autolink, as
-  in GFM; canonical cells write every literal `|` as `\|` (§12.3, §12.4). In
-  0.1.0 the backslash stayed in such a token's value, and an unescaped `|`
-  inside it was the canonical form.
+  `\|` stands for `|` also inside a code span, inline math, a superscript, a
+  subscript or an autolink, as in GFM; canonical cells write every literal `|`
+  as `\|`, except in an MIB attribute value (§12.3, §12.4). In 0.1.0 the
+  backslash stayed in such a token's value, and an unescaped `|` inside it was
+  the canonical form.
 
 Every document that is valid Markanto 0.1.0 and has no `\|` inside an atomic
-inline token of a table cell means the same in 0.2.0; its canonical form
-differs only where 0.1.0 escaped a digit before `.` or `)` at the start of a
-line, or wrote a `|` unescaped inside an atomic token of a table cell.
+inline token, a superscript or a subscript of a table cell means the same in
+0.2.0; its canonical form differs only where 0.1.0 escaped a digit before `.`
+or `)` at the start of a line, or wrote a `|` unescaped inside an atomic token
+of a table cell.
 
 ## Reserved wrapper tags
 
@@ -2064,7 +2066,8 @@ context-sensitive and serialisability constraints such as: no soft/hard breaks
 anywhere inside a single-line context; no nested `Link` inside link label
 content; no `-->` in `CommentBlock.value`; non-empty single-line
 `InlineMath.value` without the literal closing sequence `` `$ ``; `Sup.value`
-without `^`; `Sub.value` without `~`; context-correct resource attribute sets;
+without `^`; `Sub.value` without `~`; in a table cell, neither value with a `\`
+directly before a `|`; context-correct resource attribute sets;
 exact table row widths; normalised ordered-list `start`/`value` fields;
 representable container TYPE/TITLE and Grid states; context-correct block-ID
 placement; and non-empty container children.
@@ -3471,9 +3474,12 @@ row-shape and tokenisation rules below:
   code span, inline math (whose backtick span is atomic as a code span is,
   §14.2) or an autolink of a cell, whose content knows no escapes otherwise,
   each `\|`, read from left to right, stands for `|`; `\\|` therefore stands
-  for `\|`. In a link or image and in the content of an MIB wrapper, `\|` is a
-  `|` by the ordinary backslash escape (§10.8). The value of an MIB attribute
-  (§4.7) is the one exception: it takes a `|` as written.
+  for `\|`. A superscript or subscript (§10.11) is not atomic for this
+  purpose; within one, `\|` stands for `|` as well, and its value cannot hold
+  a `\` directly before a `|` in a cell. In a link or image and in the content
+  of an MIB wrapper, `\|` is a `|` by the ordinary backslash escape (§10.8). The
+  value of an MIB attribute (§4.7) is the one exception: it takes a `|` as
+  written.
 - Blank lines before and after the table are optional in normal parser mode,
   provided the table start and end are unambiguous through the separator
   line, context identity, and local syntax boundaries. In strict mode and in
@@ -3529,9 +3535,9 @@ Rules:
   `---`, `:---`, `---:`, or `:---:`;
 - cell contents are serialized by the ordinary inline formatter;
 - every literal `|` in a cell is written `\|`, also within a code span, inline
-  math, an autolink or a link's destination and title, so that a canonical
-  table is the same table in GFM; only an MIB attribute value writes it as it
-  is;
+  math, a superscript or subscript, an autolink or a link's destination and
+  title; only an MIB attribute value writes it as it is. A canonical table
+  without `|` in an MIB attribute value is therefore the same table in GFM;
 - cell contents are not padded to equal visual width;
 - canonical serialization therefore does not depend on grapheme-width,
   terminal-width, font, locale, or `Intl.Segmenter` heuristics.
