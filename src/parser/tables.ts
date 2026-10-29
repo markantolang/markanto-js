@@ -144,7 +144,7 @@ export function recognizeTable(
     const parsedCells: TableCell[] = [];
     let count = 0;
     for (const span of cells) {
-      const parsed = parseInline(text, span.start, span.end, annotations);
+      const parsed = parseInline(text, span.start, span.end, annotations, { tableCell: true });
       if (parsed.status === 'error') {
         return { status: 'error', message: parsed.message, category: parsed.category ?? 'syntax', safeEnd: line.contentEnd };
       }

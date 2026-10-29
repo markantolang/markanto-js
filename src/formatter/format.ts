@@ -604,12 +604,12 @@ function formatInlineBody(children: readonly Inline[], allowBreaks: boolean, inL
         const delimiter = '`'.repeat(Math.max(1, longestBacktickRun(child.value) + 1));
         const leading = boundaryBacktickLeft(child.value) ? ' ' : '';
         const trailing = boundaryBacktickRight(child.value) ? ' ' : '';
-        output += `${delimiter}${leading}${child.value}${trailing}${delimiter}`;
+        output += `${delimiter}${leading}${cellPipes(child.value, inTableCell)}${trailing}${delimiter}`;
         break;
       }
       case 'inlineMath':
         if (child.value.length === 0 || child.value.includes('\n') || child.value.includes('\r') || child.value.includes('`$')) return null;
-        output += `$\`${child.value}\`$`; break;
+        output += `$\`${cellPipes(child.value, inTableCell)}\`$`; break;
       case 'em': {
         const inner = formatInline(child.children, allowBreaks, inLabel, inTableCell); if (inner === null || child.children.some((node) => node.type === 'em')) return null;
         if (child.children.length === 1 && child.children[0]?.type === 'strong') {
@@ -656,31 +656,31 @@ function formatInlineBody(children: readonly Inline[], allowBreaks: boolean, inL
         if (child.download === true) {
           if (child.attrs !== undefined && !hasAttrs(child.attrs)) return null;
           if (containsLinkLike(child.children)) return null;
-          const label = child.children.length === 0 ? '' : formatInline(child.children, allowBreaks, true); if (label === null) return null;
-          const destination = formatDestination(child.href); if (destination === null || !validOptionalTitle(child.title)) return null;
+          const label = child.children.length === 0 ? '' : formatInline(child.children, allowBreaks, true, inTableCell); if (label === null) return null;
+          const destination = formatDestination(child.href, inTableCell); if (destination === null || !validOptionalTitle(child.title)) return null;
           const attrs = child.attrs ?? {};
           const opener = formatMOpen('download', attrs, 'download'); if (opener === null) return null;
-          output += `${opener}[${label}](${destination}${formatTitle(child.title)})</m>`; break;
+          output += `${opener}[${label}](${destination}${formatTitle(child.title, inTableCell)})</m>`; break;
         }
         if (child.attrs !== undefined) return null;
         if (containsLinkLike(child.children)) return null;
-        const label = formatInline(child.children, allowBreaks, true); if (label === null) return null;
-        const destination = formatDestination(child.href); if (destination === null || !validOptionalTitle(child.title)) return null;
-        output += `[${label}](${destination}${formatTitle(child.title)})`; break;
+        const label = formatInline(child.children, allowBreaks, true, inTableCell); if (label === null) return null;
+        const destination = formatDestination(child.href, inTableCell); if (destination === null || !validOptionalTitle(child.title)) return null;
+        output += `[${label}](${destination}${formatTitle(child.title, inTableCell)})`; break;
       }
       case 'inlineImage': {
         if (child.attrs !== undefined && !hasAttrs(child.attrs)) return null;
         if (containsLinkLike(child.alt)) return null;
-        const alt = child.alt.length === 0 ? '' : formatInline(child.alt, allowBreaks, true); if (alt === null) return null;
-        const destination = formatDestination(child.src); if (destination === null || !validOptionalTitle(child.title)) return null;
-        const image = `![${alt}](${destination}${formatTitle(child.title)})`;
+        const alt = child.alt.length === 0 ? '' : formatInline(child.alt, allowBreaks, true, inTableCell); if (alt === null) return null;
+        const destination = formatDestination(child.src, inTableCell); if (destination === null || !validOptionalTitle(child.title)) return null;
+        const image = `![${alt}](${destination}${formatTitle(child.title, inTableCell)})`;
         if (child.attrs === undefined) output += image;
         else { const opener = formatMOpen(null, child.attrs, 'image'); if (opener === null) return null; output += `${opener}${image}</m>`; }
         break;
       }
       case 'autolink':
         if (!autolinkValue(child.kind, child.value)) return null;
-        output += `<${child.value}>`; break;
+        output += `<${cellPipes(child.value, inTableCell)}>`; break;
       case 'footnoteReference':
         if (!isIdentifier(child.identifier)) return null;
         const previous = children[index - 1];
@@ -765,11 +765,14 @@ function guardParagraphLine(rawLine: string, firstLine: boolean, nextLine: strin
   // arrive escaped from the inline layer when they would open emphasis.
   if ((c === 0x2a || c === 0x2b) && (line.length === 1 || line.charCodeAt(1) === 0x20 || line.charCodeAt(1) === 0x09)) return `\\${line}`;
   // Ordered list marker and its malformed variants: any digit run then `.` / `)`.
-  // `1. x` is a list; `1.x`, `1.`, and a 10+-digit run are recogniser errors.
+  // `1. x` is a list; `1.x`, `1.`, and a 10+-digit run are recogniser errors. A
+  // digit after the delimiter makes a number, never a marker (`3.14`, §9.3.1).
   if (c >= 0x30 && c <= 0x39) {
     let run = 0;
     while (run < line.length && line.charCodeAt(run) >= 0x30 && line.charCodeAt(run) <= 0x39) run += 1;
-    if (run < line.length && (line.charCodeAt(run) === 0x2e || line.charCodeAt(run) === 0x29)) {
+    const after = line.charCodeAt(run + 1);
+    if (run < line.length && (line.charCodeAt(run) === 0x2e || line.charCodeAt(run) === 0x29) &&
+        !(after >= 0x30 && after <= 0x39)) {
       return `${line.slice(0, run)}\\${line.slice(run)}`;
     }
   }
@@ -895,13 +898,14 @@ function allOf(value: string, code: number): boolean {
   return value.length > 0;
 }
 
-function formatTitle(title: string | undefined): string {
+function formatTitle(title: string | undefined, inTableCell = false): string {
   if (title === undefined) return '';
   let output = '';
   for (let index = 0; index < title.length; index += 1) {
     const character = title[index]!;
     const escape = character === '\\' || character === '"' ||
-      character === '&' && scanEntity(title, index, title.length).kind === 'decoded';
+      character === '&' && scanEntity(title, index, title.length).kind === 'decoded' ||
+      (inTableCell && character === '|');
     output += escape ? `\\${character}` : character;
   }
   return ` "${output}"`;
@@ -1141,7 +1145,7 @@ function textDelimiterCanOpen(value: string, offset: number, delimiter: string):
   return characterClass(after) !== 'S' && characterClass(before) !== 'W';
 }
 
-function formatDestination(value: string): string | null {
+function formatDestination(value: string, inTableCell = false): string | null {
   if (value.length === 0) return '<>';
   if (!validLinkValue(value)) return null;
   let balance = 0;
@@ -1163,7 +1167,8 @@ function formatDestination(value: string): string | null {
     const character = value[index]!;
     const escape = character === '\\' ||
       character === '&' && scanEntity(value, index, value.length).kind === 'decoded' ||
-      (needsAngle ? character === '<' || character === '>' : false);
+      (needsAngle ? character === '<' || character === '>' : false) ||
+      (inTableCell && character === '|');
     output += escape ? `\\${character}` : character;
   }
   return needsAngle ? `<${output}>` : output;
@@ -1197,6 +1202,14 @@ function equalsOnly(value: string): boolean {
   return true;
 }
 function isEscapablePunctuation(code: number): boolean { return code >= 0x21 && code <= 0x7e && !((code >= 48 && code <= 57) || (code >= 65 && code <= 90) || (code >= 97 && code <= 122)); }
+
+/**
+ * The value of a code span, inline math or an autolink as a table cell writes it: every `|` as `\\|` (§12.4), which the
+ * parser reads back as `|` (§12.3), so a canonical table is the same table in GFM.
+ */
+function cellPipes(value: string, inTableCell: boolean): string {
+  return inTableCell ? value.split('|').join('\\|') : value;
+}
 
 /** Escape every literal `|` in already-escaped text so a table row tokenizer keeps the cell whole. */
 function escapeCellPipes(value: string): string {

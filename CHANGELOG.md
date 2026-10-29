@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.2.0 — unreleased
+
+Markanto 0.2.0 (`spec/markanto-spec-v0.2.0.md`): two changes towards GFM. The
+specification of 0.1.0 stays as it was.
+
+### Language
+
+- **A number with a dot is text.** Digits followed by `.` or `)` and then a
+  decimal digit open no list item: `3.14 is close to pi`, `2.0 and later` and
+  `1.2.3 Overview` are ordinary text at the start of a line, where 0.1.0
+  reported "list marker requires exactly one space". `1.Item` and `2)Second`
+  stay errors. The escape 0.1.0 needed (`3\.14`) is now a tolerated,
+  noncanonical surface.
+- **`\|` in a table cell is a pipe, inside code too.** Within a table cell,
+  `\|` stands for `|` also inside a code span, inline math and an autolink, as
+  in GFM; `\\|` stands for `\|`. Canonical cells write every literal `|` as
+  `\|`, in code spans, inline math, autolinks and link destinations and titles
+  as well, so a canonical table is the same table on GitHub. An MIB attribute
+  value keeps `|` as written.
+
+### Conformance
+
+- Nine table cases now expect the escaped canonical form; eleven new cases cover
+  both changes. The corpus has 594 cases.
+
 ## 0.1.1 — 2026-09-16
 
 Diagnostics now carry source locations.

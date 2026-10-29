@@ -1,5 +1,5 @@
 /**
- * Rewrites `spec/markanto-spec-v0.1.0.md` in its canonical Markanto surface, so
+ * Rewrites `spec/markanto-spec-v0.2.0.md` (0.1.0 is frozen) in its canonical Markanto surface, so
  * `test/unit/spec-dogfood.test.ts` (strict-valid + byte-stable) stays green
  * after a prose edit. Refuses to write if the canonicalisation would change the
  * word multiset — that would mean the edit introduced a construct with no
@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 import { format, parse } from '../src/index.js';
 
-const path = new URL('../spec/markanto-spec-v0.1.0.md', import.meta.url);
+const path = new URL('../spec/markanto-spec-v0.2.0.md', import.meta.url);
 const source = readFileSync(path, 'utf8');
 const check = process.argv.includes('--check');
 

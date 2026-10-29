@@ -1,4 +1,4 @@
-import type { DownloadResourceAttributes, ImageResourceAttributes, Inline, InlineImage, Link, MetadataSpanAttributes, Text } from '../../ast.js';
+import type { Autolink, DownloadResourceAttributes, ImageResourceAttributes, Inline, InlineImage, Link, MetadataSpanAttributes, Text } from '../../ast.js';
 import type { SourceAnnotationBuilder } from '../../parser-contract.js';
 import { hasAttrs, parseMOpen, validateAttributeContext } from '../resources.js';
 import { isEmailAutolink, isUrlAutolink, metadataClose, wrapperClose } from './atomic.js';
@@ -25,6 +25,13 @@ export interface InlineContext {
   insideLink?: boolean;
   ancestors?: ReadonlySet<Kind>;
   softBreaks?: ReadonlyMap<number, SoftBreakBoundary>;
+  /** A table cell (§12.3): `\|` stands for `|` inside an atomic token as well, as in GFM. */
+  tableCell?: boolean;
+}
+
+/** `value` of an atomic token, with each `\|` read as `|` in a table cell (§12.3), left to right as GFM reads it. */
+function cellPipes(value: string, context: InlineContext): string {
+  return context.tableCell === true ? value.split('\\|').join('|') : value;
 }
 export type InlineResult = { status: 'ok'; nodes: Inline[]; nodeCount: number } |
   { status: 'error'; message: string; category?: 'syntax' | 'semantic' };
@@ -121,14 +128,14 @@ export function parseInline(text: string, start: number, end: number,
     if (code === 0x60) {
       const result = codeSpan(text, cursor, end, context.softBreaks);
       if (result.status === 'error') return result;
-      append({ type: 'inlineCode', value: result.value }, cursor, result.end); cursor = result.end; continue;
+      append({ type: 'inlineCode', value: cellPipes(result.value, context) }, cursor, result.end); cursor = result.end; continue;
     }
     if (at(text, cursor, end, '$`')) {
       const close = find(text, cursor + 2, end, '`$');
       if (close < 0) return error('unclosed inline math');
       if (hasSoftBreakBetween(context.softBreaks, cursor + 2, close)) return error('inline math cannot contain a soft break');
       if (close === cursor + 2) return error('empty inline math');
-      append({ type: 'inlineMath', value: text.slice(cursor + 2, close) }, cursor, close + 2);
+      append({ type: 'inlineMath', value: cellPipes(text.slice(cursor + 2, close), context) }, cursor, close + 2);
       cursor = close + 2; continue;
     }
     if (at(text, cursor, end, '![') || code === 0x5b) {
@@ -155,7 +162,7 @@ export function parseInline(text: string, start: number, end: number,
       const auto = bracketAutolink(text, cursor, end);
       if (auto !== null) {
         if (context.insideLink === true) return error('nested autolink');
-        append(auto.node, cursor, auto.end); cursor = auto.end; continue;
+        append({ ...auto.node, value: cellPipes(auto.node.value, context) }, cursor, auto.end); cursor = auto.end; continue;
       }
     }
     if ((at(text, cursor, end, 'http://') || at(text, cursor, end, 'https://')) &&
@@ -163,7 +170,7 @@ export function parseInline(text: string, start: number, end: number,
       const result = bareAutolink(text, cursor, end);
       if (result.status === 'error') return result;
       if (context.insideLink === true) return error('nested autolink');
-      append({ type: 'autolink', kind: 'url', value: result.value }, cursor, result.end);
+      append({ type: 'autolink', kind: 'url', value: cellPipes(result.value, context) }, cursor, result.end);
       cursor = result.end; continue;
     }
     if (at(text, cursor, end, '[^')) {
@@ -287,6 +294,7 @@ function link(text: string, start: number, end: number, annotations: SourceAnnot
   if (target === null) return error('invalid direct link');
   const nested = parseInline(text, labelStart, labelEnd, annotations, {
     ...(context.softBreaks === undefined ? {} : { softBreaks: context.softBreaks }),
+    ...(context.tableCell === undefined ? {} : { tableCell: context.tableCell }),
     insideLink: true,
   });
   if (nested.status === 'error') return nested;
@@ -481,6 +489,7 @@ function mib(text: string, start: number, end: number, annotations: SourceAnnota
   const nested = parseInline(text, start + opener.length, close, annotations, {
     ...(context.insideLink === undefined ? {} : { insideLink: context.insideLink }),
     ...(context.softBreaks === undefined ? {} : { softBreaks: context.softBreaks }),
+    ...(context.tableCell === undefined ? {} : { tableCell: context.tableCell }),
     ancestors,
   });
   if (nested.status === 'error') return nested;
@@ -488,7 +497,7 @@ function mib(text: string, start: number, end: number, annotations: SourceAnnota
 }
 
 
-function bracketAutolink(text: string, start: number, end: number): { node: Inline; end: number } | null {
+function bracketAutolink(text: string, start: number, end: number): { node: Autolink; end: number } | null {
   const close = findUnit(text, start + 1, end, 0x3e); if (close < 0) return null;
   const value = text.slice(start + 1, close);
   if (isUrlAutolink(value)) return { node: { type: 'autolink', kind: 'url', value }, end: close + 1 };

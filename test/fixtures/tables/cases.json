@@ -241,11 +241,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| Link | Value |\n| --- | --- |\n| [x](https://example.org/a|b) | y |\n"
+          "canonical": "| Link | Value |\n| --- | --- |\n| [x](https://example.org/a\\|b) | y |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| Link | Value |\n| --- | --- |\n| [x](https://example.org/a|b) | y |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       }
     },
@@ -346,11 +351,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| `x|y` | z |\n"
+          "canonical": "| A | B |\n| --- | --- |\n| `x\\|y` | z |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| `x|y` | z |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       }
     },
@@ -677,11 +687,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| [t](/x?a|b) | y |\n| --- | --- |\n"
+          "canonical": "| [t](/x?a\\|b) | y |\n| --- | --- |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| [t](/x?a|b) | y |\n| --- | --- |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       }
     },
@@ -733,11 +748,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a|b> | z |\n"
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a\\|b> | z |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a|b> | z |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -810,11 +830,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| `a|b` | z |\n"
+          "canonical": "| A | B |\n| --- | --- |\n| `a\\|b` | z |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| `a|b` | z |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -886,11 +911,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| ![a|b](i.png) | z |\n"
+          "canonical": "| A | B |\n| --- | --- |\n| ![a\\|b](i.png) | z |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| ![a|b](i.png) | z |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -1059,11 +1089,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| <https://x.org/a|b> | y |\n| --- | --- |\n"
+          "canonical": "| <https://x.org/a\\|b> | y |\n| --- | --- |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| <https://x.org/a|b> | y |\n| --- | --- |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -1563,7 +1598,7 @@
                     "children": [
                       {
                         "type": "inlineCode",
-                        "value": "\\|"
+                        "value": "|"
                       }
                     ]
                   },
@@ -1591,11 +1626,16 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| [x](a \"ti|tle\") | z |\n"
+          "canonical": "| A | B |\n| --- | --- |\n| [x](a \"ti\\|tle\") | z |\n"
         },
         "strict": {
-          "valid": true,
-          "canonical": "| A | B |\n| --- | --- |\n| [x](a \"ti|tle\") | z |\n"
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -2249,6 +2289,66 @@
         }
       },
       "notes": "A separator cell count exceeding the header is a §12.3 syntax error."
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-math",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| $`x\\|y`$ | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| $`x\\|y`$ | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| $`x\\|y`$ | z |\n"
+        }
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-autolink",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <https://x.org/a\\|b> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a\\|b> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/a\\|b> | z |\n"
+        }
+      }
+    },
+    {
+      "id": "tables.delimiter.double-backslash-pipe-in-code",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `a\\\\|b` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a\\\\|b` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a\\\\|b` | z |\n"
+        }
+      }
+    },
+    {
+      "id": "tables.cell.backslash-pipe-outside-table-stays",
+      "spec": "12.3",
+      "source": "`a\\|b`\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`a\\|b`\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "`a\\|b`\n"
+        }
+      }
     }
   ]
 }

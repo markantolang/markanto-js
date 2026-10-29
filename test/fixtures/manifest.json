@@ -24,7 +24,7 @@
     {
       "path": "test/fixtures/lists/cases.json",
       "group": "lists",
-      "cases": 59
+      "cases": 66
     },
     {
       "path": "test/fixtures/math/cases.json",
@@ -44,7 +44,7 @@
     {
       "path": "test/fixtures/tables/cases.json",
       "group": "tables",
-      "cases": 54
+      "cases": 58
     },
     {
       "path": "test/fixtures/transport/cases.json",
@@ -52,5 +52,5 @@
       "cases": 14
     }
   ],
-  "caseCount": 583
+  "caseCount": 594
 }

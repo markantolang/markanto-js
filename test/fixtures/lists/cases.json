@@ -2056,10 +2056,18 @@
       "spec": "9.9",
       "source": "- a\n\n- b\n",
       "expect": {
-        "normal": { "valid": true, "canonical": "- a\n- b\n" },
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n- b\n"
+        },
         "strict": {
           "valid": false,
-          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -2069,8 +2077,34 @@
             "type": "list",
             "kind": "unordered",
             "items": [
-              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "a" }] }] },
-              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "b" }] }] }
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ],
@@ -2083,10 +2117,18 @@
       "spec": "9.9",
       "source": "1. a\n\n2. b\n",
       "expect": {
-        "normal": { "valid": true, "canonical": "1. a\n2. b\n" },
+        "normal": {
+          "valid": true,
+          "canonical": "1. a\n2. b\n"
+        },
         "strict": {
           "valid": false,
-          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -2096,8 +2138,34 @@
             "type": "list",
             "kind": "ordered",
             "items": [
-              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "a" }] }] },
-              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "b" }] }] }
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ],
@@ -2110,10 +2178,18 @@
       "spec": "9.9",
       "source": "- a\n\n+ b\n",
       "expect": {
-        "normal": { "valid": true, "canonical": "- a\n- b\n" },
+        "normal": {
+          "valid": true,
+          "canonical": "- a\n- b\n"
+        },
         "strict": {
           "valid": false,
-          "diagnostics": [{ "category": "noncanonical", "severity": "error" }]
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -2123,14 +2199,170 @@
             "type": "list",
             "kind": "unordered",
             "items": [
-              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "a" }] }] },
-              { "type": "listItem", "children": [{ "type": "paragraph", "children": [{ "type": "text", "value": "b" }] }] }
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b"
+                      }
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ],
         "footnotes": []
       },
       "notes": "The bullet character (`-`/`+`/`*`) is not semantic in 0.1.0 (§9.2), so a CommonMark bullet change that would start a new list is absorbed into the same uniform list."
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-is-text",
+      "spec": "9.3.1",
+      "source": "3.14 is close to pi.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "3.14 is close to pi.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "3.14 is close to pi.\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-continues-paragraph",
+      "spec": "9.3.1",
+      "source": "Released in version\n2.0 and later.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Released in version\n2.0 and later.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Released in version\n2.0 and later.\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.section-number-is-text",
+      "spec": "9.3.1",
+      "source": "1.2.3 Overview\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1.2.3 Overview\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1.2.3 Overview\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-paren-is-text",
+      "spec": "9.3.1",
+      "source": "2)3 is a typo.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "2)3 is a typo.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "2)3 is a typo.\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.escaped-number-noncanonical",
+      "spec": "9.3.1",
+      "source": "3\\.14 is close to pi.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "3.14 is close to pi.\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.letter-after-dot-invalid",
+      "spec": "9.3.1",
+      "source": "1.Item\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.letter-after-paren-invalid",
+      "spec": "9.3.1",
+      "source": "2)Second\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -36,6 +36,9 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
     while (cursor < line.contentEnd) { const digit = text.charCodeAt(cursor); if (digit < 0x30 || digit > 0x39) break; cursor += 1; }
     const delimiter = text.charCodeAt(cursor);
     if (delimiter !== 0x2e && delimiter !== 0x29) return null;
+    // a digit after the delimiter makes a number, never a marker: `3.14`, `2.0` (§9.3.1)
+    const next = text.charCodeAt(cursor + 1);
+    if (cursor + 1 < line.contentEnd && next >= 0x30 && next <= 0x39) return null;
     const digits = text.slice(numberStart, cursor); cursor += 1;
     const normalized = stripZeros(digits);
     if (normalized.length > 9 || Number(normalized) > 999_999_999) return { error: 'ordered list number exceeds range' };
