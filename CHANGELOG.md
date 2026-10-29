@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 — unreleased
+## 0.2.0 — 2026-10-29
 
 Markanto 0.2.0 (`spec/markanto-spec-v0.2.0.md`): two changes towards GFM. The
 specification of 0.1.0 stays as it was.
