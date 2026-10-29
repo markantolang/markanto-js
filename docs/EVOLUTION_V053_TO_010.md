@@ -3,15 +3,16 @@
 `0.1.0` is a ground-up reimplementation against a redesigned language contract
 (`docs/MIGRATION.md`), not a version bump. The spec number goes *down* on
 purpose. This document is the single record of **what changed and why**, so that
-after the 0.1.0 conformance freeze no delta depends on reading the previous
-`monorepo` (which stays available only as a rollback until the freeze).
+after the 0.1.0 conformance freeze no delta depends on reading the previous,
+unpublished Markanto line, which is archived.
 
 Columns: the v0.5.3 contract; the 0.1.0 contract; the rationale for the change;
 what a v0.5.3 consumer / document experiences (and what the migration tool
 `tools/migrate/` does — `mapped` / `dropped` / `unrepresentable` / `review`).
 
-Where a row cites the old spec it means `../monorepo/docs/markanto-spec-v0.5.3.md`
-and `../monorepo/docs/markanto-rationale-v0.5.3.md`; the new spec is
+Where a row cites the old spec it means the v0.5.3 specification and rationale
+of that line (`docs/markanto-spec-v0.5.3.md`, `docs/markanto-rationale-v0.5.3.md`
+there); the new spec is
 `spec.md` of [`markantolang/spec`](https://github.com/markantolang/spec) at tag
 `v0.1.0`.
 
