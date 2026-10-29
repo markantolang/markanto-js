@@ -1,18 +1,23 @@
 /**
- * Rewrites `spec/markanto-spec-v0.2.0.md` (0.1.0 is frozen) in its canonical Markanto surface, so
- * `test/unit/spec-dogfood.test.ts` (strict-valid + byte-stable) stays green
- * after a prose edit. Refuses to write if the canonicalisation would change the
- * word multiset — that would mean the edit introduced a construct with no
- * canonical form, which must be fixed in the prose, not papered over here.
+ * Rewrites a specification (`spec.md` of a checkout of markantolang/spec) in its
+ * canonical Markanto surface, so `test/unit/spec-dogfood.test.ts` (strict-valid +
+ * byte-stable) stays green once it is vendored. Refuses to write if the
+ * canonicalisation would change the word multiset — that would mean the edit
+ * introduced a construct with no canonical form, which must be fixed in the
+ * prose, not papered over here.
  *
- *   bun scripts/format-spec.ts          # rewrite in place
- *   bun scripts/format-spec.ts --check  # exit 1 if not already canonical
+ *   bun scripts/format-spec.ts ../spec/spec.md          # rewrite in place
+ *   bun scripts/format-spec.ts ../spec/spec.md --check  # exit 1 if not already canonical
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 
 import { format, parse } from '../src/index.js';
 
-const path = new URL('../spec/markanto-spec-v0.2.0.md', import.meta.url);
+const path = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
+if (path === undefined) {
+  console.error('usage: bun scripts/format-spec.ts <spec.md> [--check]');
+  process.exit(2);
+}
 const source = readFileSync(path, 'utf8');
 const check = process.argv.includes('--check');
 
@@ -40,7 +45,7 @@ if (formatted.source === source) {
   process.exit(0);
 }
 if (check) {
-  console.error('spec is not in canonical form — run `bun scripts/format-spec.ts`');
+  console.error(`spec is not in canonical form — run \`bun scripts/format-spec.ts ${path}\``);
   process.exit(1);
 }
 writeFileSync(path, formatted.source);

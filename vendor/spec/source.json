@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/markantolang/spec",
+  "versions": {
+    "0.1.0": { "tag": "v0.1.0", "commit": "629f10b2aad1c5859b5e04097b3211414fa162a3" },
+    "0.2.0": { "tag": "v0.2.0", "commit": "56ed16bba55d5fe8fd2a48e97d98ae93ec1300d4" }
+  },
+  "data": "0.2.0"
+}

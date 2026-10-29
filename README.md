@@ -24,8 +24,9 @@ from language invalidity.
 - **Runtime-neutral.** Node ≥ 18.20 and Bun. The semantic core uses no
   runtime-specific APIs.
 
-Specification: [`spec/markanto-spec-v0.2.0.md`](spec/markanto-spec-v0.2.0.md) ·
-Homepage: <https://markanto.org>
+Specification: <https://markanto.org/spec/>
+([`markantolang/spec`](https://github.com/markantolang/spec)) · Homepage:
+<https://markanto.org>
 
 ## Install
 
@@ -122,10 +123,10 @@ npx markanto adopt  <file> --stdout   # attach durable identity (see docs/PARSER
 
 ## Documentation
 
-- [`spec/markanto-spec-v0.2.0.md`](spec/markanto-spec-v0.2.0.md) — normative
-  language specification (the specification wins over any implementation note)
-- [`spec/markanto-spec-v0.1.0.md`](spec/markanto-spec-v0.1.0.md) — the frozen
-  0.1.0 specification
+- [`markantolang/spec`](https://github.com/markantolang/spec) — the normative
+  language specification, one tag per version (the specification wins over any
+  implementation note); [`vendor/spec/`](vendor/spec/) holds the copies the
+  tests read
 - [`src/ast.ts`](src/ast.ts) — normative semantic-AST shape
 - [`docs/PARSER_CONTRACT.md`](docs/PARSER_CONTRACT.md) — result shapes,
   resource budgets, source-annotation sidecar

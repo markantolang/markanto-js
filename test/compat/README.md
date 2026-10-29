@@ -29,10 +29,11 @@ turns that claim into a CI gate.
   The exact devDependency versions are `mdast-util-from-markdown@2.0.2`,
   `micromark-extension-gfm@3.0.0`, and `mdast-util-gfm@3.1.0`.
 - **Input corpus:**
-  - `spec/commonmark-0.31.2.json` — official CommonMark 0.31.2 testsuite
-    (<https://spec.commonmark.org/0.31.2/spec.json>), vendored unchanged.
-  - `spec/gfm-0.29-extra.json` — hand-curated GFM cases (no standardised
-    machine-readable GFM suite exists), examples from
+  - `test/compat/data/commonmark-0.31.2.json` — official CommonMark 0.31.2
+    testsuite (<https://spec.commonmark.org/0.31.2/spec.json>), vendored
+    unchanged.
+  - `test/compat/data/gfm-0.29-extra.json` — hand-curated GFM cases (no
+    standardised machine-readable GFM suite exists), examples from
     <https://github.github.com/gfm/>.
 - **Comparison:** Markanto Core produces an AST, not HTML, so there is no
   direct "same HTML" target. Compare block structure and classify each case

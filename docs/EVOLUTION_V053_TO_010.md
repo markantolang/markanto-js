@@ -12,7 +12,8 @@ what a v0.5.3 consumer / document experiences (and what the migration tool
 
 Where a row cites the old spec it means `../monorepo/docs/markanto-spec-v0.5.3.md`
 and `../monorepo/docs/markanto-rationale-v0.5.3.md`; the new spec is
-`spec/markanto-spec-v0.1.0.md`.
+`spec.md` of [`markantolang/spec`](https://github.com/markantolang/spec) at tag
+`v0.1.0`.
 
 ## A. Language surface
 

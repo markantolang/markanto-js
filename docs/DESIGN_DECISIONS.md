@@ -1,9 +1,10 @@
 # Design decisions
 
 The load-bearing language and API decisions behind Markanto 0.1.0, with their
-rationale. The specification (`spec/markanto-spec-v0.1.0.md`) is normative; this
-file explains *why* the spec reads the way it does, so a later revision does not
-undo a choice without knowing what it was for.
+rationale. The specification
+([`markantolang/spec`](https://github.com/markantolang/spec), tag `v0.1.0`) is
+normative; this file explains *why* the spec reads the way it does, so a later
+revision does not undo a choice without knowing what it was for.
 
 ## Inherited constraints
 

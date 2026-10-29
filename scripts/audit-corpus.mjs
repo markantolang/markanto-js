@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const root = new URL('../', import.meta.url);
-const specText = await readFile(new URL('spec/markanto-spec-v0.1.0.md', root), 'utf8');
+const specText = await readFile(new URL('vendor/spec/0.2.0/spec.md', root), 'utf8');
 const manifest = JSON.parse(await readFile(new URL('test/fixtures/manifest.json', root), 'utf8'));
 
 const headings = new Map();

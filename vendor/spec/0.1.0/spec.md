@@ -1,10 +1,10 @@
 # Markanto — Specification
 
-Version: 0.1.0
-Status: frozen — the normative specification for the Markanto 0.1.0 language
-line. It does not change; later versions may evolve the language, and there
-is no 1.0 compatibility freeze yet.
-Language: English (normative edition).
+> **Version 0.1.0** · frozen · English (normative edition)
+>
+> The normative specification for the Markanto 0.1.0 language line. It does not
+> change; later versions may evolve the language, and there is no 1.0
+> compatibility freeze yet.
 
 ---
 

@@ -12,15 +12,17 @@ import { format, parse } from '../../src/index.js';
 // continuation line that looks like a list marker, …) is a defect — it must be
 // written in the *canonical* form: strict-valid and byte-stable under the
 // formatter. Keep this green: when a spec edit trips it, run
-// `bun scripts/format-spec.ts` (or fix the prose), don't relax the check.
-for (const name of ['markanto-spec-v0.1.0.md', 'markanto-spec-v0.2.0.md']) {
-  const source = readFileSync(fileURLToPath(new URL(`../../spec/${name}`, import.meta.url)), 'utf8');
+// `bun scripts/format-spec.ts <spec.md>` in the specification repository (or
+// fix the prose), don't relax the check.
+for (const version of ['0.1.0', '0.2.0']) {
+  const name = `vendor/spec/${version}/spec.md`;
+  const source = readFileSync(fileURLToPath(new URL(`../../${name}`, import.meta.url)), 'utf8');
 
-  test(`spec/${name} parses as a valid Markanto document`, () => {
+  test(`${name} parses as a valid Markanto document`, () => {
     assert.equal(parse(source).status, 'ok');
   });
 
-  test(`spec/${name} is written in canonical Markanto (strict-valid, byte-stable)`, () => {
+  test(`${name} is written in canonical Markanto (strict-valid, byte-stable)`, () => {
     assert.equal(parse(source, { strict: true }).status, 'ok');
 
     const parsed = parse(source);

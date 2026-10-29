@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Repository
+
+- The specification has its own repository,
+  [`markantolang/spec`](https://github.com/markantolang/spec): one `spec.md`,
+  one tag per version, and the named character references it makes normative.
+  `vendor/spec/` holds the copies the tests read; `scripts/check-spec-sync.ts`
+  compares them, and `data/`, with the tagged commits. The CommonMark and GFM
+  suites of the compatibility harness moved to `test/compat/data/`.
+
 ## 0.2.0 — 2026-10-29
 
 Markanto 0.2.0 (`spec/markanto-spec-v0.2.0.md`): two changes towards GFM. The

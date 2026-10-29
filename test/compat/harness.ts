@@ -90,8 +90,8 @@ export function classifyCase(item: ReferenceCase, catalogue = loadCatalogue()): 
 }
 
 export function runCompatibility(): readonly CompatResult[] {
-  const commonmark = loadCases(resolve('spec/commonmark-0.31.2.json'));
-  const gfmCases = loadCases(resolve('spec/gfm-0.29-extra.json'));
+  const commonmark = loadCases(resolve('test/compat/data/commonmark-0.31.2.json'));
+  const gfmCases = loadCases(resolve('test/compat/data/gfm-0.29-extra.json'));
   const catalogue = loadCatalogue();
   return [...commonmark, ...gfmCases].map((item) => classifyCase(item, catalogue));
 }
