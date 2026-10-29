@@ -6,7 +6,7 @@ For most implementation tasks, read in this order:
 
 1. `docs/IMPLEMENTATION.md`
 2. `docs/INVARIANTS.md`
-3. the relevant section of `spec/markanto-spec-v0.1.0.md`
+3. the relevant section of `spec/markanto-spec-v0.2.0.md` (the frozen 0.1.0 specification stays in `spec/markanto-spec-v0.1.0.md`)
 4. `src/ast.ts`
 
 Do not repeatedly ingest the complete specification unless the task spans many
