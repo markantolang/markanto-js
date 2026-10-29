@@ -27,10 +27,10 @@ Two changes bring Markanto closer to GFM where 0.1.0 differed without need:
   escape is no longer needed, so it is a tolerated surface, noncanonical in
   strict mode (§10.8).
 2. **`\|` in a table cell is a pipe, inside code too.** Within a table cell,
-  `\|` stands for `|` also inside an atomic inline token such as a code span,
-  as in GFM; canonical cells write every literal `|` as `\|` (§12.3, §12.4).
-  In 0.1.0 the backslash stayed in a code span's value, and an unescaped `|`
-  inside a code span was the canonical form.
+  `\|` stands for `|` also inside a code span, inline math or an autolink, as
+  in GFM; canonical cells write every literal `|` as `\|` (§12.3, §12.4). In
+  0.1.0 the backslash stayed in such a token's value, and an unescaped `|`
+  inside it was the canonical form.
 
 Every document that is valid Markanto 0.1.0 and has no `\|` inside an atomic
 inline token of a table cell means the same in 0.2.0; its canonical form
@@ -3467,11 +3467,13 @@ row-shape and tokenisation rules below:
   token already recognised by the inline scanner. Complete inline-code spans,
   direct Markdown links/images, autolinks, and MIB wrappers are atomic for this
   purpose. `\|` contributes a literal pipe to cell inline input rather than a
-  column boundary — inside an atomic inline token as well: before a cell's
-  inline content is read, every `\|` in it, also within a code span, inline
-  math (whose backtick span is atomic as a code span is, §14.2), a link or
-  image, an autolink or an MIB wrapper, stands for `|`, as in GFM. A backslash directly before a `|` inside an atomic token of a cell
-  therefore cannot be expressed.
+  column boundary — inside an atomic inline token as well, as in GFM. Within a
+  code span, inline math (whose backtick span is atomic as a code span is,
+  §14.2) or an autolink of a cell, whose content knows no escapes otherwise,
+  each `\|`, read from left to right, stands for `|`; `\\|` therefore stands
+  for `\|`. In a link or image and in the content of an MIB wrapper, `\|` is a
+  `|` by the ordinary backslash escape (§10.8). The value of an MIB attribute
+  (§4.7) is the one exception: it takes a `|` as written.
 - Blank lines before and after the table are optional in normal parser mode,
   provided the table start and end are unambiguous through the separator
   line, context identity, and local syntax boundaries. In strict mode and in
@@ -3527,8 +3529,9 @@ Rules:
   `---`, `:---`, `---:`, or `:---:`;
 - cell contents are serialized by the ordinary inline formatter;
 - every literal `|` in a cell is written `\|`, also within a code span, inline
-  math or another atomic inline token, so that a canonical table is the same
-  table in GFM;
+  math, an autolink or a link's destination and title, so that a canonical
+  table is the same table in GFM; only an MIB attribute value writes it as it
+  is;
 - cell contents are not padded to equal visual width;
 - canonical serialization therefore does not depend on grapheme-width,
   terminal-width, font, locale, or `Intl.Segmenter` heuristics.
