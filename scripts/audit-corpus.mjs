@@ -7,7 +7,8 @@ const manifest = JSON.parse(await readFile(new URL('test/fixtures/manifest.json'
 
 const headings = new Map();
 for (const [index, line] of specText.split('\n').entries()) {
-  const match = /^(?:#{2,6})\s+(\d+(?:\.\d+)*(?:[a-z])?)\s+(.+)$/.exec(line);
+  // `## 7. Parser …` names section 7, `### 7.1 Line breaks` section 7.1
+  const match = /^(?:#{2,6})\s+(\d+(?:\.\d+)*(?:[a-z])?)\.?\s+(.+)$/.exec(line);
   if (match) headings.set(match[1], { title: match[2], line: index + 1 });
 }
 

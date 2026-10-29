@@ -149,10 +149,11 @@ later version explicitly revisits them:
 - whether `SoftBreak` remains part of semantic identity;
 - any Core document-metadata / front-matter facility.
 
-## Known limitations at 0.1.0
+## Known limitations
 
-Narrow edge cases, each rejected by `validate()` (so not a canonical-closure
-break) and unreachable from any real migrated document:
+Narrow edge cases, deferred at the 0.1.0 freeze and still open in 0.2.0, each
+rejected by `validate()` (so not a canonical-closure break) or a conservative
+refusal, and unreachable from any real migrated document:
 
 - A fence info token containing non-ASCII whitespace (NBSP, U+3000) parses `ok`
   but has no canonical surface.
@@ -161,6 +162,6 @@ break) and unreachable from any real migrated document:
 - The pre-parse structural-frame heuristic counts a `>` run inside fenced code
   or an HTML comment toward nesting depth, so a code block with a 1000+ `>` line
   is rejected `resource` under the default budget — a conservative over-count.
-- The four-space-indented-content advisory fires at document level only; a drop
-  inside a quote / container / list-item body is still silent in normal mode
-  (strict mode rejects it).
+- The four-space-indented-content advisory fires at document level and in list
+  items and footnotes; a drop inside a quote or container body is still silent
+  in normal mode (strict mode rejects it).
