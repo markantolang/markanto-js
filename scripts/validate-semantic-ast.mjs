@@ -261,11 +261,13 @@ function validateInlineTask(state, node, label, ctx = {}) {
       string(node.value, `${label}.value`, { nonEmpty: true });
       assert.equal(/\s/u.test(node.value), false, `${label}.value must be whitespace-free`);
       assert.equal(node.value.includes('^'), false, `${label}.value must not contain ^`);
+      if (ctx.tableCell) assert.equal(node.value.includes('\\|'), false, `${label}.value must not contain \\| in a table cell`);
       break;
     case 'sub':
       string(node.value, `${label}.value`, { nonEmpty: true });
       assert.equal(/\s/u.test(node.value), false, `${label}.value must be whitespace-free`);
       assert.equal(node.value.includes('~'), false, `${label}.value must not contain ~`);
+      if (ctx.tableCell) assert.equal(node.value.includes('\\|'), false, `${label}.value must not contain \\| in a table cell`);
       break;
     case 'link':
       destination(node.href, `${label}.href`);
@@ -360,7 +362,7 @@ function validateTable(state, node, label) {
       assert.equal(Object.prototype.hasOwnProperty.call(cell, 'column'), false, `${cellLabel}.column is not part of 0.1.0 table semantics`);
       assert.equal(Object.prototype.hasOwnProperty.call(cell, 'rowSpan'), false, `${cellLabel}.rowSpan is Grid-only in 0.1.0`);
       assert.equal(Object.prototype.hasOwnProperty.call(cell, 'colSpan'), false, `${cellLabel}.colSpan is Grid-only in 0.1.0`);
-      pushInlineArray(state, cell.children, `${cellLabel}.children`, { singleLine: true });
+      pushInlineArray(state, cell.children, `${cellLabel}.children`, { singleLine: true, tableCell: true });
     }
   }
 }

@@ -207,7 +207,8 @@ export function parseInline(text: string, start: number, end: number,
     if (code === 0x5e || (code === 0x7e && !at(text, cursor, end, '~~'))) {
       const result = atomic(text, cursor, end, code);
       if (result !== null) {
-        append(code === 0x5e ? { type: 'sup', value: result.value } : { type: 'sub', value: result.value }, cursor, result.end);
+        const value = cellPipes(result.value, context);
+        append(code === 0x5e ? { type: 'sup', value } : { type: 'sub', value }, cursor, result.end);
         cursor = result.end; continue;
       }
       append({ type: 'text', value: text[cursor]! }, cursor, cursor + 1); cursor += 1; continue;
@@ -306,9 +307,9 @@ function link(text: string, start: number, end: number, annotations: SourceAnnot
 
 export function parseDirectResource(
   text: string, start: number, end: number, annotations: SourceAnnotationBuilder,
-  _image: boolean, allowEmptyLabel: boolean,
+  _image: boolean, allowEmptyLabel: boolean, tableCell = false,
 ): { status: 'ok'; node: InlineImage | Link; end: number; nested: number } | { status: 'error'; message: string; category?: 'syntax' | 'semantic' } | null {
-  const result = link(text, start, end, annotations, {}, allowEmptyLabel);
+  const result = link(text, start, end, annotations, tableCell ? { tableCell } : {}, allowEmptyLabel);
   if (result === null || result.status === 'error') return result;
   if (result.node.type !== 'inlineImage' && result.node.type !== 'link') return null;
   return { status: 'ok', node: result.node, end: result.end, nested: result.nested };
@@ -323,7 +324,7 @@ function metadataWrapper(
   const close = metadataClose(text, open.end, end);
   if (close < 0) return error('unclosed metadata wrapper');
   const after = close + 4;
-  const image = parseDirectResource(text, open.end, close, annotations, true, true);
+  const image = parseDirectResource(text, open.end, close, annotations, true, true, context.tableCell === true);
   if (image?.status === 'error') return image;
   if (image?.status === 'ok' && image.node.type === 'inlineImage' && image.end === close) {
     if (open.kind !== null) return resourceError('resource primary type conflict', 'semantic');
@@ -338,7 +339,7 @@ function metadataWrapper(
     return { status: 'ok', node, end: after, nested: image.nested };
   }
   if (open.kind !== null) {
-    const direct = parseDirectResource(text, open.end, close, annotations, false, true);
+    const direct = parseDirectResource(text, open.end, close, annotations, false, true, context.tableCell === true);
     if (direct?.status === 'error') return direct;
     if (direct === null || direct.end !== close) return resourceError('typed resource requires exactly one primary link', 'semantic');
     const invalid = validateAttributeContext(open.kind, open.attrs);

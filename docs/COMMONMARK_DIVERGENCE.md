@@ -24,7 +24,7 @@ disagree, the chapters win.
 
 ### Blocks
 
-| Construct | Markanto 0.1.0 | Spec | Harness |
+| Construct | Markanto 0.2.0 | Spec | Harness |
 |---|---|---|---|
 | Tabs | retained as ordinary literal / inline content; the CommonMark contextual tab-to-indentation expansion is narrowed — tabs are forbidden in Markanto list / container structural indentation, and the logical-line layer (§7.3) owns any remaining stripping | §2, §7.3, §9.4 | `same` / `structural` / `import-only` / `reject` |
 | Backslash escapes | retained in ordinary inline content and in the delegated direct-link destination / title and fence-info fields; literal contexts (code, code blocks) keep the backslash; where the escaped source sits inside an excluded or changed outer construct the outer construct's row and precedence rules decide | §10.4, §10.5.1 | `same` / `structural` / `import-only` / `reject` |
@@ -49,7 +49,7 @@ disagree, the chapters win.
 
 ### Inline
 
-| Construct | Markanto 0.1.0 | Spec | Harness |
+| Construct | Markanto 0.2.0 | Spec | Harness |
 |---|---|---|---|
 | Inline links/images (direct) | retained; CommonMark destination/title grammar is the baseline; destination breaks only on ASCII space/tab/LF (not all Unicode whitespace); backslash escapes and entity/numeric references are resolved inside the destination and title (CommonMark 0.31.2), subject to the §10.8.1 scalar/control filter; an empty destination is permitted (`[x]()` / `[x](<>)` → empty `href`/`src`, canonical `<>`), as is a present empty title (`[x](u "")` → `title: ""`, distinct from no title). A kindless `<m>` may add `group`, `lang`, and `data-*` to an image. A whole-line image is structurally promoted from CommonMark's paragraph to Markanto `ImageBlock` by §4.4 | §4, §10, §10.5.1 | `same` / `structural` |
 | Direct link/image — Markanto context restrictions | a syntax error, not a literal fallback, for: an empty link label (`[](dest)`, error 10.3); a malformed parenthesised group once `](` (or `![…](`) has committed — unescaped space / line break in a bare destination, unbalanced parentheses, an ill-formed title (CommonMark reparses these as text; Markanto does not); a nested anchor (`Link`, `Autolink`, or `FootnoteReference`) in a label or image alt. The label / alt may cross a `SoftBreak` in multiline-capable block content (see the *Multiline CommonMark inline constructs* row); the committing `](` and the destination / title stay on one line. A nested `InlineImage` (linked image) is allowed | §10.5.1, §10.7, INVARIANTS | `same` / `structural` / `reject` |
@@ -69,7 +69,7 @@ disagree, the chapters win.
 
 ### GFM extensions
 
-| Construct | Markanto 0.1.0 | Spec | Harness |
+| Construct | Markanto 0.2.0 | Spec | Harness |
 |---|---|---|---|
 | Pipe tables | retained; exact-width positional cells; **no** cell-span geometry — `^`/`<` in a cell are ordinary content; since 0.2.0 a backslash-escaped pipe stands for a pipe inside a code span, inline math or an autolink of a cell too, and canonical cells escape every pipe, as GFM does (only an MIB attribute value keeps it as written) | §12 | `same` / `structural` |
 | Strikethrough `~~x~~` | retained as `Deletion` → `<del>`; may preserve a `SoftBreak` in multiline-capable block content, not a `HardBreak` (see the *Multiline CommonMark inline constructs* row) | §10.7, §10.11 | `same` / `structural` |
@@ -105,7 +105,7 @@ corresponds to them.
 
 ## Maintenance rule
 
-Every row here must correspond to a `| … | Markanto 0.1.0 |` row in spec §1.2
+Every row here must correspond to a `| … | Markanto 0.2.0 |` row in spec §1.2
 or to an explicit chapter statement. When §1.2 changes, this file changes in
 the same commit. The `test/compat/` harness loads this catalogue; a CommonMark
 testsuite section with no matching expectation is a harness failure, not a

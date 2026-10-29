@@ -5,7 +5,7 @@ import { format, parse, semanticDocumentEquals } from '../../src/index.js';
 interface Expectation { readonly valid: boolean; readonly canonical?: string; readonly diagnostics?: readonly { readonly category: string }[] }
 interface Fixture { readonly id: string; readonly source: string; readonly semanticAst?: unknown; readonly expect: { readonly normal: Expectation; readonly strict: Expectation } }
 const fixtures = (JSON.parse(readFileSync(new URL('../fixtures/lists/cases.json', import.meta.url), 'utf8')) as { cases: Fixture[] }).cases;
-assert.equal(fixtures.length, 66);
+assert.equal(fixtures.length, 76);
 for (const fixture of fixtures) test(`Phase 6 conformance: ${fixture.id}`, {}, () => { check(fixture, false); check(fixture, true); });
 function check(fixture: Fixture, strict: boolean): void {
   const expected = strict ? fixture.expect.strict : fixture.expect.normal; const result = parse(fixture.source, strict ? { strict: true } : {});

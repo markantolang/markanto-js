@@ -2349,6 +2349,1223 @@
           "canonical": "`a\\|b`\n"
         }
       }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-wrapped-image-alt-code",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <m data-size=50%>![`a\\|b`](i.png)</m> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m data-size=50%>![`a\\|b`](i.png)</m> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m data-size=50%>![`a\\|b`](i.png)</m> | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineImage",
+                        "src": "i.png",
+                        "alt": [
+                          {
+                            "type": "inlineCode",
+                            "value": "a|b"
+                          }
+                        ],
+                        "attrs": {
+                          "dataAttrs": {
+                            "size": "50%"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-download-label-math",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <m download>[$`a\\|b`$](x.zip)</m> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m download>[$`a\\|b`$](x.zip)</m> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m download>[$`a\\|b`$](x.zip)</m> | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "link",
+                        "href": "x.zip",
+                        "children": [
+                          {
+                            "type": "inlineMath",
+                            "value": "a|b"
+                          }
+                        ],
+                        "download": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-metadata-span",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <m lang=de>t\\|u</m> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m lang=de>t\\|u</m> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m lang=de>t\\|u</m> | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "metadataSpan",
+                        "attrs": {
+                          "lang": "de"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "t|u"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.raw-pipe-in-metadata-span-noncanonical",
+      "spec": "12.4",
+      "source": "| A | B |\n| --- | --- |\n| <m lang=de>t|u</m> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m lang=de>t\\|u</m> | z |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tables.cell.metadata-attribute-pipe-as-written",
+      "spec": "12.4",
+      "source": "| A | B |\n| --- | --- |\n| <m data-x=a|b>t</m> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m data-x=a|b>t</m> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <m data-x=a|b>t</m> | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "metadataSpan",
+                        "attrs": {
+                          "dataAttrs": {
+                            "x": "a|b"
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "t"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-sup",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| x^a\\|b^ | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| x^a\\|b^ | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| x^a\\|b^ | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
+                      },
+                      {
+                        "type": "sup",
+                        "value": "a|b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-sub",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| H~a\\|b~ | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| H~a\\|b~ | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| H~a\\|b~ | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "H"
+                      },
+                      {
+                        "type": "sub",
+                        "value": "a|b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.raw-pipe-in-sup-splits",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| x^a|b^ | z |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tables.delimiter.double-backslash-pipe-in-sup-splits",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| x^a\\\\|b^ | z |\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-at-code-start",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `\\|a` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `\\|a` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `\\|a` | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "|a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-at-code-end",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `a\\|` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a\\|` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a\\|` | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "a|"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-only-code",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| `\\|` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `\\|` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `\\|` | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "|"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-longer-code-run",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| ``a`\\|b`` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ``a`\\|b`` | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ``a`\\|b`` | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "a`|b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.raw-pipe-in-code-noncanonical",
+      "spec": "12.4",
+      "source": "| A | B |\n| --- | --- |\n| `a|b` | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| `a\\|b` | z |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineCode",
+                        "value": "a|b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-at-autolink-end",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| <https://x.org/\\|> | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/\\|> | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| <https://x.org/\\|> | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "autolink",
+                        "kind": "url",
+                        "value": "https://x.org/|"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-link-destination-title",
+      "spec": "12.4",
+      "source": "| A | B |\n| --- | --- |\n| [x](a\\|b \"c\\|d\") | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| [x](a\\|b \"c\\|d\") | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| [x](a\\|b \"c\\|d\") | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "link",
+                        "href": "a|b",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "x"
+                          }
+                        ],
+                        "title": "c|d"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tables.delimiter.raw-pipe-in-link-destination-noncanonical",
+      "spec": "12.4",
+      "source": "| A | B |\n| --- | --- |\n| [x](a|b) | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| [x](a\\|b) | z |\n"
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tables.delimiter.backslash-pipe-in-image-alt",
+      "spec": "12.3",
+      "source": "| A | B |\n| --- | --- |\n| ![a\\|b](i.png) | z |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ![a\\|b](i.png) | z |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A | B |\n| --- | --- |\n| ![a\\|b](i.png) | z |\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "table",
+            "alignments": [
+              "default",
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    }
+                  ]
+                },
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "B"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "inlineImage",
+                        "src": "i.png",
+                        "alt": [
+                          {
+                            "type": "text",
+                            "value": "a|b"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
     }
   ]
 }

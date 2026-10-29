@@ -651,7 +651,8 @@ function formatInlineBody(children: readonly Inline[], allowBreaks: boolean, inL
       }
       case 'sup': case 'sub':
         if (!atomicValue(child.value, child.type === 'sup' ? 0x5e : 0x7e)) return null;
-        output += `${child.type === 'sup' ? '^' : '~'}${child.value}${child.type === 'sup' ? '^' : '~'}`; break;
+        if (inTableCell && child.value.includes('\\|')) return null; // not atomic for the row tokenizer (spec §12.3)
+        output += `${child.type === 'sup' ? '^' : '~'}${cellPipes(child.value, inTableCell)}${child.type === 'sup' ? '^' : '~'}`; break;
       case 'link': {
         if (child.download === true) {
           if (child.attrs !== undefined && !hasAttrs(child.attrs)) return null;
@@ -693,7 +694,7 @@ function formatInlineBody(children: readonly Inline[], allowBreaks: boolean, inL
       case 'metadataSpan': {
         if (child.children.some((node) => node.type === 'metadataSpan')) return null;
         const opener = formatMOpen(null, child.attrs, 'generic'); if (opener === null) return null;
-        const inner = formatInline(child.children, allowBreaks, inLabel); if (inner === null) return null;
+        const inner = formatInline(child.children, allowBreaks, inLabel, inTableCell); if (inner === null) return null;
         output += `${opener}${inner}</m>`; break;
       }
       default: return null;

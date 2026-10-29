@@ -513,7 +513,8 @@ export interface Mark {
 }
 
 /** Sup/sub contents are atomic, non-empty, whitespace-free plain text.
- * Sup values must not contain `^`; Sub values must not contain `~`.
+ * Sup values must not contain `^`; Sub values must not contain `~`. In a table
+ * cell neither contains `\` directly before `|` (spec §12.3).
  */
 export interface Sup {
   type: 'sup';

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
+import { format, parse, semanticDocumentEquals, type Document } from '../../src/index.js';
 import { separatorAlignments, tokenizeRow } from '../../src/parser/tables.js';
 import { LineReader } from '../../src/source/index.js';
 
@@ -106,6 +106,18 @@ test('a pipe inside a complete atomic token never confirms or splits a table', (
     if (formatted.status === 'ok') {
       assert.equal(parse(formatted.source, { strict: true }).status, 'ok', `round-trip ${source}`);
     }
+  }
+});
+
+test('a sup or sub in a cell cannot hold a backslash before a pipe', () => {
+  for (const type of ['sup', 'sub'] as const) {
+    const table = (value: string): Document => ({
+      type: 'document', footnotes: [],
+      children: [{ type: 'table', alignments: ['default'], head: { type: 'tableRow', cells: [{ type: 'tableCell', children: [{ type, value }] }] }, body: [] }],
+    });
+    const piped = format(table('a|b'));
+    assert.equal(piped.status === 'ok' && piped.source, `| ${type === 'sup' ? '^a\\|b^' : '~a\\|b~'} |\n| --- |\n`);
+    assert.equal(format(table('a\\|b')).status, 'invalid');
   }
 });
 

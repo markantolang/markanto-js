@@ -202,6 +202,18 @@ test('tables reject Grid-only geometry fields', () => {
   }]), /rowSpan is Grid-only/);
 });
 
+test('a table cell has no sup or sub value with a backslash before a pipe', () => {
+  const cell = (node) => ({ type: 'tableCell', children: [{ type: 'em', children: [node] }] });
+  for (const type of ['sup', 'sub']) {
+    rejects(doc([{
+      type: 'table', alignments: ['default'],
+      head: { type: 'tableRow', cells: [cell({ type, value: 'a\\|b' })] },
+      body: [],
+    }]), /must not contain \\\| in a table cell/);
+  }
+  assert.doesNotThrow(() => validateSemanticAstSnapshot(doc([paragraph([{ type: 'sup', value: 'a\\|b' }])])));
+});
+
 test('exact-cell ^ and < are ordinary table text', () => {
   assert.doesNotThrow(() => validateSemanticAstSnapshot(doc([{
     type: 'table', alignments: ['default', 'default'],

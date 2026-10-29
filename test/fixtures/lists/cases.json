@@ -2363,6 +2363,293 @@
           ]
         }
       }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-item-continuation",
+      "spec": "9.3.1",
+      "source": "- Released\n  2.0 and later.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Released\n  2.0 and later.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Released\n  2.0 and later.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Released"
+                      },
+                      {
+                        "type": "softBreak"
+                      },
+                      {
+                        "type": "text",
+                        "value": "2.0 and later."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-item-paragraph",
+      "spec": "9.3.1",
+      "source": "- Item\n\n  3.14 is close to pi.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- Item\n\n  3.14 is close to pi.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- Item\n\n  3.14 is close to pi.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Item"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "3.14 is close to pi."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-quote",
+      "spec": "9.3.1",
+      "source": "> 3.14 is close to pi.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> 3.14 is close to pi.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> 3.14 is close to pi.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "3.14 is close to pi."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-footnote",
+      "spec": "9.3.1",
+      "source": "Text[^n].\n\n[^n]: 2.0 and later.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text[^n].\n\n[^n]: 2.0 and later.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text[^n].\n\n[^n]: 2.0 and later.\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-table-cell",
+      "spec": "9.3.1",
+      "source": "| A |\n| --- |\n| 2.0 |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| 2.0 |\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "| A |\n| --- |\n| 2.0 |\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-heading",
+      "spec": "9.3.1",
+      "source": "# 1.2.3 Overview\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# 1.2.3 Overview\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "# 1.2.3 Overview\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.digit-after-dot-in-list-item",
+      "spec": "9.3.1",
+      "source": "1. 2.0 and later.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. 2.0 and later.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1. 2.0 and later.\n"
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "2.0 and later."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "lists.ordered.bare-marker-at-line-end",
+      "spec": "9.3.1",
+      "source": "1.\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.ten-digits-after-dot-is-text",
+      "spec": "9.3.1",
+      "source": "1234567890.5 is a number.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1234567890.5 is a number.\n"
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1234567890.5 is a number.\n"
+        }
+      }
+    },
+    {
+      "id": "lists.ordered.ten-digit-marker",
+      "spec": "9.3.1",
+      "source": "1234567890. Item\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
     }
   ]
 }
