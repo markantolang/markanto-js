@@ -1,0 +1,33 @@
+# The gate of the repository on every push to main and every pull request: bun run verify, which includes that
+# docs/facts.lima and the documents state what is measured. Every action is pinned to a commit.
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions: {}
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        timeout-minutes: 10
+        with:
+          version: 2026.8.5
+          mise_toml: |
+            [tools]
+            bun = "1.4.0"
+            node = "24.18.0"
+      - run: bun install --frozen-lockfile
+        timeout-minutes: 5
+      - run: bun run verify
+        timeout-minutes: 10
