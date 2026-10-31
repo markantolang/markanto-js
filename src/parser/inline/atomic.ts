@@ -161,6 +161,7 @@ function destinationEnd(text: string, start: number, end: number): number {
  */
 function labelEnd(text: string, start: number, end: number): number {
   let cursor = start;
+  let open = 0;
   while (cursor < end) {
     const code = text.charCodeAt(cursor);
     if (code === 0x5c && cursor + 1 < end) { cursor += 2; continue; }
@@ -168,15 +169,22 @@ function labelEnd(text: string, start: number, end: number): number {
       const footnote = footnoteEnd(text, cursor, end);
       if (footnote > 0) { cursor = footnote; continue; }
     }
-    const nestedStart = at(text, cursor, end, '![') ? cursor + 2 : code === 0x5b ? cursor + 1 : -1;
-    if (nestedStart >= 0) {
-      const nestedLabel = labelEnd(text, nestedStart, end);
-      if (nestedLabel >= 0 && text.charCodeAt(nestedLabel + 1) === 0x28) {
-        const nestedDest = destinationEnd(text, nestedLabel + 1, end);
-        if (nestedDest > 0) { cursor = nestedDest; continue; }
+    if (at(text, cursor, end, '![')) {
+      const footnote = footnoteEnd(text, cursor + 1, end);
+      if (footnote > 0) {
+        const dest = text.charCodeAt(footnote) === 0x28 ? destinationEnd(text, footnote, end) : -1;
+        cursor = dest > 0 ? dest : footnote;
+        continue;
       }
+      open += 1; cursor += 2; continue;
     }
-    if (code === 0x5d) return cursor;
+    if (code === 0x5b) { open += 1; cursor += 1; continue; }
+    if (code === 0x5d) {
+      if (open === 0) return cursor;
+      const dest = text.charCodeAt(cursor + 1) === 0x28 ? destinationEnd(text, cursor + 1, end) : -1;
+      if (dest <= 0) return cursor;
+      open -= 1; cursor = dest; continue;
+    }
     cursor += 1;
   }
   return -1;

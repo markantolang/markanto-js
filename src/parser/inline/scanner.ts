@@ -369,9 +369,13 @@ function metadataWrapper(
   return { status: 'ok', node, end: after, nested: nested.nodeCount };
 }
 
-/** Find this label's closing bracket while skipping complete nested structured tokens. */
+/**
+ * Find this label's closing bracket while skipping complete nested structured tokens. One forward pass: the first `]`
+ * that closes no complete `[…](…)` ends every label still open, so `open` only counts them.
+ */
 function findLabelEnd(text: string, start: number, end: number): number {
   let cursor = start;
+  let open = 0;
   while (cursor < end) {
     const code = text.charCodeAt(cursor);
     if (code === 0x5c && cursor + 1 < end) { cursor += 2; continue; }
@@ -379,15 +383,23 @@ function findLabelEnd(text: string, start: number, end: number): number {
       const footnoteEnd = footnote(text, cursor, end);
       if (footnoteEnd > 0) { cursor = footnoteEnd; continue; }
     }
-    const nestedStart = at(text, cursor, end, '![') ? cursor + 2 : code === 0x5b ? cursor + 1 : -1;
-    if (nestedStart >= 0) {
-      const nestedLabelEnd = findLabelEnd(text, nestedStart, end);
-      if (nestedLabelEnd >= 0 && text.charCodeAt(nestedLabelEnd + 1) === 0x28) {
-        const target = destination(text, nestedLabelEnd + 2, end);
-        if (target !== null) { cursor = target.end; continue; }
+    if (at(text, cursor, end, '![')) {
+      // `![^a]` is a footnote after a `!`, unless a destination makes it an image
+      const footnoteEnd = footnote(text, cursor + 1, end);
+      if (footnoteEnd > 0) {
+        const target = text.charCodeAt(footnoteEnd) === 0x28 ? destination(text, footnoteEnd + 1, end) : null;
+        cursor = target === null ? footnoteEnd : target.end;
+        continue;
       }
+      open += 1; cursor += 2; continue;
     }
-    if (code === 0x5d) return cursor;
+    if (code === 0x5b) { open += 1; cursor += 1; continue; }
+    if (code === 0x5d) {
+      if (open === 0) return cursor;
+      const target = text.charCodeAt(cursor + 1) === 0x28 ? destination(text, cursor + 2, end) : null;
+      if (target === null) return cursor;
+      open -= 1; cursor = target.end; continue;
+    }
     cursor += 1;
   }
   return -1;

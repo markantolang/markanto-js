@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.2.1 — 2026-10-31
+
+### Fixed
+
+- A document of open brackets did not end: each `[` or `![` doubled the time the search for a label's end took, so a line of forty stopped `parse` for good. The search is one forward pass now, with the same results. From a security review.
+
 ### Repository
 
 - The specification has its own repository,
