@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Repository
+
+- `docs/facts.lima` holds what is measured about the repository, from `scripts/facts.ts`, which `verify` checks; markanto.org reads its numbers from it at a commit.
+
 ## 0.2.1 — 2026-10-31
 
 ### Fixed
