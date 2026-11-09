@@ -62,7 +62,8 @@ export function recognizeQuote(lines: LineReader, text: string, annotations: Sou
       text: run.text, sourceMap: new LineMap(run.text), toSourceOffset: (offset) => offset,
     });
     const parsed = parseBlockSequence(virtualLines, run.text, virtualBuilder, () => false, 'quote');
-    if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: scanned[end - 1]!.line.contentEnd };
+    // the whole region was read: the recovery keeps all of it, not only the level that failed (spec 7.5)
+    if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: scanned.at(-1)!.line.contentEnd };
     nodeCount += parsed.nodeCount;
     for (const block of parsed.blocks) {
       transferAnnotations(block, virtualBuilder, annotations, run.project);

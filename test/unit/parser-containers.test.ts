@@ -216,3 +216,32 @@ test('a fence with its name and no space is refused, and says so', () => {
   assert.equal(parse(':x\n').status, 'invalid');
   assert.equal(parse(':x\n').diagnostics[0]?.message, 'list marker requires exactly one space');
 });
+
+// review 2026-11-09 (Astra): a quote that fails at a deeper level kept only that level; a container's error moved its
+// diagnostic to the opener; the fence message fired on an indented fence with its space
+test('a quote that fails at one level keeps the whole region in the recovery, in a container too', () => {
+  for (const source of ['> #\n>> LOST\n\nAfter.\n', '::: box\nKept.\n\n> #\n>> LOST\n:::\n\nAfter.\n']) {
+    const result = parse(source, { errorRecovery: true });
+    if (result.status !== 'invalid' || result.recovery === undefined) throw new Error('expected a recovery');
+    const kept = JSON.stringify(result.recovery);
+    for (const words of ['LOST', 'After.']) assert.ok(kept.includes(words), `${words} is missing for ${JSON.stringify(source)}`);
+  }
+});
+
+test("a container's error keeps its diagnostic where the error is, its recovery from the opener", () => {
+  const result = parse('::: box\nKept.\n\n#\n:::\n', { errorRecovery: true });
+  if (result.status !== 'invalid' || result.recovery === undefined) throw new Error('expected a recovery');
+  assert.equal(result.diagnostics[0]?.message, 'empty heading');
+  assert.equal(result.diagnostics[0]?.range?.start.line, 4);
+  const first = result.recovery.children[0];
+  assert.equal(first?.type, 'errorBlock');
+  if (first?.type === 'errorBlock') assert.ok(first.rawContent.startsWith('::: box\nKept.'));
+});
+
+test('the fence message is only for a fence on its baseline with its name and no space', () => {
+  for (const source of [' ::: tldr\n', ' :::\n', '  :::: Note\n']) {
+    const result = parse(source);
+    assert.equal(result.status, 'invalid', source);
+    assert.notEqual(result.diagnostics[0]?.message, "a fenced container's name follows its fence after a space", source);
+  }
+});

@@ -13,7 +13,12 @@ import { footnoteDefinitionContentStart } from './footnotes.js';
 
 export type BlockResult =
   | { readonly status: 'ok'; readonly node: DocumentBlock; readonly start: number; readonly end: number; readonly nodeCount: number }
-  | { readonly status: 'error'; readonly message: string; readonly start: number; readonly safeEnd: number; readonly category?: 'syntax' | 'semantic' };
+  | {
+      readonly status: 'error'; readonly message: string; readonly start: number; readonly safeEnd: number; readonly category?: 'syntax' | 'semantic';
+      // where the input the error consumed begins, when that is before `start` (a container's opener): the recovery
+      // keeps it from there, while the diagnostic stays at `start` (spec 7.5)
+      readonly from?: number;
+    };
 
 /**
  * The structural context a block is recognised in. Containers are only

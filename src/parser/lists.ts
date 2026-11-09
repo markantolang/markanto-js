@@ -2,7 +2,7 @@ import type { List, ListItem, ListKind } from '../ast.js';
 import { SourceAnnotationBuilder } from '../parser-contract.js';
 import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
 import type { BlockResult, ContainerContext } from './blocks.js';
-import { parseBlockSequence } from './blocks.js';
+import { isAsciiBlankCode, parseBlockSequence } from './blocks.js';
 import { transferAnnotations } from './annotation-transfer.js';
 
 export interface ListMarker {
@@ -32,8 +32,12 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
     if ((code === 0x2a || code === 0x2b) && cursor + 1 < line.contentEnd && text.charCodeAt(cursor + 1) !== 0x20) return null;
     // `:::tldr`: a fence the container recogniser declined, since its name follows without a space (§2.7.5); the
     // line stays an error, said as what it most likely meant
-    if (code === 0x3a && text.charCodeAt(cursor + 1) === 0x3a && text.charCodeAt(cursor + 2) === 0x3a) {
-      return { error: "a fenced container's name follows its fence after a space" };
+    if (code === 0x3a && indent === 0) {
+      let run = cursor;
+      while (run < line.contentEnd && text.charCodeAt(run) === 0x3a) run += 1;
+      if (run - cursor >= 3 && run < line.contentEnd && !isAsciiBlankCode(text.charCodeAt(run))) {
+        return { error: "a fenced container's name follows its fence after a space" };
+      }
     }
     kind = code === 0x3a ? 'definition' : 'unordered'; cursor += 1;
   } else if (code >= 0x30 && code <= 0x39) {

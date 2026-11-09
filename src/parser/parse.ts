@@ -137,8 +137,10 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       if (result.category === 'semantic') diagnostics.semanticError({ message: result.message, range });
       else diagnostics.syntaxError({ message: result.message, range });
       if (options.errorRecovery !== true) return { status: 'invalid', offsetUnit: OFFSET_UNIT, diagnostics: diagnostics.drain() };
-      const error: ErrorBlock = { type: 'errorBlock', reason: result.message, rawContent: text.slice(result.start, result.safeEnd) };
-      annotations.set(error, result.start, result.safeEnd);
+      // from where the failed block began consuming: nothing it read is lost (spec 7.5)
+      const from = result.from ?? result.start;
+      const error: ErrorBlock = { type: 'errorBlock', reason: result.message, rawContent: text.slice(from, result.safeEnd) };
+      annotations.set(error, from, result.safeEnd);
       recoveryChildren.push(error);
       nodeCount += 1;
       failed = true;

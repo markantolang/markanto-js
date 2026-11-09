@@ -177,8 +177,8 @@ export function recognizeFencedContainer(
       }
       const cellParse = parseBlockSequence(lines, text, annotations, cellBoundary, 'grid-cell');
       if (cellParse.status === 'error') {
-        // from the opener: what the cells consumed before the error stays in the recovery (spec 7.5)
-        return { status: 'error', message: cellParse.message, start: opener.start, safeEnd: cellParse.safeEnd, category: cellParse.category };
+        // what the cells consumed before the error stays in the recovery, from the opener (spec 7.5)
+        return { status: 'error', message: cellParse.message, start: cellParse.start, safeEnd: cellParse.safeEnd, category: cellParse.category, from: opener.start };
       }
       step.cell.children = cellParse.blocks as GridCell['children'];
       nodeCount += cellParse.nodeCount;
@@ -197,8 +197,8 @@ export function recognizeFencedContainer(
 
   const body = parseBlockSequence(lines, text, annotations, (line) => line.number === closer.number, 'fenced-body');
   if (body.status === 'error') {
-    // from the opener: the body's lines before the error were consumed and stay in the recovery (spec 7.5)
-    return { status: 'error', message: body.message, start: opener.start, safeEnd: body.safeEnd, category: body.category };
+    // the body's lines before the error were consumed and stay in the recovery, from the opener (spec 7.5)
+    return { status: 'error', message: body.message, start: body.start, safeEnd: body.safeEnd, category: body.category, from: opener.start };
   }
   if (body.blocks.length === 0) {
     return { status: 'error', message: 'empty container', start: opener.start, safeEnd: closer.contentEnd, category: 'semantic' };
@@ -270,8 +270,8 @@ export function recognizeLinedContainer(
   }
   const body = parseBlockSequence(lines, text, annotations, (candidate) => candidate.number === closer.number, 'lined-body');
   if (body.status === 'error') {
-    // from the opener: the body's lines before the error were consumed and stay in the recovery (spec 7.5)
-    return { status: 'error', message: body.message, start: line.start, safeEnd: body.safeEnd, category: body.category };
+    // the body's lines before the error were consumed and stay in the recovery, from the opener (spec 7.5)
+    return { status: 'error', message: body.message, start: body.start, safeEnd: body.safeEnd, category: body.category, from: line.start };
   }
   if (body.blocks.length === 0) {
     return { status: 'error', message: 'empty container', start: line.start, safeEnd: closer.contentEnd, category: 'semantic' };
