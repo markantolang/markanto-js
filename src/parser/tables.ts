@@ -160,7 +160,8 @@ export function recognizeTable(
 
   const head = cellRow(header, headerCells);
   if (head.status === 'error') {
-    return { status: 'error', message: head.message, start: header.start, safeEnd: head.safeEnd, category: head.category };
+    // the separator was read too: the recovery keeps it (review 2026-11-09)
+    return { status: 'error', message: head.message, start: header.start, safeEnd: Math.max(head.safeEnd, separatorLine.contentEnd), category: head.category };
   }
   nodeCount += head.count;
 

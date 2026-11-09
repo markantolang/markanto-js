@@ -145,6 +145,8 @@ export function recognizeFencedContainer(
   if (headerStart < opener.contentEnd) {
     const header = parseTypeTitle(text, headerStart, opener.contentEnd);
     if (header.kind === 'error') {
+      // past the opener: recovery goes on after it, not at it again (review 2026-11-09: an endless loop)
+      lines.advance();
       return { status: 'error', message: header.message, start: opener.start, safeEnd: opener.contentEnd, category: 'syntax' };
     }
     if (header.kind === 'typed') {
@@ -155,8 +157,8 @@ export function recognizeFencedContainer(
   lines.advance();
   const { bodyLines, closer } = scanContainerBody(lines, text, 0x3a, run);
   if (closer === null) {
-    const last = bodyLines.length > 0 ? bodyLines[bodyLines.length - 1]! : opener;
-    return { status: 'error', message: 'unclosed fenced container', start: opener.start, safeEnd: last.contentEnd, category: 'syntax' };
+    // the opener alone: the lines after it are read again as what they are, and only once (review 2026-11-09)
+    return { status: 'error', message: 'unclosed fenced container', start: opener.start, safeEnd: opener.contentEnd, category: 'syntax' };
   }
 
   const gridResult = parseGridBody(bodyLines, text, annotations);
@@ -254,7 +256,10 @@ export function recognizeLinedContainer(
   if (isTyped) {
     const header = parseTypeTitle(text, line.start, line.contentEnd);
     if (header.kind === 'error') {
-      return { status: 'error', message: header.message, start: line.start, safeEnd: line.contentEnd, category: 'syntax' };
+      // past the header and its fence: recovery goes on after them (review 2026-11-09: an endless loop)
+      lines.advance();
+      lines.advance();
+      return { status: 'error', message: header.message, start: line.start, safeEnd: next!.contentEnd, category: 'syntax' };
     }
     if (header.kind === 'typed') {
       containerType = header.type;
@@ -265,8 +270,8 @@ export function recognizeLinedContainer(
   lines.advance(); // opener fence
   const { bodyLines, closer } = scanContainerBody(lines, text, 0x5f, fenceLength);
   if (closer === null) {
-    const last = bodyLines.length > 0 ? bodyLines[bodyLines.length - 1]! : (isTyped ? next! : line);
-    return { status: 'error', message: 'unclosed lined container', start: line.start, safeEnd: last.contentEnd, category: 'syntax' };
+    // the opener alone: the lines after it are read again as what they are, and only once (review 2026-11-09)
+    return { status: 'error', message: 'unclosed lined container', start: line.start, safeEnd: (isTyped ? next! : line).contentEnd, category: 'syntax' };
   }
   const body = parseBlockSequence(lines, text, annotations, (candidate) => candidate.number === closer.number, 'lined-body');
   if (body.status === 'error') {

@@ -4,7 +4,8 @@
 
 ### Fixed
 
-- With `errorRecovery`, a block that failed lost part of what it had read: a container whose body failed lost the lines between its opener and the failing line, and a quote that failed at one level lost its other levels. They were in neither a node nor an error block. The error block now holds all of it, and the diagnostic stays where the error is. Found in hadley, where a mistyped `:::tldr` turned the following `:::` into an opener and three blocks of the page disappeared.
+- With `errorRecovery`, a container whose name has a character a name may not have (`::: A|B`) made `parse` run forever: the recovery read the same line again and again. It goes on after the line now, as after any error. From a security review.
+- With `errorRecovery`, a block that failed lost part of what it had read: a container whose body failed lost the lines between its opener and the failing line, a quote that failed at one level its other levels, a table whose header failed its separator, and a second definition of a footnote all of itself. They were in neither a node nor an error block. The error block now holds all of it, and the diagnostic stays where the error is. An unclosed container no longer claims the lines after it, which then appeared twice. Found in hadley, where a mistyped `:::tldr` turned the following `:::` into an opener and three blocks of the page disappeared.
 - `:::tldr`, a fence on its baseline with its name but without the space before it, is refused as before, now with "a fenced container's name follows its fence after a space" instead of "list marker requires exactly one space".
 
 ### Repository

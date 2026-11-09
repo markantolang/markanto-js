@@ -245,3 +245,26 @@ test('the fence message is only for a fence on its baseline with its name and no
     assert.notEqual(result.diagnostics[0]?.message, "a fenced container's name follows its fence after a space", source);
   }
 });
+
+// second review 2026-11-09 (Astra): an endless loop, and three more places where recovery lost or doubled text
+test('recovery ends on an invalid container name, and keeps every line once', () => {
+  const cases: [string, string[]][] = [
+    ['::: A|B\nText.\n:::\n\nAfter.\n', ['Text.', 'After.']],
+    ['A|B\n___\n\nContent.\n___\n\nAfter.\n', ['Content.', 'After.']],
+    ['| [x]( |\n| --- |\n\nAfter.\n', ['| --- |', 'After.']],
+    ['[^a]: FIRST\n\n[^a]: LOST\n\nAfter.\n', ['FIRST', 'LOST', 'After.']],
+    ['::: box\n#\n:::\n\nAfter.\n', ['After.']],
+  ];
+  for (const [source, words] of cases) {
+    const result = parse(source, { errorRecovery: true });
+    assert.equal(result.status, 'invalid', source);
+    if (result.status !== 'invalid' || result.recovery === undefined) throw new Error('expected a recovery');
+    const kept = JSON.stringify(result.recovery);
+    for (const word of words) {
+      const count = kept.split(word).length - 1;
+      assert.ok(count >= 1, `${word} is missing for ${JSON.stringify(source)}`);
+    }
+    // the case of the doubled paragraph: once
+    if (source.startsWith('::: box')) assert.equal(kept.split('After.').length - 1, 1, kept);
+  }
+});

@@ -76,7 +76,7 @@ export function recognizeFootnoteDefinition(
 export function resolveFootnotes(
   children: readonly DocumentBlock[], definitions: readonly FootnoteDefinition[], diagnostics: DiagnosticSink,
   annotations: SourceAnnotationBuilder,
-): { footnotes: FootnoteDefinition[]; ok: boolean } {
+): { footnotes: FootnoteDefinition[]; duplicates: FootnoteDefinition[]; ok: boolean } {
   // `exactOptionalPropertyTypes` rejects `range: undefined`; omit the key instead.
   const rangeInit = (node: object): { range?: Span } => {
     const range = annotations.forNode(node)?.range;
@@ -90,8 +90,11 @@ export function resolveFootnotes(
   }
 
   let ok = true;
+  // the definitions after the first of an identifier: not footnotes, kept by the recovery as error blocks
+  const duplicates: FootnoteDefinition[] = [];
   for (const [identifier, group] of byIdentifier) {
     if (group.length > 1) {
+      duplicates.push(...group.slice(1));
       diagnostics.semanticError({
         message: `duplicate footnote definition [^${identifier}]`,
         ...rangeInit(group[1]!),
@@ -133,7 +136,7 @@ export function resolveFootnotes(
     .filter((identifier) => byIdentifier.has(identifier))
     .map((identifier) => byIdentifier.get(identifier)![0]!);
   const orderedUnused = unusedIdentifiers.map((identifier) => byIdentifier.get(identifier)![0]!);
-  return { footnotes: [...orderedReferenced, ...orderedUnused], ok };
+  return { footnotes: [...orderedReferenced, ...orderedUnused], duplicates, ok };
 }
 
 /** Canonical footnote identifier order for a valid document, or null when the relation is broken. */

@@ -9,7 +9,7 @@ language:
 corpus:
   cases: 622
 tests:
-  count: 1988
+  count: 1989
 commonmark:
   cases: 672
   failed: 0

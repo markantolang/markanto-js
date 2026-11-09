@@ -21,6 +21,8 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
   const children: DocumentBlock[] = [];
   const recoveryChildren: Array<DocumentBlock | ErrorBlock> = [];
   const footnoteDefinitions: FootnoteDefinition[] = [];
+  // where each definition stands in the normalized text, for the recovery of a duplicate
+  const footnoteSpans = new Map<FootnoteDefinition, readonly [number, number]>();
   let failed = false;
   let nodeCount = 0;
   let separatedByBlank = true;
@@ -110,6 +112,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
           }
         }
         footnoteDefinitions.push(footnote.node);
+        footnoteSpans.set(footnote.node, [current.start, footnote.end]);
         nodeCount += footnote.nodeCount;
       }
       separatedByBlank = false;
@@ -133,6 +136,9 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       });
     }
     if (result.status === 'error') {
+      // a recogniser that failed without reading on would be asked about the same line forever (review 2026-11-09):
+      // the scanner goes forward
+      if (lines.current !== null && lines.current.number === current.number) lines.advance();
       const range = spanFor(result.start, result.safeEnd);
       if (result.category === 'semantic') diagnostics.semanticError({ message: result.message, range });
       else diagnostics.syntaxError({ message: result.message, range });
@@ -197,6 +203,17 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
   const idsUnique = checkBlockIdUniqueness(children, footnoteDefinitions, diagnostics, annotations);
 
   if (failed || !footnoteResolution.ok || !idsUnique) {
+    // a duplicate footnote definition is no footnote; the recovery keeps its text (review 2026-11-09)
+    for (const duplicate of footnoteResolution.duplicates) {
+      const [start, end] = footnoteSpans.get(duplicate)!;
+      const error: ErrorBlock = {
+        type: 'errorBlock',
+        reason: `duplicate footnote definition [^${duplicate.identifier}]`,
+        rawContent: text.slice(start, end),
+      };
+      annotations.set(error, start, end);
+      recoveryChildren.push(error);
+    }
     const recovery: RecoveryDocument = { type: 'recoveryDocument', children: recoveryChildren, footnotes: footnoteResolution.footnotes };
     annotations.set(recovery, 0, text.length);
     if (options.errorRecovery !== true) {
