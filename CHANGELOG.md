@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+- With `errorRecovery`, a container that failed inside its body lost what it had read before the failing line: those lines were in neither a node nor an error block. Its error block now starts at the container's opener, so the recovery keeps every line it read. Found in hadley, where a mistyped `:::tldr` turned the following `:::` into an opener and three blocks of the page disappeared.
+
 ### Repository
 
 - `docs/facts.lima` holds what is measured about the repository, from `scripts/facts.ts`, which `verify` checks; markanto.org reads its numbers from it at a commit.

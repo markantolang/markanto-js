@@ -179,3 +179,27 @@ test('grid canonical output round-trips through strict mode', () => {
     assert.equal(formatted.status === 'ok' && formatted.source, source);
   }
 });
+
+// hadley, 2026-11-09: `:::tldr` (no space) is refused, its closing `:::` opens an anonymous fenced container, and a
+// nested opener inside fails it. The lines between the opener and the failing line were consumed and missing from the
+// recovery entirely: recovery may not lose what it consumed (spec 7.5, AGENTS.md).
+test('a fenced container that fails in its body keeps every consumed line in the recovery', () => {
+  for (const source of [
+    ':::tldr\nPara one.\n:::\n\nMid paragraph.\n\n## Heading\n\nLater.\n\n:::loud\nLoud.\n:::\n\nEnd.\n',
+    ':::\n\nMid paragraph.\n\n## Heading\n\nLater.\n\n::: loud\nLoud.\n:::\n:::\n\nEnd.\n',
+  ]) {
+    const result = parse(source, { errorRecovery: true });
+    assert.equal(result.status, 'invalid');
+    if (result.status !== 'invalid' || result.recovery === undefined) throw new Error('expected a recovery');
+    const kept = JSON.stringify(result.recovery);
+    for (const words of ['Mid paragraph.', 'Heading', 'Later.', 'Loud.', 'End.'])
+      assert.ok(kept.includes(words), `${JSON.stringify(words)} is missing from the recovery of ${JSON.stringify(source)}`);
+  }
+});
+
+test('a lined container that fails in its body keeps every consumed line in the recovery', () => {
+  const result = parse('Outer\n___\n\nKept before.\n\nInner\n___\n\nNested.\n___\n___\n', { errorRecovery: true });
+  assert.equal(result.status, 'invalid');
+  if (result.status !== 'invalid' || result.recovery === undefined) throw new Error('expected a recovery');
+  assert.ok(JSON.stringify(result.recovery).includes('Kept before.'));
+});
