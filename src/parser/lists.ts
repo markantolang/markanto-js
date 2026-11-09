@@ -30,6 +30,11 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
   if (code === 0x2d || code === 0x2a || code === 0x2b || code === 0x3a) {
     if (code === 0x2d && text.charCodeAt(cursor + 1) === 0x2d) return null;
     if ((code === 0x2a || code === 0x2b) && cursor + 1 < line.contentEnd && text.charCodeAt(cursor + 1) !== 0x20) return null;
+    // `:::tldr`: a fence the container recogniser declined, since its name follows without a space (§2.7.5); the
+    // line stays an error, said as what it most likely meant
+    if (code === 0x3a && text.charCodeAt(cursor + 1) === 0x3a && text.charCodeAt(cursor + 2) === 0x3a) {
+      return { error: "a fenced container's name follows its fence after a space" };
+    }
     kind = code === 0x3a ? 'definition' : 'unordered'; cursor += 1;
   } else if (code >= 0x30 && code <= 0x39) {
     const numberStart = cursor;

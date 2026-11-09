@@ -5,6 +5,7 @@
 ### Fixed
 
 - With `errorRecovery`, a container that failed inside its body lost what it had read before the failing line: those lines were in neither a node nor an error block. Its error block now starts at the container's opener, so the recovery keeps every line it read. Found in hadley, where a mistyped `:::tldr` turned the following `:::` into an opener and three blocks of the page disappeared.
+- `:::tldr`, a fence with its name but without the space before it, is refused as before, now with "a fenced container's name follows its fence after a space" instead of "list marker requires exactly one space".
 
 ### Repository
 

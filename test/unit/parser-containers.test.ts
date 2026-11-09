@@ -203,3 +203,16 @@ test('a lined container that fails in its body keeps every consumed line in the 
   if (result.status !== 'invalid' || result.recovery === undefined) throw new Error('expected a recovery');
   assert.ok(JSON.stringify(result.recovery).includes('Kept before.'));
 });
+
+test('a fence with its name and no space is refused, and says so', () => {
+  for (const source of [':::tldr\nShort.\n:::\n', '::::Note\nText.\n::::\n']) {
+    const result = parse(source);
+    assert.equal(result.status, 'invalid');
+    assert.equal(result.diagnostics[0]?.message, "a fenced container's name follows its fence after a space");
+    assert.equal(result.diagnostics[0]?.category, 'syntax');
+  }
+  // with the space, it is a container; a definition list keeps its own message
+  assert.equal(parse('::: tldr\nShort.\n:::\n').status, 'ok');
+  assert.equal(parse(':x\n').status, 'invalid');
+  assert.equal(parse(':x\n').diagnostics[0]?.message, 'list marker requires exactly one space');
+});
