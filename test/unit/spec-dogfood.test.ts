@@ -33,3 +33,54 @@ for (const version of ['0.1.0', '0.2.0']) {
     if (formatted.status === 'ok') assert.equal(formatted.source, source);
   });
 }
+
+// The guide for Markdown writers (`guide.md`) teaches by example: the guide and
+// every `markdown` example in it must be canonical Markanto, so that a change of
+// the language cannot leave an example behind that no longer holds.
+function markdownExamples(source: string): string[] {
+  const examples: string[] = [];
+  const lines = source.split('\n');
+  for (let i = 0; i < lines.length; i += 1) {
+    const opener = lines[i]!;
+    const indent = opener.length - opener.trimStart().length;
+    const fence = opener.trimStart();
+    const ticks = fence.length - fence.replace(/^`+/, '').length;
+    if (ticks < 3 || fence.slice(ticks) !== 'markdown') continue;
+    const closer = ' '.repeat(indent) + '`'.repeat(ticks);
+    const body: string[] = [];
+    let j = i + 1;
+    while (j < lines.length && lines[j] !== closer) {
+      body.push(lines[j]!.slice(indent));
+      j += 1;
+    }
+    assert.ok(j < lines.length, `the markdown example at line ${i + 1} is not closed`);
+    examples.push(body.join('\n') + '\n');
+    i = j;
+  }
+  return examples;
+}
+
+for (const version of ['0.2.0']) {
+  const name = `vendor/spec/${version}/guide.md`;
+  const source = readFileSync(fileURLToPath(new URL(`../../${name}`, import.meta.url)), 'utf8');
+  const documents = [{ label: name, text: source }].concat(
+    markdownExamples(source).map((text, index) => ({ label: `${name}, example ${index + 1}`, text })),
+  );
+
+  test(`${name} has its examples`, () => {
+    assert.ok(documents.length > 1);
+  });
+
+  for (const { label, text } of documents) {
+    test(`${label} is written in canonical Markanto (strict-valid, byte-stable)`, () => {
+      assert.equal(parse(text, { strict: true }).status, 'ok');
+
+      const parsed = parse(text);
+      assert.equal(parsed.status, 'ok');
+      if (parsed.status !== 'ok') return;
+      const formatted = format(parsed.document);
+      assert.equal(formatted.status, 'ok');
+      if (formatted.status === 'ok') assert.equal(formatted.source, text);
+    });
+  }
+}

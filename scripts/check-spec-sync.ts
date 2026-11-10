@@ -1,7 +1,8 @@
 /**
- * Checks that the vendored specifications in `vendor/spec/` and the named
- * character references in `data/` are exactly what the specification
- * repository holds at the tags `vendor/spec/source.json` records.
+ * Checks that the vendored specifications in `vendor/spec/`, their guides and
+ * the named character references in `data/` are exactly what the
+ * specification repository holds at the tags (and, for a guide, the commit)
+ * `vendor/spec/source.json` records.
  *
  * It reads a local clone of https://github.com/markantolang/spec and never
  * the network:
@@ -16,7 +17,7 @@ import { resolve } from 'node:path';
 
 interface Source {
   readonly repository: string;
-  readonly versions: Readonly<Record<string, { readonly tag: string; readonly commit: string }>>;
+  readonly versions: Readonly<Record<string, { readonly tag: string; readonly commit: string; readonly guide?: string }>>;
   readonly data: string;
 }
 
@@ -42,7 +43,7 @@ function compare(label: string, expected: Buffer, actual: Buffer): void {
   differences += 1;
 }
 
-for (const [version, { tag, commit }] of Object.entries(source.versions)) {
+for (const [version, { tag, commit, guide }] of Object.entries(source.versions)) {
   const tagged = git('rev-parse', '--verify', '--end-of-options', `refs/tags/${tag}^{commit}`).toString().trim();
   if (tagged !== commit) {
     console.error(`check-spec-sync: tag ${tag} is ${tagged}, vendor/spec/source.json records ${commit}`);
@@ -51,6 +52,11 @@ for (const [version, { tag, commit }] of Object.entries(source.versions)) {
   }
   compare(`vendor/spec/${version}/spec.md`, git('cat-file', 'blob', `${commit}:spec.md`),
     readFileSync(new URL(`vendor/spec/${version}/spec.md`, root)));
+  // a version tagged before the guide existed names the commit that added it; a later one, its own tag's commit
+  if (guide !== undefined) {
+    compare(`vendor/spec/${version}/guide.md`, git('cat-file', 'blob', `${guide}:guide.md`),
+      readFileSync(new URL(`vendor/spec/${version}/guide.md`, root)));
+  }
 }
 
 const dataCommit = source.versions[source.data]?.commit;
