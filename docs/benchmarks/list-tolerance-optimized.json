@@ -1,0 +1,755 @@
+{
+  "baselineRevision": "12387e9a85c72b0ca698b59058cc150bff15564e",
+  "implementationParentRevision": "220727f",
+  "command": [
+    "bun",
+    "scripts/bench.mjs",
+    "--json"
+  ],
+  "runs": [
+    {
+      "variant": "before",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.135852229441163,
+              "mbPerSec": 15.632315137274428
+            },
+            "marked": {
+              "msPerOp": 1.636833365183246,
+              "mbPerSec": 10.847774964565307
+            },
+            "ratio": 1.4410618941062119
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10629289319727889,
+              "mbPerSec": 19.27692377511138
+            },
+            "marked": {
+              "msPerOp": 0.16021025901954497,
+              "mbPerSec": 12.78944315139039
+            },
+            "ratio": 1.507252782386832
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.10877506451613,
+              "mbPerSec": 30.766163281634313
+            },
+            "marked": {
+              "msPerOp": 58.18144951162795,
+              "mbPerSec": 14.335033021707597
+            },
+            "ratio": 2.146222002770764
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 41.71493253333332,
+              "mbPerSec": 19.993631760845975
+            },
+            "marked": {
+              "msPerOp": 59.96311595238097,
+              "mbPerSec": 13.90910039869072
+            },
+            "ratio": 1.437449668759886
+          }
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1477129233593393,
+              "mbPerSec": 15.470767679454584
+            },
+            "marked": {
+              "msPerOp": 1.5523065071384232,
+              "mbPerSec": 11.438462647903242
+            },
+            "ratio": 1.3525215892793507
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10753185169254592,
+              "mbPerSec": 19.054819272139774
+            },
+            "marked": {
+              "msPerOp": 0.15103602929982476,
+              "mbPerSec": 13.566299441919833
+            },
+            "ratio": 1.404570152215602
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.65362138461539,
+              "mbPerSec": 30.159992009726427
+            },
+            "marked": {
+              "msPerOp": 58.235556720930234,
+              "mbPerSec": 14.321714206266757
+            },
+            "ratio": 2.105892603032765
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 42.12761093333332,
+              "mbPerSec": 19.797775889068383
+            },
+            "marked": {
+              "msPerOp": 60.02856847619044,
+              "mbPerSec": 13.893934524372481
+            },
+            "ratio": 1.4249222100722796
+          }
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1377459190172885,
+              "mbPerSec": 15.606296364777547
+            },
+            "marked": {
+              "msPerOp": 1.635165063440157,
+              "mbPerSec": 10.858842570085173
+            },
+            "ratio": 1.4371970367975542
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.1047023354971103,
+              "mbPerSec": 19.569764038898164
+            },
+            "marked": {
+              "msPerOp": 0.16207257882795276,
+              "mbPerSec": 12.642484094580272
+            },
+            "ratio": 1.5479366153434642
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.684004329670323,
+              "mbPerSec": 30.126891690524893
+            },
+            "marked": {
+              "msPerOp": 58.110095499999964,
+              "mbPerSec": 14.352635163024306
+            },
+            "ratio": 2.0990495019436364
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 42.425672,
+              "mbPerSec": 19.658686844135318
+            },
+            "marked": {
+              "msPerOp": 60.4078064047619,
+              "mbPerSec": 13.806708927842378
+            },
+            "ratio": 1.4238503141390877
+          }
+        ]
+      }
+    },
+    {
+      "variant": "before",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1055591657824932,
+              "mbPerSec": 16.06065107101948
+            },
+            "marked": {
+              "msPerOp": 1.5745836316120907,
+              "mbPerSec": 11.276631893995399
+            },
+            "ratio": 1.4242418500484604
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10300513964984549,
+              "mbPerSec": 19.892211271838935
+            },
+            "marked": {
+              "msPerOp": 0.15343304136491964,
+              "mbPerSec": 13.35435954193681
+            },
+            "ratio": 1.4895668496397187
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.69714965934067,
+              "mbPerSec": 30.11259318226373
+            },
+            "marked": {
+              "msPerOp": 58.49809009302327,
+              "mbPerSec": 14.257439835620724
+            },
+            "ratio": 2.112061739656131
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 40.810582129032255,
+              "mbPerSec": 20.43668471483716
+            },
+            "marked": {
+              "msPerOp": 60.281244666666595,
+              "mbPerSec": 13.835696402950864
+            },
+            "ratio": 1.4770983779666083
+          }
+        ]
+      }
+    },
+    {
+      "variant": "before",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1117753063583815,
+              "mbPerSec": 15.970853011801237
+            },
+            "marked": {
+              "msPerOp": 1.5466529554730986,
+              "mbPerSec": 11.480274186376025
+            },
+            "ratio": 1.391156060606489
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10518960352589724,
+              "mbPerSec": 19.47911135053898
+            },
+            "marked": {
+              "msPerOp": 0.15164449405556232,
+              "mbPerSec": 13.511865450579759
+            },
+            "ratio": 1.4416300563223254
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.016141569892472,
+              "mbPerSec": 30.871654926826015
+            },
+            "marked": {
+              "msPerOp": 57.266449909090916,
+              "mbPerSec": 14.564077244599707
+            },
+            "ratio": 2.119712386054055
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 41.146497852459,
+              "mbPerSec": 20.26984174912365
+            },
+            "marked": {
+              "msPerOp": 59.77354347619049,
+              "mbPerSec": 13.953213269549918
+            },
+            "ratio": 1.4527006330046215
+          }
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1302576256781194,
+              "mbPerSec": 15.709692725450054
+            },
+            "marked": {
+              "msPerOp": 1.5324964080882353,
+              "mbPerSec": 11.586324056805019
+            },
+            "ratio": 1.3558823875829062
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10634997103113834,
+              "mbPerSec": 19.266577885574325
+            },
+            "marked": {
+              "msPerOp": 0.15190998499210107,
+              "mbPerSec": 13.488250954053761
+            },
+            "ratio": 1.4283970509744959
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.948112277777767,
+              "mbPerSec": 29.842194410502646
+            },
+            "marked": {
+              "msPerOp": 57.754976113636324,
+              "mbPerSec": 14.440885549999898
+            },
+            "ratio": 2.066507230957374
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 41.93724981666667,
+              "mbPerSec": 19.88764174203286
+            },
+            "marked": {
+              "msPerOp": 59.69737107142854,
+              "mbPerSec": 13.971017232937621
+            },
+            "ratio": 1.4234927500587713
+          }
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1015271462555065,
+              "mbPerSec": 16.11943932599313
+            },
+            "marked": {
+              "msPerOp": 1.5179293715846995,
+              "mbPerSec": 11.697513950509407
+            },
+            "ratio": 1.3780226631224626
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.1040938793354707,
+              "mbPerSec": 19.684154467877434
+            },
+            "marked": {
+              "msPerOp": 0.14934588924731185,
+              "mbPerSec": 13.719828582673097
+            },
+            "ratio": 1.434723061535677
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.08631141935484,
+              "mbPerSec": 30.791678759331997
+            },
+            "marked": {
+              "msPerOp": 58.2539386046512,
+              "mbPerSec": 14.317195025391946
+            },
+            "ratio": 2.150678167386984
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 41.33943404918032,
+              "mbPerSec": 20.17523991759963
+            },
+            "marked": {
+              "msPerOp": 61.84662375609749,
+              "mbPerSec": 13.485505745457484
+            },
+            "ratio": 1.4960684677618075
+          }
+        ]
+      }
+    },
+    {
+      "variant": "before",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1331391853194381,
+              "mbPerSec": 15.669743161335019
+            },
+            "marked": {
+              "msPerOp": 1.6541698789682537,
+              "mbPerSec": 10.73408494844245
+            },
+            "ratio": 1.4598117339856482
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.106717206215051,
+              "mbPerSec": 19.20027774969072
+            },
+            "marked": {
+              "msPerOp": 0.16654387922994937,
+              "mbPerSec": 12.303063970131968
+            },
+            "ratio": 1.5606094381288313
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.285317836956516,
+              "mbPerSec": 30.5670985760095
+            },
+            "marked": {
+              "msPerOp": 58.639365930232515,
+              "mbPerSec": 14.223090355245473
+            },
+            "ratio": 2.1491179351705627
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 42.71719611864405,
+              "mbPerSec": 19.524525853324533
+            },
+            "marked": {
+              "msPerOp": 60.44894250000003,
+              "mbPerSec": 13.79731332768972
+            },
+            "ratio": 1.4150962139955836
+          }
+        ]
+      }
+    },
+    {
+      "variant": "before",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1366338550658792,
+              "mbPerSec": 15.621565309587638
+            },
+            "marked": {
+              "msPerOp": 1.6422338778726198,
+              "mbPerSec": 10.812101881007017
+            },
+            "ratio": 1.4448222446950043
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10382112138704319,
+              "mbPerSec": 19.735868507539678
+            },
+            "marked": {
+              "msPerOp": 0.16311222535395054,
+              "mbPerSec": 12.561903288080998
+            },
+            "ratio": 1.571089034435211
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.191682172043006,
+              "mbPerSec": 30.672357624770523
+            },
+            "marked": {
+              "msPerOp": 59.036150720930216,
+              "mbPerSec": 14.12749628515852
+            },
+            "ratio": 2.1711106487419873
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 42.174437300000015,
+              "mbPerSec": 19.775794376751524
+            },
+            "marked": {
+              "msPerOp": 60.30112116666671,
+              "mbPerSec": 13.831135870505793
+            },
+            "ratio": 1.4298026251714018
+          }
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1283300609205775,
+              "mbPerSec": 15.736530129768328
+            },
+            "marked": {
+              "msPerOp": 1.626103243172952,
+              "mbPerSec": 10.919355873956322
+            },
+            "ratio": 1.4411591957819978
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10267376628336758,
+              "mbPerSec": 19.956412179767515
+            },
+            "marked": {
+              "msPerOp": 0.16081159992281469,
+              "mbPerSec": 12.741618148090474
+            },
+            "ratio": 1.5662384438006636
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 26.681615468085106,
+              "mbPerSec": 31.258714488169527
+            },
+            "marked": {
+              "msPerOp": 57.914605113636384,
+              "mbPerSec": 14.401082393008
+            },
+            "ratio": 2.1705809074008373
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 40.57814116129034,
+              "mbPerSec": 20.553750766573526
+            },
+            "marked": {
+              "msPerOp": 59.09636104651162,
+              "mbPerSec": 14.113102486015624
+            },
+            "ratio": 1.4563594919642795
+          }
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1233638890386344,
+              "mbPerSec": 15.806098249424272
+            },
+            "marked": {
+              "msPerOp": 1.5381048247232472,
+              "mbPerSec": 11.544076654980168
+            },
+            "ratio": 1.3691955382681427
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10379671684171195,
+              "mbPerSec": 19.740508778564614
+            },
+            "marked": {
+              "msPerOp": 0.15083782322775263,
+              "mbPerSec": 13.584126024585885
+            },
+            "ratio": 1.4532041842689254
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 26.976610688172045,
+              "mbPerSec": 30.916893513449548
+            },
+            "marked": {
+              "msPerOp": 58.31904011627904,
+              "mbPerSec": 14.301212748650677
+            },
+            "ratio": 2.1618371851972182
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 39.42717903124998,
+              "mbPerSec": 21.15375790235831
+            },
+            "marked": {
+              "msPerOp": 59.577808000000005,
+              "mbPerSec": 13.999054815846867
+            },
+            "ratio": 1.5110847254067719
+          }
+        ]
+      }
+    },
+    {
+      "variant": "before",
+      "measurement": {
+        "runtime": "Bun 1.4.4",
+        "corpusBytes": 17756,
+        "docCount": 14,
+        "rows": [
+          {
+            "scenario": "14 realistic docs (17 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 1.1193935192479858,
+              "mbPerSec": 15.862160799294758
+            },
+            "marked": {
+              "msPerOp": 1.5501928760074393,
+              "mbPerSec": 11.454058572202335
+            },
+            "ratio": 1.384850679722415
+          },
+          {
+            "scenario": "largest realistic doc \"handbuch-mehrseitig-teil-1.md\" (2.0 KB)",
+            "like": true,
+            "markanto": {
+              "msPerOp": 0.10257105370476738,
+              "mbPerSec": 19.976396127290297
+            },
+            "marked": {
+              "msPerOp": 0.147848057421644,
+              "mbPerSec": 13.858822602968063
+            },
+            "ratio": 1.4414208695486201
+          },
+          {
+            "scenario": "814 KB synthetic",
+            "like": true,
+            "markanto": {
+              "msPerOp": 27.37617545652175,
+              "mbPerSec": 30.46565073797811
+            },
+            "marked": {
+              "msPerOp": 57.39059834090912,
+              "mbPerSec": 14.5325719562238
+            },
+            "ratio": 2.096370197219682
+          },
+          {
+            "scenario": "814 KB synthetic \u2014 whole pipeline (Markanto \u2192 canonical, marked \u2192 HTML)",
+            "like": false,
+            "markanto": {
+              "msPerOp": 40.761518629032224,
+              "mbPerSec": 20.46128378067748
+            },
+            "marked": {
+              "msPerOp": 59.7017579047619,
+              "mbPerSec": 13.969990654722016
+            },
+            "ratio": 1.4646598044617396
+          }
+        ]
+      }
+    }
+  ]
+}

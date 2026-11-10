@@ -6,8 +6,10 @@ import { isAsciiBlankCode, parseBlockSequence } from './blocks.js';
 import { codeFenceCloser, codeFenceOpener, commentClosesOnLine, commentContentStart } from './grid.js';
 import { transferAnnotations } from './annotation-transfer.js';
 
+const TASK_PREFIX_LENGTH = 4;
+
 export interface ListMarker {
-  readonly indent: number; readonly kind: ListKind; readonly contentStart: number; readonly contentColumn: number;
+  readonly indent: number; readonly kind: ListKind; readonly contentStart: number;
   readonly number?: number; readonly task?: 'open' | 'done';
 }
 type MarkerResult = ListMarker | { readonly error: string } | null;
@@ -57,16 +59,15 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
   if (text.charCodeAt(cursor) !== 0x20) return { error: 'list marker requires exactly one space' };
   cursor += 1;
   if (cursor >= line.contentEnd || text.charCodeAt(cursor) === 0x20) return { error: kind === 'definition' ? 'invalid definition marker spacing' : 'empty list item' };
-  const contentColumn = cursor - line.start;
   let task: 'open' | 'done' | undefined;
   if (kind !== 'definition' && text.charCodeAt(cursor) === 0x5b && cursor + 2 < line.contentEnd && text.charCodeAt(cursor + 2) === 0x5d) {
     const state = text.charCodeAt(cursor + 1);
     if (state === 0x20 || state === 0x78 || state === 0x58) {
-      if (text.charCodeAt(cursor + 3) !== 0x20 || cursor + 4 >= line.contentEnd) return { error: 'task marker requires one space and content' };
-      task = state === 0x20 ? 'open' : 'done'; cursor += 4;
+      if (text.charCodeAt(cursor + 3) !== 0x20 || cursor + TASK_PREFIX_LENGTH >= line.contentEnd) return { error: 'task marker requires one space and content' };
+      task = state === 0x20 ? 'open' : 'done'; cursor += TASK_PREFIX_LENGTH;
     }
   }
-  return { indent, kind, contentStart: cursor, contentColumn, ...(number === undefined ? {} : { number }), ...(task === undefined ? {} : { task }) };
+  return { indent, kind, contentStart: cursor, ...(number === undefined ? {} : { number }), ...(task === undefined ? {} : { task }) };
 }
 
 export function startsList(text: string, line: PhysicalLine): boolean { return scanListMarker(text, line) !== null; }
@@ -80,9 +81,14 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
     return fail(context === 'list-item' && first.indent === 2 ? 'list level rises by more than one' : 'list must start at level 1', opener.start, opener.contentEnd);
   }
   const kind = first.kind; const items: ListItem[] = [];
+  // Item parsing is synchronous: one callback can use the current item's
+  // projection instead of allocating another closure for every sibling.
+  let itemSource: ReturnType<typeof buildVirtual>;
+  const onItemDroppedIndentation: DroppedIndentation | undefined = onDroppedIndentation === undefined ? undefined
+    : (start, end) => onDroppedIndentation(itemSource.project(start), itemSource.project(end));
   let visiblePrevious = first.number ?? 1; let listEnd = opener.contentEnd; let nodeCount = 1;
   while (lines.current !== null) {
-    const itemLine = lines.current; const marker = scanListMarker(text, itemLine);
+    const itemLine = lines.current; const marker = items.length === 0 ? first : scanListMarker(text, itemLine);
     if (marker === null || 'error' in marker || marker.indent !== 0 || marker.kind !== kind) break;
     if (marker.kind === 'ordered' && marker.number === undefined) break;
     lines.advance();
@@ -102,9 +108,13 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
       // indentation, tabs, and marker-looking text are not list syntax.
       if (literal !== null) {
         if (leading < childBase) break;
-        const cleaned = { ...line, start: line.start + childBase };
-        if (codeFenceCloser(text, cleaned, literal.char, literal.length)) literal = null;
-        rows.push({ line, start: cleaned.start }); itemEnd = line.contentEnd; lines.advance();
+        const start = line.start + childBase;
+        if (
+          leading - childBase <= 3 &&
+          text.charCodeAt(line.start + leading) === literal.char &&
+          codeFenceCloser(text, { ...line, start }, literal.char, literal.length)
+        ) literal = null;
+        rows.push({ line, start }); itemEnd = line.contentEnd; lines.advance();
         continue;
       }
       if (text.charCodeAt(line.start + leading) === 0x09) { lines.advance(); return fail('tab in list indentation', opener.start, line.contentEnd); }
@@ -115,7 +125,12 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
       const indent = leading;
       if (!inComment && nextMarker !== null && !('error' in nextMarker)) {
         if (indent === 2) { childBase = 2; childOpen = true; }
-        else if (!childOpen && indent === marker.contentColumn) { childBase = indent; childOpen = true; }
+        else if (!childOpen) {
+          // Only a possible alias needs the content column. Keep it out of
+          // every scanned marker record; the task prefix is not part of it.
+          const contentColumn = marker.contentStart - itemLine.start - (marker.task === undefined ? 0 : TASK_PREFIX_LENGTH);
+          if (indent === contentColumn) { childBase = indent; childOpen = true; }
+        }
       }
       if (indent < childBase) break;
       // After a blank line a further block joins the item only up to three
@@ -126,23 +141,30 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
       // Preserve existing prose continuation ownership while normalising the
       // selected child baseline. Changing that ownership would alter valid ASTs.
       const strip = !afterBlank && (nextMarker === null || 'error' in nextMarker) && indent <= childBase + 3 ? indent : childBase;
-      const cleaned = { ...line, start: line.start + strip };
+      const start = line.start + strip;
       // A fence-looking line inside a comment is not a code/math opener.
       if (inComment) {
-        if (commentClosesOnLine(text, line, cleaned.start)) inComment = false;
-      } else {
-        const commentStart = commentContentStart(text, cleaned);
-        if (commentStart >= 0) inComment = !commentClosesOnLine(text, line, commentStart);
-        else literal = codeFenceOpener(text, cleaned);
+        if (commentClosesOnLine(text, line, start)) inComment = false;
+      } else if (leading - strip <= 3) {
+        // Only possible openers need a logical-line view. Ordinary prose and
+        // deeply indented literal text need neither a copy nor a fence scan.
+        const firstCode = text.charCodeAt(line.start + leading);
+        if (firstCode === 0x60 || firstCode === 0x7e) {
+          literal = codeFenceOpener(text, { ...line, start });
+        } else if (firstCode === 0x3c) {
+          const commentStart = commentContentStart(text, { ...line, start });
+          if (commentStart >= 0) inComment = !commentClosesOnLine(text, line, commentStart);
+        }
       }
       rows.push({ line, start: line.start + strip }); itemEnd = line.contentEnd; lines.advance();
     }
     while (rows.length > 1 && rows.at(-1)!.line.contentEnd === rows.at(-1)!.line.start) rows.pop();
     itemEnd = rows.at(-1)!.line.contentEnd;
     const virtual = buildVirtual(rows, text);
+    itemSource = virtual;
     const builder = new SourceAnnotationBuilder('utf16-code-unit', { text: virtual.text, sourceMap: new LineMap(virtual.text), toSourceOffset: (offset) => offset });
     const parsed = parseBlockSequence(new LineReader(virtual.text), virtual.text, builder, () => false, 'list-item',
-      onDroppedIndentation === undefined ? undefined : (start, end) => onDroppedIndentation(virtual.project(start), virtual.project(end)));
+      onItemDroppedIndentation);
     if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: itemEnd };
     if (parsed.blocks.length === 0 || parsed.blocks[0]!.type !== 'paragraph') return fail('list item must begin with inline paragraph', opener.start, itemEnd);
     for (const block of parsed.blocks) transferAnnotations(block, builder, annotations, virtual.project);

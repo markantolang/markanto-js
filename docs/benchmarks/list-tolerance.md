@@ -2,7 +2,8 @@
 
 The language remains `vendor/spec/0.2.0/spec.md`; package/release versions are
 unchanged. Baseline: `12387e9a85c72b0ca698b59058cc150bff15564e` (`main` at the
-start of the run). Measurements below use the final compiled implementation.
+start of the run). The initial measurements below describe `220727f`; the allocation follow-up
+is recorded at the end.
 
 ## Behaviour and compatibility boundaries
 
@@ -118,3 +119,56 @@ which cost dominates, and neither a causal percentage nor statistical
 significance was established. A small remaining regression cannot be ruled
 out. No claim about other runtimes, hardware, or all possible documents is
 made.
+
+## Follow-up: allocation reduction
+
+This round compares the same `main` baseline with the optimized implementation.
+The benchmark script and inputs are unchanged. Each variant ran six times,
+sequentially as **before, after, after, before**, repeated three times.
+The baseline was rebuilt from `git archive main`; no branch was switched.
+The final compiled build was restored after the runs. Tests did not run
+concurrently. Runtime: **Bun 1.4.4**.
+
+The list collector now checks a logical-line opener only when its first
+non-space character can start a backtick/tilde fence or `<` comment, within
+the existing zero-to-three-space allowance. Ordinary lines create no adjusted
+`PhysicalLine`. Active fences check only possible matching closers; active
+comments still search every line for an embedded `-->`. Dollar-prefixed text
+needs no block-fence check: math blocks use the same backtick/tilde fences.
+
+The advisory projection callback is reused across sibling items in each
+synchronously parsed list instead of being allocated per item. The already
+recognized first item marker is also reused. The content column is derived
+from the known offsets only for a possible indentation alias, instead of
+being computed and stored in every scanned marker record. These reduce work
+in the synthetic workload, whose items mostly have no continuation rows.
+
+Behaviour and corpus/tests are unchanged. `bun run build`, `bun run verify`
+(2,088 tests), and `bun run verify:node` passed. An additional direct comparison
+against a fresh build of `220727f` checked 17,957 inputs in normal mode and
+strict mode with recovery (35,914 comparisons), including ASTs, diagnostics,
+recovery trees, and all source annotation ranges: no differences.
+
+[Raw follow-up measurements](list-tolerance-optimized.json). Times below are
+**ms/op**; ranges are the minimum and maximum across the six process runs.
+
+| Scenario | Before median [min, max] | After median [min, max] | Median change |
+|---|---|---|---:|
+| 14 realistic docs (17 KB) | 1.1263 [1.1056, 1.1366] | 1.1293 [1.1015, 1.1477] | +0.27% |
+| largest realistic doc "handbuch-mehrseitig-teil-1.md" (2.0 KB) | 0.1045 [0.1026, 0.1067] | 0.1044 [0.1027, 0.1075] | -0.10% |
+| 814 KB synthetic | 27.2385 [27.0161, 27.6971] | 27.3700 [26.6816, 27.9481] | +0.48% |
+| 814 KB synthetic — whole pipeline (Markanto → canonical, marked → HTML) | 41.4307 [40.7615, 42.7172] | 41.6383 [39.4272, 42.4257] | +0.50% |
+
+| Scenario | `marked` before median [min, max] | `marked` after median [min, max] |
+|---|---|---|
+| 14 realistic docs (17 KB) | 1.6057 [1.5467, 1.6542] | 1.5452 [1.5179, 1.6352] |
+| largest realistic doc "handbuch-mehrseitig-teil-1.md" (2.0 KB) | 0.1568 [0.1478, 0.1665] | 0.1515 [0.1493, 0.1621] |
+| 814 KB synthetic | 58.3398 [57.2664, 59.0362] | 58.1728 [57.7550, 58.3190] |
+| 814 KB synthetic — whole pipeline (Markanto → canonical, marked → HTML) | 60.1222 [59.7018, 60.4489] | 59.8630 [59.0964, 61.8466] |
+
+
+The final raw median changes range from **-0.10% to +0.50%**, with overlapping
+before/after ranges in every scenario. This series does not resolve a remaining
+slowdown at that scale; it does not prove exact performance equality. The
+unchanged control also varies, and six samples per variant do not establish a
+sub-percent bound. The regression reported for `220727f` is no longer apparent in this series.

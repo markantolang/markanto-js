@@ -4,9 +4,9 @@
 
 ### Fixed
 
-- Code and math fences in list items keep their content indentation after the item's structural prefix is removed, with or without a blank line before the fence. Blank lines, deeply indented content, and marker-looking literal lines no longer change how the list collector strips the content.
-- A child list may start on its parent's content column (`1. A` followed by three spaces and `- B`, or `10. A` followed by four), as §9.4 requires. Canonical two-space ownership takes precedence; strict input and formatting still use two spaces per level. Existing paragraph and block ownership in nested lists is preserved.
-- The advisory for discarded indentation of four or more spaces also reaches new paragraphs inside quotes, containers, Grid cells, and list items, with source ranges projected through their prefixes. Paragraph continuations and fenced literal content produce no such advisory.
+- Code and math blocks in a list item keep the indentation of their content, with or without a blank line before them. Before, a `python` block right under `- A` lost the indentation of its lines.
+- A nested list on its parent's content column is read as the parent's child, as §9.4 requires: three spaces under `1. `, four under `10. `. Before, it was a syntax error. Two spaces per level remain the canonical form, which the formatter writes and strict mode requires, and documents that were valid keep their meaning.
+- Indentation of four or more spaces that Markanto drops now gets its advisory in quotes, containers, Grid cells and list items too, not only at the top level. Continuation lines and the content of code or math blocks get none.
 
 ## 0.2.2 — 2026-11-09
 
