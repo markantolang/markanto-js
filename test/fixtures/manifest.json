@@ -50,7 +50,12 @@
       "path": "test/fixtures/transport/cases.json",
       "group": "transport",
       "cases": 14
+    },
+    {
+      "path": "test/fixtures/tolerance/cases.json",
+      "group": "tolerance",
+      "cases": 44
     }
   ],
-  "caseCount": 622
+  "caseCount": 666
 }

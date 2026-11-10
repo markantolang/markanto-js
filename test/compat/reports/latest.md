@@ -4,8 +4,8 @@
 
 | Classification | Cases |
 |---|---:|
-| `same` | 339 |
-| `reject` | 141 |
+| `same` | 340 |
+| `reject` | 140 |
 | `structural` | 35 |
 | `import-only` | 88 |
 | `n/a` | 69 |

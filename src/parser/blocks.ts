@@ -27,16 +27,20 @@ export type BlockResult =
  */
 export type ContainerContext = 'document' | 'lined-body' | 'fenced-body' | 'grid-cell' | 'quote' | 'list-item';
 
+/** Reports a fresh paragraph's discarded indentation in the caller's text space. */
+export type DroppedIndentation = (start: number, end: number) => void;
+
 export function recognizeBlock(
   lines: LineReader,
   text: string,
   annotations: SourceAnnotationBuilder,
   context: ContainerContext = 'document',
   stopAt?: (line: PhysicalLine) => boolean,
+  onDroppedIndentation?: DroppedIndentation,
 ): BlockResult {
-  const lined = recognizeLinedContainer(lines, text, annotations, context);
+  const lined = recognizeLinedContainer(lines, text, annotations, context, onDroppedIndentation);
   if (lined !== null) return lined;
-  const fenced = recognizeFencedContainer(lines, text, annotations, context);
+  const fenced = recognizeFencedContainer(lines, text, annotations, context, onDroppedIndentation);
   if (fenced !== null) return fenced;
   const comment = recognizeComment(lines, text);
   if (comment !== null) return comment;
@@ -54,15 +58,15 @@ export function recognizeBlock(
       ? { status: 'error', message: 'thematic break not permitted in list item', start: horizontalRule.start, safeEnd: horizontalRule.end, category: 'semantic' }
       : horizontalRule;
   }
-  const list = recognizeList(lines, text, annotations, context);
+  const list = recognizeList(lines, text, annotations, context, onDroppedIndentation);
   if (list !== null) return list;
-  const quote = recognizeQuote(lines, text, annotations, context);
+  const quote = recognizeQuote(lines, text, annotations, context, onDroppedIndentation);
   if (quote !== null) return quote;
   const table = recognizeTable(lines, text, annotations);
   if (table !== null) return table;
   const resource = recognizeBlockResource(lines, text, annotations, context);
   if (resource !== null) return resource;
-  return recognizeParagraph(lines, text, annotations, stopAt, context);
+  return recognizeParagraph(lines, text, annotations, stopAt, context, onDroppedIndentation);
 }
 
 /**
@@ -98,6 +102,7 @@ export function parseBlockSequence(
   annotations: SourceAnnotationBuilder,
   boundary: (line: PhysicalLine) => boolean,
   context: ContainerContext,
+  onDroppedIndentation?: DroppedIndentation,
 ): BlockSequenceResult {
   const blocks: DocumentBlock[] = [];
   let nodeCount = 0;
@@ -122,7 +127,7 @@ export function parseBlockSequence(
         : 'invalid block id suffix';
       return { status: 'error', message, start: current.start, safeEnd: current.contentEnd, category: idForbiddenScope ? 'semantic' : 'syntax' };
     }
-    const result = recognizeBlock(lines, text, annotations, context, boundary);
+    const result = recognizeBlock(lines, text, annotations, context, boundary, onDroppedIndentation);
     if (result.status === 'error') {
       return { status: 'error', message: result.message, start: result.start, safeEnd: result.safeEnd, category: result.category ?? 'syntax' };
     }
@@ -334,6 +339,7 @@ function recognizeParagraph(
   annotations: SourceAnnotationBuilder,
   stopAt?: (line: PhysicalLine) => boolean,
   context: ContainerContext = 'document',
+  onDroppedIndentation?: DroppedIndentation,
 ): BlockResult {
   const consumed: PhysicalLine[] = [];
   while (!lines.atEnd) {
@@ -379,6 +385,11 @@ function recognizeParagraph(
   const inline = parseParagraphInline(text, consumed, annotations);
   if (inline.status === 'error') return { status: 'error', message: inline.message, start: consumed[0]!.start, safeEnd: consumed[consumed.length - 1]!.contentEnd, ...(inline.category === undefined ? {} : { category: inline.category }) };
   const node: Paragraph = { type: 'paragraph', children: inline.children };
+  // Paragraph recognition consumes its continuation lines. Only the first
+  // line of a fresh block gets the §1.2 discarded-indentation advisory.
+  if (leadingSpaces(text, consumed[0]!) >= 4) {
+    onDroppedIndentation?.(consumed[0]!.start, consumed[consumed.length - 1]!.contentEnd);
+  }
   return {
     status: 'ok',
     node,

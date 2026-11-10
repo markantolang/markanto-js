@@ -151,9 +151,9 @@ later version explicitly revisits them:
 
 ## Known limitations
 
-Narrow edge cases, deferred at the 0.1.0 freeze and still open in 0.2.0, each
-rejected by `validate()` (so not a canonical-closure break) or a conservative
-refusal, and unreachable from any real migrated document:
+The remaining limits include rejected edge cases, conservative resource
+refusals, and accepted list surfaces whose block ownership is preserved for
+compatibility:
 
 - A fence info token containing non-ASCII whitespace (NBSP, U+3000) parses `ok`
   but has no canonical surface.
@@ -162,6 +162,15 @@ refusal, and unreachable from any real migrated document:
 - The pre-parse structural-frame heuristic counts a `>` run inside fenced code
   or an HTML comment toward nesting depth, so a code block with a 1000+ `>` line
   is rejected `resource` under the default budget — a conservative over-count.
-- The four-space-indented-content advisory fires at document level and in list
-  items and footnotes; a drop inside a quote or container body is still silent
-  in normal mode (strict mode rejects it).
+- Nested-list paragraph continuation ownership still follows the existing
+  collector: `1. A\n  - B\n    continued\n  - D` places `continued` in a
+  separate paragraph of A, not in B. Moving it would change an already-valid
+  document. Content-column aliases preserve that same interpretation.
+- Without a blank line, `- A\n  - B\n    ```python` starts a code block in A,
+  not B. Its literal indentation is preserved after removing A's structural
+  prefix; moving the block to B would change an already-valid document.
+
+The four-space-indentation advisory now uses the common paragraph path, including
+quotes, container bodies, Grid cells, and list items. It applies only to a new
+block's first line after structural prefixes, never to paragraph continuations
+or code/math content. Strict input continues to require canonical indentation.

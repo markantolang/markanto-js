@@ -1,0 +1,2470 @@
+{
+  "schemaVersion": 1,
+  "group": "tolerance",
+  "cases": [
+    {
+      "id": "tolerance.literal.python.adjacent",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```python\n  if ok:\n    run()\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```python\n  if ok:\n    run()\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "codeBlock",
+                    "value": "if ok:\n  run()",
+                    "lang": "python"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.python.blank",
+      "spec": "2.4, 9.8",
+      "source": "- A\n\n  ```python\n  if ok:\n    run()\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```python\n  if ok:\n    run()\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n\n  ```python\n  if ok:\n    run()\n  ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "codeBlock",
+                    "value": "if ok:\n  run()",
+                    "lang": "python"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.math.adjacent",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```math\n  if ok:\n    run()\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```math\n  if ok:\n    run()\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "mathBlock",
+                    "value": "if ok:\n  run()"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.math.blank",
+      "spec": "2.4, 9.8",
+      "source": "- A\n\n  ```math\n  if ok:\n    run()\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```math\n  if ok:\n    run()\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n\n  ```math\n  if ok:\n    run()\n  ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "mathBlock",
+                    "value": "if ok:\n  run()"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.deep.python",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  - B\n\n    ```python\n    if ok:\n      run()\n    ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    ```python\n    if ok:\n      run()\n    ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    ```python\n    if ok:\n      run()\n    ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "codeBlock",
+                            "value": "if ok:\n  run()",
+                            "lang": "python"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.deep.math",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  - B\n\n    ```math\n    if ok:\n      run()\n    ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    ```math\n    if ok:\n      run()\n    ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    ```math\n    if ok:\n      run()\n    ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "mathBlock",
+                            "value": "if ok:\n  run()"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.deep-ownership-preserved",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  - B\n    ```python\n    if ok:\n      run()\n    ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  ```python\n    if ok:\n      run()\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "codeBlock",
+                    "value": "  if ok:\n    run()",
+                    "lang": "python"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.spaces-tabs-markers",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```python\n    - literal\n  \tx\n      \n\n  ~~~\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```python\n    - literal\n  \tx\n      \n\n  ~~~\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "codeBlock",
+                    "value": "  - literal\n\tx\n    \n\n~~~",
+                    "lang": "python"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.fence-indent-is-not-content-baseline",
+      "spec": "2.4, 9.8",
+      "source": "- A\n   ~~~~math\n   x\n     y\n   ~~~~~\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```math\n   x\n     y\n  ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "mathBlock",
+                    "value": " x\n   y"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.inline-backticks-stay-inline",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```x```\n    text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  `x`\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      },
+                      {
+                        "type": "softBreak"
+                      },
+                      {
+                        "type": "inlineCode",
+                        "value": "x"
+                      },
+                      {
+                        "type": "softBreak"
+                      },
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.comment-fence-is-not-code",
+      "spec": "2.4.1, 9.8",
+      "source": "1. A\n  <!--\n   - B\n  ```\n    x\n  -->\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  <!--\n   - B\n  ```\n  x\n  -->\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "commentBlock",
+                    "value": "\n - B\n```\nx\n"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-with-followers",
+      "spec": "9.4, 9.6",
+      "source": "1. A\n   - B\n     continued\n   - D\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n\n  continued\n\n  - D\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "continued"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "D"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.canonical-continuation-ownership-preserved",
+      "spec": "9.4, 9.6",
+      "source": "1. A\n  - B\n    continued\n  - D\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n\n  continued\n\n  - D\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "continued"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "D"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-10",
+      "spec": "9.4",
+      "source": "10. A\n    - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "10. A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 10,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-100",
+      "spec": "9.4",
+      "source": "100. A\n     - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "100. A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 100,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-999999999",
+      "spec": "9.4",
+      "source": "999999999. A\n           - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "999999999. A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 999999999,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-after-blank",
+      "spec": "9.4, 9.8",
+      "source": "1. A\n\n   - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.task-content-column",
+      "spec": "9.3.2, 9.4",
+      "source": "1. [x] A\n   - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. [x] A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "task": "done"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.canonical-mixed-precedence",
+      "spec": "9.4",
+      "source": "- A\n  1. B\n    - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  1. B\n    - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  1. B\n    - C\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "ordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.canonical-before-content-column",
+      "spec": "9.4",
+      "source": "10. A\n  - B\n    - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "10. A\n  - B\n    - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "10. A\n  - B\n    - C\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 10,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.unordered-3-invalid",
+      "spec": "9.4, 9.5",
+      "source": "- A\n   - B\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.child.unordered-4-invalid",
+      "spec": "9.4, 9.5",
+      "source": "- A\n    - B\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.child.unordered-5-invalid",
+      "spec": "9.4, 9.5",
+      "source": "- A\n     - B\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.child.unordered-6-invalid",
+      "spec": "9.4, 9.5",
+      "source": "- A\n      - B\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.child.foreign-column-invalid",
+      "spec": "9.4, 9.5",
+      "source": "1. A\n    - B\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.child.blank-indentation-boundary-preserved",
+      "spec": "9.6, 1.2",
+      "source": "1. A\n\n      B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\nB\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "B"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.document",
+      "spec": "1.2",
+      "source": "    prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "prose\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "prose"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.quote",
+      "spec": "1.2, 3.15.3",
+      "source": ">     prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> prose\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "prose"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.quote-three-no-advisory",
+      "spec": "1.2, 3.15.3",
+      "source": ">    prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> prose\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "prose"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.fenced-container",
+      "spec": "1.2",
+      "source": ":::\n    prose\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\nprose\n:::\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "prose"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.lined-container",
+      "spec": "1.2",
+      "source": "___\n\n    prose\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "___\n\nprose\n___\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "prose"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.grid-cell",
+      "spec": "1.2, 2.7.7",
+      "source": ":::\n    prose\n--\nother\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\nprose\n--\nother\n:::\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "prose"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "other"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.list-fresh-block",
+      "spec": "1.2, 9.8",
+      "source": "- A\n  ```python\n  x\n  ```\n      prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  ```python\n  x\n  ```\n\n  prose\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "codeBlock",
+                    "value": "x",
+                    "lang": "python"
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "prose"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.list-quote",
+      "spec": "1.2, 3.15.3, 9.8",
+      "source": "- A\n\n  >     prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  > prose\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "quoteRegion",
+                    "children": [
+                      {
+                        "level": 1,
+                        "block": {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "prose"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.quote-continuation-no-advisory",
+      "spec": "1.2, 3.15.3",
+      "source": "> A\n>     prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> A\n> prose\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "A"
+                    },
+                    {
+                      "type": "softBreak"
+                    },
+                    {
+                      "type": "text",
+                      "value": "prose"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.quote-literal-no-advisory",
+      "spec": "1.2, 2.4",
+      "source": "> ```python\n>     prose\n> ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> ```python\n>     prose\n> ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> ```python\n>     prose\n> ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "codeBlock",
+                  "value": "    prose",
+                  "lang": "python"
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.quote.adjacent-preserved",
+      "spec": "3.15.2, 9.8",
+      "source": "- A\n   > B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  > B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "quoteRegion",
+                    "children": [
+                      {
+                        "level": 1,
+                        "block": {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "B"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.quote.blank-preserves-literal",
+      "spec": "3.15.2, 9.8",
+      "source": "- A\n\n   > B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  \\> B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "> B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-deep-siblings",
+      "spec": "9.4",
+      "source": "10. A\n    - B\n      - C\n    - D\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "10. A\n  - B\n    - C\n  - D\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 10,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "D"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.literal.unclosed",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```python\n    x\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.literal.mismatched-closer",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```math\n    x\n  ~~~\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.literal.extra-info",
+      "spec": "2.4, 9.8",
+      "source": "- A\n  ```python extra\n    x\n  ```\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.literal.content-column-child",
+      "spec": "2.4, 9.8",
+      "source": "1. A\n   - B\n\n     ```python\n     if ok:\n       run()\n     ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n\n    ```python\n    if ok:\n      run()\n    ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "codeBlock",
+                            "value": "if ok:\n  run()",
+                            "lang": "python"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.indent.list-three-no-advisory",
+      "spec": "1.2, 3.15.3, 9.8",
+      "source": "- A\n\n     prose\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  prose\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "prose"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    }
+  ]
+}

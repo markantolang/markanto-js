@@ -1,7 +1,7 @@
 import type { DocumentBlock, InlineWithoutBreak, QuoteBlock, QuoteRegion } from '../ast.js';
 import { SourceAnnotationBuilder } from '../parser-contract.js';
 import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext } from './blocks.js';
+import type { BlockResult, ContainerContext, DroppedIndentation } from './blocks.js';
 import { parseBlockSequence } from './blocks.js';
 import { parseInline } from './inline/scanner.js';
 import { transferAnnotations } from './annotation-transfer.js';
@@ -26,7 +26,7 @@ export function scanQuotePrefix(text: string, line: PhysicalLine): PrefixResult 
   return { depth, contentStart: cursor, empty: cursor === line.contentEnd };
 }
 
-export function recognizeQuote(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, _context: ContainerContext): BlockResult | null {
+export function recognizeQuote(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, _context: ContainerContext, onDroppedIndentation?: DroppedIndentation): BlockResult | null {
   const opener = lines.current;
   if (opener === null) return null;
   const first = scanQuotePrefix(text, opener);
@@ -61,7 +61,8 @@ export function recognizeQuote(lines: LineReader, text: string, annotations: Sou
     const virtualBuilder = new SourceAnnotationBuilder('utf16-code-unit', {
       text: run.text, sourceMap: new LineMap(run.text), toSourceOffset: (offset) => offset,
     });
-    const parsed = parseBlockSequence(virtualLines, run.text, virtualBuilder, () => false, 'quote');
+    const parsed = parseBlockSequence(virtualLines, run.text, virtualBuilder, () => false, 'quote',
+      onDroppedIndentation === undefined ? undefined : (start, end) => onDroppedIndentation(run.project(start), run.project(end)));
     // the whole region was read: the recovery keeps all of it, not only the level that failed (spec 7.5)
     if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: scanned.at(-1)!.line.contentEnd };
     nodeCount += parsed.nodeCount;

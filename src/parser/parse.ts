@@ -2,7 +2,7 @@ import type { Container, Document, DocumentBlock, ErrorBlock, FootnoteDefinition
 import { DiagnosticSink } from '../diagnostics.js';
 import { createSourceAnnotationBuilder, type ParserOptions, type ParseResult, type SourceAnnotationBuilder } from '../parser-contract.js';
 import { openSource } from '../source/index.js';
-import { leadingSpaces, recognizeBlock } from './blocks.js';
+import { recognizeBlock } from './blocks.js';
 import { isIdentifier, parseStandaloneSuffix } from './block-id.js';
 import { recognizeFootnoteDefinition, resolveFootnotes } from './footnotes.js';
 import { checkParsedCanonical } from './canonical.js';
@@ -18,6 +18,12 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
   /** Project a pair of normalised parser offsets into a public-space `Diagnostic.range`. */
   const spanFor = (start: number, end: number) =>
     source.sourceMap.spanAt(source.toSourceOffset(start), source.toSourceOffset(end));
+  const onDroppedIndentation = (start: number, end: number): void => {
+    diagnostics.advisory({
+      message: 'leading indentation on this block is dropped, not preserved (§1.2): Markanto has no indented code block — use a fenced code block for code',
+      range: spanFor(start, end),
+    });
+  };
   const children: DocumentBlock[] = [];
   const recoveryChildren: Array<DocumentBlock | ErrorBlock> = [];
   const footnoteDefinitions: FootnoteDefinition[] = [];
@@ -119,22 +125,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       if (options.resourceBudget?.maxNodes !== undefined && nodeCount > options.resourceBudget.maxNodes) return resource('node budget exceeded');
       continue;
     }
-    // Every `recognizeBlock` call at document level starts a fresh block —
-    // `recognizeParagraph` consumes its own continuation lines — so `current` is
-    // this block's first line. Four or more leading spaces on it would be an
-    // indented code block in CommonMark; Markanto has no indented code (§1.2)
-    // and skips the indentation (§7.7), and a blank-line-separated indented
-    // paragraph is not re-associated with a deeper list item either. Flag the
-    // dropped indentation rather than reinterpret it silently: strict mode
-    // already rejects it as noncanonical, normal mode keeps the prose but warns.
-    const freshBlockIndent = leadingSpaces(text, current);
-    const result = recognizeBlock(lines, text, annotations);
-    if (result.status !== 'error' && result.node.type === 'paragraph' && freshBlockIndent >= 4) {
-      diagnostics.advisory({
-        message: 'leading indentation on this block is dropped, not preserved (§1.2): Markanto has no indented code block — use a fenced code block for code',
-        range: spanFor(result.start, result.end),
-      });
-    }
+    const result = recognizeBlock(lines, text, annotations, 'document', undefined, onDroppedIndentation);
     if (result.status === 'error') {
       // a recogniser that failed without reading on would be asked about the same line forever (review 2026-11-09):
       // the scanner goes forward

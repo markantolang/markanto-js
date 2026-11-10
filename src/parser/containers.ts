@@ -10,7 +10,7 @@ import type { FencedContainer, GridCell, LinedContainer } from '../ast.js';
 import type { SourceAnnotationBuilder } from '../parser-contract.js';
 import type { LineReader, PhysicalLine } from '../source/index.js';
 import { codePointAt, isUnicodeWhitespace } from './inline/unicode.js';
-import { isAsciiBlankCode, leadingSpaces, onlyAsciiBlank, runLength, parseBlockSequence, type BlockResult, type ContainerContext } from './blocks.js';
+import { isAsciiBlankCode, leadingSpaces, onlyAsciiBlank, runLength, parseBlockSequence, type BlockResult, type ContainerContext, type DroppedIndentation } from './blocks.js';
 import { trimAsciiBlankEnd } from './block-id.js';
 import { codeFenceOpener, commentContentStart, commentClosesOnLine, codeFenceCloser, gridMarkerKind, parseGridBody } from './grid.js';
 
@@ -125,6 +125,7 @@ export function recognizeFencedContainer(
   text: string,
   annotations: SourceAnnotationBuilder,
   context: ContainerContext,
+  onDroppedIndentation?: DroppedIndentation,
 ): BlockResult | null {
   const opener = lines.current;
   if (opener === null) return null;
@@ -177,7 +178,7 @@ export function recognizeFencedContainer(
         lines.advance();
         continue;
       }
-      const cellParse = parseBlockSequence(lines, text, annotations, cellBoundary, 'grid-cell');
+      const cellParse = parseBlockSequence(lines, text, annotations, cellBoundary, 'grid-cell', onDroppedIndentation);
       if (cellParse.status === 'error') {
         // what the cells consumed before the error stays in the recovery, from the opener (spec 7.5)
         return { status: 'error', message: cellParse.message, start: cellParse.start, safeEnd: cellParse.safeEnd, category: cellParse.category, from: opener.start };
@@ -197,7 +198,7 @@ export function recognizeFencedContainer(
     return { status: 'ok', node, start: opener.start, end: closer.contentEnd, nodeCount };
   }
 
-  const body = parseBlockSequence(lines, text, annotations, (line) => line.number === closer.number, 'fenced-body');
+  const body = parseBlockSequence(lines, text, annotations, (line) => line.number === closer.number, 'fenced-body', onDroppedIndentation);
   if (body.status === 'error') {
     // the body's lines before the error were consumed and stay in the recovery, from the opener (spec 7.5)
     return { status: 'error', message: body.message, start: body.start, safeEnd: body.safeEnd, category: body.category, from: opener.start };
@@ -222,6 +223,7 @@ export function recognizeLinedContainer(
   text: string,
   annotations: SourceAnnotationBuilder,
   context: ContainerContext,
+  onDroppedIndentation?: DroppedIndentation,
 ): BlockResult | null {
   const line = lines.current;
   if (line === null) return null;
@@ -273,7 +275,7 @@ export function recognizeLinedContainer(
     // the opener alone: the lines after it are read again as what they are, and only once (review 2026-11-09)
     return { status: 'error', message: 'unclosed lined container', start: line.start, safeEnd: (isTyped ? next! : line).contentEnd, category: 'syntax' };
   }
-  const body = parseBlockSequence(lines, text, annotations, (candidate) => candidate.number === closer.number, 'lined-body');
+  const body = parseBlockSequence(lines, text, annotations, (candidate) => candidate.number === closer.number, 'lined-body', onDroppedIndentation);
   if (body.status === 'error') {
     // the body's lines before the error were consumed and stay in the recovery, from the opener (spec 7.5)
     return { status: 'error', message: body.message, start: body.start, safeEnd: body.safeEnd, category: body.category, from: line.start };

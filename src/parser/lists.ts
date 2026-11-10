@@ -1,12 +1,13 @@
 import type { List, ListItem, ListKind } from '../ast.js';
 import { SourceAnnotationBuilder } from '../parser-contract.js';
 import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext } from './blocks.js';
+import type { BlockResult, ContainerContext, DroppedIndentation } from './blocks.js';
 import { isAsciiBlankCode, parseBlockSequence } from './blocks.js';
+import { codeFenceCloser, codeFenceOpener, commentClosesOnLine, commentContentStart } from './grid.js';
 import { transferAnnotations } from './annotation-transfer.js';
 
 export interface ListMarker {
-  readonly indent: number; readonly kind: ListKind; readonly contentStart: number;
+  readonly indent: number; readonly kind: ListKind; readonly contentStart: number; readonly contentColumn: number;
   readonly number?: number; readonly task?: 'open' | 'done';
 }
 type MarkerResult = ListMarker | { readonly error: string } | null;
@@ -56,6 +57,7 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
   if (text.charCodeAt(cursor) !== 0x20) return { error: 'list marker requires exactly one space' };
   cursor += 1;
   if (cursor >= line.contentEnd || text.charCodeAt(cursor) === 0x20) return { error: kind === 'definition' ? 'invalid definition marker spacing' : 'empty list item' };
+  const contentColumn = cursor - line.start;
   let task: 'open' | 'done' | undefined;
   if (kind !== 'definition' && text.charCodeAt(cursor) === 0x5b && cursor + 2 < line.contentEnd && text.charCodeAt(cursor + 2) === 0x5d) {
     const state = text.charCodeAt(cursor + 1);
@@ -64,12 +66,12 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
       task = state === 0x20 ? 'open' : 'done'; cursor += 4;
     }
   }
-  return { indent, kind, contentStart: cursor, ...(number === undefined ? {} : { number }), ...(task === undefined ? {} : { task }) };
+  return { indent, kind, contentStart: cursor, contentColumn, ...(number === undefined ? {} : { number }), ...(task === undefined ? {} : { task }) };
 }
 
 export function startsList(text: string, line: PhysicalLine): boolean { return scanListMarker(text, line) !== null; }
 
-export function recognizeList(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, context: ContainerContext): BlockResult | null {
+export function recognizeList(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, context: ContainerContext, onDroppedIndentation?: DroppedIndentation): BlockResult | null {
   const opener = lines.current; if (opener === null) return null;
   const first = scanListMarker(text, opener); if (first === null) return null;
   if ('error' in first) { lines.advance(); return fail(first.error, opener.start, opener.contentEnd); }
@@ -85,31 +87,62 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
     if (marker.kind === 'ordered' && marker.number === undefined) break;
     lines.advance();
     const rows: Array<{ line: PhysicalLine; start: number }> = [{ line: itemLine, start: marker.contentStart }];
+    // A child branch keeps the baseline on which it opened. Canonical
+    // two-space ownership wins before considering the parent's content column.
+    let childBase = 2;
+    let childOpen = false;
+    let inComment = false;
+    let literal: { char: number; length: number } | null = null;
     let afterBlank = false; let itemEnd = itemLine.contentEnd;
     while (lines.current !== null) {
       const line = lines.current;
       if (line.contentEnd === line.start) { afterBlank = true; rows.push({ line, start: line.start }); itemEnd = line.contentEnd; lines.advance(); continue; }
       const leading = leadingSpaces(text, line);
+      // Literal content loses only this frame's structural prefix. Its
+      // indentation, tabs, and marker-looking text are not list syntax.
+      if (literal !== null) {
+        if (leading < childBase) break;
+        const cleaned = { ...line, start: line.start + childBase };
+        if (codeFenceCloser(text, cleaned, literal.char, literal.length)) literal = null;
+        rows.push({ line, start: cleaned.start }); itemEnd = line.contentEnd; lines.advance();
+        continue;
+      }
       if (text.charCodeAt(line.start + leading) === 0x09) { lines.advance(); return fail('tab in list indentation', opener.start, line.contentEnd); }
       const nextMarker = scanListMarker(text, line);
       if (nextMarker !== null && !('error' in nextMarker)) {
         if (nextMarker.indent === 0) break;
       }
-      const indent = leadingSpaces(text, line);
-      if (indent < 2) break;
+      const indent = leading;
+      if (!inComment && nextMarker !== null && !('error' in nextMarker)) {
+        if (indent === 2) { childBase = 2; childOpen = true; }
+        else if (!childOpen && indent === marker.contentColumn) { childBase = indent; childOpen = true; }
+      }
+      if (indent < childBase) break;
       // After a blank line a further block joins the item only up to three
       // spaces past the content baseline; four or more would be an indented
       // code block in CommonMark, which Markanto does not represent, so the
       // item ends here and the line becomes an outer block (spec §9.6).
-      if (afterBlank && indent >= 6) break;
-      const strip = !afterBlank && (nextMarker === null || 'error' in nextMarker) && indent <= 5 ? indent : 2;
+      if (afterBlank && indent >= childBase + 4) break;
+      // Preserve existing prose continuation ownership while normalising the
+      // selected child baseline. Changing that ownership would alter valid ASTs.
+      const strip = !afterBlank && (nextMarker === null || 'error' in nextMarker) && indent <= childBase + 3 ? indent : childBase;
+      const cleaned = { ...line, start: line.start + strip };
+      // A fence-looking line inside a comment is not a code/math opener.
+      if (inComment) {
+        if (commentClosesOnLine(text, line, cleaned.start)) inComment = false;
+      } else {
+        const commentStart = commentContentStart(text, cleaned);
+        if (commentStart >= 0) inComment = !commentClosesOnLine(text, line, commentStart);
+        else literal = codeFenceOpener(text, cleaned);
+      }
       rows.push({ line, start: line.start + strip }); itemEnd = line.contentEnd; lines.advance();
     }
     while (rows.length > 1 && rows.at(-1)!.line.contentEnd === rows.at(-1)!.line.start) rows.pop();
     itemEnd = rows.at(-1)!.line.contentEnd;
     const virtual = buildVirtual(rows, text);
     const builder = new SourceAnnotationBuilder('utf16-code-unit', { text: virtual.text, sourceMap: new LineMap(virtual.text), toSourceOffset: (offset) => offset });
-    const parsed = parseBlockSequence(new LineReader(virtual.text), virtual.text, builder, () => false, 'list-item');
+    const parsed = parseBlockSequence(new LineReader(virtual.text), virtual.text, builder, () => false, 'list-item',
+      onDroppedIndentation === undefined ? undefined : (start, end) => onDroppedIndentation(virtual.project(start), virtual.project(end)));
     if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: itemEnd };
     if (parsed.blocks.length === 0 || parsed.blocks[0]!.type !== 'paragraph') return fail('list item must begin with inline paragraph', opener.start, itemEnd);
     for (const block of parsed.blocks) transferAnnotations(block, builder, annotations, virtual.project);

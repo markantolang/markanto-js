@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Code and math fences in list items keep their content indentation after the item's structural prefix is removed, with or without a blank line before the fence. Blank lines, deeply indented content, and marker-looking literal lines no longer change how the list collector strips the content.
+- A child list may start on its parent's content column (`1. A` followed by three spaces and `- B`, or `10. A` followed by four), as §9.4 requires. Canonical two-space ownership takes precedence; strict input and formatting still use two spaces per level. Existing paragraph and block ownership in nested lists is preserved.
+- The advisory for discarded indentation of four or more spaces also reaches new paragraphs inside quotes, containers, Grid cells, and list items, with source ranges projected through their prefixes. Paragraph continuations and fenced literal content produce no such advisory.
+
 ## 0.2.2 — 2026-11-09
 
 ### Fixed
