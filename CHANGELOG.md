@@ -39,13 +39,17 @@ accepts what it accepted before, and no canonical form changes.
   still closes B and is A's.
 - The canonical form of a third-level item's second block, `- A\n  - B\n    - C\n\n      text`, is read back into
   C. In 0.2.3 `text` landed outside the list, and strict mode refused the formatter's own output.
+- **A tab in the content of a code or math block deep in a list stays content.** Only the item that reads a line
+  checks it for a tab in front of a list marker, so the fenced block of a third- or deeper-level item keeps a line
+  such as `\tx` or `\t- x` (§2.4), in strict mode too. Before, an outer item checked the line as its own indentation
+  and reported "tab in list indentation", so the formatter's own output of such a block was not valid input.
 
 ### Conformance
 
-- 102 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
+- 105 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
   corpus sweep now requires every valid case to state its warnings; eight footnote cases state the warning for an
-  unused definition they had before. The corpus has 768 cases. Of the 672 CommonMark and GFM cases, 23 change their
-  classification and 255 their diagnostics (`docs/COMMONMARK_DIVERGENCE.md`).
+  unused definition they had before. The corpus has 771 cases. Of the 672 CommonMark and GFM cases, 24 change their
+  classification and 256 their diagnostics (`docs/COMMONMARK_DIVERGENCE.md`).
 - `bun run check:spec-sync` fails until `v0.3.0` is tagged in `markantolang/spec`.
 
 ## 0.2.3 — 2026-11-10

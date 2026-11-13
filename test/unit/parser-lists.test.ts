@@ -172,6 +172,35 @@ test('the canonical second block of a third-level item reads back into that item
   assert.deepEqual(c.items[0].children.map((block) => block.type), ['paragraph', 'paragraph']);
 });
 
+test('code and math with leading tabs read back from the canonical form of a deep item (§2.4, §7.4)', () => {
+  const kinds: readonly ListKind[] = ['unordered', 'ordered', 'definition'];
+  // tab-led literal lines, some looking like list markers, which only the item that owns the fence may read
+  const values = ['\tx', '\t- x', '\t1. x\n\t\ty', 'x\n\t: y', '  \tx\n\n\t'];
+  // One item per level; the innermost one holds the literal block after its paragraph.
+  const nestedList = (levels: readonly ListKind[], literal: ListItem['children'][number]): List => {
+    let inner: List | null = null;
+    for (let level = levels.length - 1; level >= 0; level -= 1) {
+      const paragraph: Paragraph = { type: 'paragraph', children: [{ type: 'text', value: `level${level + 1}` }] };
+      const item: ListItem = { type: 'listItem', children: inner === null ? [paragraph, literal] : [paragraph, inner] };
+      inner = { type: 'list', kind: levels[level]!, items: [item] };
+    }
+    return inner!;
+  };
+  for (const depth of [3, 4]) for (const kind of kinds) for (const value of values) {
+    for (const literal of [{ type: 'codeBlock', value }, { type: 'codeBlock', value, lang: 'js' }, { type: 'mathBlock', value }] as const) {
+      const levels = Array.from({ length: depth }, (_, level) => (level % 2 === 0 ? kind : kinds[(kinds.indexOf(kind) + 1) % kinds.length]!));
+      const document: Document = { type: 'document', children: [nestedList(levels, literal)], footnotes: [] };
+      const formatted = format(document);
+      assert.equal(formatted.status, 'ok');
+      if (formatted.status !== 'ok') continue;
+      const reparsed = parse(formatted.source, { strict: true });
+      assert.equal(reparsed.status, 'ok', JSON.stringify(formatted.source));
+      if (reparsed.status !== 'ok') continue;
+      assert.deepEqual(semanticDocumentEquals(reparsed.document, document), { status: 'ok', equal: true }, JSON.stringify(formatted.source));
+    }
+  }
+});
+
 test('leading spaces on a paragraph line are skipped, never kept as Text (M5, §7.7)', () => {
   for (const [source, expected] of [
     ['      y\n', 'y'],

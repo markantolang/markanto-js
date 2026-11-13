@@ -7027,6 +7027,225 @@
         ],
         "footnotes": []
       }
+    },
+    {
+      "id": "tolerance.tab.literal-third-level-code",
+      "spec": "2.4, 7.4, 9.8",
+      "source": "- A\n  - B\n    - C\n\n      ```\n      \tx\n      ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      ```\n      \tx\n      ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      ```\n      \tx\n      ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "codeBlock",
+                                    "value": "\tx"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.literal-fourth-level-math-marker",
+      "spec": "2.4, 7.4, 9.8",
+      "source": "- A\n  - B\n    - C\n      - D\n\n        ```math\n        \t1. x\n        \t- y\n        ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n      - D\n\n        ```math\n        \t1. x\n        \t- y\n        ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n      - D\n\n        ```math\n        \t1. x\n        \t- y\n        ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "list",
+                                    "kind": "unordered",
+                                    "items": [
+                                      {
+                                        "type": "listItem",
+                                        "children": [
+                                          {
+                                            "type": "paragraph",
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "value": "D"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "mathBlock",
+                                            "value": "\t1. x\n\t- y"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.third-level-marker-invalid",
+      "spec": "7.4, 9.13",
+      "source": "- A\n  - B\n    - C\n\n      \t- x\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
     }
   ]
 }

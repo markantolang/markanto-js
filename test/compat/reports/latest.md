@@ -5,8 +5,8 @@
 | Classification | Cases |
 |---|---:|
 | `same` | 344 |
-| `reject` | 142 |
-| `structural` | 29 |
+| `reject` | 141 |
+| `structural` | 30 |
 | `import-only` | 88 |
 | `n/a` | 69 |
 | `deferred-uncovered` | 0 |

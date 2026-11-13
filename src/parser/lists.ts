@@ -122,7 +122,6 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
         rows.push({ line, start }); itemEnd = line.contentEnd; lines.advance();
         continue;
       }
-      if (text.charCodeAt(line.start + leading) === 0x09) { lines.advance(); return fail('tab in list indentation', opener.start, line.contentEnd); }
       const nextMarker = scanListMarker(text, line);
       const isMarker = nextMarker !== null && !('error' in nextMarker);
       if (isMarker && nextMarker.indent === 0) break;
