@@ -151,9 +151,9 @@ at nested depth but never `HardBreak`. `Obsolete`, `Insert`, `Mark`, `Sup`, and
 - blocks contained in any list item carry no independent block IDs, including nested lists/quotes/tables
 - list/quote recursion has no language-level numeric depth cap; resource limits are implementation policy
 - validators/formatters/parsers must use safe explicit traversal state or report `resource`; call-stack overflow is not a validity result
-- normal-mode indentation aliases are exactly those delegated to the fixed
-  CommonMark 0.31.2 list-item ownership rule by the specification; implementations
-  may not invent extra tolerant aliases
+- normal-mode indentation aliases are exactly the nested-marker columns of
+  spec §9.4 (two spaces, the content column, four spaces) and the item base of
+  §9.8; implementations may not invent extra tolerant aliases
 
 ## Inline structure
 

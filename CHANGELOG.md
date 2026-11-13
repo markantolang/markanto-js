@@ -1,5 +1,46 @@
 # Changelog
 
+## Unreleased
+
+Markanto 0.3.0 (`vendor/spec/0.3.0/spec.md`, the approved draft at `markantolang/spec` `d817af7`, not yet tagged):
+eight changes that read more of what Markdown writers write and say what Markanto reads differently. Strict mode
+accepts what it accepted before, and no canonical form changes.
+
+### Language
+
+- **A nested list on two spaces, the parent's content column, or four spaces.** Each nested marker is read on any of
+  the three, under every kind of marker: `- A` over `    - B`, `1. A` over `    - B`, and `1. A`, `   - B`, `    - C`
+  are lists now. A marker on any other column is error 9.3, as before; the formatter writes two spaces per level.
+- **Two or more spaces after a list marker** open an item: `-  item`, `1.  item`, `:  term`. Before, they were
+  "empty list item". The formatter writes one space.
+- **A block after a blank line belongs to the item from its base.** The base is two spaces, or the column of the
+  item's first nested marker. A line four or more spaces past it stays in the item, with the advisory for dropped
+  indentation, where 0.2.3 ended the list: `- A\n\n      text` gives A a second paragraph.
+- **A paragraph line over `---` is an error**, "setext heading not permitted", as one over `===` has been. Before,
+  it was a paragraph and a thematic break. `x` over `--` stays a paragraph, and `- - -` a thematic break.
+- **New warnings in normal mode**, none of which makes a document invalid: a line without `>` right after a quote,
+  except an attribution, a block ID, or the closer or Grid marker that ends the sequence; tag-like text such as
+  `<br>` or `</div>` in ordinary inline text; a paragraph that begins with `[label]:`; a tab in front of a
+  paragraph's first line, which gets the advisory four spaces have had. `\t- item` stays an error.
+- **Diagnostics say what to write**: an emphasis opened inside the same kind names its escape (`\*\*` for `**`,
+  `\<i>` for `<i>`); a broken link destination says what is wrong with it, and for a space that `<…>` or `%20`
+  writes it; a list marker on a column Markanto does not read says how far it stands from its parent's marker and
+  which columns are read there; an unclosed backtick and a code fence with more than one info field say what to
+  write instead.
+
+### Fixed
+
+- The canonical form of a third-level item's second block, `- A\n  - B\n    - C\n\n      text`, is read back into
+  C. In 0.2.3 `text` landed outside the list, and strict mode refused the formatter's own output.
+
+### Conformance
+
+- 90 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
+  corpus sweep now requires every valid case to state its warnings; eight footnote cases state the warning for an
+  unused definition they had before. The corpus has 756 cases. Of the 672 CommonMark and GFM cases, 23 change their
+  classification and 255 their diagnostics (`docs/COMMONMARK_DIVERGENCE.md`).
+- `bun run check:spec-sync` fails until `v0.3.0` is tagged in `markantolang/spec`.
+
 ## 0.2.3 — 2026-11-10
 
 ### Fixed

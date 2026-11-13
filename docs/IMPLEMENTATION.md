@@ -98,9 +98,14 @@ Containers are not allowed inside quotes.
 - unordered canonical marker: `- `
 - ordered canonical marker: decimal + `. `
 - ordered values: 0..999,999,999
-- normal indentation aliases are exactly those the fixed CommonMark 0.31.2
-  list-item ownership rule assigns to the same item/one-level child; no
+- normal mode reads a nested list marker on exactly three columns, measured
+  from the innermost open item's marker: two spaces, that item's content
+  column, or four spaces (spec 0.3.0 §9.4); each nested marker on its own; no
   implementation-specific tolerant aliases
+- normal mode reads more than one space after a marker as one (§9.3)
+- after a blank line a block belongs to an item from the item's base (§9.8):
+  two spaces, or the column of its first nested marker; surplus of four or
+  more spaces keeps the line in the item with the indentation advisory
 - definition-list canonical marker: `: `
 - canonical indentation: two ASCII spaces per level
 - task markers: `[ ]`, `[x]`; `[X]` tolerated only in normal mode
