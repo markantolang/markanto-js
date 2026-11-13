@@ -44,6 +44,8 @@ export type InlineResult = { status: 'ok'; nodes: Inline[]; nodeCount: number } 
 export function parseInline(text: string, start: number, end: number,
   annotations: SourceAnnotationBuilder, context: InlineContext = {}): InlineResult {
   const frames: Frame[] = [{ kind: 'root', delimiter: '', start, nodes: [] }];
+  // read once: the context's shape differs between callers, and the loop asks at every position
+  const softBreaks = context.softBreaks;
   const textStarts = new WeakMap<object, number>();
   const textEnds = new WeakMap<object, number>();
   let cursor = start;
@@ -84,7 +86,7 @@ export function parseInline(text: string, start: number, end: number,
 
   while (cursor < end) {
     const top = frames[frames.length - 1]!;
-    const softBreak = context.softBreaks?.get(cursor);
+    const softBreak = softBreaks?.get(cursor);
     if (softBreak !== undefined) {
       while (frames.length > 1) {
         const active = frames[frames.length - 1]!;
@@ -116,7 +118,7 @@ export function parseInline(text: string, start: number, end: number,
       let run = cursor + 1;
       while (run < end) {
         const c = text.charCodeAt(run);
-        if (context.softBreaks?.has(run) === true || c < 0x80 && INLINE_SIGNIFICANT[c] === 1) break;
+        if (softBreaks?.has(run) === true || c < 0x80 && INLINE_SIGNIFICANT[c] === 1) break;
         run += 1;
       }
       append({ type: 'text', value: text.slice(cursor, run) }, cursor, run);
@@ -131,14 +133,14 @@ export function parseInline(text: string, start: number, end: number,
       continue;
     }
     if (code === 0x60) {
-      const result = codeSpan(text, cursor, end, context.softBreaks);
+      const result = codeSpan(text, cursor, end, softBreaks);
       if (result.status === 'error') return result;
       append({ type: 'inlineCode', value: cellPipes(result.value, context) }, cursor, result.end); cursor = result.end; continue;
     }
     if (at(text, cursor, end, '$`')) {
       const close = find(text, cursor + 2, end, '`$');
       if (close < 0) return error('unclosed inline math');
-      if (hasSoftBreakBetween(context.softBreaks, cursor + 2, close)) return error('inline math cannot contain a soft break');
+      if (hasSoftBreakBetween(softBreaks, cursor + 2, close)) return error('inline math cannot contain a soft break');
       if (close === cursor + 2) return error('empty inline math');
       append({ type: 'inlineMath', value: cellPipes(text.slice(cursor + 2, close), context) }, cursor, close + 2);
       cursor = close + 2; continue;
@@ -171,13 +173,7 @@ export function parseInline(text: string, start: number, end: number,
         append({ ...auto.node, value: cellPipes(auto.node.value, context) }, cursor, auto.end); cursor = auto.end; continue;
       }
       // still text, as everything here that is no MIB wrapper or autolink (§10.4)
-      if (close >= 0 && context.onAdvisory !== undefined) {
-        const nameEnd = tagNameEnd(text, cursor, end);
-        if (nameEnd >= 0) {
-          const tag = `${text.slice(cursor, nameEnd)}${text.charCodeAt(nameEnd) === 0x3e ? '>' : ' …>'}`;
-          context.onAdvisory(`\`${tag}\` is shown as written: Markanto reads no HTML, and its only tags are <m>, <i> and <b>`, cursor, close + 1);
-        }
-      }
+      if (close >= 0 && context.onAdvisory !== undefined) reportTagLike(text, cursor, end, close, context.onAdvisory);
     }
     if ((at(text, cursor, end, 'http://') || at(text, cursor, end, 'https://')) &&
         characterClass(codePointBefore(text, cursor, start)) !== 'W') {
@@ -306,22 +302,17 @@ function link(text: string, start: number, end: number, annotations: SourceAnnot
   const image = at(text, start, end, '!['); const labelStart = start + (image ? 2 : 1);
   const labelEnd = findLabelEnd(text, labelStart, end);
   if (labelEnd < 0 || text.charCodeAt(labelEnd + 1) !== 0x28) {
-    // `[label]:` at the start of a paragraph: what CommonMark reads as a link-reference definition (§10.5)
-    if (!image && start === context.paragraphStart && labelEnd > labelStart && labelEnd + 1 < end &&
-        text.charCodeAt(labelStart) !== 0x5e && text.charCodeAt(labelEnd + 1) === 0x3a) {
-      context.onAdvisory?.(`a paragraph that begins with \`${text.slice(start, labelEnd + 2)}\` is text: Markanto has no link-reference definitions — write the link where it is used, as \`[text](target)\``, start, labelEnd + 2);
-    }
+    if (!image && start === context.paragraphStart && context.onAdvisory !== undefined) reportDefinitionLike(text, start, labelEnd, end, context.onAdvisory);
     return null;
   }
   if (!image && context.insideLink === true) return error('nested link');
   const target = destination(text, labelEnd + 2, end);
   if ('fault' in target) return error(`invalid link destination after \`](\`: ${target.fault}`);
-  const nested = parseInline(text, labelStart, labelEnd, annotations, {
-    ...(context.softBreaks === undefined ? {} : { softBreaks: context.softBreaks }),
-    ...(context.tableCell === undefined ? {} : { tableCell: context.tableCell }),
-    ...(context.onAdvisory === undefined ? {} : { onAdvisory: context.onAdvisory }),
-    insideLink: true,
-  });
+  const labelContext: InlineContext = { insideLink: true };
+  if (context.softBreaks !== undefined) labelContext.softBreaks = context.softBreaks;
+  if (context.tableCell !== undefined) labelContext.tableCell = context.tableCell;
+  if (context.onAdvisory !== undefined) labelContext.onAdvisory = context.onAdvisory;
+  const nested = parseInline(text, labelStart, labelEnd, annotations, labelContext);
   if (nested.status === 'error') return nested;
   if (!image && nested.nodes.length === 0 && !allowEmptyLabel) return error('empty inline token');
   const node: Inline = image ? { type: 'inlineImage', src: target.value, alt: nested.nodes, ...(target.title === undefined ? {} : { title: target.title }) } :
@@ -616,6 +607,23 @@ function hasSoftBreakBetween(softBreaks: ReadonlyMap<number, SoftBreakBoundary> 
   for (let position = start; position < end; position += 1) if (softBreaks.has(position)) return true;
   return false;
 }
+/** Tag-like text from the `<` at `start` to the `>` at `close` (§10.4): reported, and still text. */
+function reportTagLike(text: string, start: number, end: number, close: number, onAdvisory: Advisory): void {
+  const nameEnd = tagNameEnd(text, start, end);
+  if (nameEnd < 0) return;
+  const tag = `${text.slice(start, nameEnd)}${text.charCodeAt(nameEnd) === 0x3e ? '>' : ' …>'}`;
+  onAdvisory(`\`${tag}\` is shown as written: Markanto reads no HTML, and its only tags are <m>, <i> and <b>`, start, close + 1);
+}
+
+/**
+ * `[label]:` at the start of a paragraph, with the label's `]` at `labelEnd` as the label search found it: what
+ * CommonMark reads as a link-reference definition (§10.5). A label is non-empty and does not begin with `^`.
+ */
+function reportDefinitionLike(text: string, start: number, labelEnd: number, end: number, onAdvisory: Advisory): void {
+  if (labelEnd <= start + 1 || labelEnd + 1 >= end || text.charCodeAt(start + 1) === 0x5e || text.charCodeAt(labelEnd + 1) !== 0x3a) return;
+  onAdvisory(`a paragraph that begins with \`${text.slice(start, labelEnd + 2)}\` is text: Markanto has no link-reference definitions — write the link where it is used, as \`[text](target)\``, start, labelEnd + 2);
+}
+
 /**
  * The end of a tag name after `<` (§10.4): an optional `/`, an ASCII letter, then ASCII letters, digits or `-`,
  * followed by whitespace, `/` or `>`; -1 when the text is not spelled like a tag.
