@@ -1124,7 +1124,8 @@ in the block sequence that owns the quote, that carries no quote prefix and is
 neither an attribution line (3.17) nor a block-ID line (3.22) gets an
 `advisory`/`warning` diagnostic, "a line without `>` ends the quote" (7.8). A
 line that ends the owning sequence itself is not reported: the closer of a
-container, or a Grid marker line (2.7.7). The sequence checks that boundary
+container, or a Grid marker line (2.7.7). Nor is a line after an attribution
+line, which ends the quote visibly. The sequence checks that boundary
 before every block, and the quote applies the same check to the line it
 already reads for the attribution; a line past the end of the list item that
 holds the quote never reaches it (9.8). The check costs no further read.
@@ -2479,11 +2480,12 @@ continuation indentation is `(level - 1) * 2 + 2` spaces.
     likewise continuing.
 ```
 
-Normal mode accepts a continuation indentation exactly when CommonMark 0.31.2
-would deterministically attach that physical line to the same already-open
-list item and the line does not become an indented code block. The formatter
-normalises the continuation to the canonical content baseline. A continuation
-line opens no new paragraph and no new block element.
+Normal mode accepts a continuation line that reaches the item's base (9.8), at
+any indentation from there on, as CommonMark 0.31.2 attaches it to that item's
+paragraph. Markanto has no lazy continuation (3.7): a line below the base is no
+continuation of that item; it closes the item, and 9.9 decides what takes it.
+The formatter normalises the continuation to the canonical content baseline. A
+continuation line opens no new paragraph and no new block element.
 
 ### 9.7 Simple lists
 
