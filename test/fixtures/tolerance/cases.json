@@ -336,13 +336,13 @@
       }
     },
     {
-      "id": "tolerance.literal.deep-ownership-preserved",
-      "spec": "2.4, 9.8",
+      "id": "tolerance.literal.deep.adjacent",
+      "spec": "2.4, 9.6, 9.8",
       "source": "- A\n  - B\n    ```python\n    if ok:\n      run()\n    ```\n",
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "- A\n\n  - B\n\n  ```python\n    if ok:\n      run()\n  ```\n",
+          "canonical": "- A\n  - B\n\n    ```python\n    if ok:\n      run()\n    ```\n",
           "diagnostics": []
         },
         "strict": {
@@ -389,15 +389,15 @@
                                 "value": "B"
                               }
                             ]
+                          },
+                          {
+                            "type": "codeBlock",
+                            "value": "if ok:\n  run()",
+                            "lang": "python"
                           }
                         ]
                       }
                     ]
-                  },
-                  {
-                    "type": "codeBlock",
-                    "value": "  if ok:\n    run()",
-                    "lang": "python"
                   }
                 ]
               }
@@ -629,7 +629,7 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "1. A\n\n  - B\n\n  continued\n\n  - D\n",
+          "canonical": "1. A\n  - B\n    continued\n  - D\n",
           "diagnostics": []
         },
         "strict": {
@@ -674,26 +674,18 @@
                               {
                                 "type": "text",
                                 "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
                               }
                             ]
                           }
                         ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "continued"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "list",
-                    "kind": "unordered",
-                    "items": [
+                      },
                       {
                         "type": "listItem",
                         "children": [
@@ -719,13 +711,850 @@
       }
     },
     {
-      "id": "tolerance.child.canonical-continuation-ownership-preserved",
+      "id": "tolerance.child.canonical-continuation-with-followers",
       "spec": "9.4, 9.6",
       "source": "1. A\n  - B\n    continued\n  - D\n",
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "1. A\n\n  - B\n\n  continued\n\n  - D\n",
+          "canonical": "1. A\n  - B\n    continued\n  - D\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n    continued\n  - D\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "D"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-dash",
+      "spec": "9.6",
+      "source": "- A\n  - B\n    continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    continued\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-content-column",
+      "spec": "9.4, 9.6",
+      "source": "1. A\n   - B\n     continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n    continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-four",
+      "spec": "9.4, 9.6",
+      "source": "- A\n    - B\n      continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.third-level",
+      "spec": "9.6",
+      "source": "- A\n  - B\n    - C\n      continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n      continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n      continued\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      },
+                                      {
+                                        "type": "softBreak"
+                                      },
+                                      {
+                                        "type": "text",
+                                        "value": "continued"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-deeper-than-base",
+      "spec": "9.6",
+      "source": "- A\n  - B\n      continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-two-lines",
+      "spec": "9.6",
+      "source": "- A\n  - B\n    one\n    two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    one\n    two\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    one\n    two\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "one"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "two"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-task",
+      "spec": "9.3.2, 9.6",
+      "source": "- [ ] A\n  - [x] B\n    continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [ ] A\n  - [x] B\n    continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- [ ] A\n  - [x] B\n    continued\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "task": "open",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "task": "done",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.nested-definition",
+      "spec": "9.6, 9.18",
+      "source": ": A\n  : B\n    continued\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": A\n  : B\n    continued\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ": A\n  : B\n    continued\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "definition",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "definition",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              },
+                              {
+                                "type": "softBreak"
+                              },
+                              {
+                                "type": "text",
+                                "value": "continued"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.below-nested-base-2",
+      "spec": "9.6, 9.9",
+      "source": "- A\n  - B\n  text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.below-nested-base-3",
+      "spec": "9.6, 9.9",
+      "source": "- A\n  - B\n   text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.below-content-column-base",
+      "spec": "9.4, 9.6, 9.9",
+      "source": "1. A\n   - B\n    text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n\n  text\n",
           "diagnostics": []
         },
         "strict": {
@@ -782,7 +1611,54 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "continued"
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.continuation.below-nested-four-base",
+      "spec": "9.4, 9.6, 9.8",
+      "source": "- A\n  - B\n      - C\n     text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n    - C\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
                       }
                     ]
                   },
@@ -798,11 +1674,40 @@
                             "children": [
                               {
                                 "type": "text",
-                                "value": "D"
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  }
+                                ]
                               }
                             ]
                           }
                         ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
                       }
                     ]
                   }

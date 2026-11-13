@@ -54,8 +54,8 @@
     {
       "path": "test/fixtures/tolerance/cases.json",
       "group": "tolerance",
-      "cases": 93
+      "cases": 105
     }
   ],
-  "caseCount": 756
+  "caseCount": 768
 }

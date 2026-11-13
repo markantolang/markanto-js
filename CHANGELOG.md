@@ -30,14 +30,21 @@ accepts what it accepted before, and no canonical form changes.
 
 ### Fixed
 
+- **A continuation line continues the nested item it reaches.** Without a blank line before it, a line that is no
+  list marker continues the paragraph of the deepest open item whose base it reaches, as §9.6 has said since 0.2.0:
+  `- A\n  - B\n    continued` is one paragraph `B⏎continued` in B, under every marker and on each of the three
+  columns of §9.4. 0.2.0 to 0.2.3 gave the line to A as a paragraph after the nested list, so the formatter's own
+  form of a soft break in B was not valid strict input. A code fence at that place belongs to B the same way, with
+  its content's indentation. A line under the nested item's base but on the outer item's, `- A\n  - B\n  text`,
+  still closes B and is A's.
 - The canonical form of a third-level item's second block, `- A\n  - B\n    - C\n\n      text`, is read back into
   C. In 0.2.3 `text` landed outside the list, and strict mode refused the formatter's own output.
 
 ### Conformance
 
-- 90 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
+- 102 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
   corpus sweep now requires every valid case to state its warnings; eight footnote cases state the warning for an
-  unused definition they had before. The corpus has 756 cases. Of the 672 CommonMark and GFM cases, 23 change their
+  unused definition they had before. The corpus has 768 cases. Of the 672 CommonMark and GFM cases, 23 change their
   classification and 255 their diagnostics (`docs/COMMONMARK_DIVERGENCE.md`).
 - `bun run check:spec-sync` fails until `v0.3.0` is tagged in `markantolang/spec`.
 

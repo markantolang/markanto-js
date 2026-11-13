@@ -151,9 +151,8 @@ later version explicitly revisits them:
 
 ## Known limitations
 
-The remaining limits include rejected edge cases, conservative resource
-refusals, and accepted list surfaces whose block ownership is preserved for
-compatibility:
+The remaining limits include rejected edge cases and conservative resource
+refusals:
 
 - A fence info token containing non-ASCII whitespace (NBSP, U+3000) parses `ok`
   but has no canonical surface.
@@ -162,13 +161,6 @@ compatibility:
 - The pre-parse structural-frame heuristic counts a `>` run inside fenced code
   or an HTML comment toward nesting depth, so a code block with a 1000+ `>` line
   is rejected `resource` under the default budget — a conservative over-count.
-- Nested-list paragraph continuation ownership still follows the existing
-  collector: `1. A\n  - B\n    continued\n  - D` places `continued` in a
-  separate paragraph of A, not in B. Moving it would change an already-valid
-  document. Content-column aliases preserve that same interpretation.
-- Without a blank line, `- A\n  - B\n    ```python` starts a code block in A,
-  not B. Its literal indentation is preserved after removing A's structural
-  prefix; moving the block to B would change an already-valid document.
 
 The four-space-indentation advisory now uses the common paragraph path, including
 quotes, container bodies, Grid cells, and list items. It applies only to a new

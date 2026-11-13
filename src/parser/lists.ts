@@ -144,13 +144,16 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
         }
       } else {
         if (indent < base) break;
-        if (!afterBlank && !isMarker && indent <= base + 3) {
-          // Preserve existing prose continuation ownership: the line loses all
-          // of its indentation. Changing that ownership would alter valid ASTs.
+        // A line two or more spaces past the open nested marker goes to that item, with or without a blank line
+        // before it, and the item reads it by the same rules with its own base (§9.8): a continuation line thus
+        // continues the deepest open item it reaches (§9.6), and a block after a blank line is that item's.
+        if (nested !== null && indent >= nested + 2) strip = nested;
+        else if (!afterBlank && !isMarker && indent <= base + 3) {
+          // A line of this item without a blank line before it: it loses all of its indentation, as a continuation
+          // line does (§9.6). With a nested list open it stands below that item's base and ends the list (§9.9).
           strip = indent;
           if (!inComment) nested = null;
-        } else if (nested !== null && indent >= nested + 2) strip = nested;
-        else {
+        } else {
           // A line of this item itself, below the nested item's base: it ends
           // the nested list. It keeps its surplus over the base, except that
           // with a nested list open two or three spaces become one, which the

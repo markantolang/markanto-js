@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { format, parse, semanticDocumentEquals } from '../../src/index.js';
+import type { Document, List, ListItem, ListKind, Paragraph } from '../../src/ast.js';
 import { scanListMarker } from '../../src/parser/lists.js';
 import { LineReader } from '../../src/source/index.js';
 
@@ -118,6 +119,41 @@ test('after a blank line a line from the item\'s base stays in the item; four su
 
   // strict mode rejects the noncanonical indentation rather than silently keeping it
   assert.equal(parse('- x\n\n      y\n', { strict: true }).status, 'invalid');
+});
+
+test('a soft break in a nested item reads back into that item from its canonical form (§9.6; 0.2.x gave it to the parent)', () => {
+  const kinds: readonly ListKind[] = ['unordered', 'ordered', 'definition'];
+  const brokenParagraph = (word: string): Paragraph =>
+    ({ type: 'paragraph', children: [{ type: 'text', value: word }, { type: 'softBreak' }, { type: 'text', value: `${word} continued` }] });
+  // One item per level, the innermost first; `everyLevel` breaks the paragraph of each item, else only the deepest.
+  const nestedList = (levels: readonly ListKind[], everyLevel: boolean, task: boolean): List => {
+    let inner: List | null = null;
+    for (let level = levels.length - 1; level >= 0; level -= 1) {
+      const kind = levels[level]!;
+      const word = `level${level + 1}`;
+      const paragraph: Paragraph = inner === null || everyLevel ? brokenParagraph(word) : { type: 'paragraph', children: [{ type: 'text', value: word }] };
+      const item: ListItem = {
+        type: 'listItem',
+        ...(task && kind !== 'definition' ? { task: 'done' as const } : {}),
+        children: inner === null ? [paragraph] : [paragraph, inner],
+      };
+      inner = { type: 'list', kind, items: [item] };
+    }
+    return inner!;
+  };
+  for (const outer of kinds) for (const middle of kinds) for (const innermost of [null, ...kinds]) {
+    const levels = innermost === null ? [outer, middle] : [outer, middle, innermost];
+    for (const everyLevel of [false, true]) for (const task of [false, true]) {
+      const document: Document = { type: 'document', children: [nestedList(levels, everyLevel, task)], footnotes: [] };
+      const formatted = format(document);
+      assert.equal(formatted.status, 'ok');
+      if (formatted.status !== 'ok') continue;
+      const reparsed = parse(formatted.source, { strict: true });
+      assert.equal(reparsed.status, 'ok', JSON.stringify(formatted.source));
+      if (reparsed.status !== 'ok') continue;
+      assert.deepEqual(semanticDocumentEquals(reparsed.document, document), { status: 'ok', equal: true }, JSON.stringify(formatted.source));
+    }
+  }
 });
 
 test('the canonical second block of a third-level item reads back into that item (§9.8; 0.2.3 lost it)', () => {
