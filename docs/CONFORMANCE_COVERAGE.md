@@ -42,7 +42,7 @@ Selection favoured coverage interactions rather than raw volume. Representative
 additions are:
 
 - block recognition collisions and adjacency boundaries:
-  `block.priority.comment-vs-fence`, `block.boundary.hr-after-paragraph-no-blank`;
+  `block.priority.comment-vs-fence`, `block.boundary.setext-dash-after-paragraph-invalid` (until 0.3.0 `block.boundary.hr-after-paragraph-no-blank`);
 - deferred Grid recognition and lined-header collisions:
   `containers.fenced.grid-marker-in-code-literal`,
   `containers.lined.typed-header-collision-list`;
