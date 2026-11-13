@@ -14,7 +14,7 @@ import { format, parse } from '../../src/index.js';
 // formatter. Keep this green: when a spec edit trips it, run
 // `bun scripts/format-spec.ts <spec.md>` in the specification repository (or
 // fix the prose), don't relax the check.
-for (const version of ['0.1.0', '0.2.0']) {
+for (const version of ['0.1.0', '0.2.0', '0.3.0']) {
   const name = `vendor/spec/${version}/spec.md`;
   const source = readFileSync(fileURLToPath(new URL(`../../${name}`, import.meta.url)), 'utf8');
 
@@ -60,7 +60,7 @@ function markdownExamples(source: string): string[] {
   return examples;
 }
 
-for (const version of ['0.2.0']) {
+for (const version of ['0.2.0', '0.3.0']) {
   const name = `vendor/spec/${version}/guide.md`;
   const source = readFileSync(fileURLToPath(new URL(`../../${name}`, import.meta.url)), 'utf8');
   const documents = [{ label: name, text: source }].concat(
