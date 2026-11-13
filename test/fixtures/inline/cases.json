@@ -510,11 +510,23 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "[Text][id]\n\n[id]: /target\n"
+          "canonical": "[Text][id]\n\n[id]: /target\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": true,
-          "canonical": "[Text][id]\n\n[id]: /target\n"
+          "canonical": "[Text][id]\n\n[id]: /target\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -1241,11 +1253,23 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "![Alt][img]\n\n[img]: image.png\n"
+          "canonical": "![Alt][img]\n\n[img]: image.png\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": true,
-          "canonical": "![Alt][img]\n\n[img]: image.png\n"
+          "canonical": "![Alt][img]\n\n[img]: image.png\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -1266,6 +1290,295 @@
               {
                 "type": "text",
                 "value": "[img]: image.png"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.warns",
+      "spec": "10.5",
+      "source": "[docs]: https://example.org\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[docs]: <https://example.org>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[docs]: "
+              },
+              {
+                "type": "autolink",
+                "kind": "url",
+                "value": "https://example.org"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.no-space-warns",
+      "spec": "10.5",
+      "source": "[r]:/u\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[r]:/u\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[r]:/u\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[r]:/u"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.list-item-warns",
+      "spec": "10.5, 9.6",
+      "source": "- [a]: b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [a]: b\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- [a]: b\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "[a]: b"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.later-line-not-examined",
+      "spec": "10.5",
+      "source": "Text\n[a]: b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Text\n[a]: b\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Text\n[a]: b\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "[a]: b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.escaped-not-examined",
+      "spec": "10.5, 10.8",
+      "source": "\\[a]: b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a]: b\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[a]: b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.empty-label-not-examined",
+      "spec": "10.5",
+      "source": "[]: b\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[]: b\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "[]: b\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[]: b"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.definition-like.escaped-bracket-in-label-warns",
+      "spec": "10.5, 10.5.1",
+      "source": "[a\\]b]: c\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "[a]b]: c\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[a]b]: c"
               }
             ]
           }
@@ -3167,11 +3480,31 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "<i lang=en>x</i>\n"
+          "canonical": "<i lang=en>x</i>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": true,
-          "canonical": "<i lang=en>x</i>\n"
+          "canonical": "<i lang=en>x</i>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -3183,6 +3516,397 @@
               {
                 "type": "text",
                 "value": "<i lang=en>x</i>"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.warns",
+      "spec": "10.4",
+      "source": "A <br> break.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "A <br> break.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "A <br> break.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "A <br> break."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.attributes-and-closer",
+      "spec": "10.4",
+      "source": "<div class=\"x\">Box</div>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<div class=\"x\">Box</div>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<div class=\"x\">Box</div>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<div class=\"x\">Box</div>"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.inline-grammar-stays",
+      "spec": "10.4",
+      "source": "<x *a*>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<x *a*>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<x *a*>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<x "
+              },
+              {
+                "type": "em",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": ">"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.heading-and-cell",
+      "spec": "10.4, 2.1, 12.2",
+      "source": "# Keys <kbd>\n\n| Key |\n| --- |\n| <kbd> |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "# Keys <kbd>\n\n| Key |\n| --- |\n| <kbd> |\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "# Keys <kbd>\n\n| Key |\n| --- |\n| <kbd> |\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "heading",
+            "level": 1,
+            "children": [
+              {
+                "type": "text",
+                "value": "Keys <kbd>"
+              }
+            ]
+          },
+          {
+            "type": "table",
+            "alignments": [
+              "default"
+            ],
+            "head": {
+              "type": "tableRow",
+              "cells": [
+                {
+                  "type": "tableCell",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Key"
+                    }
+                  ]
+                }
+              ]
+            },
+            "body": [
+              {
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "<kbd>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.not-examined",
+      "spec": "10.4, 10.8",
+      "source": "`<br>`, $`<br>`$, x^<b>^, [x](<a>), &lt;br>, a<b, <irc://x> and <https://example.org>.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "`<br>`, $`<br>`$, x^<b>^, [x](a), <br>, a<b, <irc://x> and <https://example.org>.\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": "<br>"
+              },
+              {
+                "type": "text",
+                "value": ", "
+              },
+              {
+                "type": "inlineMath",
+                "value": "<br>"
+              },
+              {
+                "type": "text",
+                "value": ", x"
+              },
+              {
+                "type": "sup",
+                "value": "<b>"
+              },
+              {
+                "type": "text",
+                "value": ", "
+              },
+              {
+                "type": "link",
+                "href": "a",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": ", <br>, a<b, <irc://x> and "
+              },
+              {
+                "type": "autolink",
+                "kind": "url",
+                "value": "https://example.org"
+              },
+              {
+                "type": "text",
+                "value": "."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.escaped-not-examined",
+      "spec": "10.4, 10.8",
+      "source": "\\<br> stays text.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<br> stays text.\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<br> stays text."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.comparison-warns",
+      "spec": "10.4",
+      "source": "if a<b and c>d\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "if a<b and c>d\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "if a<b and c>d\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "if a<b and c>d"
               }
             ]
           }

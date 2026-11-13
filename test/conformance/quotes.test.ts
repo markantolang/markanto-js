@@ -6,7 +6,7 @@ import { format, parse, semanticDocumentEquals } from '../../src/index.js';
 interface Expectation { readonly valid: boolean; readonly canonical?: string; readonly diagnostics?: readonly { readonly category: string }[] }
 interface Fixture { readonly id: string; readonly source: string; readonly semanticAst?: unknown; readonly expect: { readonly normal: Expectation; readonly strict: Expectation } }
 const fixtures = (JSON.parse(readFileSync(new URL('../fixtures/quotes/cases.json', import.meta.url), 'utf8')) as { cases: Fixture[] }).cases;
-assert.equal(fixtures.length, 42);
+assert.equal(fixtures.length, 52);
 const skipped = new Set<string>();
 for (const fixture of fixtures) test(`Phase 5 conformance: ${fixture.id}`, { skip: skipped.has(fixture.id) ? 'lists (Phase 6) / tables (Phase 7) inside quotes not yet implemented' : false }, () => {
   check(fixture, false); check(fixture, true);

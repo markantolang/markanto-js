@@ -3040,7 +3040,13 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "> Header\n\n___\n\nContent\n___\n"
+          "canonical": "> Header\n\n___\n\nContent\n___\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,

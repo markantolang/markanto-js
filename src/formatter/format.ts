@@ -3,7 +3,7 @@ import { isIdentifier, splitSameLineId } from '../parser/block-id.js';
 import { isLinedHeaderIntroducer, isValidTypeString, normalizeType } from '../parser/containers.js';
 import { diagnostic, type Diagnostic } from '../diagnostics.js';
 import type { CanonicalFormatResult } from '../parser-contract.js';
-import { atomicTokenEnd } from '../parser/inline/atomic.js';
+import { atomicTokenEnd, literalDelimiterEscape } from '../parser/inline/atomic.js';
 import { characterClass, isUnicodeWhitespace } from '../parser/inline/unicode.js';
 import { scanEntity } from '../parser/inline/entities.js';
 import { hasAttrs, isWellFormedBcp47, normalizeGroup, validateAttributeContext, type AttributeContext, type MKind, type ParsedAttributes } from '../parser/resources.js';
@@ -1064,8 +1064,7 @@ function escapeText(
       // neutralised; `~~` likewise — a single exposed `~` can still pair, not
       // only with a later `~` in this value but with the opener of an adjacent
       // `Sub` / `Deletion` sibling, so leftmost-only is not always effective.
-      if (delimiter === '**' || delimiter === '~~') out += `\\${c}\\${c}`;
-      else out += `\\${c}${delimiter.slice(1)}`;
+      out += literalDelimiterEscape(delimiter);
       i += delimiter.length - 1;
       continue;
     }

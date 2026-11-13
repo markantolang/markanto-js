@@ -214,7 +214,7 @@ test('a fence with its name and no space is refused, and says so', () => {
   // with the space, it is a container; a definition list keeps its own message
   assert.equal(parse('::: tldr\nShort.\n:::\n').status, 'ok');
   assert.equal(parse(':x\n').status, 'invalid');
-  assert.equal(parse(':x\n').diagnostics[0]?.message, 'list marker requires exactly one space');
+  assert.equal(parse(':x\n').diagnostics[0]?.message, 'list marker requires a space after it');
 });
 
 // review 2026-11-09 (Astra): a quote that fails at a deeper level kept only that level; a container's error moved its

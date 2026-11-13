@@ -25,6 +25,7 @@ interface FixtureCase {
 interface Expectation {
   readonly valid: boolean;
   readonly canonical?: string;
+  readonly diagnostics?: readonly { readonly category: string; readonly severity: string }[];
 }
 
 const fixturesDir = new URL('../fixtures/', import.meta.url);
@@ -47,6 +48,9 @@ for (const fixture of cases) {
       const first = parse(fixture.source, mode === 'strict' ? { strict: true } : {});
       assert.equal(first.status, 'ok', `${mode} parse: ${describe(first)}`);
       if (first.status !== 'ok') continue;
+      // a warning of a valid document is part of what the fixture states: none, unless it lists them (spec §7.8)
+      assert.deepEqual(first.diagnostics.map(({ category, severity }) => ({ category, severity })), expected.diagnostics ?? [],
+        `${mode} diagnostics: ${first.diagnostics.map((diagnostic) => diagnostic.message).join(' | ')}`);
 
       const formatted = format(first.document);
       assert.equal(formatted.status, 'ok', `${mode} format: ${describe(formatted)}`);

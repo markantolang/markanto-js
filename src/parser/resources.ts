@@ -5,7 +5,7 @@ import type {
 } from '../ast.js';
 import type { SourceAnnotationBuilder } from '../parser-contract.js';
 import type { LineReader, PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext } from './blocks.js';
+import type { Advisory, BlockResult, ContainerContext } from './blocks.js';
 import { trimAsciiBlankEnd } from './block-id.js';
 import { parseDirectResource, parseInline } from './inline/scanner.js';
 import { codePointAt, isUnicodeWhitespace } from './inline/unicode.js';
@@ -189,7 +189,7 @@ export function isWellFormedBcp47(value: string): boolean {
 }
 
 export function recognizeBlockResource(
-  lines: LineReader, text: string, annotations: SourceAnnotationBuilder, _context: ContainerContext,
+  lines: LineReader, text: string, annotations: SourceAnnotationBuilder, _context: ContainerContext, onAdvisory?: Advisory,
 ): BlockResult | null {
   const line = lines.current;
   if (line === null) return null;
@@ -265,7 +265,7 @@ export function recognizeBlockResource(
   let caption: InlineWithoutBreak[] | undefined;
   let captionNodes = 0;
   if (captionLine !== null) {
-    const parsed = parseInline(text, captionStart, captionEnd, annotations);
+    const parsed = parseInline(text, captionStart, captionEnd, annotations, onAdvisory === undefined ? {} : { onAdvisory });
     if (parsed.status === 'error' || parsed.nodes.length === 0 || parsed.nodes.some((node) => node.type === 'softBreak' || node.type === 'hardBreak')) {
       lines.advance(); lines.advance();
       return { status: 'error', message: parsed.status === 'error' ? parsed.message : 'invalid resource caption', start: line.start, safeEnd: captionLine.contentEnd, category: parsed.status === 'error' ? parsed.category ?? 'syntax' : 'semantic' };

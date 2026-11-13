@@ -39,9 +39,12 @@ block.code.mixed-fence-characters-literal block.code.backtick-in-info-is-inline-
 block.priority.comment-vs-fence block.priority.quote-vs-heading block.priority.setext-after-code-literal
 block.boundary.code-after-paragraph-no-blank block.boundary.comment-after-paragraph-no-blank
 block.boundary.comment-between-paragraphs block.boundary.heading-after-paragraph-no-blank
-block.boundary.hr-after-paragraph-no-blank block.priority.heading-vs-hr block.priority.hr-vs-list-item
+block.boundary.setext-dash-after-paragraph-invalid block.priority.heading-vs-hr block.priority.hr-vs-list-item
 block.heading.id-extra-content-invalid block.boundary.setext-after-paragraph-diagnostic
 block.code.escaped-backtick-literal block.comment.content-close-sequence-cannot-escape
+block.setext.dash-long-indented-invalid block.setext.dash-after-indented-paragraph-invalid block.setext.dash-in-quote-invalid
+block.setext.two-dashes-stay-paragraph block.setext.spaced-dashes-are-break block.setext.stars-are-break
+block.setext.dash-with-id-is-break block.setext.dash-after-blank-is-break block.setext.dash-after-list-is-break
 math.block math.block.tilde-normalizes math.block.unclosed-invalid math.block.duplicate-id-invalid math.dollar-literal math.shell-dollar-literal
 `.trim().split(/\s+/u));
 

@@ -2,7 +2,7 @@
 
 *Markdown stays nice, and becomes reliable.*
 
-The reference implementation of **Markanto 0.2.0** — a parser, a semantic-AST
+The reference implementation of **Markanto 0.3.0** — a parser, a semantic-AST
 validator, and a canonical formatter for a Markdown variant.
 
 **Read tolerantly, model strictly, serialise canonically.** CommonMark

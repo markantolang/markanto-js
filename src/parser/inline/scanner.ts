@@ -1,7 +1,8 @@
 import type { Autolink, DownloadResourceAttributes, ImageResourceAttributes, Inline, InlineImage, Link, MetadataSpanAttributes, Text } from '../../ast.js';
 import type { SourceAnnotationBuilder } from '../../parser-contract.js';
 import { hasAttrs, parseMOpen, validateAttributeContext } from '../resources.js';
-import { isEmailAutolink, isUrlAutolink, metadataClose, wrapperClose } from './atomic.js';
+import type { Advisory } from '../blocks.js';
+import { isEmailAutolink, isUrlAutolink, literalDelimiterEscape, metadataClose, wrapperClose } from './atomic.js';
 import { scanEntity } from './entities.js';
 import { characterClass, codePointAt, codePointBefore, isUnicodeWhitespace } from './unicode.js';
 
@@ -27,6 +28,10 @@ export interface InlineContext {
   softBreaks?: ReadonlyMap<number, SoftBreakBoundary>;
   /** A table cell (§12.3): `\|` stands for `|` inside an atomic token as well, as in GFM. */
   tableCell?: boolean;
+  /** Reports tag-like text (§10.4) and a definition-like paragraph start (§10.5) of ordinary inline text (§7.8). */
+  onAdvisory?: Advisory;
+  /** Where a paragraph's content begins: a `[label]:` there is reported (§10.5). */
+  paragraphStart?: number;
 }
 
 /** `value` of an atomic token, with each `\|` read as `|` in a table cell (§12.3), left to right as GFM reads it. */
@@ -159,10 +164,19 @@ export function parseInline(text: string, start: number, end: number,
       if (metadata?.status === 'ok') {
         append(metadata.node, cursor, metadata.end); nodeCount += metadata.nested; cursor = metadata.end; continue;
       }
-      const auto = bracketAutolink(text, cursor, end);
+      const close = findUnit(text, cursor + 1, end, 0x3e);
+      const auto = close < 0 ? null : bracketAutolink(text, cursor, close);
       if (auto !== null) {
         if (context.insideLink === true) return error('nested autolink');
         append({ ...auto.node, value: cellPipes(auto.node.value, context) }, cursor, auto.end); cursor = auto.end; continue;
+      }
+      // still text, as everything here that is no MIB wrapper or autolink (§10.4)
+      if (close >= 0 && context.onAdvisory !== undefined) {
+        const nameEnd = tagNameEnd(text, cursor, end);
+        if (nameEnd >= 0) {
+          const tag = `${text.slice(cursor, nameEnd)}${text.charCodeAt(nameEnd) === 0x3e ? '>' : ' …>'}`;
+          context.onAdvisory(`\`${tag}\` is shown as written: Markanto reads no HTML, and its only tags are <m>, <i> and <b>`, cursor, close + 1);
+        }
       }
     }
     if ((at(text, cursor, end, 'http://') || at(text, cursor, end, 'https://')) &&
@@ -237,7 +251,9 @@ export function parseInline(text: string, start: number, end: number,
       if (lowerCloser) return error('overlapping inline tokens');
       if (canOpen(text, cursor, delimiter, start, end)) {
         const kind = delimiterKind(delimiter);
-        if (top.kind === kind || top.kind === 'root' && context.ancestors?.has(kind) === true) return error('same-kind direct inline nesting');
+        if (top.kind === kind || top.kind === 'root' && context.ancestors?.has(kind) === true) {
+          return error(`\`${delimiter}\` opens ${KIND_NAMES[kind]} inside ${KIND_NAMES[kind]} that is still open: \`${literalDelimiterEscape(delimiter)}\` writes it as text`);
+        }
         frames.push({ kind, delimiter, start: cursor, nodes: [] }); cursor += delimiter.length; continue;
       }
       if (delimiter.length > 1) {
@@ -281,7 +297,7 @@ function codeSpan(text: string, start: number, end: number,
     }
     cursor += candidate;
   }
-  return error('unclosed inline code');
+  return error('unclosed inline code: write \\` for a literal backtick');
 }
 
 type Structured = { status: 'ok'; node: Inline; end: number; nested: number } |
@@ -289,13 +305,21 @@ type Structured = { status: 'ok'; node: Inline; end: number; nested: number } |
 function link(text: string, start: number, end: number, annotations: SourceAnnotationBuilder, context: InlineContext, allowEmptyLabel = false): Structured | null {
   const image = at(text, start, end, '!['); const labelStart = start + (image ? 2 : 1);
   const labelEnd = findLabelEnd(text, labelStart, end);
-  if (labelEnd < 0 || text.charCodeAt(labelEnd + 1) !== 0x28) return null;
+  if (labelEnd < 0 || text.charCodeAt(labelEnd + 1) !== 0x28) {
+    // `[label]:` at the start of a paragraph: what CommonMark reads as a link-reference definition (§10.5)
+    if (!image && start === context.paragraphStart && labelEnd > labelStart && labelEnd + 1 < end &&
+        text.charCodeAt(labelStart) !== 0x5e && text.charCodeAt(labelEnd + 1) === 0x3a) {
+      context.onAdvisory?.(`a paragraph that begins with \`${text.slice(start, labelEnd + 2)}\` is text: Markanto has no link-reference definitions — write the link where it is used, as \`[text](target)\``, start, labelEnd + 2);
+    }
+    return null;
+  }
   if (!image && context.insideLink === true) return error('nested link');
   const target = destination(text, labelEnd + 2, end);
-  if (target === null) return error('invalid direct link');
+  if ('fault' in target) return error(`invalid link destination after \`](\`: ${target.fault}`);
   const nested = parseInline(text, labelStart, labelEnd, annotations, {
     ...(context.softBreaks === undefined ? {} : { softBreaks: context.softBreaks }),
     ...(context.tableCell === undefined ? {} : { tableCell: context.tableCell }),
+    ...(context.onAdvisory === undefined ? {} : { onAdvisory: context.onAdvisory }),
     insideLink: true,
   });
   if (nested.status === 'error') return nested;
@@ -388,7 +412,7 @@ function findLabelEnd(text: string, start: number, end: number): number {
       const footnoteEnd = footnote(text, cursor + 1, end);
       if (footnoteEnd > 0) {
         const target = text.charCodeAt(footnoteEnd) === 0x28 ? destination(text, footnoteEnd + 1, end) : null;
-        cursor = target === null ? footnoteEnd : target.end;
+        cursor = target === null || 'fault' in target ? footnoteEnd : target.end;
         continue;
       }
       open += 1; cursor += 2; continue;
@@ -397,7 +421,7 @@ function findLabelEnd(text: string, start: number, end: number): number {
     if (code === 0x5d) {
       if (open === 0) return cursor;
       const target = text.charCodeAt(cursor + 1) === 0x28 ? destination(text, cursor + 2, end) : null;
-      if (target === null) return cursor;
+      if (target === null || 'fault' in target) return cursor;
       open -= 1; cursor = target.end; continue;
     }
     cursor += 1;
@@ -405,7 +429,11 @@ function findLabelEnd(text: string, start: number, end: number): number {
   return -1;
 }
 
-function destination(text: string, start: number, end: number): { value: string; title?: string; end: number } | null {
+/** A destination and optional title after `](`, or what is wrong with them, in the words of §7.8. */
+type Destination = { value: string; title?: string; end: number } | { fault: string };
+const SPACE_IN_DESTINATION = 'a space in the destination — put the destination in `<…>` or write the space as `%20`';
+const CONTROL_IN_DESTINATION = 'a control character in the destination';
+function destination(text: string, start: number, end: number): Destination {
   let cursor = start;
   let value: string;
   if (text.charCodeAt(cursor) === 0x3c) {
@@ -414,10 +442,10 @@ function destination(text: string, start: number, end: number): { value: string;
       const code = text.charCodeAt(cursor);
       if (code === 0x3e) break;
       if (code === 0x5c && cursor + 1 < end) { cursor += 2; continue; }
-      if (isControl(code)) return null;
+      if (isControl(code)) return { fault: CONTROL_IN_DESTINATION };
       cursor += 1;
     }
-    if (cursor >= end) return null;
+    if (cursor >= end) return { fault: 'the destination opened with `<` has no `>`' };
     value = decodeLinkValue(text.slice(from, cursor));
     cursor += 1;
   } else {
@@ -431,7 +459,8 @@ function destination(text: string, start: number, end: number): { value: string;
       else if (isUnicodeWhitespace(code) || isControl(code)) break;
       cursor += 1;
     }
-    if (depth !== 0) return null;
+    if (cursor < end && isControl(text.charCodeAt(cursor))) return { fault: CONTROL_IN_DESTINATION };
+    if (depth !== 0) return { fault: 'an unbalanced parenthesis in the destination — write it as `\\(` or `\\)`' };
     value = decodeLinkValue(text.slice(from, cursor));
   }
   const emptyBare = value.length === 0 && text.charCodeAt(start) !== 0x3c;
@@ -446,14 +475,17 @@ function destination(text: string, start: number, end: number): { value: string;
       if (text.charCodeAt(cursor) === 0x5c && cursor + 1 < end) cursor += 2;
       else cursor += 1;
     }
-    if (cursor >= end) return null;
+    if (cursor >= end) return { fault: 'the link title is not closed' };
     title = decodeLinkValue(text.slice(titleStart, cursor++));
-    if (!validLinkValue(title)) return null;
+    if (!validLinkValue(title)) return { fault: 'a control character in the link title' };
     while (cursor < end && blank(text.charCodeAt(cursor))) cursor += 1;
   }
-  if (emptyBare && cursor > beforeWhitespace && title === undefined) return null;
-  if (!validLinkValue(value)) return null;
-  if (text.charCodeAt(cursor) !== 0x29) return null;
+  if (emptyBare && cursor > beforeWhitespace && title === undefined) return { fault: SPACE_IN_DESTINATION };
+  if (!validLinkValue(value)) return { fault: CONTROL_IN_DESTINATION };
+  if (text.charCodeAt(cursor) !== 0x29) {
+    if (title !== undefined) return { fault: 'a malformed title — only `)` may follow it' };
+    return { fault: cursor > beforeWhitespace && cursor < end ? SPACE_IN_DESTINATION : 'the destination is not closed with `)`' };
+  }
   return { value, ...(title === undefined ? {} : { title }), end: cursor + 1 };
 }
 
@@ -494,7 +526,7 @@ function mib(text: string, start: number, end: number, annotations: SourceAnnota
   if (at(text, start, end, '<i>')) { kind = 'em'; opener = '<i>'; closer = '</i>'; }
   else if (at(text, start, end, '<b>')) { kind = 'strong'; opener = '<b>'; closer = '</b>'; }
   else return null;
-  if (context.ancestors?.has(kind) === true) return error('same-kind direct inline nesting');
+  if (context.ancestors?.has(kind) === true) return error(`${capitalized(KIND_NAMES[kind])} is open already where \`${opener}\` opens another: \`\\${opener}\` writes the tag as text`);
   const close = wrapperClose(text, start + opener.length, end, opener, closer);
   if (close < 0) return error('unclosed inline wrapper');
   if (close === start + opener.length) return error('empty inline token');
@@ -503,6 +535,7 @@ function mib(text: string, start: number, end: number, annotations: SourceAnnota
     ...(context.insideLink === undefined ? {} : { insideLink: context.insideLink }),
     ...(context.softBreaks === undefined ? {} : { softBreaks: context.softBreaks }),
     ...(context.tableCell === undefined ? {} : { tableCell: context.tableCell }),
+    ...(context.onAdvisory === undefined ? {} : { onAdvisory: context.onAdvisory }),
     ancestors,
   });
   if (nested.status === 'error') return nested;
@@ -510,8 +543,8 @@ function mib(text: string, start: number, end: number, annotations: SourceAnnota
 }
 
 
-function bracketAutolink(text: string, start: number, end: number): { node: Autolink; end: number } | null {
-  const close = findUnit(text, start + 1, end, 0x3e); if (close < 0) return null;
+/** The autolink `<…>` whose `>` is at `close`, if it is one (§13.2). */
+function bracketAutolink(text: string, start: number, close: number): { node: Autolink; end: number } | null {
   const value = text.slice(start + 1, close);
   if (isUrlAutolink(value)) return { node: { type: 'autolink', kind: 'url', value }, end: close + 1 };
   if (isEmailAutolink(value)) return { node: { type: 'autolink', kind: 'email', value }, end: close + 1 };
@@ -583,6 +616,23 @@ function hasSoftBreakBetween(softBreaks: ReadonlyMap<number, SoftBreakBoundary> 
   for (let position = start; position < end; position += 1) if (softBreaks.has(position)) return true;
   return false;
 }
+/**
+ * The end of a tag name after `<` (§10.4): an optional `/`, an ASCII letter, then ASCII letters, digits or `-`,
+ * followed by whitespace, `/` or `>`; -1 when the text is not spelled like a tag.
+ */
+function tagNameEnd(text: string, start: number, end: number): number {
+  let cursor = start + 1;
+  if (text.charCodeAt(cursor) === 0x2f) cursor += 1;
+  if (!asciiLetter(text.charCodeAt(cursor))) return -1;
+  cursor += 1;
+  while (cursor < end && (asciiAlnum(text.charCodeAt(cursor)) || text.charCodeAt(cursor) === 0x2d)) cursor += 1;
+  if (cursor >= end) return -1;
+  const next = text.charCodeAt(cursor);
+  return isUnicodeWhitespace(next) || next === 0x2f || next === 0x3e ? cursor : -1;
+}
+const KIND_NAMES: Readonly<Record<Kind, string>> = {
+  em: 'an emphasis', strong: 'a strong emphasis', deletion: 'a strikethrough', obsolete: 'an obsolete span', insert: 'an insertion', mark: 'a mark',
+};
 function delimiterKind(d: string): Kind { return d === '*' || d === '_' ? 'em' : d === '**' || d === '__' ? 'strong' : d === '~~' ? 'deletion' : d === '--' ? 'obsolete' : d === '++' ? 'insert' : 'mark'; }
 function wrap(kind: Kind, children: Inline[]): Inline {
   const c = children as [Inline, ...Inline[]];
@@ -594,6 +644,8 @@ function find(text: string, start: number, end: number, value: string): number {
 function findUnit(text: string, start: number, end: number, code: number): number { for (let c = start; c < end; c += 1) { if (text.charCodeAt(c) === 0x5c) c += 1; else if (text.charCodeAt(c) === code) return c; } return -1; }
 function run(text: string, start: number, end: number, code: number): number { let c = start; while (c < end && text.charCodeAt(c) === code) c += 1; return c - start; }
 function escapable(c: number): boolean { return c >= 0x21 && c <= 0x7e && !asciiAlnum(c); }
+function capitalized(value: string): string { return value[0]!.toUpperCase() + value.slice(1); }
+function asciiLetter(c: number): boolean { return (c >= 65 && c <= 90) || (c >= 97 && c <= 122); }
 function asciiAlnum(c: number): boolean { return (c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122); }
 function identifier(c: number): boolean { return asciiAlnum(c) || c === 0x5f || c === 0x2d; }
 function blank(c: number): boolean { return c === 0x20 || c === 0x09; }

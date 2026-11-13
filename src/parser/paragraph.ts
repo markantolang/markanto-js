@@ -1,6 +1,7 @@
 import type { Inline, Paragraph } from '../ast.js';
 import type { SourceAnnotationBuilder } from '../parser-contract.js';
 import type { PhysicalLine } from '../source/index.js';
+import type { Advisory } from './blocks.js';
 import { parseInline, type SoftBreakBoundary } from './inline/scanner.js';
 import { isUnicodeWhitespace } from './inline/unicode.js';
 
@@ -9,7 +10,7 @@ export type ParagraphInlineResult = { status: 'ok'; children: Paragraph['childre
 
 /** Parse one paragraph's physical slices; Phase 3+ reuses this entry point. */
 export function parseParagraphInline(text: string, lines: readonly PhysicalLine[],
-  annotations: SourceAnnotationBuilder): ParagraphInlineResult {
+  annotations: SourceAnnotationBuilder, onAdvisory?: Advisory): ParagraphInlineResult {
   const children: Inline[] = [];
   let nodeCount = 0;
   let chunkStart = 0;
@@ -56,7 +57,8 @@ export function parseParagraphInline(text: string, lines: readonly PhysicalLine[
       softBreaks.set(currentEnd, { next: nextStart, sourceStart: current.contentEnd, sourceEnd: current.end });
     }
     const firstStart = skipLeadingWs(text, lines[chunkStart]!.start, lines[chunkStart]!.contentEnd);
-    const parsed = parseInline(text, firstStart, inlineEnd, annotations, { softBreaks });
+    const parsed = parseInline(text, firstStart, inlineEnd, annotations,
+      onAdvisory === undefined ? { softBreaks } : { softBreaks, onAdvisory, ...(chunkStart === 0 ? { paragraphStart: firstStart } : {}) });
     if (parsed.status === 'error') return parsed;
     children.push(...parsed.nodes); nodeCount += parsed.nodeCount;
     if (hard) {

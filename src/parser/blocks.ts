@@ -27,8 +27,11 @@ export type BlockResult =
  */
 export type ContainerContext = 'document' | 'lined-body' | 'fenced-body' | 'grid-cell' | 'quote' | 'list-item';
 
-/** Reports a fresh paragraph's discarded indentation in the caller's text space. */
-export type DroppedIndentation = (start: number, end: number) => void;
+/**
+ * Reports a tolerated surface as an `advisory`/`warning` (spec §7.8) in the caller's text space: each nesting
+ * level that reads a virtual text projects the offsets back before it passes the report on.
+ */
+export type Advisory = (message: string, start: number, end: number) => void;
 
 export function recognizeBlock(
   lines: LineReader,
@@ -36,17 +39,17 @@ export function recognizeBlock(
   annotations: SourceAnnotationBuilder,
   context: ContainerContext = 'document',
   stopAt?: (line: PhysicalLine) => boolean,
-  onDroppedIndentation?: DroppedIndentation,
+  onAdvisory?: Advisory,
 ): BlockResult {
-  const lined = recognizeLinedContainer(lines, text, annotations, context, onDroppedIndentation);
+  const lined = recognizeLinedContainer(lines, text, annotations, context, onAdvisory);
   if (lined !== null) return lined;
-  const fenced = recognizeFencedContainer(lines, text, annotations, context, onDroppedIndentation);
+  const fenced = recognizeFencedContainer(lines, text, annotations, context, onAdvisory);
   if (fenced !== null) return fenced;
   const comment = recognizeComment(lines, text);
   if (comment !== null) return comment;
   const fence = recognizeFence(lines, text);
   if (fence !== null) return fence;
-  const heading = recognizeHeading(lines, text, annotations);
+  const heading = recognizeHeading(lines, text, annotations, onAdvisory);
   if (heading !== null) {
     return context === 'list-item' && heading.status === 'ok'
       ? { status: 'error', message: 'heading not permitted in list item', start: heading.start, safeEnd: heading.end, category: 'semantic' }
@@ -58,15 +61,15 @@ export function recognizeBlock(
       ? { status: 'error', message: 'thematic break not permitted in list item', start: horizontalRule.start, safeEnd: horizontalRule.end, category: 'semantic' }
       : horizontalRule;
   }
-  const list = recognizeList(lines, text, annotations, context, onDroppedIndentation);
+  const list = recognizeList(lines, text, annotations, context, onAdvisory);
   if (list !== null) return list;
-  const quote = recognizeQuote(lines, text, annotations, context, onDroppedIndentation);
+  const quote = recognizeQuote(lines, text, annotations, context, onAdvisory, stopAt);
   if (quote !== null) return quote;
-  const table = recognizeTable(lines, text, annotations);
+  const table = recognizeTable(lines, text, annotations, onAdvisory);
   if (table !== null) return table;
-  const resource = recognizeBlockResource(lines, text, annotations, context);
+  const resource = recognizeBlockResource(lines, text, annotations, context, onAdvisory);
   if (resource !== null) return resource;
-  return recognizeParagraph(lines, text, annotations, stopAt, context, onDroppedIndentation);
+  return recognizeParagraph(lines, text, annotations, stopAt, context, onAdvisory);
 }
 
 /**
@@ -102,7 +105,7 @@ export function parseBlockSequence(
   annotations: SourceAnnotationBuilder,
   boundary: (line: PhysicalLine) => boolean,
   context: ContainerContext,
-  onDroppedIndentation?: DroppedIndentation,
+  onAdvisory?: Advisory,
 ): BlockSequenceResult {
   const blocks: DocumentBlock[] = [];
   let nodeCount = 0;
@@ -127,7 +130,7 @@ export function parseBlockSequence(
         : 'invalid block id suffix';
       return { status: 'error', message, start: current.start, safeEnd: current.contentEnd, category: idForbiddenScope ? 'semantic' : 'syntax' };
     }
-    const result = recognizeBlock(lines, text, annotations, context, boundary, onDroppedIndentation);
+    const result = recognizeBlock(lines, text, annotations, context, boundary, onAdvisory);
     if (result.status === 'error') {
       return { status: 'error', message: result.message, start: result.start, safeEnd: result.safeEnd, category: result.category ?? 'syntax' };
     }
@@ -243,7 +246,7 @@ function recognizeFence(lines: LineReader, text: string): BlockResult | null {
   }
   const safeEnd = (closer ?? lastConsumed).contentEnd;
   if (!infoValid) {
-    return { status: 'error', message: 'code fence info string must be one token', start: opener.start, safeEnd };
+    return { status: 'error', message: 'code fence info string must be one token: only the language stands after the fence, as in ```python', start: opener.start, safeEnd };
   }
   if (closer === null) {
     return { status: 'error', message: 'unclosed code fence', start: opener.start, safeEnd };
@@ -293,6 +296,7 @@ function recognizeHeading(
   lines: LineReader,
   text: string,
   annotations: SourceAnnotationBuilder,
+  onAdvisory?: Advisory,
 ): BlockResult | null {
   const line = lines.current!;
   const indent = leadingSpaces(text, line);
@@ -321,7 +325,7 @@ function recognizeHeading(
   if (contentEnd <= contentStart) {
     return { status: 'error', message: 'empty heading', start: line.start, safeEnd: line.contentEnd };
   }
-  const inline = parseInline(text, contentStart, contentEnd, annotations);
+  const inline = parseInline(text, contentStart, contentEnd, annotations, onAdvisory === undefined ? {} : { onAdvisory });
   if (inline.status === 'error') return { status: 'error', message: inline.message, start: line.start, safeEnd: line.contentEnd, ...(inline.category === undefined ? {} : { category: inline.category }) };
   if (inline.nodes.length === 0) return { status: 'error', message: 'empty heading', start: line.start, safeEnd: line.contentEnd };
   const node: Heading = {
@@ -339,7 +343,7 @@ function recognizeParagraph(
   annotations: SourceAnnotationBuilder,
   stopAt?: (line: PhysicalLine) => boolean,
   context: ContainerContext = 'document',
-  onDroppedIndentation?: DroppedIndentation,
+  onAdvisory?: Advisory,
 ): BlockResult {
   const consumed: PhysicalLine[] = [];
   while (!lines.atEnd) {
@@ -374,21 +378,22 @@ function recognizeParagraph(
       !lines.isWhitespaceOnly(line) &&
       !isLinedHeaderIntroducer(text.slice(line.start, line.contentEnd))
     ) break;
-    if (consumed.length > 0 && (startsQuote(text, line) || startsList(text, line) || startsComment(text, line) || startsFence(text, line) || startsHeading(text, line) || startsHorizontalRule(text, line))) break;
-    if (consumed.length > 0 && isEqualsOnly(text, line)) {
+    // before a thematic break or list marker may end the paragraph: `Title` over `---` is a Setext attempt (§2.1)
+    if (consumed.length > 0 && isSetextUnderline(text, line)) {
       lines.advance();
       return { status: 'error', message: 'setext heading not permitted', start: consumed[0]!.start, safeEnd: line.contentEnd };
     }
+    if (consumed.length > 0 && (startsQuote(text, line) || startsList(text, line) || startsComment(text, line) || startsFence(text, line) || startsHeading(text, line) || startsHorizontalRule(text, line))) break;
     consumed.push(line);
     lines.advance();
   }
-  const inline = parseParagraphInline(text, consumed, annotations);
+  const inline = parseParagraphInline(text, consumed, annotations, onAdvisory);
   if (inline.status === 'error') return { status: 'error', message: inline.message, start: consumed[0]!.start, safeEnd: consumed[consumed.length - 1]!.contentEnd, ...(inline.category === undefined ? {} : { category: inline.category }) };
   const node: Paragraph = { type: 'paragraph', children: inline.children };
   // Paragraph recognition consumes its continuation lines. Only the first
   // line of a fresh block gets the §1.2 discarded-indentation advisory.
-  if (leadingSpaces(text, consumed[0]!) >= 4) {
-    onDroppedIndentation?.(consumed[0]!.start, consumed[consumed.length - 1]!.contentEnd);
+  if (indentedAsCode(text, consumed[0]!)) {
+    onAdvisory?.(DROPPED_INDENTATION, consumed[0]!.start, consumed[consumed.length - 1]!.contentEnd);
   }
   return {
     status: 'ok',
@@ -405,17 +410,29 @@ function isLinedFenceLine(text: string, line: PhysicalLine): boolean {
   return run >= 3 && onlyAsciiBlank(text, line.start + run, line.contentEnd);
 }
 
-function isEqualsOnly(text: string, line: PhysicalLine): boolean {
+/** A line of only `=`, or of three or more `-`, after up to three spaces (§2.1): what CommonMark reads as a Setext underline. */
+function isSetextUnderline(text: string, line: PhysicalLine): boolean {
   const indent = leadingSpaces(text, line);
   if (indent > 3) return false;
-  let index = line.start + indent;
-  let count = 0;
-  while (index < line.contentEnd && text.charCodeAt(index) === 0x3d) {
-    index += 1;
-    count += 1;
+  const code = text.charCodeAt(line.start + indent);
+  if (code !== 0x3d && code !== 0x2d) return false;
+  const count = runLength(text, line.start + indent, code, line.contentEnd);
+  if (code === 0x2d && count < 3) return false;
+  return onlyAsciiBlank(text, line.start + indent + count, line.contentEnd);
+}
+
+const DROPPED_INDENTATION = 'leading indentation on this block is dropped, not preserved (§1.2): Markanto has no indented code block — use a fenced code block for code';
+
+/** Four or more leading spaces, or a tab among the leading blanks: the surface CommonMark reads as indented code (§1.2, §7.4). */
+function indentedAsCode(text: string, line: PhysicalLine): boolean {
+  let spaces = 0;
+  for (let index = line.start; index < line.contentEnd; index += 1) {
+    const code = text.charCodeAt(index);
+    if (code === 0x09) return true;
+    if (code !== 0x20) break;
+    spaces += 1;
   }
-  if (count === 0) return false;
-  return onlyAsciiBlank(text, index, line.contentEnd);
+  return spaces >= 4;
 }
 
 export function startsComment(text: string, line: PhysicalLine): boolean {

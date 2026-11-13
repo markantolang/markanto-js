@@ -301,6 +301,22 @@
             {
               "category": "advisory",
               "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
             }
           ]
         },
@@ -313,6 +329,72 @@
             }
           ]
         }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Text."
+              }
+            ]
+          }
+        ],
+        "footnotes": [
+          {
+            "type": "footnoteDefinition",
+            "identifier": "-",
+            "children": [
+              {
+                "type": "text",
+                "value": "dash."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "0",
+            "children": [
+              {
+                "type": "text",
+                "value": "digit."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "A",
+            "children": [
+              {
+                "type": "text",
+                "value": "upper."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "_",
+            "children": [
+              {
+                "type": "text",
+                "value": "underscore."
+              }
+            ]
+          },
+          {
+            "type": "footnoteDefinition",
+            "identifier": "a",
+            "children": [
+              {
+                "type": "text",
+                "value": "lower."
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -393,7 +475,13 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "X[^y]\n\n[^y]: used.\n[^z]: unused.\n"
+          "canonical": "X[^y]\n\n[^y]: used.\n[^z]: unused.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,
@@ -614,11 +702,23 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "Text\\[^a]\n\n[^a]: note.\n"
+          "canonical": "Text\\[^a]\n\n[^a]: note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": true,
-          "canonical": "Text\\[^a]\n\n[^a]: note.\n"
+          "canonical": "Text\\[^a]\n\n[^a]: note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -655,11 +755,23 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "Text[^\\^x]\n\n[^x]: note.\n"
+          "canonical": "Text[^\\^x]\n\n[^x]: note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": true,
-          "canonical": "Text[^\\^x]\n\n[^x]: note.\n"
+          "canonical": "Text[^\\^x]\n\n[^x]: note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         }
       },
       "semanticAst": {
@@ -1031,7 +1143,17 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "Text.\n\n[^a]: a.\n[^z]: z.\n"
+          "canonical": "Text.\n\n[^a]: a.\n[^z]: z.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            },
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,
@@ -1087,7 +1209,13 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "Text\\[^a]b]\n\n[^a]: note.\n"
+          "canonical": "Text\\[^a]b]\n\n[^a]: note.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,
@@ -1133,7 +1261,13 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "\n\n[^a]:  leading\n"
+          "canonical": "\n\n[^a]:  leading\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,
@@ -1240,11 +1374,23 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n"
+          "canonical": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": true,
-          "canonical": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n"
+          "canonical": "Text[^A]\n\n[^A]: Upper.\n[^a]: Lower.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         }
       },
       "semanticAst": {

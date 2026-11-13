@@ -1,9 +1,10 @@
 import type { DocumentBlock, InlineWithoutBreak, QuoteBlock, QuoteRegion } from '../ast.js';
 import { SourceAnnotationBuilder } from '../parser-contract.js';
 import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext, DroppedIndentation } from './blocks.js';
+import type { BlockResult, ContainerContext, Advisory } from './blocks.js';
 import { parseBlockSequence } from './blocks.js';
 import { parseInline } from './inline/scanner.js';
+import { parseStandaloneSuffix } from './block-id.js';
 import { transferAnnotations } from './annotation-transfer.js';
 
 export interface QuotePrefix { readonly depth: number; readonly contentStart: number; readonly empty: boolean }
@@ -26,7 +27,12 @@ export function scanQuotePrefix(text: string, line: PhysicalLine): PrefixResult 
   return { depth, contentStart: cursor, empty: cursor === line.contentEnd };
 }
 
-export function recognizeQuote(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, _context: ContainerContext, onDroppedIndentation?: DroppedIndentation): BlockResult | null {
+/**
+ * `stopAt` is the boundary of the sequence that owns the quote (a container's closer, a Grid marker line): the line
+ * after the quote is reported as a lazy-continuation candidate only when it does not end that sequence (§3.7).
+ */
+export function recognizeQuote(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, _context: ContainerContext, onAdvisory?: Advisory,
+  stopAt?: (line: PhysicalLine) => boolean): BlockResult | null {
   const opener = lines.current;
   if (opener === null) return null;
   const first = scanQuotePrefix(text, opener);
@@ -62,7 +68,7 @@ export function recognizeQuote(lines: LineReader, text: string, annotations: Sou
       text: run.text, sourceMap: new LineMap(run.text), toSourceOffset: (offset) => offset,
     });
     const parsed = parseBlockSequence(virtualLines, run.text, virtualBuilder, () => false, 'quote',
-      onDroppedIndentation === undefined ? undefined : (start, end) => onDroppedIndentation(run.project(start), run.project(end)));
+      onAdvisory === undefined ? undefined : (message, start, end) => onAdvisory(message, run.project(start), run.project(end)));
     // the whole region was read: the recovery keeps all of it, not only the level that failed (spec 7.5)
     if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: scanned.at(-1)!.line.contentEnd };
     nodeCount += parsed.nodeCount;
@@ -81,11 +87,15 @@ export function recognizeQuote(lines: LineReader, text: string, annotations: Sou
   let regionEnd = scanned.at(-1)!.line.contentEnd;
   const postfix = lines.current;
   if (postfix !== null && text.startsWith('-- ', postfix.start) && postfix.start + 3 < postfix.contentEnd) {
-    const parsed = parseInline(text, postfix.start + 3, postfix.contentEnd, annotations);
+    const parsed = parseInline(text, postfix.start + 3, postfix.contentEnd, annotations, onAdvisory === undefined ? {} : { onAdvisory });
     if (parsed.status === 'error' || parsed.nodes.length === 0 || parsed.nodes.some((node) => node.type === 'softBreak' || node.type === 'hardBreak')) {
       lines.advance(); return error(parsed.status === 'error' ? parsed.message : 'invalid quote attribution', opener.start, postfix.contentEnd, parsed.status === 'error' ? parsed.category ?? 'syntax' : 'semantic');
     }
     attribution = parsed.nodes as InlineWithoutBreak[]; nodeCount += parsed.nodeCount; regionEnd = postfix.contentEnd; lines.advance();
+  } else if (postfix !== null && onAdvisory !== undefined && !lines.isWhitespaceOnly(postfix) && stopAt?.(postfix) !== true &&
+      parseStandaloneSuffix(text.slice(postfix.start, postfix.contentEnd)).kind === 'not-suffix') {
+    // where CommonMark may continue the quote's paragraph lazily (§3.7)
+    onAdvisory('a line without `>` ends the quote: start it with `>` to continue the quote, or put a blank line before it', postfix.start, postfix.contentEnd);
   }
   const node: QuoteRegion = attribution === undefined
     ? { type: 'quoteRegion', children: children as QuoteRegion['children'] }

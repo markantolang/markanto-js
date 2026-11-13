@@ -182,7 +182,13 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "> Quote line.\n\nContinuation.\n"
+          "canonical": "> Quote line.\n\nContinuation.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,
@@ -194,7 +200,39 @@
           ]
         }
       },
-      "notes": "The second line is outside the quote; normal mode restores sibling separation."
+      "notes": "The second line is outside the quote; normal mode restores sibling separation.",
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote line."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Continuation."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
     },
     {
       "id": "quote.attribution",
@@ -1472,7 +1510,13 @@
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "> Quote.\n\nContinuation.\n"
+          "canonical": "> Quote.\n\nContinuation.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
         },
         "strict": {
           "valid": false,
@@ -1510,6 +1554,620 @@
               {
                 "type": "text",
                 "value": "Continuation."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.thematic-break-warns",
+      "spec": "3.7, 2.2",
+      "source": "> Quote.\n---\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n\n---\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "horizontalRule"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.attribution-no-warning",
+      "spec": "3.7, 3.17",
+      "source": "> Quote.\n-- Author\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n-- Author\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n-- Author\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote."
+                    }
+                  ]
+                }
+              }
+            ],
+            "attribution": [
+              {
+                "type": "text",
+                "value": "Author"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.block-id-no-warning",
+      "spec": "3.7, 5.1",
+      "source": "> Quote.\n{#quote}\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n{#quote}\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n{#quote}\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote."
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "quote"
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.blank-line-no-warning",
+      "spec": "3.7",
+      "source": "> Quote.\n\nAfter.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Quote.\n\nAfter.\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "> Quote.\n\nAfter.\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Quote."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "After."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.fenced-closer-no-warning",
+      "spec": "3.7, 2.7.2",
+      "source": "::: box\n> Quote.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "::: box\n> Quote.\n:::\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "::: box\n> Quote.\n:::\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": "box",
+            "title": null,
+            "children": [
+              {
+                "type": "quoteRegion",
+                "children": [
+                  {
+                    "level": 1,
+                    "block": {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Quote."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.lined-closer-no-warning",
+      "spec": "3.7, 2.7.1",
+      "source": "___\n\n> Quote.\n___\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "___\n\n> Quote.\n___\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "___\n\n> Quote.\n___\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "lined",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "quoteRegion",
+                "children": [
+                  {
+                    "level": 1,
+                    "block": {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Quote."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.grid-marker-no-warning",
+      "spec": "3.7, 2.7.7",
+      "source": ":::\n> Quote.\n--\nCell.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\n> Quote.\n--\nCell.\n:::\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": ":::\n> Quote.\n--\nCell.\n:::\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "quoteRegion",
+                            "children": [
+                              {
+                                "level": 1,
+                                "block": {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Quote."
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Cell."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.grid-cell-warns",
+      "spec": "3.7, 2.7.7",
+      "source": ":::\n> Quote.\nText.\n--\nCell.\n:::\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ":::\n> Quote.\n\nText.\n--\nCell.\n:::\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "container",
+            "form": "fenced",
+            "containerType": null,
+            "title": null,
+            "children": [
+              {
+                "type": "grid",
+                "columns": 2,
+                "rows": [
+                  {
+                    "type": "gridRow",
+                    "cells": [
+                      {
+                        "type": "gridCell",
+                        "column": 1,
+                        "children": [
+                          {
+                            "type": "quoteRegion",
+                            "children": [
+                              {
+                                "level": 1,
+                                "block": {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Quote."
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Text."
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "gridCell",
+                        "column": 2,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Cell."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.list-item-end-no-warning",
+      "spec": "3.7, 9.9",
+      "source": "- A\n\n  > Quote.\n- B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  > Quote.\n- B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n\n  > Quote.\n- B\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "quoteRegion",
+                    "children": [
+                      {
+                        "level": 1,
+                        "block": {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Quote."
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "quotes.lazy.list-item-warns",
+      "spec": "3.7, 9.8",
+      "source": "- A\n\n  > Quote.\n  Text.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  > Quote.\n\n  Text.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "quoteRegion",
+                    "children": [
+                      {
+                        "level": 1,
+                        "block": {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Quote."
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Text."
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }

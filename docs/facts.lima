@@ -5,11 +5,11 @@ package:
   version: "0.2.3"
   runtime_dependencies: 0
 language:
-  version: "0.2.0"
+  version: "0.3.0"
 corpus:
-  cases: 666
+  cases: 756
 tests:
-  count: 2088
+  count: 2288
 commonmark:
   cases: 672
   failed: 0

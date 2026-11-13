@@ -1,7 +1,7 @@
 import type { List, ListItem, ListKind } from '../ast.js';
 import { SourceAnnotationBuilder } from '../parser-contract.js';
 import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext, DroppedIndentation } from './blocks.js';
+import type { BlockResult, ContainerContext, Advisory } from './blocks.js';
 import { isAsciiBlankCode, parseBlockSequence } from './blocks.js';
 import { codeFenceCloser, codeFenceOpener, commentClosesOnLine, commentContentStart } from './grid.js';
 import { transferAnnotations } from './annotation-transfer.js';
@@ -56,9 +56,10 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
     if (normalized.length > 9 || Number(normalized) > 999_999_999) return { error: 'ordered list number exceeds range' };
     number = Number(normalized); kind = 'ordered';
   } else return null;
-  if (text.charCodeAt(cursor) !== 0x20) return { error: 'list marker requires exactly one space' };
-  cursor += 1;
-  if (cursor >= line.contentEnd || text.charCodeAt(cursor) === 0x20) return { error: kind === 'definition' ? 'invalid definition marker spacing' : 'empty list item' };
+  if (text.charCodeAt(cursor) !== 0x20) return { error: 'list marker requires a space after it' };
+  // more than one space is read as one (§9.3); the content column lies after all of them (§9.4)
+  while (cursor < line.contentEnd && text.charCodeAt(cursor) === 0x20) cursor += 1;
+  if (cursor >= line.contentEnd) return { error: kind === 'definition' ? 'invalid definition marker spacing' : 'empty list item' };
   let task: 'open' | 'done' | undefined;
   if (kind !== 'definition' && text.charCodeAt(cursor) === 0x5b && cursor + 2 < line.contentEnd && text.charCodeAt(cursor + 2) === 0x5d) {
     const state = text.charCodeAt(cursor + 1);
@@ -72,20 +73,20 @@ export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
 
 export function startsList(text: string, line: PhysicalLine): boolean { return scanListMarker(text, line) !== null; }
 
-export function recognizeList(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, context: ContainerContext, onDroppedIndentation?: DroppedIndentation): BlockResult | null {
+export function recognizeList(lines: LineReader, text: string, annotations: SourceAnnotationBuilder, context: ContainerContext, onAdvisory?: Advisory): BlockResult | null {
   const opener = lines.current; if (opener === null) return null;
   const first = scanListMarker(text, opener); if (first === null) return null;
   if ('error' in first) { lines.advance(); return fail(first.error, opener.start, opener.contentEnd); }
   if (first.indent !== 0) {
     lines.advance();
-    return fail(context === 'list-item' && first.indent === 2 ? 'list level rises by more than one' : 'list must start at level 1', opener.start, opener.contentEnd);
+    return fail(`list marker indented ${spaces(first.indent)}: a list that is not nested in a list item starts without indentation`, opener.start, opener.contentEnd);
   }
   const kind = first.kind; const items: ListItem[] = [];
   // Item parsing is synchronous: one callback can use the current item's
   // projection instead of allocating another closure for every sibling.
   let itemSource: ReturnType<typeof buildVirtual>;
-  const onItemDroppedIndentation: DroppedIndentation | undefined = onDroppedIndentation === undefined ? undefined
-    : (start, end) => onDroppedIndentation(itemSource.project(start), itemSource.project(end));
+  const onItemAdvisory: Advisory | undefined = onAdvisory === undefined ? undefined
+    : (message, start, end) => onAdvisory(message, itemSource.project(start), itemSource.project(end));
   let visiblePrevious = first.number ?? 1; let listEnd = opener.contentEnd; let nodeCount = 1;
   while (lines.current !== null) {
     const itemLine = lines.current; const marker = items.length === 0 ? first : scanListMarker(text, itemLine);
@@ -93,24 +94,28 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
     if (marker.kind === 'ordered' && marker.number === undefined) break;
     lines.advance();
     const rows: Array<{ line: PhysicalLine; start: number }> = [{ line: itemLine, start: marker.contentStart }];
-    // A child branch keeps the baseline on which it opened. Canonical
-    // two-space ownership wins before considering the parent's content column.
-    let childBase = 2;
-    let childOpen = false;
+    // The item's base (§9.8): two spaces, or the column of its first nested marker when that stands on the content
+    // column or four spaces in; a nested marker at two sets it back to two. A line below it ends the item.
+    let base = 2;
+    // The column of the open nested item, whose lines lose that column, so that it stands at 0 in the item's text.
+    // It is the base unless a later nested marker stands on another column §9.4 reads (`1. A`, `   - B`, `    - C`).
+    // Null before the first nested marker, and again after a line of this item has ended the nested list.
+    let nested: number | null = null;
+    let sawNested = false;
     let inComment = false;
-    let literal: { char: number; length: number } | null = null;
+    let literal: { char: number; length: number; strip: number } | null = null;
     let afterBlank = false; let itemEnd = itemLine.contentEnd;
     while (lines.current !== null) {
       const line = lines.current;
       if (line.contentEnd === line.start) { afterBlank = true; rows.push({ line, start: line.start }); itemEnd = line.contentEnd; lines.advance(); continue; }
       const leading = leadingSpaces(text, line);
-      // Literal content loses only this frame's structural prefix. Its
+      // Literal content loses only the structural prefix its opener lost. Its
       // indentation, tabs, and marker-looking text are not list syntax.
       if (literal !== null) {
-        if (leading < childBase) break;
-        const start = line.start + childBase;
+        if (leading < literal.strip) break;
+        const start = line.start + literal.strip;
         if (
-          leading - childBase <= 3 &&
+          leading - literal.strip <= 3 &&
           text.charCodeAt(line.start + leading) === literal.char &&
           codeFenceCloser(text, { ...line, start }, literal.char, literal.length)
         ) literal = null;
@@ -119,28 +124,41 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
       }
       if (text.charCodeAt(line.start + leading) === 0x09) { lines.advance(); return fail('tab in list indentation', opener.start, line.contentEnd); }
       const nextMarker = scanListMarker(text, line);
-      if (nextMarker !== null && !('error' in nextMarker)) {
-        if (nextMarker.indent === 0) break;
-      }
+      const isMarker = nextMarker !== null && !('error' in nextMarker);
+      if (isMarker && nextMarker.indent === 0) break;
       const indent = leading;
-      if (!inComment && nextMarker !== null && !('error' in nextMarker)) {
-        if (indent === 2) { childBase = 2; childOpen = true; }
-        else if (!childOpen) {
-          // Only a possible alias needs the content column. Keep it out of
-          // every scanned marker record; the task prefix is not part of it.
+      let strip: number;
+      if (isMarker && !inComment && indent >= 2) {
+        if (nested !== null && indent >= nested + 2) strip = nested; // within the nested item, which reads it
+        else {
+          // a nested marker of this item, on a column §9.4 reads: two, the content column, or four spaces in;
+          // the task prefix is not part of the content column
           const contentColumn = marker.contentStart - itemLine.start - (marker.task === undefined ? 0 : TASK_PREFIX_LENGTH);
-          if (indent === contentColumn) { childBase = indent; childOpen = true; }
+          if (indent !== 2 && indent !== contentColumn && indent !== 4) {
+            lines.advance();
+            return fail(nestedIndentationMessage(indent, contentColumn), opener.start, line.contentEnd);
+          }
+          if (indent === 2) base = 2;
+          else if (!sawNested) base = indent;
+          sawNested = true; nested = indent; strip = indent;
+        }
+      } else {
+        if (indent < base) break;
+        if (!afterBlank && !isMarker && indent <= base + 3) {
+          // Preserve existing prose continuation ownership: the line loses all
+          // of its indentation. Changing that ownership would alter valid ASTs.
+          strip = indent;
+          if (!inComment) nested = null;
+        } else if (nested !== null && indent >= nested + 2) strip = nested;
+        else {
+          // A line of this item itself, below the nested item's base: it ends
+          // the nested list. It keeps its surplus over the base, except that
+          // with a nested list open two or three spaces become one, which the
+          // nested item does not take and no block reads differently.
+          strip = nested !== null && indent - base >= 2 ? indent - 1 : base;
+          if (!inComment) nested = null;
         }
       }
-      if (indent < childBase) break;
-      // After a blank line a further block joins the item only up to three
-      // spaces past the content baseline; four or more would be an indented
-      // code block in CommonMark, which Markanto does not represent, so the
-      // item ends here and the line becomes an outer block (spec §9.6).
-      if (afterBlank && indent >= childBase + 4) break;
-      // Preserve existing prose continuation ownership while normalising the
-      // selected child baseline. Changing that ownership would alter valid ASTs.
-      const strip = !afterBlank && (nextMarker === null || 'error' in nextMarker) && indent <= childBase + 3 ? indent : childBase;
       const start = line.start + strip;
       // A fence-looking line inside a comment is not a code/math opener.
       if (inComment) {
@@ -150,7 +168,9 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
         // deeply indented literal text need neither a copy nor a fence scan.
         const firstCode = text.charCodeAt(line.start + leading);
         if (firstCode === 0x60 || firstCode === 0x7e) {
-          literal = codeFenceOpener(text, { ...line, start });
+          const fence = codeFenceOpener(text, { ...line, start });
+          // its content loses what this line's owner strips: the nested item's column, or the base
+          literal = fence === null ? null : { ...fence, strip: nested ?? base };
         } else if (firstCode === 0x3c) {
           const commentStart = commentContentStart(text, { ...line, start });
           if (commentStart >= 0) inComment = !commentClosesOnLine(text, line, commentStart);
@@ -164,7 +184,7 @@ export function recognizeList(lines: LineReader, text: string, annotations: Sour
     itemSource = virtual;
     const builder = new SourceAnnotationBuilder('utf16-code-unit', { text: virtual.text, sourceMap: new LineMap(virtual.text), toSourceOffset: (offset) => offset });
     const parsed = parseBlockSequence(new LineReader(virtual.text), virtual.text, builder, () => false, 'list-item',
-      onItemDroppedIndentation);
+      onItemAdvisory);
     if (parsed.status === 'error') return { ...parsed, status: 'error', start: opener.start, safeEnd: itemEnd };
     if (parsed.blocks.length === 0 || parsed.blocks[0]!.type !== 'paragraph') return fail('list item must begin with inline paragraph', opener.start, itemEnd);
     for (const block of parsed.blocks) transferAnnotations(block, builder, annotations, virtual.project);
@@ -189,6 +209,13 @@ function buildVirtual(rows: readonly { line: PhysicalLine; start: number }[], so
   for (const row of rows) { for (let original = row.start; original < row.line.contentEnd; original += 1) { offsets[text.length] = original; text += source[original]!; } offsets[text.length] = row.line.contentEnd; if (row.line.terminated) { text += '\n'; offsets[text.length] = row.line.end; } }
   return { text, project: (offset) => offsets[offset] ?? rows.at(-1)!.line.contentEnd };
 }
+/** §7.8: how far the marker stands from its parent's, and the columns §9.4 reads there. */
+function nestedIndentationMessage(indent: number, contentColumn: number): string {
+  const columns = contentColumn === 2 || contentColumn === 4 ? 'two or four spaces in'
+    : `two spaces in, on its content column ${contentColumn} spaces in, or four spaces in`;
+  return `nested list marker indented ${spaces(indent)} from its parent's marker: a nested list is read ${columns}`;
+}
+function spaces(count: number): string { return count === 1 ? '1 space' : `${count} spaces`; }
 function leadingSpaces(text: string, line: PhysicalLine): number { let cursor = line.start; while (cursor < line.contentEnd && text.charCodeAt(cursor) === 0x20) cursor += 1; return cursor - line.start; }
 function stripZeros(value: string): string { let index = 0; while (index + 1 < value.length && value.charCodeAt(index) === 0x30) index += 1; return value.slice(index); }
 function fail(message: string, start: number, safeEnd: number, category: 'syntax' | 'semantic' = 'syntax'): BlockResult { return { status: 'error', message, start, safeEnd, category }; }

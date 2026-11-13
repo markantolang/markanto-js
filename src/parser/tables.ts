@@ -11,7 +11,7 @@
 import type { CellAlignment, Table, TableCell, TableRow } from '../ast.js';
 import type { SourceAnnotationBuilder } from '../parser-contract.js';
 import type { LineReader, PhysicalLine } from '../source/index.js';
-import type { BlockResult } from './blocks.js';
+import type { Advisory, BlockResult } from './blocks.js';
 import { parseInline } from './inline/scanner.js';
 import { atomicTokenEnd } from './inline/atomic.js';
 import { characterClass, codePointBefore } from './inline/unicode.js';
@@ -113,7 +113,7 @@ export function separatorAlignments(text: string, cells: readonly CellSpan[]): C
 }
 
 export function recognizeTable(
-  lines: LineReader, text: string, annotations: SourceAnnotationBuilder,
+  lines: LineReader, text: string, annotations: SourceAnnotationBuilder, onAdvisory?: Advisory,
 ): BlockResult | null {
   const header = lines.current;
   if (header === null || !looksLikeTableRow(text, header)) return null;
@@ -144,7 +144,7 @@ export function recognizeTable(
     const parsedCells: TableCell[] = [];
     let count = 0;
     for (const span of cells) {
-      const parsed = parseInline(text, span.start, span.end, annotations, { tableCell: true });
+      const parsed = parseInline(text, span.start, span.end, annotations, onAdvisory === undefined ? { tableCell: true } : { tableCell: true, onAdvisory });
       if (parsed.status === 'error') {
         return { status: 'error', message: parsed.message, category: parsed.category ?? 'syntax', safeEnd: line.contentEnd };
       }

@@ -5,8 +5,8 @@ import { scanListMarker } from '../../src/parser/lists.js';
 import { LineReader } from '../../src/source/index.js';
 
 test('list marker and task scanner covers all marker families', () => {
-  for (const source of ['- x\n', '* x\n', '+ x\n', '2. x\n', '2) x\n', ': x\n', '- [ ] x\n', '- [X] x\n']) assert.notEqual(scanListMarker(source, new LineReader(source).current!), null);
-  for (const source of ['- \n', ':  x\n', '- [x]x\n', '\t- x\n', '1000000000. x\n']) { const result = scanListMarker(source, new LineReader(source).current!); assert.ok(result !== null && 'error' in result); }
+  for (const source of ['- x\n', '* x\n', '+ x\n', '2. x\n', '2) x\n', ': x\n', '- [ ] x\n', '- [X] x\n', '-  x\n', '1.   x\n', ':  x\n']) assert.notEqual(scanListMarker(source, new LineReader(source).current!), null);
+  for (const source of ['- \n', '-   \n', ':  \n', '-x\n', '- [x]x\n', '\t- x\n', '1000000000. x\n']) { const result = scanListMarker(source, new LineReader(source).current!); assert.ok(result !== null && 'error' in result); }
 });
 
 test('ordered numbering stores only start and real deviations', () => {
@@ -65,37 +65,75 @@ test('canonical lists may grow one level per recursive frame beyond depth two', 
   }
 });
 
-test('a direct two-level rise remains a syntax error in the recursive frame', () => {
-  const parsed = parse('- One\n    - Too deep\n');
-  assert.equal(parsed.status, 'invalid');
-  if (parsed.status === 'invalid') {
-    assert.equal(parsed.diagnostics[0]?.category, 'syntax');
-    assert.equal(parsed.diagnostics[0]?.message, 'list level rises by more than one');
+test('a nested marker on a column §9.4 does not read is error 9.3, and says which columns it reads (§7.8)', () => {
+  for (const [source, message] of [
+    ['- One\n      - Too deep\n', "nested list marker indented 6 spaces from its parent's marker: a nested list is read two or four spaces in"],
+    ['- A\n   - B\n', "nested list marker indented 3 spaces from its parent's marker: a nested list is read two or four spaces in"],
+    ['1. A\n     - B\n', "nested list marker indented 5 spaces from its parent's marker: a nested list is read two spaces in, on its content column 3 spaces in, or four spaces in"],
+    // measured from the innermost open item: under `- B` (at two) a marker at five stands three in
+    ['- A\n  - B\n     - C\n', "nested list marker indented 3 spaces from its parent's marker: a nested list is read two or four spaces in"],
+    ['  - A\n', 'list marker indented 2 spaces: a list that is not nested in a list item starts without indentation'],
+  ] as const) {
+    const parsed = parse(source);
+    assert.equal(parsed.status, 'invalid', source);
+    assert.equal(parsed.diagnostics[0]?.category, 'syntax', source);
+    assert.equal(parsed.diagnostics[0]?.message, message, source);
   }
 });
 
-test('a list continuation after a blank line ends at 4 spaces past the baseline (M5, §9.6)', () => {
-  // 2-3 spaces past the 2-space item baseline stays in the item; 4+ (which
-  // CommonMark makes an indented code block, and Markanto does not represent)
-  // dedents the line out of the list.
-  const inItem = parse('- x\n\n     y\n'); // 5 spaces = 3 past baseline
+test('a nested marker reads two spaces, the content column, or four, unbound to the first child (§9.4)', () => {
+  const nested = (source: string): string => {
+    const parsed = parse(source);
+    assert.equal(parsed.status, 'ok', source);
+    if (parsed.status !== 'ok') return '';
+    const formatted = format(parsed.document);
+    return formatted.status === 'ok' ? formatted.source : '';
+  };
+  assert.equal(nested('- A\n    - B\n'), '- A\n  - B\n');
+  assert.equal(nested('1. A\n    - B\n'), '1. A\n  - B\n');
+  assert.equal(nested('1. A\n  - B\n   - C\n'), '1. A\n  - B\n  - C\n');
+  assert.equal(nested('1. A\n   - B\n    - C\n'), '1. A\n  - B\n  - C\n');
+  // the canonical column is assigned first: four under `- B` at two is B's child
+  assert.equal(nested('- A\n  - B\n    - C\n'), '- A\n  - B\n    - C\n');
+});
+
+test('after a blank line a line from the item\'s base stays in the item; four surplus spaces get the advisory (§9.8)', () => {
+  const inItem = parse('- x\n\n     y\n'); // 5 spaces = 3 past the base
   assert.equal(inItem.status, 'ok');
   if (inItem.status === 'ok') {
     const list = inItem.document.children[0];
     assert.ok(list?.type === 'list' && list.items[0]!.children.map((b) => b.type).join(',') === 'paragraph,paragraph');
+    assert.deepEqual(inItem.diagnostics, []);
   }
 
-  const dedented = parse('- x\n\n      y\n'); // 6 spaces = 4 past baseline
-  assert.equal(dedented.status, 'ok');
-  if (dedented.status === 'ok') {
-    assert.deepEqual(dedented.document.children.map((b) => b.type), ['list', 'paragraph']);
-    const trailing = dedented.document.children[1];
-    assert.ok(trailing?.type === 'paragraph' && trailing.children.length === 1
-      && trailing.children[0]?.type === 'text' && trailing.children[0].value === 'y');
+  // 0.2.3 ended the list here; 0.3.0 keeps the line in the item, with the advisory of §1.2
+  const deep = parse('- x\n\n      y\n'); // 6 spaces = 4 past the base
+  assert.equal(deep.status, 'ok');
+  if (deep.status === 'ok') {
+    assert.deepEqual(deep.document.children.map((b) => b.type), ['list']);
+    const list = deep.document.children[0];
+    assert.ok(list?.type === 'list' && list.items[0]!.children.map((b) => b.type).join(',') === 'paragraph,paragraph');
+    assert.deepEqual(deep.diagnostics.map(({ category, severity }) => ({ category, severity })), [{ category: 'advisory', severity: 'warning' }]);
   }
 
   // strict mode rejects the noncanonical indentation rather than silently keeping it
   assert.equal(parse('- x\n\n      y\n', { strict: true }).status, 'invalid');
+});
+
+test('the canonical second block of a third-level item reads back into that item (§9.8; 0.2.3 lost it)', () => {
+  const source = '- A\n  - B\n    - C\n\n      text\n';
+  const parsed = parse(source, { strict: true });
+  assert.equal(parsed.status, 'ok');
+  if (parsed.status !== 'ok') return;
+  const formatted = format(parsed.document);
+  assert.equal(formatted.status === 'ok' && formatted.source, source);
+  const a = parsed.document.children[0];
+  assert.ok(a?.type === 'list');
+  const b = a.items[0].children[1];
+  assert.ok(b?.type === 'list');
+  const c = b.items[0].children[1];
+  assert.ok(c?.type === 'list');
+  assert.deepEqual(c.items[0].children.map((block) => block.type), ['paragraph', 'paragraph']);
 });
 
 test('leading spaces on a paragraph line are skipped, never kept as Text (M5, §7.7)', () => {

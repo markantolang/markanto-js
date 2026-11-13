@@ -18,11 +18,8 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
   /** Project a pair of normalised parser offsets into a public-space `Diagnostic.range`. */
   const spanFor = (start: number, end: number) =>
     source.sourceMap.spanAt(source.toSourceOffset(start), source.toSourceOffset(end));
-  const onDroppedIndentation = (start: number, end: number): void => {
-    diagnostics.advisory({
-      message: 'leading indentation on this block is dropped, not preserved (§1.2): Markanto has no indented code block — use a fenced code block for code',
-      range: spanFor(start, end),
-    });
+  const onAdvisory = (message: string, start: number, end: number): void => {
+    diagnostics.advisory({ message, range: spanFor(start, end) });
   };
   const children: DocumentBlock[] = [];
   const recoveryChildren: Array<DocumentBlock | ErrorBlock> = [];
@@ -82,7 +79,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       if (options.resourceBudget?.maxNodes !== undefined && nodeCount > options.resourceBudget.maxNodes) return resource('node budget exceeded');
       continue;
     }
-    const footnote = recognizeFootnoteDefinition(current, text, annotations);
+    const footnote = recognizeFootnoteDefinition(current, text, annotations, onAdvisory);
     if (footnote !== null) {
       lines.advance();
       if ('error' in footnote) {
@@ -125,7 +122,7 @@ export function parse(raw: string, options: ParserOptions = {}): ParseResult {
       if (options.resourceBudget?.maxNodes !== undefined && nodeCount > options.resourceBudget.maxNodes) return resource('node budget exceeded');
       continue;
     }
-    const result = recognizeBlock(lines, text, annotations, 'document', undefined, onDroppedIndentation);
+    const result = recognizeBlock(lines, text, annotations, 'document', undefined, onAdvisory);
     if (result.status === 'error') {
       // a recogniser that failed without reading on would be asked about the same line forever (review 2026-11-09):
       // the scanner goes forward

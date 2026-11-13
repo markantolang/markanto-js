@@ -139,8 +139,8 @@
     },
     {
       "id": "list.level-jump-invalid",
-      "spec": "9.5",
-      "source": "- One\n    - Too deep\n",
+      "spec": "9.4, 9.5",
+      "source": "- One\n      - Too deep\n",
       "expect": {
         "normal": {
           "valid": false,
@@ -160,6 +160,73 @@
             }
           ]
         }
+      }
+    },
+    {
+      "id": "list.four-space-child",
+      "spec": "9.4, 9.5",
+      "source": "- One\n    - Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- One\n  - Two\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Two"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
       }
     },
     {
@@ -635,9 +702,343 @@
       }
     },
     {
-      "id": "list.definition.bad-spacing-invalid",
+      "id": "list.definition.multi-space",
       "spec": "9.18.1",
       "source": ":  Term\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": Term\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "definition",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Term"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.unordered.multi-space",
+      "spec": "9.3",
+      "source": "-  One\n-   Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- One\n- Two\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Two"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.ordered.multi-space",
+      "spec": "9.3.1",
+      "source": "1.  One\n2.   Two\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. One\n2. Two\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "One"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Two"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.multi-space.content-column",
+      "spec": "9.3, 9.4",
+      "source": "-  A\n   - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.multi-space.task",
+      "spec": "9.3, 9.3.2",
+      "source": "-  [x] A\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [x] A\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "task": "done",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "list.multi-space.only-spaces-invalid",
+      "spec": "9.3, 9.13",
+      "source": "-   \n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.multi-space.no-space-invalid",
+      "spec": "9.3, 9.13",
+      "source": "-A\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list.definition.multi-space.only-spaces-invalid",
+      "spec": "9.18.1, 9.18.5",
+      "source": ":   \n",
       "expect": {
         "normal": {
           "valid": false,

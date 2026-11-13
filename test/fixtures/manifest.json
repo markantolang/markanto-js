@@ -4,7 +4,7 @@
     {
       "path": "test/fixtures/blocks/cases.json",
       "group": "blocks",
-      "cases": 63
+      "cases": 72
     },
     {
       "path": "test/fixtures/containers/cases.json",
@@ -19,12 +19,12 @@
     {
       "path": "test/fixtures/inline/cases.json",
       "group": "inline",
-      "cases": 123
+      "cases": 137
     },
     {
       "path": "test/fixtures/lists/cases.json",
       "group": "lists",
-      "cases": 76
+      "cases": 84
     },
     {
       "path": "test/fixtures/math/cases.json",
@@ -34,7 +34,7 @@
     {
       "path": "test/fixtures/quotes/cases.json",
       "group": "quotes",
-      "cases": 42
+      "cases": 52
     },
     {
       "path": "test/fixtures/resources/cases.json",
@@ -54,8 +54,8 @@
     {
       "path": "test/fixtures/tolerance/cases.json",
       "group": "tolerance",
-      "cases": 44
+      "cases": 93
     }
   ],
-  "caseCount": 666
+  "caseCount": 756
 }

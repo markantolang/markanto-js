@@ -13,6 +13,7 @@ import type { SourceAnnotationBuilder } from '../parser-contract.js';
 import type { PhysicalLine } from '../source/index.js';
 import type { Span } from '../source/position.js';
 import { parseInline } from './inline/scanner.js';
+import type { Advisory } from './blocks.js';
 
 export interface FootnoteDefinitionResult {
   readonly node: FootnoteDefinition;
@@ -40,11 +41,11 @@ export function footnoteDefinitionContentStart(text: string, line: PhysicalLine)
 }
 
 export function recognizeFootnoteDefinition(
-  line: PhysicalLine, text: string, annotations: SourceAnnotationBuilder,
+  line: PhysicalLine, text: string, annotations: SourceAnnotationBuilder, onAdvisory?: Advisory,
 ): FootnoteScanResult {
   const scan = footnoteDefinitionContentStart(text, line);
   if (scan === null) return null;
-  const parsed = parseInline(text, scan.contentStart, line.contentEnd, annotations);
+  const parsed = parseInline(text, scan.contentStart, line.contentEnd, annotations, onAdvisory === undefined ? {} : { onAdvisory });
   if (parsed.status === 'error') {
     return { error: parsed.message, category: parsed.category ?? 'syntax', start: line.start, end: line.contentEnd };
   }

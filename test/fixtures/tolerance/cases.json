@@ -1346,28 +1346,70 @@
       }
     },
     {
-      "id": "tolerance.child.unordered-4-invalid",
-      "spec": "9.4, 9.5",
+      "id": "tolerance.child.unordered-4",
+      "spec": "9.4",
       "source": "- A\n    - B\n",
       "expect": {
         "normal": {
-          "valid": false,
-          "diagnostics": [
-            {
-              "category": "syntax",
-              "severity": "error"
-            }
-          ]
+          "valid": true,
+          "canonical": "- A\n  - B\n",
+          "diagnostics": []
         },
         "strict": {
           "valid": false,
           "diagnostics": [
             {
-              "category": "syntax",
+              "category": "noncanonical",
               "severity": "error"
             }
           ]
         }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
       }
     },
     {
@@ -1421,9 +1463,76 @@
       }
     },
     {
-      "id": "tolerance.child.foreign-column-invalid",
-      "spec": "9.4, 9.5",
+      "id": "tolerance.child.ordered-4",
+      "spec": "9.4",
       "source": "1. A\n    - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.ordered-5-invalid",
+      "spec": "9.4, 9.13",
+      "source": "1. A\n     - B\n",
       "expect": {
         "normal": {
           "valid": false,
@@ -1446,13 +1555,3330 @@
       }
     },
     {
-      "id": "tolerance.child.blank-indentation-boundary-preserved",
-      "spec": "9.6, 1.2",
+      "id": "tolerance.child.definition-4",
+      "spec": "9.4, 9.18.3",
+      "source": ": A\n    - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": ": A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "definition",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-then-two",
+      "spec": "9.4",
+      "source": "1. A\n   - B\n  - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n  - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.two-then-content-column",
+      "spec": "9.4",
+      "source": "1. A\n  - B\n   - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n  - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.content-column-then-four",
+      "spec": "9.4",
+      "source": "1. A\n   - B\n    - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n  - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.four-then-two",
+      "spec": "9.4",
+      "source": "- A\n    - B\n  - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n  - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.four-then-six",
+      "spec": "9.4",
+      "source": "- A\n    - B\n      - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.four-after-paragraph",
+      "spec": "9.4, 9.8",
+      "source": "- A\n  - B\n\n  Para.\n    - C\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  Para.\n\n  - C\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Para."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.task-four",
+      "spec": "9.3.2, 9.4",
+      "source": "- [ ] A\n    - B\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- [ ] A\n  - B\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "task": "open",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-1",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\ntext\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "text"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-2",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n  text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-3",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n   text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-4",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n    text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-5",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n     text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n      text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-2.text-8",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n\n        text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.text-5",
+      "spec": "9.8, 9.9",
+      "source": "- A\n\n     text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.text-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n\n      text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  text\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.text-3",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n\n   text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3.text-2",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n\n  text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n\ntext\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "text"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3.text-3",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n\n   text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3.text-4",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n\n    text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3.text-5",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n\n     text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3.text-7",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n\n       text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3-then-2.text-3",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n  - C\n\n   text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n  - C\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered-10.child-4.text-2",
+      "spec": "9.8, 9.9",
+      "source": "10. A\n    - B\n\n  text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "10. A\n  - B\n\ntext\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 10,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "text"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered-10.child-4.text-4",
+      "spec": "9.8, 9.9",
+      "source": "10. A\n    - B\n\n    text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "10. A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 10,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered-10.child-4.text-6",
+      "spec": "9.8, 9.9",
+      "source": "10. A\n    - B\n\n      text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "10. A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "start": 10,
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.text-2",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n  text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\ntext\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "text"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.text-3",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n   text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\ntext\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "text"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.text-4",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n    text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.text-5",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n     text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  - B\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.text-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n      text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.text-8",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n        text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.third-level.text-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n    - C\n\n      text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      text\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "text"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.third-level.quote-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n    - C\n\n      > q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      > q\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      > q\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "quoteRegion",
+                                    "children": [
+                                      {
+                                        "level": 1,
+                                        "block": {
+                                          "type": "paragraph",
+                                          "children": [
+                                            {
+                                              "type": "text",
+                                              "value": "q"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.third-level.fence-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n    - C\n\n      ```\n      code\n      ```\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      ```\n      code\n      ```\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      ```\n      code\n      ```\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "codeBlock",
+                                    "value": "code"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.third-level.table-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n  - B\n    - C\n\n      | a |\n      | - |\n      | b |\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n    - C\n\n      | a |\n      | --- |\n      | b |\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "list",
+                            "kind": "unordered",
+                            "items": [
+                              {
+                                "type": "listItem",
+                                "children": [
+                                  {
+                                    "type": "paragraph",
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "value": "C"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "table",
+                                    "alignments": [
+                                      "default"
+                                    ],
+                                    "head": {
+                                      "type": "tableRow",
+                                      "cells": [
+                                        {
+                                          "type": "tableCell",
+                                          "children": [
+                                            {
+                                              "type": "text",
+                                              "value": "a"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "body": [
+                                      {
+                                        "type": "tableRow",
+                                        "cells": [
+                                          {
+                                            "type": "tableCell",
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "value": "b"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.child-4.quote-6",
+      "spec": "9.8, 9.9",
+      "source": "- A\n    - B\n\n      > q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n  - B\n\n    > q\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "quoteRegion",
+                            "children": [
+                              {
+                                "level": 1,
+                                "block": {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "q"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.dash.quote-3",
+      "spec": "9.8, 9.9",
+      "source": "- A\n\n   > q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "- A\n\n  \\> q\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "unordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "> q"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3-then-4.text-6",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n    - C\n\n      text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n  - B\n  - C\n\n    text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "text"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-3-then-4.text-5",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n   - B\n    - C\n\n     text\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n  - C\n\n  text\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "text"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.base.ordered.child-2-then-3.quote-3",
+      "spec": "9.8, 9.9",
+      "source": "1. A\n  - B\n   - C\n\n   > q\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "1. A\n\n  - B\n  - C\n\n  \\> q\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "list",
+            "kind": "ordered",
+            "items": [
+              {
+                "type": "listItem",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "kind": "unordered",
+                    "items": [
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "B"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "listItem",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "C"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "> q"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.child.blank-indentation-surplus-advisory",
+      "spec": "9.8, 1.2",
       "source": "1. A\n\n      B\n",
       "expect": {
         "normal": {
           "valid": true,
-          "canonical": "1. A\n\nB\n",
+          "canonical": "1. A\n\n  B\n",
           "diagnostics": [
             {
               "category": "advisory",
@@ -1488,17 +4914,17 @@
                         "value": "A"
                       }
                     ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "B"
+                      }
+                    ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "value": "B"
               }
             ]
           }
@@ -2459,6 +5885,237 @@
                     ]
                   }
                 ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.paragraph-advisory",
+      "spec": "7.4, 1.2",
+      "source": "\tProse.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Prose.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Prose."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.after-spaces-advisory",
+      "spec": "7.4, 1.2",
+      "source": "  \tProse.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Prose.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Prose."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.in-quote-advisory",
+      "spec": "7.4, 1.2, 3.15.2",
+      "source": "> \tProse.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "> Prose.\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "quoteRegion",
+            "children": [
+              {
+                "level": 1,
+                "block": {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Prose."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.continuation-no-advisory",
+      "spec": "7.4, 9.6",
+      "source": "Prose\n\tcontinued.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Prose\ncontinued.\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "noncanonical",
+              "severity": "error"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Prose"
+              },
+              {
+                "type": "softBreak"
+              },
+              {
+                "type": "text",
+                "value": "continued."
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "tolerance.tab.list-marker-invalid",
+      "spec": "7.4, 9.13",
+      "source": "\t- item\n",
+      "expect": {
+        "normal": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        },
+        "strict": {
+          "valid": false,
+          "diagnostics": [
+            {
+              "category": "syntax",
+              "severity": "error"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tolerance.tab.inner-tab-no-advisory",
+      "spec": "7.4",
+      "source": "Prose\twith a tab.\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "Prose\twith a tab.\n",
+          "diagnostics": []
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "Prose\twith a tab.\n",
+          "diagnostics": []
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Prose\twith a tab."
               }
             ]
           }
