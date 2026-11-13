@@ -42,11 +42,6 @@ function trailing(code: number): boolean {
 }
 
 /**
- * URL / email autolink domains, shared verbatim with the inline scanner
- * (`bracketAutolink`, `bareAutolink`) so an atomic-token boundary decision can
- * never diverge from what the scanner would actually recognise.
- */
-/**
  * The escape that writes a delimiter run as literal text (§10.8, leftmost effective character): `_` is a word
  * character, so escaping the leftmost underscore suffices; `*` and `~` are punctuation, so `**` and `~~` need both.
  */
@@ -55,6 +50,11 @@ export function literalDelimiterEscape(delimiter: string): string {
   return delimiter === '**' || delimiter === '~~' ? `\\${first}\\${first}` : `\\${first}${delimiter.slice(1)}`;
 }
 
+/**
+ * URL / email autolink domains, shared verbatim with the inline scanner
+ * (`bracketAutolink`, `bareAutolink`) so an atomic-token boundary decision can
+ * never diverge from what the scanner would actually recognise.
+ */
 export function isUrlAutolink(value: string): boolean {
   const n = value.startsWith('https://') ? 8 : value.startsWith('http://') ? 7 : -1;
   if (n < 0 || value.length <= n) return false;
