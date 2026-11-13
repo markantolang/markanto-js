@@ -21,7 +21,9 @@ accepts what it accepted before, and no canonical form changes.
 - **New warnings in normal mode**, none of which makes a document invalid: a line without `>` right after a quote,
   except an attribution, a block ID, or the closer or Grid marker that ends the sequence; tag-like text such as
   `<br>` or `</div>` in ordinary inline text; a paragraph that begins with `[label]:`; a tab in front of a
-  paragraph's first line, which gets the advisory four spaces have had. `\t- item` stays an error.
+  paragraph's first line, which gets the advisory four spaces have had, at the top level and in a list item alike:
+  `\t2026 report` and `\t*em*` are paragraphs. Only a list marker after the tab, `\t- item` or `\t1. item`, stays
+  an error.
 - **Diagnostics say what to write**: an emphasis opened inside the same kind names its escape (`\*\*` for `**`,
   `\<i>` for `<i>`); a broken link destination says what is wrong with it, and for a space that `<…>` or `%20`
   writes it; a list marker on a column Markanto does not read says how far it stands from its parent's marker and
@@ -46,9 +48,9 @@ accepts what it accepted before, and no canonical form changes.
 
 ### Conformance
 
-- 105 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
+- 112 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
   corpus sweep now requires every valid case to state its warnings; eight footnote cases state the warning for an
-  unused definition they had before. The corpus has 771 cases. Of the 672 CommonMark and GFM cases, 24 change their
+  unused definition they had before. The corpus has 778 cases. Of the 672 CommonMark and GFM cases, 24 change their
   classification and 256 their diagnostics (`docs/COMMONMARK_DIVERGENCE.md`).
 - `bun run check:spec-sync` fails until `v0.3.0` is tagged in `markantolang/spec`.
 

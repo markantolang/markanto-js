@@ -17,16 +17,18 @@ type MarkerResult = ListMarker | { readonly error: string } | null;
 export function scanListMarker(text: string, line: PhysicalLine): MarkerResult {
   let cursor = line.start;
   while (cursor < line.contentEnd && text.charCodeAt(cursor) === 0x20) cursor += 1;
-  if (text.charCodeAt(cursor) === 0x09) {
-    // A tab in the indentation is a structural error only when a list marker
-    // actually follows it. A bare `\t…` line is ordinary content — the tab is
-    // literal running text (spec §7.4), not list indentation.
-    let probe = cursor;
-    while (probe < line.contentEnd && (text.charCodeAt(probe) === 0x09 || text.charCodeAt(probe) === 0x20)) probe += 1;
-    const marker = text.charCodeAt(probe);
-    const startsMarker = marker === 0x2d || marker === 0x2a || marker === 0x2b || marker === 0x3a || (marker >= 0x30 && marker <= 0x39);
-    return startsMarker ? { error: 'tab in list indentation' } : null;
-  }
+  if (text.charCodeAt(cursor) !== 0x09) return scanMarkerAt(text, line, cursor);
+  // A tab in the indentation is error 9.5 only when a list marker follows it, an item's or one of the marker errors
+  // of §9.13 (`\t- item`, `\t-x`): the structural error comes first (§7.4). Any other line is ordinary content whose
+  // block reads the tab: `\t2026 report` and `\t*em*` are paragraphs, which drop it with the advisory of §1.2.
+  let probe = cursor;
+  while (probe < line.contentEnd && isAsciiBlankCode(text.charCodeAt(probe))) probe += 1;
+  return scanMarkerAt(text, line, probe) === null ? null : { error: 'tab in list indentation' };
+}
+
+/** The list marker at `markerStart`, the first character after the line's indentation. */
+function scanMarkerAt(text: string, line: PhysicalLine, markerStart: number): MarkerResult {
+  let cursor = markerStart;
   const indent = cursor - line.start;
   let kind: ListKind; let number: number | undefined;
   const code = text.charCodeAt(cursor);

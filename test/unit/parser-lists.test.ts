@@ -7,7 +7,9 @@ import { LineReader } from '../../src/source/index.js';
 
 test('list marker and task scanner covers all marker families', () => {
   for (const source of ['- x\n', '* x\n', '+ x\n', '2. x\n', '2) x\n', ': x\n', '- [ ] x\n', '- [X] x\n', '-  x\n', '1.   x\n', ':  x\n']) assert.notEqual(scanListMarker(source, new LineReader(source).current!), null);
-  for (const source of ['- \n', '-   \n', ':  \n', '-x\n', '- [x]x\n', '\t- x\n', '1000000000. x\n']) { const result = scanListMarker(source, new LineReader(source).current!); assert.ok(result !== null && 'error' in result); }
+  for (const source of ['- \n', '-   \n', ':  \n', '-x\n', '- [x]x\n', '\t- x\n', '\t1. x\n', '\t-x\n', '1000000000. x\n']) { const result = scanListMarker(source, new LineReader(source).current!); assert.ok(result !== null && 'error' in result); }
+  // after a tab only a marker is list syntax, not the first character of one (§7.4)
+  for (const source of ['\t2026 report\n', '\t*em*\n', '\t+x\n', '\t3.14\n', '\t-- x\n']) assert.equal(scanListMarker(source, new LineReader(source).current!), null, source);
 });
 
 test('ordered numbering stores only start and real deviations', () => {
