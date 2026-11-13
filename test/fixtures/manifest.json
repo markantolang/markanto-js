@@ -19,7 +19,7 @@
     {
       "path": "test/fixtures/inline/cases.json",
       "group": "inline",
-      "cases": 137
+      "cases": 143
     },
     {
       "path": "test/fixtures/lists/cases.json",
@@ -57,5 +57,5 @@
       "cases": 115
     }
   ],
-  "caseCount": 778
+  "caseCount": 784
 }

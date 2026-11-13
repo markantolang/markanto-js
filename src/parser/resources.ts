@@ -238,13 +238,19 @@ export function recognizeBlockResource(
   }
 
   const expectedImage = bare || opened!.kind === null;
-  const primary = parseDirectResource(text, primaryStart, primaryEnd, annotations, expectedImage, true);
+  const held: Array<Parameters<Advisory>> = [];
+  const primary = parseDirectResource(text, primaryStart, primaryEnd, annotations, expectedImage, true, false,
+    onAdvisory === undefined ? undefined : (...report) => { held.push(report); });
+  // A bare or kindless line that its primary does not fill is no block resource but a paragraph, which reads the line
+  // again and reports its warnings itself; every other reading is this one's, and the label's warnings with it (§10.4).
+  const paragraph = (bare || opened!.kind === null) && primary?.status !== 'error' && (primary === null || primary.end !== primaryEnd);
+  if (paragraph) return null;
+  for (const report of held) onAdvisory?.(...report);
   if (primary?.status === 'error') {
     consumeClaimedLines(lines, captionLine);
     return { status: 'error', message: primary.message, start: line.start, safeEnd: captionLine?.contentEnd ?? line.contentEnd, category: primary.category ?? 'syntax' };
   }
   if (primary === null || primary.end !== primaryEnd) {
-    if (bare || opened!.kind === null) return null;
     consumeClaimedLines(lines, captionLine);
     return { status: 'error', message: primary === null ? 'typed resource requires one primary link' : 'extra text in typed resource', start: line.start, safeEnd: captionLine?.contentEnd ?? line.contentEnd, category: 'semantic' };
   }

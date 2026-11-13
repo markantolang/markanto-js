@@ -7,9 +7,9 @@ package:
 language:
   version: "0.3.0"
 corpus:
-  cases: 778
+  cases: 784
 tests:
-  count: 2334
+  count: 2347
 commonmark:
   cases: 672
   failed: 0

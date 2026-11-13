@@ -322,9 +322,12 @@ function link(text: string, start: number, end: number, annotations: SourceAnnot
 
 export function parseDirectResource(
   text: string, start: number, end: number, annotations: SourceAnnotationBuilder,
-  _image: boolean, allowEmptyLabel: boolean, tableCell = false,
+  _image: boolean, allowEmptyLabel: boolean, tableCell = false, onAdvisory?: Advisory,
 ): { status: 'ok'; node: InlineImage | Link; end: number; nested: number } | { status: 'error'; message: string; category?: 'syntax' | 'semantic' } | null {
-  const result = link(text, start, end, annotations, tableCell ? { tableCell } : {}, allowEmptyLabel);
+  const context: InlineContext = {};
+  if (tableCell) context.tableCell = true;
+  if (onAdvisory !== undefined) context.onAdvisory = onAdvisory;
+  const result = link(text, start, end, annotations, context, allowEmptyLabel);
   if (result === null || result.status === 'error') return result;
   if (result.node.type !== 'inlineImage' && result.node.type !== 'link') return null;
   return { status: 'ok', node: result.node, end: result.end, nested: result.nested };
@@ -339,9 +342,17 @@ function metadataWrapper(
   const close = metadataClose(text, open.end, end);
   if (close < 0) return error('unclosed metadata wrapper');
   const after = close + 4;
-  const image = parseDirectResource(text, open.end, close, annotations, true, true, context.tableCell === true);
-  if (image?.status === 'error') return image;
-  if (image?.status === 'ok' && image.node.type === 'inlineImage' && image.end === close) {
+  // The primary link or image is read once, for every reading below. A kindless wrapper whose content is not one image
+  // is a generic span, which reads that content again and reports its warnings itself; every other reading keeps the
+  // primary, and the warnings of its label with it, so each is reported once (§10.4).
+  const held: Array<Parameters<Advisory>> = [];
+  const primary = parseDirectResource(text, open.end, close, annotations, true, true, context.tableCell === true,
+    context.onAdvisory === undefined ? undefined : (...report) => { held.push(report); });
+  const image = primary?.status === 'ok' && primary.node.type === 'inlineImage' && primary.end === close ? primary : null;
+  const generic = open.kind === null && image === null && primary?.status !== 'error';
+  if (!generic) for (const report of held) context.onAdvisory?.(...report);
+  if (primary?.status === 'error') return primary;
+  if (image !== null) {
     if (open.kind !== null) return resourceError('resource primary type conflict', 'semantic');
     if (!hasAttrs(open.attrs)) return resourceError('metadata wrapper adds no semantics', 'semantic');
     const invalid = validateAttributeContext('image', open.attrs);
@@ -354,8 +365,7 @@ function metadataWrapper(
     return { status: 'ok', node, end: after, nested: image.nested };
   }
   if (open.kind !== null) {
-    const direct = parseDirectResource(text, open.end, close, annotations, false, true, context.tableCell === true);
-    if (direct?.status === 'error') return direct;
+    const direct = primary;
     if (direct === null || direct.end !== close) return resourceError('typed resource requires exactly one primary link', 'semantic');
     const invalid = validateAttributeContext(open.kind, open.attrs);
     if (invalid !== null) return resourceError(invalid.message, invalid.category);

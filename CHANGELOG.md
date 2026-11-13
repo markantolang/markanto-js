@@ -48,9 +48,9 @@ accepts what it accepted before, and no canonical form changes.
 
 ### Conformance
 
-- 112 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
+- 118 new corpus cases, among them the 26 owners of a block after a blank line from the specification's table, and the
   corpus sweep now requires every valid case to state its warnings; eight footnote cases state the warning for an
-  unused definition they had before. The corpus has 778 cases. Of the 672 CommonMark and GFM cases, 24 change their
+  unused definition they had before. The corpus has 784 cases. Of the 672 CommonMark and GFM cases, 24 change their
   classification and 256 their diagnostics (`docs/COMMONMARK_DIVERGENCE.md`).
 - `bun run check:spec-sync` fails until `v0.3.0` is tagged in `markantolang/spec`.
 

@@ -79,6 +79,17 @@ test('tag-like text is reported from its `<` to its `>`, and stays text (§10.4)
   }
 });
 
+test('tag-like text in the label of a resource is reported once, by the reading the document keeps (§10.4)', () => {
+  for (const source of [
+    '![<br>](u)\n', '<m video>[<br>](u)</m>\n', '<m data-x=1>![<br>](u)</m>\n', '- x\n\n  ![<br>](u)\n', '> ![<br>](u)\n',
+    'x <m group=g>![<br>](u)</m>\n', 'x <m download>[<br>](u)</m>\n', '| a |\n| - |\n| <m group=g>![<br>](u)</m> |\n',
+    // read first as a resource, then again as a paragraph or a generic span
+    '![<br>](u) tail\n', 'x <m data-x=1>![<br>](u) y</m>\n', 'x <m data-x=1>[<br>](u)</m>\n',
+  ]) {
+    assert.equal(only(source).text, '<br>', source);
+  }
+});
+
 test('a paragraph that begins like a link-reference definition is reported once (§10.5)', () => {
   assert.deepEqual(only('[docs]: https://example.org\nmore\n[x]: y\n'), {
     category: 'advisory', text: '[docs]:',
@@ -93,7 +104,13 @@ test('a tab in the leading whitespace of a paragraph gets the indentation adviso
   assert.equal(only('\tProse.\n').category, 'advisory');
   assert.equal(only('  \tProse.\n').text, '  \tProse.');
   assert.deepEqual(parse('Prose\n\tcontinued.\n').diagnostics, []);
-  const marker = parse('\t- item\n');
-  assert.equal(marker.status, 'invalid');
-  assert.equal(marker.diagnostics[0]?.message, 'tab in list indentation');
+  // what follows the tab decides, not its first character: a number or an emphasis is a paragraph
+  assert.equal(only('\t2026 report\n').text, '\t2026 report');
+  assert.equal(only('\t*em*\n').text, '\t*em*');
+  assert.equal(only('- A\n\n  \tProse\n').text, '\tProse');
+  for (const source of ['\t- item\n', '\t1. item\n', '- A\n\n  \t- B\n']) {
+    const marker = parse(source);
+    assert.equal(marker.status, 'invalid', source);
+    assert.deepEqual(marker.diagnostics.map((diagnostic) => diagnostic.message), ['tab in list indentation'], source);
+  }
 });

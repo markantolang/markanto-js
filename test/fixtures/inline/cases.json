@@ -4076,6 +4076,318 @@
         ],
         "footnotes": []
       }
+    },
+    {
+      "id": "inline.tag-like.image-block-alt",
+      "spec": "10.4, 4.4",
+      "source": "![<br>](u)\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![<br>](u)\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![<br>](u)\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "imageBlock",
+            "src": "u",
+            "alt": [
+              {
+                "type": "text",
+                "value": "<br>"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.typed-block-label",
+      "spec": "10.4, 4.3",
+      "source": "<m video>[<br>](u)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "<m video>[<br>](u)</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "<m video>[<br>](u)</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "videoBlock",
+            "src": "u",
+            "label": [
+              {
+                "type": "text",
+                "value": "<br>"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.metadata-image-alt",
+      "spec": "10.4, 4.2",
+      "source": "x <m group=g>![<br>](u)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "x <m group=g>![<br>](u)</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "x <m group=g>![<br>](u)</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "x "
+              },
+              {
+                "type": "inlineImage",
+                "src": "u",
+                "alt": [
+                  {
+                    "type": "text",
+                    "value": "<br>"
+                  }
+                ],
+                "attrs": {
+                  "group": "g"
+                }
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.download-label",
+      "spec": "10.4, 4.3",
+      "source": "x <m download>[<br>](u)</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "x <m download>[<br>](u)</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "x <m download>[<br>](u)</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "x "
+              },
+              {
+                "type": "link",
+                "href": "u",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "<br>"
+                  }
+                ],
+                "download": true
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.generic-span-once",
+      "spec": "10.4, 4.7",
+      "source": "x <m data-x=1>![<br>](u) y</m>\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "x <m data-x=1>![<br>](u) y</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "x <m data-x=1>![<br>](u) y</m>\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "x "
+              },
+              {
+                "type": "metadataSpan",
+                "attrs": {
+                  "dataAttrs": {
+                    "x": "1"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "inlineImage",
+                    "src": "u",
+                    "alt": [
+                      {
+                        "type": "text",
+                        "value": "<br>"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " y"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
+    },
+    {
+      "id": "inline.tag-like.image-paragraph-once",
+      "spec": "10.4, 4.4",
+      "source": "![<br>](u) tail\n",
+      "expect": {
+        "normal": {
+          "valid": true,
+          "canonical": "![<br>](u) tail\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        },
+        "strict": {
+          "valid": true,
+          "canonical": "![<br>](u) tail\n",
+          "diagnostics": [
+            {
+              "category": "advisory",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "semanticAst": {
+        "type": "document",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineImage",
+                "src": "u",
+                "alt": [
+                  {
+                    "type": "text",
+                    "value": "<br>"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": " tail"
+              }
+            ]
+          }
+        ],
+        "footnotes": []
+      }
     }
   ]
 }

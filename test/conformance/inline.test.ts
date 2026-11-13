@@ -21,7 +21,7 @@ const fixtures = [
   ...load('../fixtures/math/cases.json').filter((fixture) => fixture.id.startsWith('math.inline')),
 ];
 
-assert.equal(fixtures.length, 145, 'all 137 inline and eight inline-math fixtures are covered');
+assert.equal(fixtures.length, 151, 'all 143 inline and eight inline-math fixtures are covered');
 
 for (const fixture of fixtures) {
   test(`Phase 2 conformance: ${fixture.id}`, () => {
