@@ -1,11 +1,10 @@
 # Markanto — Specification
 
-> **Version 0.3.0** · draft · 2026-11-12 · English (normative edition)
+> **Version 0.3.0** · frozen · English (normative edition)
 >
-> The draft of the normative specification for the Markanto 0.3.0 language
-> line. It may change until 0.3.0 is frozen; later versions may evolve the
-> language, and there is no 1.0 compatibility freeze yet. Markanto 0.2.0 keeps
-> its own specification,
+> The normative specification for the Markanto 0.3.0 language line. It does not
+> change; later versions may evolve the language, and there is no 1.0
+> compatibility freeze yet. Markanto 0.2.0 keeps its own specification,
 > [`v0.2.0`](https://github.com/markantolang/spec/blob/v0.2.0/spec.md).
 
 ---
