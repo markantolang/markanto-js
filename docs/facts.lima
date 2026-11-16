@@ -2,7 +2,7 @@
 # Regenerate with: bun scripts/facts.ts
 
 package:
-  version: "0.2.3"
+  version: "0.3.0"
   runtime_dependencies: 0
 language:
   version: "0.3.0"

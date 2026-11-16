@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 — 2026-11-16
 
-Markanto 0.3.0 (`vendor/spec/0.3.0/spec.md`, the approved draft at `markantolang/spec` `d817af7`, not yet tagged):
+Markanto 0.3.0 (`vendor/spec/0.3.0/spec.md`, tag `v0.3.0` of `markantolang/spec`):
 eight changes that read more of what Markdown writers write and say what Markanto reads differently. Strict mode
 accepts what it accepted before, and no canonical form changes.
 
