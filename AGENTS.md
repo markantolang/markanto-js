@@ -35,6 +35,22 @@ read `docs/PARSER_CONTRACT.md` (operational contract; `src/parser-contract.ts`).
 - Resource/safety limits are implementation policy, not grammar validity.
 - Never invent syntax or semantics absent from the specification.
 
+## Principles
+
+- **Look at how established tools solve it.** Before building a mechanism of your own, name the class of problem and
+  how two or three leading tools of the same domain solve it; follow the proven pattern unless the difference is the
+  point, and say which.
+- **When fixes keep growing in one place, the design is wrong.** A second round of findings in the same place, or a fix
+  that only works around a cause (a compatibility promise kept by a workaround is one), means stop, step back, and
+  prefer the redesign that deletes code.
+- **Readable code before line count.** A budget cuts scope, never clarity.
+- **A comparison with the previous release accepts a change;** it is not kept as a permanent gate.
+- **This repository is public and holds nothing private:** no names, paths or texts from outside it, from the material
+  a task brings along, or from the sites that use it.
+- **Every platform counts:** Linux, macOS and Windows. Tests do not rely on timing (no tight time limits, no waiting
+  for file-system events) or on how a system spells a path.
+- **Reviews are by a different provider than the author.**
+
 ## Architecture
 
 Target pipeline:
