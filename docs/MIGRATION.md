@@ -192,7 +192,8 @@ obstruction (never only the generic fallback); that no v0.5.3 construct — the
 source re-parsed with the vendored legacy parser, mapped to its 0.1.0 name —
 vanishes from the migrated AST without a diagnostic; and that every
 meaning-preserving (`mapped`) migration round-trips through the strict parser.
-The breakdown is regenerated to `docs/audits/migration-evolution-gate.md`.
+The breakdown is written to `docs/audits/migration-evolution-gate.md` by
+`bun run migration:audit`; the gate's test compares it and never writes it.
 
 The migration gate reads a frozen `test/migrate/v053-corpus/` snapshot rather
 than the previous monorepo's tree, so it keeps working after that repository is

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { Document, Heading, Paragraph } from '../../src/ast.js';
-import { parse, validate } from '../../src/index.js';
+import type { Document, Heading, Paragraph } from '../../src/ast.ts';
+import { parse, validate } from '../../src/index.ts';
 
 function documentOf(source: string): Document {
   const result = parse(source);

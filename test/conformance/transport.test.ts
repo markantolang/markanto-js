@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { format, parse } from '../../src/index.js';
+import { format, parse } from '../../src/index.ts';
 
 /**
  * Byte / transport conformance (spec §7, §7.4). Unlike every other fixture

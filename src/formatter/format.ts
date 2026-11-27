@@ -1,16 +1,16 @@
-import type { AudioBlock, Container, Document, DocumentBlock, DownloadBlock, EmbedBlock, Grid, GridCell, GridRow, ImageBlock, Inline, List, QuoteRegion, ResourceBudget, Table, TableRow, VideoBlock } from '../ast.js';
-import { isIdentifier, splitSameLineId } from '../parser/block-id.js';
-import { isLinedHeaderIntroducer, isValidTypeString, normalizeType } from '../parser/containers.js';
-import { diagnostic, type Diagnostic } from '../diagnostics.js';
-import type { CanonicalFormatResult } from '../parser-contract.js';
-import { atomicTokenEnd, literalDelimiterEscape } from '../parser/inline/atomic.js';
-import { characterClass, isUnicodeWhitespace } from '../parser/inline/unicode.js';
-import { scanEntity } from '../parser/inline/entities.js';
-import { hasAttrs, isWellFormedBcp47, normalizeGroup, validateAttributeContext, type AttributeContext, type MKind, type ParsedAttributes } from '../parser/resources.js';
-import { canonicalFootnoteOrder } from '../parser/footnotes.js';
-import { exceedsGridMatrixBudget } from '../parser/grid.js';
-import { rowHasTableSyntax, separatorAlignments, tokenizeRow } from '../parser/tables.js';
-import { DEFAULT_VALIDATION_BUDGET } from '../validator/shape.js';
+import type { AudioBlock, Container, Document, DocumentBlock, DownloadBlock, EmbedBlock, Grid, GridCell, GridRow, ImageBlock, Inline, List, QuoteRegion, ResourceBudget, Table, TableRow, VideoBlock } from '../ast.ts';
+import { isIdentifier, splitSameLineId } from '../parser/block-id.ts';
+import { isLinedHeaderIntroducer, isValidTypeString, normalizeType } from '../parser/containers.ts';
+import { diagnostic, type Diagnostic } from '../diagnostics.ts';
+import type { CanonicalFormatResult } from '../parser-contract.ts';
+import { atomicTokenEnd, literalDelimiterEscape } from '../parser/inline/atomic.ts';
+import { characterClass, isUnicodeWhitespace } from '../parser/inline/unicode.ts';
+import { scanEntity } from '../parser/inline/entities.ts';
+import { hasAttrs, isWellFormedBcp47, normalizeGroup, validateAttributeContext, type AttributeContext, type MKind, type ParsedAttributes } from '../parser/resources.ts';
+import { canonicalFootnoteOrder } from '../parser/footnotes.ts';
+import { exceedsGridMatrixBudget } from '../parser/grid.ts';
+import { rowHasTableSyntax, separatorAlignments, tokenizeRow } from '../parser/tables.ts';
+import { DEFAULT_VALIDATION_BUDGET } from '../validator/shape.ts';
 
 /** Thrown deep in the recursive `formatInline` when inline nesting exceeds the
  * frame budget; caught in `format()` and turned into a `resource` result. */

@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 
-import { parse } from '../src/index.js';
+import { parse } from '../src/index.ts';
 
 const directory = new URL('../test/corpus-realistic/', import.meta.url);
 for (const name of readdirSync(directory).filter((entry) => entry.endsWith('.md') && !entry.startsWith('README')).sort()) {

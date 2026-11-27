@@ -1,4 +1,4 @@
-import { isIdentifierChar } from '../source/index.js';
+import { isIdentifierChar } from '../source/index.ts';
 
 export interface SameLineIdResult {
   readonly bodyEnd: number;

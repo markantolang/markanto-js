@@ -13,7 +13,7 @@
  * point at an AST node, not source, and carry none.
  */
 
-import type { Span } from './source/position.js';
+import type { Span } from './source/position.ts';
 
 export type DiagnosticCategory =
   | 'syntax'

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { Document, Heading } from '../../src/ast.js';
-import { adoptDocument, parse, validate } from '../../src/index.js';
+import type { Document, Heading } from '../../src/ast.ts';
+import { adoptDocument, parse, validate } from '../../src/index.ts';
 
 function counter(): () => string {
   let n = 0;

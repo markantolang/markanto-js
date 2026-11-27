@@ -2,13 +2,13 @@ import type {
   AudioBlock, DataAttributes, DocumentBlock, DownloadBlock, DownloadResourceAttributes,
   EmbedBlock, ImageBlock, ImageResourceAttributes, Inline, InlineWithoutBreak,
   Link, MediaResourceAttributes, MetadataSpanAttributes, VideoBlock,
-} from '../ast.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { LineReader, PhysicalLine } from '../source/index.js';
-import type { Advisory, BlockResult, ContainerContext } from './blocks.js';
-import { trimAsciiBlankEnd } from './block-id.js';
-import { parseDirectResource, parseInline } from './inline/scanner.js';
-import { codePointAt, isUnicodeWhitespace } from './inline/unicode.js';
+} from '../ast.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { LineReader, PhysicalLine } from '../source/index.ts';
+import type { Advisory, BlockResult, ContainerContext } from './blocks.ts';
+import { trimAsciiBlankEnd } from './block-id.ts';
+import { parseDirectResource, parseInline } from './inline/scanner.ts';
+import { codePointAt, isUnicodeWhitespace } from './inline/unicode.ts';
 
 export type MKind = 'video' | 'audio' | 'embed' | 'download';
 export type AttributeContext = MKind | 'image' | 'generic';
@@ -309,7 +309,7 @@ export function startsBlockResource(text: string, line: PhysicalLine, annotation
   return true;
 }
 
-function makeBlock(kind: MKind | null, primary: import('../ast.js').InlineImage | Link, attrs: ParsedAttributes, caption?: InlineWithoutBreak[]): ImageBlock | VideoBlock | AudioBlock | EmbedBlock | DownloadBlock {
+function makeBlock(kind: MKind | null, primary: import('../ast.ts').InlineImage | Link, attrs: ParsedAttributes, caption?: InlineWithoutBreak[]): ImageBlock | VideoBlock | AudioBlock | EmbedBlock | DownloadBlock {
   const cap = caption === undefined ? {} : { caption: caption as [InlineWithoutBreak, ...InlineWithoutBreak[]] };
   if (primary.type === 'inlineImage') return { type: 'imageBlock', src: primary.src, alt: primary.alt, ...(primary.title === undefined ? {} : { title: primary.title }), ...cap, ...(hasAttrs(attrs) ? { attrs: attrs as ImageResourceAttributes } : {}) };
   const base = { ...(primary.title === undefined ? {} : { title: primary.title }), ...cap };

@@ -1,5 +1,5 @@
-# The gate of the repository on every push to main and every pull request: bun run verify, which includes that
-# docs/facts.lima and the documents state what is measured. Every action is pinned to a commit.
+# The gate of the repository on every push to main and every pull request: ./check.sh, the same gate developers run,
+# which includes that docs/facts.lima and the documents state what is measured. Every action is pinned to a commit.
 name: check
 
 on:
@@ -15,10 +15,18 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+    # ./check.sh on the oldest Node of engines.node and on the newest Node 26; its package smoke test runs the packed
+    # package on the job's Node.
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [24.18.0, 26.13.1]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          # The whole history, so that gitleaks scans every commit of a push, not only the last one.
+          fetch-depth: 0
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         timeout-minutes: 10
         with:
@@ -26,8 +34,15 @@ jobs:
           mise_toml: |
             [tools]
             bun = "1.4.0"
-            node = "24.18.0"
+            node = "${{ matrix.node }}"
+      - name: Check that the gate runs on the job's Node
+        env:
+          NODE_VERSION: ${{ matrix.node }}
+        run: test "$(node --version)" = "v$NODE_VERSION"
       - run: bun install --frozen-lockfile
         timeout-minutes: 5
-      - run: bun run verify
+      - run: ./check.sh
         timeout-minutes: 10
+        env:
+          # mise fetches gitleaks through GitHub's API.
+          MISE_GITHUB_TOKEN: ${{ github.token }}

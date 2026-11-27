@@ -1,14 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import type { Document, FootnoteDefinition, Heading } from '../../src/ast.js';
+import type { Document, FootnoteDefinition, Heading } from '../../src/ast.ts';
 import {
   createSourceAnnotationBuilder,
   SourceAnnotationBuilder,
-} from '../../src/parser-contract.js';
-import { openSource } from '../../src/source/index.js';
-import { semanticDocumentEquals } from '../../src/semantic-equality.js';
-import { doc, heading, paragraph, text } from '../helpers/ast-builders.js';
+} from '../../src/parser-contract.ts';
+import { openSource } from '../../src/source/index.ts';
+import { semanticDocumentEquals } from '../../src/semantic-equality.ts';
+import { doc, heading, paragraph, text } from '../helpers/ast-builders.ts';
 
 /**
  * A synthetic "parse": build a document plus a sealed annotation sidecar from a

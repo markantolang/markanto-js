@@ -25,10 +25,12 @@ export interface PhysicalLine {
 }
 
 export class LineReader {
+  private readonly text: string;
   private readonly lines: readonly PhysicalLine[];
   private index = 0;
 
-  constructor(private readonly text: string) {
+  constructor(text: string) {
+    this.text = text;
     const lines: PhysicalLine[] = [];
     let start = 0;
     let number = 1;

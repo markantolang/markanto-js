@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { Document } from '../../src/ast.js';
-import { format, parse, semanticDocumentEquals, validate } from '../../src/index.js';
+import type { Document } from '../../src/ast.ts';
+import { format, parse, semanticDocumentEquals, validate } from '../../src/index.ts';
 
 const CASES = [
   ['em', '*foo\nbar*', 'em'],

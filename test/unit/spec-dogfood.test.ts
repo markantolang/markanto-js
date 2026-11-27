@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
-import { format, parse } from '../../src/index.js';
+import { format, parse } from '../../src/index.ts';
 
 // The normative specifications are themselves written in Markanto. Each must not only
 // parse as a valid Markanto document — a spec that violates its own rules

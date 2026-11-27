@@ -21,7 +21,7 @@ from language invalidity.
   nothing else.
 - **Deterministic.** Forward-only scanning, bounded lookahead, no backtracking
   over competing interpretations, RE2-compatible expressions only.
-- **Runtime-neutral.** Node ≥ 18.20 and Bun. The semantic core uses no
+- **Runtime-neutral.** Node ≥ 24 and Bun. The semantic core uses no
   runtime-specific APIs.
 
 Specification: <https://markanto.org/spec/>
@@ -145,17 +145,34 @@ npx markanto adopt  <file> --stdout   # attach durable identity (see docs/PARSER
 
 ## Development
 
+`./check.sh` is the gate before every commit; `bun run verify`, `prepublishOnly`
+and CI run it. It runs the corpus, `audit:corpus`, the type and boundary checks,
+the Bun tests with coverage, the same test files and the corpus under Node, the
+facts check (which runs the Bun tests and the corpus a second time), the package
+smoke test, which builds `dist/`, and gitleaks through mise (left out, with a
+note, where mise is missing). It calls each step directly, and the package
+scripts `check` and `build` through `npm --ignore-scripts run`, so no package
+lifecycle hook runs with them. It needs Bun, Node, git, npm, tar and
+gzip, and writes no tracked file: a stale report fails and names the command
+that rewrites it. The soak, the benchmarks and `check:spec-sync` stay separate.
+
 ```sh
-bun run verify        # type check + boundary checks + conformance corpus + full test suite
-bun run verify:node   # the portable subset under the supported Node baseline
+bun run verify        # ./check.sh: every check except the soak, the benchmarks and check:spec-sync
 bun run compat:report # classify the 672 vendored CommonMark 0.31.2 / GFM cases
 bun run soak          # 100k seeded documents per stream through the §7.2 laws (heavier gate)
 bun run bench         # parse throughput vs marked.lexer (Node; bench:bun for Bun)
 ```
 
-Bun is the primary test/runtime environment; Node is the secondary
-compatibility check. The conformance corpus is JSON and is validated by the
-same `.mjs` script under both.
+Bun and Node run the same test files, the TypeScript source as it is: Node
+strips the types, so relative imports name the `.ts` file and the code uses only
+syntax that stripping can remove (`bun run check` rejects the rest); the build
+rewrites the specifiers to `.js`. `bun test` finds the test files by its own
+discovery, and Node runs them by the naming convention's globs,
+`node --test 'test/**/*.test.ts' 'test/**/*.test.mjs'`. The package smoke test
+(`test/package-smoke.ts`, a plain script with no test to skip) builds `dist/`
+and runs the packed package in a consumer project on the Node on the PATH and
+on Bun; CI runs the gate on the oldest supported Node and on the newest. The conformance corpus is JSON and is
+validated by the same `.mjs` script under both.
 
 ## Non-goals
 

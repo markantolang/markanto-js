@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 
-import { importCommonMark } from '../src/commonmark/index.js';
+import { importCommonMark } from '../src/commonmark/index.ts';
 
 const file = process.argv[2];
 if (file === undefined) {

@@ -24,8 +24,8 @@
  * correct as the AST grows.
  */
 
-import type { Document, ResourceBudget, SemanticEqualityResult } from './ast.js';
-import { diagnostic, type Diagnostic } from './diagnostics.js';
+import type { Document, ResourceBudget, SemanticEqualityResult } from './ast.ts';
+import { diagnostic, type Diagnostic } from './diagnostics.ts';
 
 const DEFAULT_MAX_FRAMES = 200_000;
 const DEFAULT_MAX_NODES = 20_000_000;

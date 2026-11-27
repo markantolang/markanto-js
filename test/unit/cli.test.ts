@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { runAdopt, runCheck, runFormat } from '../../src/cli.js';
+import { runAdopt, runCheck, runFormat } from '../../src/cli.ts';
 
 test('check accepts a clean document', () => {
   assert.deepEqual(runCheck('# Title\n'), { output: '', exitCode: 0 });

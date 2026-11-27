@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
-import { generateSource, mulberry32 } from '../helpers/generate-source.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
+import { generateSource, mulberry32 } from '../helpers/generate-source.ts';
 
 /**
  * Deterministic multi-phase closure check. A seeded generator composes

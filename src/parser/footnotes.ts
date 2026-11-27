@@ -7,13 +7,13 @@
  * tree exists to validate the reference relation and produce the canonical
  * order (spec §11.7).
  */
-import type { DocumentBlock, FootnoteDefinition } from '../ast.js';
-import type { DiagnosticSink } from '../diagnostics.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { PhysicalLine } from '../source/index.js';
-import type { Span } from '../source/position.js';
-import { parseInline } from './inline/scanner.js';
-import type { Advisory } from './blocks.js';
+import type { DocumentBlock, FootnoteDefinition } from '../ast.ts';
+import type { DiagnosticSink } from '../diagnostics.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { PhysicalLine } from '../source/index.ts';
+import type { Span } from '../source/position.ts';
+import { parseInline } from './inline/scanner.ts';
+import type { Advisory } from './blocks.ts';
 
 export interface FootnoteDefinitionResult {
   readonly node: FootnoteDefinition;

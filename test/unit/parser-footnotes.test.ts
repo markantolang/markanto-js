@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { format, parse } from '../../src/index.js';
+import { format, parse } from '../../src/index.ts';
 
 function firstCategory(source: string): string | undefined {
   const result = parse(source);

@@ -39,13 +39,15 @@ function assertOffset(value: number, label: string): void {
 }
 
 export class Scanner {
+  readonly text: string;
+  readonly start: number;
+  readonly end: number;
   private cursor: number;
 
-  constructor(
-    readonly text: string,
-    readonly start: number = 0,
-    readonly end: number = text.length,
-  ) {
+  constructor(text: string, start = 0, end = text.length) {
+    this.text = text;
+    this.start = start;
+    this.end = end;
     assertOffset(start, 'start');
     assertOffset(end, 'end');
     if (end > text.length || start > end) {

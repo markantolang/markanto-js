@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { createSourceAnnotationBuilder } from '../../src/parser-contract.js';
-import { atomicTokenEnd } from '../../src/parser/inline/atomic.js';
-import { parseInline } from '../../src/parser/inline/scanner.js';
-import { openSource } from '../../src/source/index.js';
+import { createSourceAnnotationBuilder } from '../../src/parser-contract.ts';
+import { atomicTokenEnd } from '../../src/parser/inline/atomic.ts';
+import { parseInline } from '../../src/parser/inline/scanner.ts';
+import { openSource } from '../../src/source/index.ts';
 
 /**
  * `atomicTokenEnd` (used by the pipe-table row tokenizer) must agree with the

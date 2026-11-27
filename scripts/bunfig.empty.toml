@@ -1,0 +1,2 @@
+# Empty on purpose: the gate's Bun test runs (check.sh and the facts check) read this file instead of a project
+# bunfig.toml, so that no project setting, such as a coverage reporter or directory, redirects their output.

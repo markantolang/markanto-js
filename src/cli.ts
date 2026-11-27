@@ -6,14 +6,14 @@ import { chmodSync, readFileSync, realpathSync, renameSync, statSync, unlinkSync
 import { basename, dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import type { Diagnostic } from './diagnostics.js';
-import { format } from './formatter/format.js';
-import { checkCanonical } from './parser/check-canonical.js';
-import { parse } from './parser/parse.js';
-import type { IdGenerator } from './ast.js';
-import type { AnnotatedPoint, ParseResult } from './parser-contract.js';
-import { adoptDocument } from './validator/adopt.js';
-import { validate } from './validator/validate.js';
+import type { Diagnostic } from './diagnostics.ts';
+import { format } from './formatter/format.ts';
+import { checkCanonical } from './parser/check-canonical.ts';
+import { parse } from './parser/parse.ts';
+import type { IdGenerator } from './ast.ts';
+import type { AnnotatedPoint, ParseResult } from './parser-contract.ts';
+import { adoptDocument } from './validator/adopt.ts';
+import { validate } from './validator/validate.ts';
 
 export interface CommandResult {
   readonly output: string;

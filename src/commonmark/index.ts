@@ -2,11 +2,11 @@ import { fromMarkdown } from 'mdast-util-from-markdown';
 import { gfmFromMarkdown } from 'mdast-util-gfm';
 import { gfm } from 'micromark-extension-gfm';
 
-import { format, parse } from '../index.js';
-import { DiagnosticCollector, type ImportDiagnostic, type ImportLocation, type MdastPoint } from './diagnostics.js';
-import { documentFromMdast } from './from-mdast.js';
+import { format, parse } from '../index.ts';
+import { DiagnosticCollector, type ImportDiagnostic, type ImportLocation, type MdastPoint } from './diagnostics.ts';
+import { documentFromMdast } from './from-mdast.ts';
 
-export type { ImportDiagnostic, ImportDiagnosticCategory } from './diagnostics.js';
+export type { ImportDiagnostic, ImportDiagnosticCategory } from './diagnostics.ts';
 
 export interface ImportOptions {
   /** how to handle raw HTML blocks and raw inline HTML; default 'drop' */

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { checkCanonical, format, parse } from '../../src/index.js';
+import { checkCanonical, format, parse } from '../../src/index.ts';
 
 test('accepts canonical source', () => {
   assert.deepEqual(checkCanonical('# Title\n'), { status: 'canonical', diagnostics: [] });

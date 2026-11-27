@@ -15,17 +15,17 @@
  */
 import type {
   Block, Container, Document, DocumentBlock, Grid, GridRow, IdScope, List, QuoteRegion,
-} from '../ast.js';
-import { diagnostic, type Diagnostic } from '../diagnostics.js';
-import { format } from '../formatter/format.js';
-import { isIdentifier } from '../parser/block-id.js';
-import { collectFootnoteReferences } from '../parser/footnotes.js';
-import { exceedsGridMatrixBudget } from '../parser/grid.js';
-import { parse } from '../parser/parse.js';
-import { semanticDocumentEquals } from '../semantic-equality.js';
-import { checkInlineWhitespace } from './inline-whitespace.js';
-import type { ValidationOptions, ValidationResult } from '../parser-contract.js';
-import { checkShape } from './shape.js';
+} from '../ast.ts';
+import { diagnostic, type Diagnostic } from '../diagnostics.ts';
+import { format } from '../formatter/format.ts';
+import { isIdentifier } from '../parser/block-id.ts';
+import { collectFootnoteReferences } from '../parser/footnotes.ts';
+import { exceedsGridMatrixBudget } from '../parser/grid.ts';
+import { parse } from '../parser/parse.ts';
+import { semanticDocumentEquals } from '../semantic-equality.ts';
+import { checkInlineWhitespace } from './inline-whitespace.ts';
+import type { ValidationOptions, ValidationResult } from '../parser-contract.ts';
+import { checkShape } from './shape.ts';
 
 export function validate(document: Document, options: ValidationOptions = {}): ValidationResult {
   const shape = checkShape(document, options.resourceBudget);

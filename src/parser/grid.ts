@@ -5,11 +5,11 @@
  * partitions slots, resolves `^`/`<` continuations, and validates rectangle
  * geometry. `^` and `<` alone never trigger Grid mode.
  */
-import type { Grid, GridCell, GridRow, NonEmptyArray, ResourceBudget } from '../ast.js';
-import { DEFAULT_MAX_MATRIX_SLOTS, HARD_MAX_MATRIX_SLOTS } from '../ast.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { PhysicalLine } from '../source/index.js';
-import { leadingSpaces, onlyAsciiBlank, runLength } from './blocks.js';
+import type { Grid, GridCell, GridRow, NonEmptyArray, ResourceBudget } from '../ast.ts';
+import { DEFAULT_MAX_MATRIX_SLOTS, HARD_MAX_MATRIX_SLOTS } from '../ast.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { PhysicalLine } from '../source/index.ts';
+import { leadingSpaces, onlyAsciiBlank, runLength } from './blocks.ts';
 
 type LiteralRegion =
   | { kind: 'fence'; char: number; length: number }

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals, validate } from '../../src/index.js';
+import { format, parse, semanticDocumentEquals, validate } from '../../src/index.ts';
 
 /**
  * Regression cases from the candidate-triage sweep: the formatter must escape

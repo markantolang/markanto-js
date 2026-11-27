@@ -13,9 +13,9 @@
  *   bun run soak -- --count 5000 # shorter run
  *   bun run soak -- --seed 42
  */
-import { format, parse, semanticDocumentEquals, validate } from '../src/index.js';
-import { generateSource } from '../test/helpers/generate-source.js';
-import { generateAst, mulberry32 } from '../test/helpers/generate-ast.js';
+import { format, parse, semanticDocumentEquals, validate } from '../src/index.ts';
+import { generateSource } from '../test/helpers/generate-source.ts';
+import { generateAst, mulberry32 } from '../test/helpers/generate-ast.ts';
 
 interface Options { count: number; seed: number }
 

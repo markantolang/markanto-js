@@ -1,10 +1,10 @@
-import type { Autolink, DownloadResourceAttributes, ImageResourceAttributes, Inline, InlineImage, Link, MetadataSpanAttributes, Text } from '../../ast.js';
-import type { SourceAnnotationBuilder } from '../../parser-contract.js';
-import { hasAttrs, parseMOpen, validateAttributeContext } from '../resources.js';
-import type { Advisory } from '../blocks.js';
-import { isEmailAutolink, isUrlAutolink, literalDelimiterEscape, metadataClose, wrapperClose } from './atomic.js';
-import { scanEntity } from './entities.js';
-import { characterClass, codePointAt, codePointBefore, isUnicodeWhitespace } from './unicode.js';
+import type { Autolink, DownloadResourceAttributes, ImageResourceAttributes, Inline, InlineImage, Link, MetadataSpanAttributes, Text } from '../../ast.ts';
+import type { SourceAnnotationBuilder } from '../../parser-contract.ts';
+import { hasAttrs, parseMOpen, validateAttributeContext } from '../resources.ts';
+import type { Advisory } from '../blocks.ts';
+import { isEmailAutolink, isUrlAutolink, literalDelimiterEscape, metadataClose, wrapperClose } from './atomic.ts';
+import { scanEntity } from './entities.ts';
+import { characterClass, codePointAt, codePointBefore, isUnicodeWhitespace } from './unicode.ts';
 
 type Kind = 'em' | 'strong' | 'deletion' | 'obsolete' | 'insert' | 'mark';
 

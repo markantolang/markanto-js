@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 
-import { migrateV053 } from '../tools/migrate/index.js';
+import { migrateV053 } from '../tools/migrate/index.ts';
 
 const file = process.argv[2];
 if (file === undefined) {

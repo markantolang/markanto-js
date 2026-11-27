@@ -3,13 +3,14 @@
  * Measures what the website and other documents state about this repository and writes docs/facts.lima, which
  * markanto.org reads at a commit, so that it states no number by hand.
  *
- *   bun scripts/facts.ts           write docs/facts.lima
- *   bun scripts/facts.ts --check   exit 1 if it differs from what is measured, or a document states otherwise
+ *   bun scripts/facts.ts           write docs/facts.lima and the compat report it measures
+ *   bun scripts/facts.ts --check   exit 1 if either differs from what is measured, or a document states otherwise;
+ *                                  it writes nothing
  */
 import { spawnSync } from 'node:child_process';
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { DEFAULT_MAX_MATRIX_SLOTS, HARD_MAX_MATRIX_SLOTS } from '../src/ast.js';
+import { DEFAULT_MAX_MATRIX_SLOTS, HARD_MAX_MATRIX_SLOTS } from '../src/ast.ts';
 
 const repo = join(import.meta.dirname, '..');
 const factsFile = join(repo, 'docs', 'facts.lima');
@@ -34,9 +35,11 @@ const language = readdirSync(join(repo, 'vendor', 'spec'))
   .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
   .at(-1);
 
-run(['scripts/compat-report.mjs']);
+const check = process.argv.includes('--check');
+run(check ? ['scripts/compat-report.mjs', '--check'] : ['scripts/compat-report.mjs']);
 const report = readFileSync(join(repo, 'test', 'compat', 'reports', 'latest.md'), 'utf8');
-const tests = run(['test']);
+// The empty configuration, as in check.sh: no bunfig.toml redirects the run's output.
+const tests = run(['test', '--config=scripts/bunfig.empty.toml']);
 const commonmarkCases = measured(report, /\*\*total\*\* \| \*\*(\d+)\*\*/, 'count of CommonMark cases');
 
 // What documents state by hand: Markanto renders them for the website, so they cannot hold markers to fill in.
@@ -69,9 +72,9 @@ limits:
   hard_max_matrix_slots: ${HARD_MAX_MATRIX_SLOTS}
 `;
 
-if (process.argv.includes('--check')) {
-  if (readFileSync(factsFile, 'utf8') !== facts) {
-    console.error('docs/facts.lima differs from what is measured: run bun scripts/facts.ts');
+if (check) {
+  if (!existsSync(factsFile) || readFileSync(factsFile, 'utf8') !== facts) {
+    console.error('docs/facts.lima is missing or differs from what is measured: run bun scripts/facts.ts');
     process.exit(1);
   }
   const differences = stated.filter(({ path, text }) => !readFileSync(join(repo, path), 'utf8').includes(text));

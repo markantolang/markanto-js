@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
-import { scanQuotePrefix } from '../../src/parser/quotes.js';
-import { LineReader } from '../../src/source/index.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
+import { scanQuotePrefix } from '../../src/parser/quotes.ts';
+import { LineReader } from '../../src/source/index.ts';
 
 function firstCategory(source: string, strict = false): string | undefined {
   const result = parse(source, strict ? { strict: true } : {});

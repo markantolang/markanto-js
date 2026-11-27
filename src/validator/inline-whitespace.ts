@@ -27,8 +27,8 @@
  */
 import type {
   Block, Document, DocumentBlock, Inline,
-} from '../ast.js';
-import { isUnicodeWhitespace } from '../parser/inline/unicode.js';
+} from '../ast.ts';
+import { isUnicodeWhitespace } from '../parser/inline/unicode.ts';
 
 function leadingWhitespace(value: string): boolean {
   return value.length > 0 && isUnicodeWhitespace(value.charCodeAt(0));

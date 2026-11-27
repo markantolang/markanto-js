@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse } from '../../src/index.js';
-import { importCommonMark, type ImportOptions } from '../../src/commonmark/index.js';
-import { runCompatibility } from '../compat/harness.js';
+import { format, parse } from '../../src/index.ts';
+import { importCommonMark, type ImportOptions } from '../../src/commonmark/index.ts';
+import { runCompatibility } from '../compat/harness.ts';
 
 interface ImportCase {
   readonly name: string;

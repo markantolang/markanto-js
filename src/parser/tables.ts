@@ -8,14 +8,14 @@
  * content; `^` / `<` carry no span meaning. Table confirmation uses exactly one
  * line of lookahead (the separator row).
  */
-import type { CellAlignment, Table, TableCell, TableRow } from '../ast.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { LineReader, PhysicalLine } from '../source/index.js';
-import type { Advisory, BlockResult } from './blocks.js';
-import { parseInline } from './inline/scanner.js';
-import { atomicTokenEnd } from './inline/atomic.js';
-import { characterClass, codePointBefore } from './inline/unicode.js';
-import { trimAsciiBlankEnd } from './block-id.js';
+import type { CellAlignment, Table, TableCell, TableRow } from '../ast.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { LineReader, PhysicalLine } from '../source/index.ts';
+import type { Advisory, BlockResult } from './blocks.ts';
+import { parseInline } from './inline/scanner.ts';
+import { atomicTokenEnd } from './inline/atomic.ts';
+import { characterClass, codePointBefore } from './inline/unicode.ts';
+import { trimAsciiBlankEnd } from './block-id.ts';
 
 interface CellSpan { readonly start: number; readonly end: number }
 interface RowScan {

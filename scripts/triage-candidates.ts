@@ -11,7 +11,7 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
-import { format, parse, semanticDocumentEquals } from '../src/index.js';
+import { format, parse, semanticDocumentEquals } from '../src/index.ts';
 
 const dir = new URL('../test/corpus-candidates/', import.meta.url);
 

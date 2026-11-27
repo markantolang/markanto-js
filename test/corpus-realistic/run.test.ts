@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import type { Document } from '../../src/ast.js';
-import { format, parse, semanticDocumentEquals, validate } from '../../src/index.js';
+import type { Document } from '../../src/ast.ts';
+import { format, parse, semanticDocumentEquals, validate } from '../../src/index.ts';
 
 const directory = new URL('./', import.meta.url);
 const documents = readdirSync(directory).filter((name) => name.endsWith('.md') && !name.startsWith('README')).sort();

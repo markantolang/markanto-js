@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { parse } from '../../src/index.js';
+import { parse } from '../../src/index.ts';
 
 // What the Markanto 0.3.0 diagnostics say and where they point (spec §7.8). The fixtures state category and
 // severity; the wording and the ranges live here.

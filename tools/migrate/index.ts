@@ -8,11 +8,11 @@
  */
 import { parse as legacyParse } from './legacy/parser.js';
 
-import { format, parse, type Document, type DocumentBlock } from '../../src/index.js';
-import { DiagnosticCollector, type MigrationDiagnostic } from './diagnostics.js';
-import { transformDocument } from './from-v053.js';
+import { format, parse, type Document, type DocumentBlock } from '../../src/index.ts';
+import { DiagnosticCollector, type MigrationDiagnostic } from './diagnostics.ts';
+import { transformDocument } from './from-v053.ts';
 
-export type { MigrationDiagnostic, MigrationDiagnosticCategory } from './diagnostics.js';
+export type { MigrationDiagnostic, MigrationDiagnosticCategory } from './diagnostics.ts';
 
 export interface MigrationOptions {
   /** reserved for future switches; none defined yet */

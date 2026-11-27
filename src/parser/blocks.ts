@@ -1,15 +1,15 @@
-import type { CodeBlock, CommentBlock, DocumentBlock, Heading, HorizontalRule, MathBlock, Paragraph } from '../ast.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { LineReader, PhysicalLine } from '../source/index.js';
-import { parseStandaloneSuffix, splitSameLineId, trimAsciiBlankEnd } from './block-id.js';
-import { parseParagraphInline } from './paragraph.js';
-import { parseInline } from './inline/scanner.js';
-import { isLinedHeaderIntroducer, recognizeFencedContainer, recognizeLinedContainer } from './containers.js';
-import { recognizeBlockResource, startsBlockResource } from './resources.js';
-import { recognizeQuote, startsQuote } from './quotes.js';
-import { recognizeList, startsList } from './lists.js';
-import { looksLikeTableRow, recognizeTable, separatorAlignments, tokenizeRow } from './tables.js';
-import { footnoteDefinitionContentStart } from './footnotes.js';
+import type { CodeBlock, CommentBlock, DocumentBlock, Heading, HorizontalRule, MathBlock, Paragraph } from '../ast.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { LineReader, PhysicalLine } from '../source/index.ts';
+import { parseStandaloneSuffix, splitSameLineId, trimAsciiBlankEnd } from './block-id.ts';
+import { parseParagraphInline } from './paragraph.ts';
+import { parseInline } from './inline/scanner.ts';
+import { isLinedHeaderIntroducer, recognizeFencedContainer, recognizeLinedContainer } from './containers.ts';
+import { recognizeBlockResource, startsBlockResource } from './resources.ts';
+import { recognizeQuote, startsQuote } from './quotes.ts';
+import { recognizeList, startsList } from './lists.ts';
+import { looksLikeTableRow, recognizeTable, separatorAlignments, tokenizeRow } from './tables.ts';
+import { footnoteDefinitionContentStart } from './footnotes.ts';
 
 export type BlockResult =
   | { readonly status: 'ok'; readonly node: DocumentBlock; readonly start: number; readonly end: number; readonly nodeCount: number }

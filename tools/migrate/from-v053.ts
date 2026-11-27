@@ -12,10 +12,10 @@ import type {
   ImageBlock, ImageResourceAttributes, Inline, InlineWithoutBreak, List, ListItem,
   MediaResourceAttributes, MetadataSpanAttributes, Paragraph, QuoteBlock, Table, TableRow,
   VideoBlock, Document as NewDocument,
-} from '../../src/index.js';
-import { parse } from '../../src/index.js';
+} from '../../src/index.ts';
+import { parse } from '../../src/index.ts';
 
-import type { DiagnosticCollector, LegacyRange } from './diagnostics.js';
+import type { DiagnosticCollector, LegacyRange } from './diagnostics.ts';
 
 /** Loose view of a legacy node — the previous package ships full types but we only touch a few fields. */
 interface LegacyNode {

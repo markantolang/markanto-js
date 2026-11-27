@@ -49,7 +49,7 @@ for (const root of [importRoot, migrateRoot]) {
       if (specifier.startsWith('node:') || allowedBare[root.pathname].has(specifier)) continue;
       if (specifier.startsWith('..')) {
         assert.equal(
-          specifier === '../index.js' || specifier.endsWith('/src/index.js'),
+          specifier === '../index.ts' || specifier.endsWith('/src/index.ts'),
           true,
           `${file.pathname} must reach Core only through its public index (found ${specifier})`,
         );

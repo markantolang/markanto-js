@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
-import type { Document } from '../../src/ast.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
+import type { Document } from '../../src/ast.ts';
 
 interface DiagnosticExpectation { readonly category: string; readonly severity: string }
 interface Expectation {

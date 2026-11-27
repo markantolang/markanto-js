@@ -1,8 +1,8 @@
-import type { Document } from '../ast.js';
-import { diagnostic, type Diagnostic } from '../diagnostics.js';
-import { format } from '../formatter/format.js';
-import type { CanonicalCheckResult } from '../parser-contract.js';
-import { isCanonicalTransport, openSource } from '../source/index.js';
+import type { Document } from '../ast.ts';
+import { diagnostic, type Diagnostic } from '../diagnostics.ts';
+import { format } from '../formatter/format.ts';
+import type { CanonicalCheckResult } from '../parser-contract.ts';
+import { isCanonicalTransport, openSource } from '../source/index.ts';
 
 /** Shared canonicality verdict for an already normally parsed document. */
 export function checkParsedCanonical(source: string, document: Document): CanonicalCheckResult {

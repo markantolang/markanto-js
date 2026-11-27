@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { diagnostic, DiagnosticSink } from '../../src/diagnostics.js';
+import { diagnostic, DiagnosticSink } from '../../src/diagnostics.ts';
 
 test('diagnostic() omits absent optional fields', () => {
   assert.deepEqual(diagnostic('syntax', 'error'), { category: 'syntax', severity: 'error' });

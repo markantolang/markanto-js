@@ -11,9 +11,9 @@
  * unescaped `|` inside the returned span is never a table column delimiter.
  * `test/unit/atomic-boundary.test.ts` cross-checks it against the real scanner.
  */
-import { parseMOpen } from '../resources.js';
-import { scanEntity } from './entities.js';
-import { isUnicodeWhitespace } from './unicode.js';
+import { parseMOpen } from '../resources.ts';
+import { scanEntity } from './entities.ts';
+import { isUnicodeWhitespace } from './unicode.ts';
 
 function at(text: string, start: number, end: number, value: string): boolean {
   if (start < 0 || start + value.length > end) return false;

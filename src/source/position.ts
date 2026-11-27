@@ -30,11 +30,13 @@ export interface Span {
 }
 
 export class LineMap {
+  private readonly text: string;
   /** `lineStarts[n]` is the code-unit offset where 1-based line `n + 1` begins. */
   private readonly lineStarts: readonly number[];
   private readonly length: number;
 
-  constructor(private readonly text: string) {
+  constructor(text: string) {
+    this.text = text;
     const starts = [0];
     // Recognise every physical line terminator the public source space can
     // contain: LF, CRLF (one terminator), and lone CR.

@@ -1,10 +1,10 @@
 import type {
   CellAlignment, Document, DocumentBlock, FootnoteDefinition, Inline, InlineWithoutBreak,
   List, ListItem, ListItemBlock, NonEmptyArray, Paragraph, QuoteBlock, TableCell,
-} from '../index.js';
-import { format, parse } from '../index.js';
+} from '../index.ts';
+import { format, parse } from '../index.ts';
 
-import { DiagnosticCollector, type MdastPosition } from './diagnostics.js';
+import type { DiagnosticCollector, MdastPosition } from './diagnostics.ts';
 
 interface MdNode {
   readonly type: string;

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { loadDeferredCatalogue } from './catalogue.js';
-import { runCompatibility } from './harness.js';
+import { loadDeferredCatalogue } from './catalogue.ts';
+import { runCompatibility } from './harness.ts';
 
 const results = runCompatibility();
 

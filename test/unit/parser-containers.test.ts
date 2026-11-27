@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse } from '../../src/index.js';
-import type { Document } from '../../src/ast.js';
+import { format, parse } from '../../src/index.ts';
+import type { Document } from '../../src/ast.ts';
 
 function parseOk(source: string): Document {
   const result = parse(source);

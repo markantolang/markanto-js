@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals, validate } from '../../src/index.js';
-import { generateAst, mulberry32 } from '../helpers/generate-ast.js';
+import { format, parse, semanticDocumentEquals, validate } from '../../src/index.ts';
+import { generateAst, mulberry32 } from '../helpers/generate-ast.ts';
 
 /**
  * AST-first closure check (neutral review N2). `property-roundtrip.test.ts`

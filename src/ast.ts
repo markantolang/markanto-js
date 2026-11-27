@@ -31,7 +31,7 @@ export type NodeId = string;
 // the pieces the semantic layer itself needs (`ResourceBudget`,
 // `SemanticEqualityResult`) stay here.
 
-import type { Diagnostic } from './diagnostics.js';
+import type { Diagnostic } from './diagnostics.ts';
 
 export interface ResourceBudget {
   /** Tool-defined work/node budget; absence means use the implementation default. */

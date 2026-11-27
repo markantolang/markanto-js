@@ -1,11 +1,11 @@
-import type { DocumentBlock, InlineWithoutBreak, QuoteBlock, QuoteRegion } from '../ast.js';
-import { SourceAnnotationBuilder } from '../parser-contract.js';
-import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext, Advisory } from './blocks.js';
-import { parseBlockSequence } from './blocks.js';
-import { parseInline } from './inline/scanner.js';
-import { parseStandaloneSuffix } from './block-id.js';
-import { transferAnnotations } from './annotation-transfer.js';
+import type { DocumentBlock, InlineWithoutBreak, QuoteBlock, QuoteRegion } from '../ast.ts';
+import { SourceAnnotationBuilder } from '../parser-contract.ts';
+import { LineMap, LineReader, type PhysicalLine } from '../source/index.ts';
+import type { BlockResult, ContainerContext, Advisory } from './blocks.ts';
+import { parseBlockSequence } from './blocks.ts';
+import { parseInline } from './inline/scanner.ts';
+import { parseStandaloneSuffix } from './block-id.ts';
+import { transferAnnotations } from './annotation-transfer.ts';
 
 export interface QuotePrefix { readonly depth: number; readonly contentStart: number; readonly empty: boolean }
 type PrefixResult = QuotePrefix | { readonly error: string } | null;

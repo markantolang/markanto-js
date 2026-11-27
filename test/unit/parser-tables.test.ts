@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { format, parse, semanticDocumentEquals, type Document } from '../../src/index.js';
-import { separatorAlignments, tokenizeRow } from '../../src/parser/tables.js';
-import { LineReader } from '../../src/source/index.js';
+import { format, parse, semanticDocumentEquals, type Document } from '../../src/index.ts';
+import { separatorAlignments, tokenizeRow } from '../../src/parser/tables.ts';
+import { LineReader } from '../../src/source/index.ts';
 
 function cells(source: string): string[] {
   const line = new LineReader(`${source}\n`).current!;

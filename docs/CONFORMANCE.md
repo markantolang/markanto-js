@@ -51,12 +51,12 @@ both modes), and a lone UTF-16 surrogate (invalid). Byte-level malformed UTF-8
 beyond a lone surrogate has no distinct entry point while `parse()` takes a
 JS string; it awaits a `parseBytes` boundary and is out of scope here.
 
-`test/conformance/transport.test.ts` runs the group under `bun test` (part of
-`bun run verify`): parse in both modes against the expected validity, the
-canonical surface via `format`, and — for each normalising case — that the
-canonical form is strict-valid and byte-idempotent. `validate-corpus.mjs`
-validates the fixture shapes under both `bun` and `node` (`verify:node`), the
-same split every other conformance group uses.
+`test/conformance/transport.test.ts` runs the group under `bun test` and under
+Node, both part of `bun run verify`: parse in both modes against
+the expected validity, the canonical surface via `format`, and — for each
+normalising case — that the canonical form is strict-valid and byte-idempotent.
+`validate-corpus.mjs` validates the fixture shapes under both `bun` and `node`,
+as for every other conformance group.
 
 Fixture IDs/names should remain stable across the TypeScript and Rust runners.
 

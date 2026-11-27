@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { Document } from '../../src/ast.js';
-import { format, parse } from '../../src/index.js';
+import type { Document } from '../../src/ast.ts';
+import { format, parse } from '../../src/index.ts';
 
 test('non-ATX hash runs remain literal paragraphs', () => {
   for (const source of ['###x\n', '####### Heading\n']) {

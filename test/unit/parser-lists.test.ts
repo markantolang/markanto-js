@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
-import type { Document, List, ListItem, ListKind, Paragraph } from '../../src/ast.js';
-import { scanListMarker } from '../../src/parser/lists.js';
-import { LineReader } from '../../src/source/index.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
+import type { Document, List, ListItem, ListKind, Paragraph } from '../../src/ast.ts';
+import { scanListMarker } from '../../src/parser/lists.ts';
+import { LineReader } from '../../src/source/index.ts';
 
 test('list marker and task scanner covers all marker families', () => {
   for (const source of ['- x\n', '* x\n', '+ x\n', '2. x\n', '2) x\n', ': x\n', '- [ ] x\n', '- [X] x\n', '-  x\n', '1.   x\n', ':  x\n']) assert.notEqual(scanListMarker(source, new LineReader(source).current!), null);

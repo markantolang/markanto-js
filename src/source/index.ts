@@ -3,14 +3,14 @@
  * mapping, and the forward-only scanner. Nothing here knows Markanto grammar.
  */
 
-export { normalizeTransport, isCanonicalTransport, rawOffsetProjector } from './transport.js';
-export type { TransportReport } from './transport.js';
+export { normalizeTransport, isCanonicalTransport, rawOffsetProjector } from './transport.ts';
+export type { TransportReport } from './transport.ts';
 
-export { LineReader } from './lines.js';
-export type { PhysicalLine } from './lines.js';
+export { LineReader } from './lines.ts';
+export type { PhysicalLine } from './lines.ts';
 
-export { LineMap, codePointCount } from './position.js';
-export type { Point, Span } from './position.js';
+export { LineMap, codePointCount } from './position.ts';
+export type { Point, Span } from './position.ts';
 
 export {
   Scanner,
@@ -20,12 +20,12 @@ export {
   isAsciiLetter,
   isAsciiBlank,
   isIdentifierChar,
-} from './scanner.js';
-export type { CodePredicate } from './scanner.js';
+} from './scanner.ts';
+export type { CodePredicate } from './scanner.ts';
 
-import { normalizeTransport, rawOffsetProjector, type TransportReport } from './transport.js';
-import { LineReader } from './lines.js';
-import { LineMap } from './position.js';
+import { normalizeTransport, rawOffsetProjector, type TransportReport } from './transport.ts';
+import { LineReader } from './lines.ts';
+import { LineMap } from './position.ts';
 
 /**
  * Convenience bundle: normalise raw input once and hand back the shared views.

@@ -1,7 +1,4 @@
 node_modules/
-.compat-dist/
-.import-dist/
-.migrate-dist/
 dist/
 coverage/
 *.tsbuildinfo

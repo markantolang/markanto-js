@@ -1,10 +1,10 @@
-import type { List, ListItem, ListKind } from '../ast.js';
-import { SourceAnnotationBuilder } from '../parser-contract.js';
-import { LineMap, LineReader, type PhysicalLine } from '../source/index.js';
-import type { BlockResult, ContainerContext, Advisory } from './blocks.js';
-import { isAsciiBlankCode, parseBlockSequence } from './blocks.js';
-import { codeFenceCloser, codeFenceOpener, commentClosesOnLine, commentContentStart } from './grid.js';
-import { transferAnnotations } from './annotation-transfer.js';
+import type { List, ListItem, ListKind } from '../ast.ts';
+import { SourceAnnotationBuilder } from '../parser-contract.ts';
+import { LineMap, LineReader, type PhysicalLine } from '../source/index.ts';
+import type { BlockResult, ContainerContext, Advisory } from './blocks.ts';
+import { isAsciiBlankCode, parseBlockSequence } from './blocks.ts';
+import { codeFenceCloser, codeFenceOpener, commentClosesOnLine, commentContentStart } from './grid.ts';
+import { transferAnnotations } from './annotation-transfer.ts';
 
 const TASK_PREFIX_LENGTH = 4;
 

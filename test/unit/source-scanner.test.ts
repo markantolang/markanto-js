@@ -5,7 +5,7 @@ import {
   isAsciiBlank,
   isIdentifierChar,
   Scanner,
-} from '../../src/source/scanner.js';
+} from '../../src/source/scanner.ts';
 
 test('peek does not move the cursor; advance is monotonic', () => {
   const s = new Scanner('abc');

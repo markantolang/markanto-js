@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { SourceAnnotations } from '../../src/parser-contract.js';
-import { parse } from '../../src/index.js';
+import type { SourceAnnotations } from '../../src/parser-contract.ts';
+import { parse } from '../../src/index.ts';
 
 /**
  * Every object node reachable from a parsed tree (any `{ type: string }` record,

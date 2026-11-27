@@ -11,7 +11,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 
-import { format, parse } from '../src/index.js';
+import { format, parse } from '../src/index.ts';
 
 const path = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
 if (path === undefined) {

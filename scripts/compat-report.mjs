@@ -1,4 +1,11 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+/**
+ * Classifies the vendored CommonMark / GFM cases and writes test/compat/reports/latest.md.
+ *
+ *   bun scripts/compat-report.mjs           write the report (bun run compat:report)
+ *   bun scripts/compat-report.mjs --check   exit 1 if the committed report differs from what the code produces
+ */
+import { existsSync } from 'node:fs';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
 import { runCompatibility } from '../test/compat/harness.ts';
 
@@ -28,7 +35,17 @@ else for (const result of attention) {
 }
 lines.push('');
 
+const report = `${lines.join('\n')}\n`;
 const output = new URL('../test/compat/reports/latest.md', import.meta.url);
-await mkdir(new URL('./', output), { recursive: true });
-await writeFile(output, `${lines.join('\n')}\n`, 'utf8');
-console.log(`Wrote ${output.pathname}`);
+if (process.argv.includes('--check')) {
+  if (!existsSync(output) || (await readFile(output, 'utf8')) !== report) {
+    console.error(
+      'test/compat/reports/latest.md is missing or differs from what the code produces: run bun run compat:report',
+    );
+    process.exit(1);
+  }
+} else {
+  await mkdir(new URL('./', output), { recursive: true });
+  await writeFile(output, report, 'utf8');
+  console.log(`Wrote ${output.pathname}`);
+}

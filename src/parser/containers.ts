@@ -6,13 +6,13 @@
  * line (reader untouched), a block node (reader advanced past all consumed
  * lines), or an error (reader advanced to the safe boundary).
  */
-import type { FencedContainer, GridCell, LinedContainer } from '../ast.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { LineReader, PhysicalLine } from '../source/index.js';
-import { codePointAt, isUnicodeWhitespace } from './inline/unicode.js';
-import { isAsciiBlankCode, leadingSpaces, onlyAsciiBlank, runLength, parseBlockSequence, type BlockResult, type ContainerContext, type Advisory } from './blocks.js';
-import { trimAsciiBlankEnd } from './block-id.js';
-import { codeFenceOpener, commentContentStart, commentClosesOnLine, codeFenceCloser, gridMarkerKind, parseGridBody } from './grid.js';
+import type { FencedContainer, GridCell, LinedContainer } from '../ast.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { LineReader, PhysicalLine } from '../source/index.ts';
+import { codePointAt, isUnicodeWhitespace } from './inline/unicode.ts';
+import { isAsciiBlankCode, leadingSpaces, onlyAsciiBlank, runLength, parseBlockSequence, type BlockResult, type ContainerContext, type Advisory } from './blocks.ts';
+import { trimAsciiBlankEnd } from './block-id.ts';
+import { codeFenceOpener, commentContentStart, commentClosesOnLine, codeFenceCloser, gridMarkerKind, parseGridBody } from './grid.ts';
 
 /** The single permitted NFC normalisation in the codebase (spec §2.7.4). */
 export function normalizeType(value: string): string {

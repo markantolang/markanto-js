@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { parse } from '../../src/index.js';
-import { characterClass, isUnicodeWhitespace } from '../../src/parser/inline/unicode.js';
+import { parse } from '../../src/index.ts';
+import { characterClass, isUnicodeWhitespace } from '../../src/parser/inline/unicode.ts';
 
 test('Unicode 15.1 symbols flank emphasis as punctuation', () => {
   const parsed = parse('©*x*\n', { strict: true });

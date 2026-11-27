@@ -1,9 +1,9 @@
-import type { Inline, Paragraph } from '../ast.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
-import type { PhysicalLine } from '../source/index.js';
-import type { Advisory } from './blocks.js';
-import { parseInline, type InlineContext, type SoftBreakBoundary } from './inline/scanner.js';
-import { isUnicodeWhitespace } from './inline/unicode.js';
+import type { Inline, Paragraph } from '../ast.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
+import type { PhysicalLine } from '../source/index.ts';
+import type { Advisory } from './blocks.ts';
+import { parseInline, type InlineContext, type SoftBreakBoundary } from './inline/scanner.ts';
+import { isUnicodeWhitespace } from './inline/unicode.ts';
 
 export type ParagraphInlineResult = { status: 'ok'; children: Paragraph['children']; nodeCount: number } |
   { status: 'error'; message: string; category?: 'syntax' | 'semantic' };

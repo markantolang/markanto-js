@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { Document, DocumentBlock, Inline, List } from '../../src/ast.js';
-import { format, parse, validate } from '../../src/index.js';
+import type { Document, DocumentBlock, Inline, List } from '../../src/ast.ts';
+import { format, parse, validate } from '../../src/index.ts';
 
 function paragraph(value = 'x'): DocumentBlock {
   return { type: 'paragraph', children: [{ type: 'text', value }] };

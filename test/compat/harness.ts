@@ -4,8 +4,8 @@ import { fromMarkdown } from 'mdast-util-from-markdown';
 import { gfmFromMarkdown } from 'mdast-util-gfm';
 import { gfm } from 'micromark-extension-gfm';
 
-import { parse } from '../../src/parser/parse.js';
-import { catalogueRowsFor, constructsFor, loadCatalogue, loadDeferredCatalogue, type CatalogueRow, type HarnessCode } from './catalogue.js';
+import { parse } from '../../src/parser/parse.ts';
+import { catalogueRowsFor, constructsFor, loadCatalogue, loadDeferredCatalogue, type CatalogueRow, type HarnessCode } from './catalogue.ts';
 
 export type CompatStatus = HarnessCode | 'fail' | 'gap-uncovered' | 'deferred-uncovered';
 

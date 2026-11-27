@@ -11,8 +11,8 @@
  * validator; `adoptDocument` only avoids re-emitting an ID that is already
  * present in the input.
  */
-import type { AdoptResult, Container, Document, DocumentBlock, IdGenerator } from '../ast.js';
-import { isIdentifier } from '../parser/block-id.js';
+import type { AdoptResult, Container, Document, DocumentBlock, IdGenerator } from '../ast.ts';
+import { isIdentifier } from '../parser/block-id.ts';
 
 /**
  * Attempts allowed per position before `createId` is judged non-conforming.

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
-import { format, parse, semanticDocumentEquals, validate } from '../src/index.js';
+import { format, parse, semanticDocumentEquals, validate } from '../src/index.ts';
 
 type Candidate = {
   readonly id: string;

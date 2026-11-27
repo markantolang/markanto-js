@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
 
 /**
  * Runs the four §7.2 laws over every fixture in `test/fixtures/` that a mode

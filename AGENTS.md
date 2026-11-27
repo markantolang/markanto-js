@@ -44,6 +44,9 @@ read `docs/PARSER_CONTRACT.md` (operational contract; `src/parser-contract.ts`).
   that only works around a cause (a compatibility promise kept by a workaround is one), means stop, step back, and
   prefer the redesign that deletes code.
 - **Readable code before line count.** A budget cuts scope, never clarity.
+- **The gate guards against mistakes, not against circumvention.** `./check.sh` runs every check, the same in CI, for
+  developers and for isolated runners; it changes no tracked file, and generated files are compared in a check mode
+  that does not write.
 - **A comparison with the previous release accepts a change;** it is not kept as a permanent gate.
 - **This repository is public and holds nothing private:** no names, paths or texts from outside it, from the material
   a task brings along, or from the sites that use it.
@@ -60,6 +63,9 @@ Target pipeline:
 Recovery diagnostics are side data, not valid semantic AST nodes.
 
 ## Tests
+
+A test file is `test/**/*.test.ts` or `test/**/*.test.mjs` (no dot directory), the files both Bun and Node run;
+`./check.sh` stops on any other file named like a test.
 
 Every feature should add:
 

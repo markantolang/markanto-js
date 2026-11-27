@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import type { Document } from '../../src/ast.js';
-import { semanticDocumentEquals } from '../../src/semantic-equality.js';
+import type { Document } from '../../src/ast.ts';
+import { semanticDocumentEquals } from '../../src/semantic-equality.ts';
 import {
   deeplyNestedList,
   doc,
@@ -11,7 +11,7 @@ import {
   quoteBlock,
   quoteRegion,
   text,
-} from '../helpers/ast-builders.js';
+} from '../helpers/ast-builders.ts';
 
 function assertEqual(a: Document, b: Document): void {
   const r = semanticDocumentEquals(a, b);

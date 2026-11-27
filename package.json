@@ -50,30 +50,28 @@
     "CHANGELOG.md"
   ],
   "engines": {
-    "node": ">=18.20.0"
+    "node": ">=24"
   },
   "scripts": {
     "clean-dist": "node scripts/clean-dist.mjs",
-    "build": "bun run clean-dist && tsc -p tsconfig.build.json",
+    "build": "node scripts/clean-dist.mjs && tsc -p tsconfig.build.json",
     "check": "tsc -p tsconfig.json --noEmit && tsc -p test/tsconfig.json && tsc -p tools/migrate/tsconfig.json && node scripts/check-compat-boundary.mjs && node scripts/check-shipped-deps.mjs",
     "corpus": "bun scripts/validate-corpus.mjs",
     "corpus:node": "node scripts/validate-corpus.mjs",
     "test": "bun test",
-    "test:unit": "bun test test/unit",
-    "test:conformance": "bun test test/conformance",
+    "test:package": "node test/package-smoke.ts",
     "compat:report": "bun scripts/compat-report.mjs",
+    "migration:audit": "bun scripts/migration-audit.ts",
     "import": "bun scripts/import.ts",
     "migrate": "bun scripts/migrate.ts",
-    "verify": "bun run check && bun run corpus && bun test && bun run check:facts",
+    "verify": "./check.sh",
     "facts": "bun scripts/facts.ts",
     "check:facts": "bun scripts/facts.ts --check",
-    "verify:node": "node scripts/validate-corpus.mjs && node --test test/unit/*.test.mjs && tsc -p test/compat/tsconfig.node.json && node --test .compat-dist/test/compat/compat.test.js && tsc -p test/import/tsconfig.node.json && node --test .import-dist/test/import/import.test.js && tsc -p test/migrate/tsconfig.node.json && node --test '.migrate-dist/test/migrate/*.test.js'",
     "check:spec-sync": "bun scripts/check-spec-sync.ts",
     "audit:corpus": "bun scripts/audit-corpus.mjs",
     "audit:corpus:node": "node scripts/audit-corpus.mjs",
     "snapshots:realistic": "bun scripts/update-realistic-snapshots.ts",
-    "test:unit:node": "node --test test/unit/*.test.mjs",
-    "prepublishOnly": "bun run check && bun run build && bun test && bun run verify:node",
+    "prepublishOnly": "./check.sh",
     "bench": "node scripts/bench.mjs",
     "bench:bun": "bun scripts/bench.mjs",
     "soak": "bun scripts/soak.ts"
@@ -95,7 +93,7 @@
     }
   },
   "devDependencies": {
-    "@types/node": "26.4.0",
+    "@types/node": "^24.0.0",
     "marked": "^18.0.11",
     "mdast-util-from-markdown": "2.0.2",
     "mdast-util-gfm": "3.1.0",

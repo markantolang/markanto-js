@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { codePointCount, LineMap } from '../../src/source/position.js';
+import { codePointCount, LineMap } from '../../src/source/position.ts';
 
 test('maps offsets to 1-based line/column', () => {
   const map = new LineMap('ab\ncde\n\nf');

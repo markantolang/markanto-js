@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
 
 /**
  * Deterministic Phase-1 closure check. A seeded generator composes Phase-1

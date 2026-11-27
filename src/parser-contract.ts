@@ -29,10 +29,10 @@ import type {
   ResourceBudget,
   TableCell,
   TableRow,
-} from './ast.js';
-import type { Diagnostic } from './diagnostics.js';
-import type { Point, Span } from './source/position.js';
-import type { Source } from './source/index.js';
+} from './ast.ts';
+import type { Diagnostic } from './diagnostics.ts';
+import type { Point, Span } from './source/position.ts';
+import type { Source } from './source/index.ts';
 
 // ---------------------------------------------------------------------------
 // Coordinate space
@@ -163,16 +163,17 @@ export type SourceAnnotationContext = Pick<Source, 'sourceMap' | 'toSourceOffset
  * `set` throws, and every stored `NodeAnnotation` (and its points) is frozen.
  */
 export class SourceAnnotationBuilder implements SourceAnnotations {
+  readonly offsetUnit: OffsetUnit;
+  /** One coherent source context — never assemble the parts by hand. */
+  private readonly source: SourceAnnotationContext;
   private readonly byNode = new WeakMap<object, PendingAnnotation | NodeAnnotation>();
   private sealed = false;
   /** Packing radix for the `[start, end]` pair, or 0 when packing is unsafe. */
   private readonly stride: number;
 
-  constructor(
-    readonly offsetUnit: OffsetUnit,
-    /** One coherent source context — never assemble the parts by hand. */
-    private readonly source: SourceAnnotationContext,
-  ) {
+  constructor(offsetUnit: OffsetUnit, source: SourceAnnotationContext) {
+    this.offsetUnit = offsetUnit;
+    this.source = source;
     const stride = source.text.length + 1;
     this.stride = stride * stride <= Number.MAX_SAFE_INTEGER ? stride : 0;
   }

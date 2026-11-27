@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+### Breaking
+
+- **Node 24 or newer is required** (`engines.node` `>=24`, was `>=18.20.0`): the tests now run on Node from the
+  TypeScript source through its type stripping, which Node 18 and 20 lack, and CI tests the oldest supported Node.
+- The type declarations keep `.ts` in their relative imports (`export * from './ast.ts'`); a project that
+  type-checks against the packed package passed with TypeScript 5.8.3, the version tested, under NodeNext and
+  Bundler resolution. The JavaScript in `dist/` imports `.js` as before.
+
+### Repository
+
+- Bun and Node run the same test files from source, 49 files and 2,346 tests, where Node ran 382 compiled ones:
+  Bun by its own discovery, Node by the globs of the naming convention, which the gate checks. The three compiled
+  test trees and their `tsconfig.node.json` are gone. CI runs `./check.sh` on Node 24.18.0 and on 26.13.1, and its
+  package smoke test runs the packed package, `@markantolang/parser/commonmark` too, on the job's Node and on Bun.
+
 ## 0.3.0 — 2026-11-16
 
 Markanto 0.3.0 (`vendor/spec/0.3.0/spec.md`, tag `v0.3.0` of `markantolang/spec`):

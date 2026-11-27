@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
-import { isWellFormedBcp47, parseMOpen, validateAttributeContext } from '../../src/parser/resources.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
+import { isWellFormedBcp47, parseMOpen, validateAttributeContext } from '../../src/parser/resources.ts';
 
 test('mOpen parses exact spacing, quoted values, and rejects duplicate or unknown keys', () => {
   const source = '<m video data-label="a\\"b" lang=DE>';

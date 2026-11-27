@@ -3,11 +3,11 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
-import { migrateV053 } from '../../tools/migrate/index.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
+import { migrateV053 } from '../../tools/migrate/index.ts';
 
-// Paths resolve from the repo root — both `bun test` and the Node build
-// (`node --test .migrate-dist/...`) run with cwd at the repo root.
+// Paths resolve from the repo root: `bun test` and `node --test` in ./check.sh
+// both run with cwd at the repo root.
 const legacyDir = resolve('test/migrate/legacy-corpus') + '/';
 const portedDir = resolve('test/corpus-realistic') + '/';
 

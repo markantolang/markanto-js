@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { parse } from '../../src/index.js';
+import { parse } from '../../src/index.ts';
 
 // A search for a label's end that started over at each `[` took twice as long for each one more: forty of them in a
 // document never ended. Forward-only scanning (AGENTS.md) is what makes this input cheap.

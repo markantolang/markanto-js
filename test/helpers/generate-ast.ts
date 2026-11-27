@@ -6,7 +6,7 @@
  *
  * `mulberry32` is re-exported so callers pin one seed.
  */
-import type { Document, DocumentBlock, Inline } from '../../src/ast.js';
+import type { Document, DocumentBlock, Inline } from '../../src/ast.ts';
 
 export function mulberry32(seed: number): () => number {
   let state = seed >>> 0;

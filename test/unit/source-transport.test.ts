@@ -5,7 +5,7 @@ import {
   isCanonicalTransport,
   normalizeTransport,
   rawOffsetProjector,
-} from '../../src/source/transport.js';
+} from '../../src/source/transport.ts';
 
 test('canonical input passes through unchanged', () => {
   const { text, report } = normalizeTransport('# Title\n\nBody\n');

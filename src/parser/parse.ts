@@ -1,12 +1,12 @@
-import type { Container, Document, DocumentBlock, ErrorBlock, FootnoteDefinition, RecoveryDocument } from '../ast.js';
-import { DiagnosticSink } from '../diagnostics.js';
-import { createSourceAnnotationBuilder, type ParserOptions, type ParseResult, type SourceAnnotationBuilder } from '../parser-contract.js';
-import { openSource } from '../source/index.js';
-import { recognizeBlock } from './blocks.js';
-import { isIdentifier, parseStandaloneSuffix } from './block-id.js';
-import { recognizeFootnoteDefinition, resolveFootnotes } from './footnotes.js';
-import { checkParsedCanonical } from './canonical.js';
-import { exceedsGridMatrixBudget } from './grid.js';
+import type { Container, Document, DocumentBlock, ErrorBlock, FootnoteDefinition, RecoveryDocument } from '../ast.ts';
+import { DiagnosticSink } from '../diagnostics.ts';
+import { createSourceAnnotationBuilder, type ParserOptions, type ParseResult, type SourceAnnotationBuilder } from '../parser-contract.ts';
+import { openSource } from '../source/index.ts';
+import { recognizeBlock } from './blocks.ts';
+import { isIdentifier, parseStandaloneSuffix } from './block-id.ts';
+import { recognizeFootnoteDefinition, resolveFootnotes } from './footnotes.ts';
+import { checkParsedCanonical } from './canonical.ts';
+import { exceedsGridMatrixBudget } from './grid.ts';
 
 const OFFSET_UNIT = 'utf16-code-unit' as const;
 

@@ -10,8 +10,8 @@
  * `rows`, `GridRow.cells`, `GridCell.children`, `QuoteRegion.attribution`, and
  * the typeless `QuoteBlock` (`{ level, block }`) helper are all covered.
  */
-import type { AnnotatableNode } from '../parser-contract.js';
-import type { SourceAnnotationBuilder } from '../parser-contract.js';
+import type { AnnotatableNode } from '../parser-contract.ts';
+import type { SourceAnnotationBuilder } from '../parser-contract.ts';
 
 export function transferAnnotations(
   node: object,

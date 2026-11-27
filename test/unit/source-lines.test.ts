@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { LineReader } from '../../src/source/lines.js';
+import { LineReader } from '../../src/source/lines.ts';
 
 test('splits physical lines with offsets and terminator info', () => {
   const reader = new LineReader('a\nbb\n\nc');

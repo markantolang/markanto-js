@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { format, parse, semanticDocumentEquals } from '../../src/index.js';
+import { format, parse, semanticDocumentEquals } from '../../src/index.ts';
 
 interface FixtureCase {
   readonly id: string;

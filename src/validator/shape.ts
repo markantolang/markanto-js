@@ -11,8 +11,8 @@
  *
  * It never throws for an arbitrary untrusted input.
  */
-import { diagnostic, type Diagnostic } from '../diagnostics.js';
-import type { ResourceBudget } from '../ast.js';
+import { diagnostic, type Diagnostic } from '../diagnostics.ts';
+import type { ResourceBudget } from '../ast.ts';
 
 export const DEFAULT_VALIDATION_BUDGET = { maxNodes: 100_000, maxFrames: 5_000 } as const;
 
